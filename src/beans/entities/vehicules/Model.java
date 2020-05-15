@@ -1,4 +1,4 @@
-package beans.vehicules;
+package beans.entities.vehicules;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

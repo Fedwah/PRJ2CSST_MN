@@ -2,11 +2,18 @@ package servlets.vehicules;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-
+import javax.ejb.EJB;
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -15,11 +22,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import beans.general.BeanValidator;
-import beans.vehicules.EtatVehicule;
-import beans.vehicules.Marque;
-import beans.vehicules.Model;
-import beans.vehicules.Vehicule;
+import org.jboss.resteasy.util.InputStreamToByteArray;
+
+import beans.entities.vehicules.EtatVehicule;
+import beans.entities.vehicules.Marque;
+import beans.entities.vehicules.Model;
+import beans.entities.vehicules.Vehicule;
+import beans.session.general.BeanValidator;
+import beans.session.vehicules.VehiculesManager;
+
+
+
 
 /**
  * Servlet implementation class ValidationVehicules
@@ -36,6 +49,8 @@ public class ValidationVehicules extends HttpServlet {
     private static final String VUE_FAIL = "/WEB-INF/vues/vehicules/vehicules.form.jsp";
 	private static final long serialVersionUID = 1L;
        
+	
+	private VehiculesManager vm;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -70,8 +85,9 @@ public class ValidationVehicules extends HttpServlet {
 		vehicule.setEtat( new EtatVehicule(request.getParameter( PARAM_ETAT )));
 		vehicule.setMarque( new Marque(request.getParameter( PARAM_MARQUE )));
 		vehicule.setModel( new Model(request.getParameter( PARAM_MODEL )) );
+		
 		InputStream inputStream = null;
-		OutputStream out = null;
+	
 		Part filePart = request.getPart("photo");
         if (filePart != null) {
             // prints out some information for debugging
@@ -81,15 +97,26 @@ public class ValidationVehicules extends HttpServlet {
              
             // obtains input stream of the upload file
             inputStream = filePart.getInputStream();
-           
-            vehicule.setPhoto( inputStream.);
+         
+            vehicule.setPhoto( new InputStreamToByteArray( inputStream ).toByteArray());
         }
         
-		System.out.println(  new BeanValidator<Vehicule>( vehicule ).getErreurs());
-		request.setAttribute( "erreurs", new BeanValidator<Vehicule>( vehicule ).getErreurs());
-		request.setAttribute( "vehicule", vehicule );
+        
+        Map<String,ArrayList<String>> erreurs = new BeanValidator<Vehicule>( vehicule ).getErreurs();
+        
+        request.setAttribute( "vehicule", vehicule );
+        if(erreurs.isEmpty()) {
+            vm.ajouter( vehicule );
+            this.getServletContext().getRequestDispatcher(VUE_SUCCESS).forward( request, response );
+        }else {
+            request.setAttribute( "erreurs", erreurs);
+            this.getServletContext().getRequestDispatcher(VUE_FAIL).forward( request, response );
+        }
+            
+		System.out.println(  );
 		
-		this.getServletContext().getRequestDispatcher(VUE_FAIL).forward( request, response );
+		
+		
 	}
 
 }

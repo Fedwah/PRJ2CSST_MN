@@ -1,4 +1,4 @@
-package beans.general;
+package beans.session.general;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
-import beans.vehicules.Vehicule;
+import beans.entities.vehicules.Vehicule;
 
 public class BeanValidator<T> {
 

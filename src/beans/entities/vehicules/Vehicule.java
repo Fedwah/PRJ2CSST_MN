@@ -1,4 +1,4 @@
-package beans.vehicules;
+package beans.entities.vehicules;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -12,14 +12,18 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 
 @Entity
 public class Vehicule implements Serializable {
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;

@@ -1,28 +1,24 @@
-package beans.vehicules;
-
-import java.io.Serializable;
+package beans.entities.vehicules;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 @Entity
-public class Marque implements Serializable {
+public class EtatVehicule {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
    
     private String titre;
 
-    public Marque( String titre ) {
+    public EtatVehicule( String titre ) {
         super();
         this.titre = titre;
     }
-    
+
     public String getTitre() {
         return titre;
     }
-    
 }
