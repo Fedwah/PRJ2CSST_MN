@@ -6,27 +6,25 @@
 <head>
 <meta charset="UTF-8">
 <title>${title}</title>
-<link type="text/css" rel="stylesheet" href="<c:url value="/public/bootstrap/css/bootstrap.min.css"/>" />
-	<script src="<c:url value="/public/js/jquery-3.5.1.min.js"/>"></script>
-	<script src="<c:url value="/public/bootstrap/js/bootstrap.min.js"/>"></script>
+<link type="text/css" rel="stylesheet"
+	href="<c:url value="/public/bootstrap/css/bootstrap.min.css"/>" />
+<script src="<c:url value="/public/js/jquery-3.5.1.min.js"/>"></script>
+<script src="<c:url value="/public/bootstrap/js/bootstrap.min.js"/>"></script>
 </head>
 <body>
-	<!-- 
-	<ul>
-	d
-		<li>
-			<a href="<c:url value="/Vehicules/form"/>">Ajouter un vehicule</a>
-		</li>
-
-		<li>
-			<a href="<c:url value="/Vehicules"/>">Liste des vehicules</a>
-		</li>
-
-	</ul>
 	
- -->
-
-	<c:import url="${vue}"></c:import>
+	<c:import url="vues/header/header.jsp"></c:import>
+	<div class="row">
+		<div class="col-md-3">
+			<c:import url="vues/menu/menu.jsp"></c:import>
+		</div>
+		
+		<div class="col-md">
+			<c:import url="${vue}"></c:import>
+		</div>
+	</div>
+	
+	
 
 </body>
 </html>

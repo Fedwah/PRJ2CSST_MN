@@ -1,4 +1,4 @@
-package servlets.vehicules;
+package servlets.vehicules.marques;
 
 import java.io.IOException;
 
@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.vehicules.Marque;
 import beans.session.general.PageGenerator;
-import beans.session.vehicules.MarqueFactury;
-import beans.session.vehicules.MarqueManager;
+import beans.session.vehicules.marques.MarqueFactory;
+import beans.session.vehicules.marques.MarqueManager;
 
 /**
  * Servlet implementation class CreationMarque
@@ -21,13 +21,11 @@ import beans.session.vehicules.MarqueManager;
 @WebServlet("/Marques/add")
 @MultipartConfig(maxFileSize = 16177215)    // upload file's size up to 16MB
 public class CreationMarques extends HttpServlet {
-    private static final String ERREURS = "erreurs";
+    private static final String ATT_ERREURS = "erreurs";
     private static final String ATT_MARQUE = "marque";
-    private static final String PARENT = "/WEB-INF/index.jsp";
-    private static final String VUE_IN = "/WEB-INF/vues/vehicules/marques/marques.form.jsp";
-    private static final String VUE_OUT = "/WEB-INF/vues/vehicules/marques/marques.show.jsp";
-    private static final String TITRE_VUE_IN= "Creation d'une marque";
-    private static final String TITRE_VUE_OUT= "Detail d'une marque";
+    private static final String VUE = "/WEB-INF/vues/vehicules/marques/marques.form.jsp";
+    private static final String REDIRECT_URL = "/Marques";
+    private static final String TITRE_VUE= "Creation d'une marque";
     private static final long serialVersionUID = 1L;
 	
     @EJB
@@ -45,31 +43,32 @@ public class CreationMarques extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    PageGenerator pg = new PageGenerator(PARENT,VUE_IN,TITRE_VUE_IN);
-        pg.generate( getServletContext(), request, response );
+	    PageGenerator pg = new PageGenerator( VUE, TITRE_VUE );
+        
+	    pg.generate( getServletContext(), request, response );
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    PageGenerator pg = null;
+	    PageGenerator pg = new PageGenerator( VUE, TITRE_VUE, REDIRECT_URL );
         
         
-        MarqueFactury mf = new MarqueFactury();
+        MarqueFactory mf = new MarqueFactory();
         Marque m = mf.create( request );
-        
-        if(mf.validate( m )) {
-            System.out.println(db==null);
-            db.ajouter( m );
-            pg = new PageGenerator(PARENT,VUE_OUT,TITRE_VUE_OUT);
+        System.out.println( "IMAGE ID "+m.getImage().getTitre() );
+        if(mf.validate( m )){
+            mf.uniqueSave( db, m, m.getTitre(),MarqueFactory.PARAM_TITRE);
+            pg.redirect(getServletContext(), request, response );
             
-        }else {
-            pg = new PageGenerator(PARENT,VUE_IN,TITRE_VUE_IN);
-        }
-        request.setAttribute( ATT_MARQUE, m );
-        request.setAttribute(ERREURS, mf.getErreurs() );
-        pg.generate( getServletContext(), request, response );
+        }else{
+            request.setAttribute(ATT_MARQUE, m );
+            request.setAttribute(ATT_ERREURS, mf.getErreurs() );
+            pg.generate( getServletContext(), request, response );
+        };
+       
+       
 	}
 	
 

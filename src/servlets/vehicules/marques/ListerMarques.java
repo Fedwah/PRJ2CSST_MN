@@ -1,8 +1,9 @@
-package servlets.vehicules;
+package servlets.vehicules.marques;
 
 import java.io.IOException;
 
 import javax.ejb.EJB;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,25 +11,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.session.general.PageGenerator;
-import beans.session.vehicules.VehiculesManager;
+import beans.session.vehicules.marques.MarqueManager;
 
 /**
- * Servlet implementation class CreationVehicules
+ * Servlet implementation class ListerMarques
  */
-@WebServlet("/Vehicules/form")
-public class CreationVehicules extends HttpServlet {
-    private static final String PARENT = "/WEB-INF/index.jsp";
-    private static final String VUE = "/WEB-INF/vues/vehicules/vehicules.form.jsp";
-    private static final String TITRE_VUE= "Creation d'un vehicule";
-
-    private static final long serialVersionUID = 1L;
+@WebServlet("/Marques")
+public class ListerMarques extends HttpServlet {
+    
+   
+    private static final String VUE = "/WEB-INF/vues/vehicules/marques/marques.list.jsp";
+    private static final String TITRE_VUE= "Liste des marques";
     
     @EJB
-    private VehiculesManager vm;
+    private MarqueManager db;
+    
+	private static final long serialVersionUID = 1L;
+       
     /**
-     * Default constructor. 
+     * @see HttpServlet#HttpServlet()
      */
-    public CreationVehicules() {
+    public ListerMarques() {
+        super();
         // TODO Auto-generated constructor stub
     }
 
@@ -36,7 +40,10 @@ public class CreationVehicules extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PageGenerator pg = new PageGenerator(PARENT,VUE,TITRE_VUE);
+		// TODO Auto-generated method stub
+		PageGenerator pg = new PageGenerator( VUE, TITRE_VUE );
+		
+		request.setAttribute( "marques",db.lister(0,10));
 		pg.generate( getServletContext(), request, response );
 	}
 

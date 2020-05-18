@@ -1,4 +1,4 @@
-package beans.session.vehicules;
+package beans.session.vehicules.marques;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -15,7 +15,7 @@ public class MarqueManager extends BeanManager<Marque> {
 
    public MarqueManager() {
        super(Marque.class);
-       System.out.println("em inti = "+(em==null));
+      
    }       
    @Override
     public EntityManager getEntityManger() {

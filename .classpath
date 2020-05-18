@@ -9,5 +9,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.jboss.ide.eclipse.as.core.server.runtime.runtimeTarget/WildFly 18.0 Runtime"/>
+	<classpathentry kind="lib" path="C:/Users/Syphax/Downloads/parameter_validation_filter-1.2.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

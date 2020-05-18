@@ -4,21 +4,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 
 @Entity
-public class Model {
+public class Modele {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-   
+    @Size(min=1,max=10)
     private String titre;
-
-    public Model( String titre ) {
+    
+    public Modele() {
+        // TODO Auto-generated constructor stub
+    }
+    public Modele( String titre ) {
         super();
         this.titre = titre;
     }
-    
+    public void setTitre( String titre ) {
+        this.titre = titre;
+    }
     public String getTitre() {
         return titre;
     }

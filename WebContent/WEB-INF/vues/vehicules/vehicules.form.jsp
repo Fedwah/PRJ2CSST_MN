@@ -3,8 +3,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="container-fluid">
-	<form class="p-5 needs-validation " method="post"
-		action="<c:out value="add"/>" novalidate enctype="multipart/form-data">
+	<form class="p-4 needs-validation " method="post"
+		action="<c:out value=""/>" novalidate enctype="multipart/form-data">
+
+		<!-- ${ erreurs } <!-- pour tester -->
+
 		<div class="form-row">
 			<div class="form-group col-md-9">
 				<div class="form-group ">
@@ -12,8 +15,12 @@
 						type="text"
 						class='form-control ${empty erreurs["num_immatriculation"]?"":"is-invalid"} '
 						id="num_immatriculation" name="numImmatriculation"
-						value="<c:out value="${vehicule.num_immatriculation}"/>">
-
+						value="<c:out value="${vehicule.num_immatriculation}" />"
+						${disabled_id? 'disabled':''}>
+					<c:if test="${disabled_id}">
+						<input type="hidden" name="numImmatriculation"
+							value="${vehicule.num_immatriculation}">
+					</c:if>
 					<div class="invalid-feedback">
 						<c:forEach items='${erreurs["num_immatriculation"]}' var="err">
 							<span class="badge badge-pill badge-danger">${err}</span>
@@ -24,33 +31,68 @@
 
 				<div class="form-row">
 					<div class="form-group col-md-6">
+						<label for="modele">Modele</label> <input list="modeles"
+							name="modele"
+							class="form-control ${empty erreurs['modele']?'':'is-invalid'} "
+							value="${vehicule.modele.titre}">
+						<datalist id="modeles" class="">
+							<c:forEach items="${modeles}" var="modele">
+								<option class="" value="${modele.titre}">
+							</c:forEach>
+						</datalist>
 
-						<label for="modele">Modele</label> <input type="text"
-							class="form-control" id="modele" placeholder="1234 Main St"
-							required="required" name="model"
-							value="<c:out value="${vehicule.model.titre}"/>">
+						<div class="invalid-feedback">
+							<c:forEach items='${erreurs["modele"]}' var="err">
+								<span class="badge badge-pill badge-danger">${err}</span>
+							</c:forEach>
+						</div>
 					</div>
+
 					<div class="form-group col-md-6">
-						<label for="marque">Marque</label> <input type="text"
-							class="form-control" id="marque" required="required"
-							name="marque" value="<c:out value="${vehicule.marque.titre}"/>">
+						<label for="marque">Marque</label>
+						<div class="input-group mb-3">
+							<select id="marque" class="form-control" required="required"
+								name="marque">
+								<c:forEach items="${marques}" var="marque">
+									<option ${vehicule.marque.titre==marque.titre?"selected":""}>${marque.titre}</option>
+								</c:forEach>
+							</select>
+							<div class="input-group-append">
+								<a class="btn btn-outline-success"
+									href='<c:url value="/Marques/add"/>'>Ajouter</a>
+							</div>
+						</div>
+
 					</div>
+
 				</div>
 
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label for="date_achat">Date d'achat</label> <input type="date"
-							class="form-control" id="date_achat" required="required"
-							name="dateAchat" value="<c:out value="${vehicule.date_achat}"/>">
+							class="form-control ${empty erreurs['date_achat']?'':'is-invalid'} "
+							id="date_achat" required="required" name="dateAchat"
+							value="<c:out value="${vehicule.date_achat}"/>">
+						<div class="invalid-feedback">
+							<c:forEach items='${erreurs["date_achat"]}' var="err">
+								<span class="badge badge-pill badge-danger">${err}</span>
+							</c:forEach>
+						</div>
 					</div>
 					<div class="form-group col-md-4">
-						<label for="etat">Etat</label> <select id="etat"
-							class="form-control" required="required" name="etat">
-							<optionselected}>En fonction </option>
-								<option>En panne</option>
-								<option>En maintenance</option>
-								<option>Abandonner</option>
-							</select>
+
+						<label for="etat">Etat</label>
+						<c:forEach items="${etats}" var="etat">
+							<div class="custom-control custom-radio">
+								<input type="radio" id="${etat.titre}" name="etat"
+									class="custom-control-input ${empty erreurs['date_achat']?'':'is-invalid'}"
+									value="${etat.titre}"
+									${etat.titre==vehicule.etat.titre?"checked":""}> <label
+									class="custom-control-label" for="${etat.titre}">${etat.titre}</label>
+							</div>
+						</c:forEach>
+						<a class="btn btn-sm btn-outline-success"
+							href='<c:url value="/Vehicules/Etats"/>'>Ajouter</a>
 					</div>
 
 				</div>
@@ -60,19 +102,18 @@
 			<div class="form-group col-md-3">
 				<label for="photo">Photo du vehicule</label> <img id="preview"
 					class="img-fluid rounded shadow-sm mx-auto d-block"
-					src='<c:url value="/public/img/notfound.png" />' width="200" />
+					src='<c:url value="${empty vehicule.photo.titre?'/public/img/notfound.png':'/Images/'}${vehicule.photo.titre}" />'
+					width="200" />
+
 				<div class="custom-file">
 					<input id="photo" name="photo" type="file"
 						class="custom-file-input"> <label
 						class="custom-file-label" for="photo">Importer une image</label>
 				</div>
 
-
-
-
 				<div class="invalid-feedback">
 
-					<c:forEach items='${erreurs["num_immatriculation"]}' var="err">
+					<c:forEach items='${erreurs["photo"]}' var="err">
 						<span class="badge badge-pill badge-danger">${err}</span>
 					</c:forEach>
 				</div>

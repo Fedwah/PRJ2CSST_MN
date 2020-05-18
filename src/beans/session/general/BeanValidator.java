@@ -1,6 +1,5 @@
 package beans.session.general;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,14 +9,16 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
-import beans.entities.vehicules.Vehicule;
+
 
 public class BeanValidator<T> {
 
     private Map<String,ArrayList<String>> erreurs ;
+    private Validator validator;
     public BeanValidator(T bean) {
         super();
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        
+        validator = Validation.buildDefaultValidatorFactory().getValidator();
         Set<ConstraintViolation<T>> violations = validator.validate(bean);
         
         erreurs = new HashMap<String,ArrayList<String>>();
@@ -37,5 +38,8 @@ public class BeanValidator<T> {
     public Map<String, ArrayList<String>> getErreurs() {
         return erreurs;
     }
-
+    public Validator getValidator() {
+        return validator;
+    }
+    
 }

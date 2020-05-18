@@ -3,9 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="container-fluid ">
-	<form class="p-5 needs-validation" method="post"
+	<form class="p-5 needs-validation p-2" method="post"
 		action="<c:out value="add"/>" novalidate enctype="multipart/form-data">
-
+		
 		<div class="form-group">
 			<label for="titre">Nom de la marque</label> <input type="text"
 				class='form-control ${empty erreurs["titre"]?"":"is-invalid"} '
