@@ -13,9 +13,6 @@ import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
 import beans.entities.general.Image;
 import beans.session.vehicules.marques.MarqueFactory;
 
