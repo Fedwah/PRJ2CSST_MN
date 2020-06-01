@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 
+import beans.entities.pieces.Piece;
+
 public abstract class BeanManager<T> {
 
     private Class<T> beanClass;
@@ -19,7 +21,7 @@ public abstract class BeanManager<T> {
     }
 
     public abstract EntityManager getEntityManger();
-
+    //inserer à la base de données
     public boolean ajouter( T bean ) {
         try {
 
@@ -32,7 +34,7 @@ public abstract class BeanManager<T> {
         }
 
     }
-
+    // inserer si l'objet n'existe pas déjà
     public boolean ajouterUnique( T bean, Object id ) {
         if ( trouver( id ) == null ) {
             ajouter( bean );
@@ -41,7 +43,7 @@ public abstract class BeanManager<T> {
         return false;
 
     }
-
+    // supprimer
     public boolean supprimer( T bean ) {
         try {
             this.getEntityManger().remove(
@@ -52,12 +54,16 @@ public abstract class BeanManager<T> {
             return false;
         }
     }
-
+    // Lister tout les élements de la table
+    public List<Piece> getList()
+	{
+		return this.getEntityManger().createQuery("select l from" + beanClass.getName() + "l").getResultList();
+	}
     public List<T> lister( int debut, int nb ) {
         return this.getEntityManger().createQuery( "SELECT b from " + beanClass.getName() + " b" )
                 .setFirstResult( debut ).setMaxResults( nb ).getResultList();
     }
-
+  
     public T trouver( Object id ) {
         T bean = null;
         try {

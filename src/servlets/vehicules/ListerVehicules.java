@@ -25,6 +25,7 @@ import javax.servlet.http.Part;
 
 import org.jboss.resteasy.util.InputStreamToByteArray;
 
+import beans.entities.pieces.Piece;
 import beans.entities.vehicules.EtatVehicule;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
@@ -64,7 +65,7 @@ public class ListerVehicules extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_LIST, TITRE_VUE );
 		
-		request.setAttribute( "vehicules", vm.lister( 0, 10 ));
+		request.setAttribute( "Vehicule", vm.lister( 0, 10 ));
 		request.setAttribute( "fields", Vehicule.class.getDeclaredFields());
 		pg.generate( getServletContext(), request, response );
 	}

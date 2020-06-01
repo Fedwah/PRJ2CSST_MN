@@ -1,12 +1,39 @@
-<%@ page language="java" contentType="text/html; charset=windows-1256"
-    pageEncoding="windows-1256"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="windows-1256">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<div class="container-fluid p-3">
+	<div class="">
+		<h1 class="display-4 text-success">Liste des pieces</h1>
+		<nav class="nav justify-content-end mb-2">
+			<a class="btn btn-outline-success"
+						href='<c:url value="/pieces/add"/>'>Ajouter une nouvelle piece</a>
 
-</body>
-</html>
+		</nav>
+	</div>
+	
+	<table class="table">
+		<thead>
+			<tr class="text-success">
+				<th scope="col">Code</th>
+				<th scope="col">Nom</th>
+				<th scope="col">Marque</th>
+				<th scope="col">Modele</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${pieces}" var="piece">
+				<tr>
+				    <td>${piece.id}</td>
+					<td>${piece.pieceName}</td>
+					<td>${piece.mark.titre}</td>
+					<td>${piece.modal.titre}</td>
+					<td>
+						<!--  <a class="btn btn-outline-primary" href='<c:url value="/Vehicules/edit/${vehicule.num_immatriculation}"/>'>Editer</a>
+						<a class="btn btn-outline-danger" href='<c:url value="/Vehicules/remove/${vehicule.num_immatriculation}"/>'>Supprimer</a>
+					    -->
+					</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>

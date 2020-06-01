@@ -17,6 +17,8 @@ private String pieceName;
 private Marque mark;
 @ManyToOne
 private Modele modal;
+public Piece() {
+}
 public Piece(String id, String pieceName, Marque mark, Modele modal) {
 	super();
 	this.id = id;
