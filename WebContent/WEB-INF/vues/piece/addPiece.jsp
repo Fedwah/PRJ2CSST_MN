@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
 	<form class="p-4 needs-validation " method="post"
-		action="<c:out value=""/>" novalidate enctype="multipart/form-data">
+		action="<c:out value="add"/>" >
 
 		<!-- ${ erreurs } <!-- pour tester -->
 
@@ -14,13 +14,15 @@
 					<label for="code">Code de la piece</label> 
 					<input
 						type="text"
-						class='form-control'/>				
+						class='form-control' 
+						name= "codepiece" />				
 				</div>
 				<div class="form-group ">
-					<label for="nom">Nom de la piece</label> 
+					<label for="nompiece">Nom de la piece</label> 
 					<input
 						type="text"
-						class='form-control'/>				
+						class='form-control'
+						name= "nom" />				
 				</div>
 				<div class="form-row">
 					<div class="form-group col-md-6">
@@ -28,8 +30,8 @@
 						<div class="input-group mb-3">
 							<select id="marque" class="form-control" required="required"
 								name="marque">
-								<c:forEach items="${marques}" var="marque">
-									<option ${piece.marque.titre==marque.titre?"selected":""}>${marque.titre}</option>
+								<c:forEach items="${marques}" var="m">
+									<option> ${m.titre}</option>
 								</c:forEach>
 							</select>
 							<div class="input-group-append">
@@ -42,9 +44,9 @@
 						<label for="marque">Modele</label>
 						<div class="input-group mb-3">
 							<select id="marque" class="form-control" required="required"
-								name="marque">
-								<c:forEach items="${marques}" var="marque">
-									<option ${piece.modele.titre==modele.titre?"selected":""}>${modele.titre}</option>
+								name="modele">
+								<c:forEach items="${modeles}" var="modele">
+									<option>${modele.titre}</option>
 								</c:forEach>
 							</select>
 							<div class="input-group-append">
@@ -56,9 +58,9 @@
 
 				</div>
 			</div>			
-			</div>
 		</div>
+		
 		<button type="submit" class="btn btn-primary">Valider</button>
-		<button type="reset" class="btn btn-danger">Annuler</button>
+		<a type="reset" class="btn btn-danger" href='<c:url value="/pieces"/>'>Annuler</a>
 	</form>
 </div>

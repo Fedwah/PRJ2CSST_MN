@@ -1,6 +1,7 @@
 package servlets.pieces;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 import beans.session.general.PageGenerator;
 import beans.session.pieces.PieceManager;
+import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.marques.MarqueManager;
 import beans.session.vehicules.modeles.ModeleManager;
 
@@ -44,6 +46,8 @@ public class PieceServelet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PageGenerator pg = new PageGenerator( "/WEB-INF/vues/piece/addPiece.jsp", "Ajouter une nouvelle piece");
+		request.setAttribute( "marques", mManager.lister( 0, 10 ) );
+        request.setAttribute( "modeles", modManager.lister( 0, 10 ) );
 		pg.generate( getServletContext(), request, response );
 	
 	}
@@ -53,15 +57,18 @@ public class PieceServelet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String code= request.getParameter("code");
-		String nom = request.getParameter("nom");
-		String mark = request.getParameter("mark");	
+		PageGenerator pg = new PageGenerator( "/WEB-INF/vues/piece/addPiece.jsp", "Pieces","/pieces" );
+		String code= (String) request.getParameter("codepiece");
+		String nom = (String) request.getParameter("nom");
+		System.out.println("nom est" + nom);
+		String mark = request.getParameter("marque");	
 		Marque m = mManager.ObtenirRefrence(mark);
-		String modal = request.getParameter("modal");
+		String modal = request.getParameter("modele");
 		Modele mod = modManager.ObtenirRefrence(modal);
 		Piece p = new Piece(code,nom,m,mod);
 		em.addPiece(p);
-		doGet(request,response);
+		pg.redirect( getServletContext(), request, response );
+		
 	}
 
 }

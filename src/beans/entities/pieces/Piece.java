@@ -3,8 +3,12 @@ package beans.entities.pieces;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;

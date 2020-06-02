@@ -54,11 +54,11 @@ public abstract class BeanManager<T> {
             return false;
         }
     }
-    // Lister tout les élements de la table
-    public List<Piece> getList()
+    // Lister tout les élements de la table (does not work for the moment)
+  /*  public List<Piece> getList()
 	{
 		return this.getEntityManger().createQuery("select l from" + beanClass.getName() + "l").getResultList();
-	}
+	}*/
     public List<T> lister( int debut, int nb ) {
         return this.getEntityManger().createQuery( "SELECT b from " + beanClass.getName() + " b" )
                 .setFirstResult( debut ).setMaxResults( nb ).getResultList();

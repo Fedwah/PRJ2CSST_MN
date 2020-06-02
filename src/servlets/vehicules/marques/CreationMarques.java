@@ -54,7 +54,7 @@ public class CreationMarques extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    PageGenerator pg = new PageGenerator( VUE, TITRE_VUE, REDIRECT_URL );
         
-        
+        System.out.println(request.getParameter("titre"));
         MarqueFactory mf = new MarqueFactory();
         Marque m = mf.create( request );
         System.out.println( "IMAGE ID "+m.getImage().getTitre() );
