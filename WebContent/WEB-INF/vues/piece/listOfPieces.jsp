@@ -6,7 +6,7 @@
 		<h1 class="display-4 text-success">Liste des pieces</h1>
 		<nav class="nav justify-content-end mb-2">
 			<a class="btn btn-outline-success"
-						href='<c:url value="/pieces/add"/>'>Ajouter une nouvelle piece</a>
+						href='<c:url value="/pieces/edit/"/>'>Ajouter une nouvelle piece</a>
 
 		</nav>
 	</div>
@@ -29,9 +29,8 @@
 					<td>${piece.mark.titre}</td>
 					<td>${piece.modal.titre}</td>
 					<td>
-						<!--  <a class="btn btn-outline-primary" href='<c:url value="/Vehicules/edit/${vehicule.num_immatriculation}"/>'>Editer</a>
-						<a class="btn btn-outline-danger" href='<c:url value="/Vehicules/remove/${vehicule.num_immatriculation}"/>'>Supprimer</a>
-					    -->
+						<a class="btn btn-outline-primary" href='<c:url value="/pieces/edit/${piece.id}"/>'>Editer</a>
+						<a class="btn btn-outline-danger" href='<c:url value="/pieces/remove/${piece.id}"/>'>Supprimer</a>
 					</td>
 				</tr>
 			</c:forEach>

@@ -65,7 +65,7 @@ public class ListerVehicules extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_LIST, TITRE_VUE );
 		
-		request.setAttribute( "Vehicule", vm.lister( 0, 10 ));
+		request.setAttribute( "Vehicules", vm.lister( 0, 10 ));
 		request.setAttribute( "fields", Vehicule.class.getDeclaredFields());
 		pg.generate( getServletContext(), request, response );
 	}

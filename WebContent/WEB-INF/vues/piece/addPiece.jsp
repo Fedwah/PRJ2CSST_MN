@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
 	<form class="p-4 needs-validation " method="post"
-		action="<c:out value="add"/>" >
+		action="<c:out value=""/>" >
 
 		<!-- ${ erreurs } <!-- pour tester -->
 
@@ -15,14 +15,19 @@
 					<input
 						type="text"
 						class='form-control' 
-						name= "codepiece" />				
+						name= "codepiece" 
+						value="<c:out value="${piece.id}" />"
+						${disabled_id? 'disabled':''}
+						/>			
 				</div>
 				<div class="form-group ">
 					<label for="nompiece">Nom de la piece</label> 
 					<input
 						type="text"
 						class='form-control'
-						name= "nom" />				
+						name= "nom"
+						value="<c:out value="${piece.pieceName}" />" 
+					/>				
 				</div>
 				<div class="form-row">
 					<div class="form-group col-md-6">
@@ -31,7 +36,7 @@
 							<select id="marque" class="form-control" required="required"
 								name="marque">
 								<c:forEach items="${marques}" var="m">
-									<option> ${m.titre}</option>
+									<option ${piece.mark.titre==m.titre?"selected":""} > ${m.titre}</option>
 								</c:forEach>
 							</select>
 							<div class="input-group-append">
@@ -46,7 +51,7 @@
 							<select id="marque" class="form-control" required="required"
 								name="modele">
 								<c:forEach items="${modeles}" var="modele">
-									<option>${modele.titre}</option>
+									<option ${piece.modal.titre==modele.titre?"selected":""}>${modele.titre}</option>
 								</c:forEach>
 							</select>
 							<div class="input-group-append">

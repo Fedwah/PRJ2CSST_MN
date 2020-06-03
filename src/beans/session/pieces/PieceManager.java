@@ -11,17 +11,13 @@ import beans.entities.pieces.Piece;
 import beans.session.general.BeanManager;
 
 @Stateless
-public class PieceManager extends BeanManager {
+public class PieceManager extends BeanManager<Piece> {
 	@PersistenceContext(unitName = "MN_unit")
 	EntityManager em;
 
 	public PieceManager() {
-		super();
+		super(Piece.class);
 		// TODO Auto-generated constructor stub
-	}
-	public void addPiece(Piece p)
-	{
-		em.persist(p);
 	}
 	
 	public List<Piece> getList()
@@ -33,5 +29,18 @@ public class PieceManager extends BeanManager {
 		// TODO Auto-generated method stub
 		return em;
 	}
-
+    public boolean updatePiece(Object id,Piece newPiece)
+    {
+    	Piece oldPiece =(Piece) this.trouver(id);
+    	if(oldPiece != null)
+    	{
+    		PieceFactory pf = new PieceFactory();
+    		pf.updateChange(newPiece, oldPiece);
+    		return true;
+    	}
+    	else
+    	{
+    		return false;
+    	}
+    }
 }
