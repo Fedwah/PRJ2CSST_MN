@@ -40,33 +40,6 @@ public class DeletePiece extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator(Piece_Vue);
         id = request.getPathInfo().substring( 1 );// id of element
-        PrintWriter out = response.getWriter();
-		out.println("<script src=\"https://unpkg.com/sweetalert/dist/sweetalert.min.js\"></script>");
-		out.println( 
-				"<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script>");
-		out.println("<script>");
-		out.println("$(document).ready(function(){");
-		out.println("<script>\r\n" + 
-				"    $(document).ready(function(){\r\n" + 
-				"        swal({\r\n" + 
-				"            title: \"Are you sure?\",\r\n" + 
-				"            text: \"Once deleted, you will not be able to recover this imaginary file!\",\r\n" + 
-				"            icon: \"warning\",\r\n" + 
-				"            buttons: true,\r\n" + 
-				"            dangerMode: true,\r\n" + 
-				"          })\r\n" + 
-				"          .then((willDelete) => {\r\n" + 
-				"            if (willDelete) {\r\n" + 
-				"              swal(\"Poof! Your imaginary file has been deleted!\", {\r\n" + 
-				"                icon: \"success\",\r\n" + 
-				"              });\r\n" + 
-				"            } else {\r\n" + 
-				"              swal(\"Your imaginary file is safe!\");\r\n" + 
-				"            }\r\n" + 
-				"          })\r\n" + 
-				"    });\r\n" + 
-				"\r\n" + 
-				"</script>");
         if ( pm.trouverSupprimer( id ) ) // chercher l'element et le supprimer
         {
             pg.redirect( getServletContext(), request, response );
