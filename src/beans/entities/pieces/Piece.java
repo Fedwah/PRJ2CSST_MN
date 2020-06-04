@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import beans.entities.vehicules.Marque;
@@ -15,11 +16,15 @@ import beans.entities.vehicules.Modele;
 @Entity
 public class Piece implements Serializable {
 @Id
-private String id; 
+@NotEmpty
+@Size(min=1,max=10)
+private String id;
+@NotEmpty
 private String pieceName;
 @ManyToOne
 private Marque mark;
 @ManyToOne
+@NotNull
 private Modele modal;
 public Piece() {
 }

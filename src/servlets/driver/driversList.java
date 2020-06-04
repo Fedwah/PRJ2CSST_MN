@@ -1,4 +1,4 @@
-package servlets.pieces;
+package servlets.driver;
 
 import java.io.IOException;
 
@@ -9,23 +9,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import beans.entities.pieces.Piece;
+import beans.entities.driver.Driver;
+import beans.entities.vehicules.Vehicule;
+import beans.session.drivers.DriverManager;
 import beans.session.general.PageGenerator;
-import beans.session.pieces.PieceManager;
+import beans.session.vehicules.VehiculeFactory;
 
 /**
- * Servlet implementation class PieceLists
+ * Servlet implementation class driversList
  */
-@WebServlet("/pieces")
-public class PieceLists extends HttpServlet {
+@WebServlet("/drivers")
+public class driversList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String driverVue = "/WEB-INF/vues/driver/driverLists.jsp";
 	@EJB
-	private PieceManager em;
+	private DriverManager dm;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PieceLists() {
+    public driversList() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,11 +37,9 @@ public class PieceLists extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		PageGenerator pg = new PageGenerator( "/WEB-INF/vues/piece/listOfPieces.jsp", "Liste des pieces");
-		
-		request.setAttribute( "pieces", em.lister());
-		request.setAttribute( "fields", Piece.class.getDeclaredFields());
+		PageGenerator pg = new PageGenerator(driverVue , "Liste des conducteurs" );
+		request.setAttribute( "drivers", dm.lister( 0, 10 ));
+		request.setAttribute( "fields", Driver.class.getDeclaredFields());
 		pg.generate( getServletContext(), request, response );
 	}
 

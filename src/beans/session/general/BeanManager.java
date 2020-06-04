@@ -54,14 +54,14 @@ public abstract class BeanManager<T> {
             return false;
         }
     }
-    // Lister tout les élements de la table (does not work for the moment)
-  /*  public List<Piece> getList()
-	{
-		return this.getEntityManger().createQuery("select l from" + beanClass.getName() + "l").getResultList();
-	}*/
+
+    
     public List<T> lister( int debut, int nb ) {
         return this.getEntityManger().createQuery( "SELECT b from " + beanClass.getName() + " b" )
                 .setFirstResult( debut ).setMaxResults( nb ).getResultList();
+    }
+    public List<T> lister() {
+        return this.getEntityManger().createQuery( "SELECT b from " + beanClass.getName() + " b" ).getResultList();
     }
   
     public T trouver( Object id ) {
@@ -110,9 +110,24 @@ public abstract class BeanManager<T> {
         return false;
     }
 
-    public void mettreAJour( Object id, BeanFactory<T> beanF, T newBean ) {
+    
+    /**
+     * // mise à jour dans la base de donnée
+     * @param id identifiant de la classe
+     * @param beanF classe bean factory
+     * @param newBean nouvelle classe à insérer
+     * @return booleen : true si la modification a été faite, false si echec
+     *    
+     */
+    public boolean mettreAJour( Object id, BeanFactory<T> beanF, T newBean ) {
         T bean = trouver( id );
-        beanF.updateChange( newBean, bean );
+        if(bean != null)
+        	{
+        	beanF.updateChange( newBean, bean );
+        	return true;
+        	}
+        return false;
+        
     }
 
     public T ObtenirRefrence( Object id ) {

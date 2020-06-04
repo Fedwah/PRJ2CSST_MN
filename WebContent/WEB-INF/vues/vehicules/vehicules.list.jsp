@@ -6,7 +6,7 @@
 		<h1 class="display-4 text-success">Liste des vehicules</h1>
 		<nav class="nav justify-content-end mb-2">
 			<a class="btn btn-outline-success"
-						href='<c:url value="/Vehicules/add"/>'>Ajouter un vehicule</a>
+						href='<c:url value="/Vehicules/edit/"/>'>Ajouter un vehicule</a>
 			<a class="nav-link " href="<c:url value="/Vehicules/Etats" />">Liste des etats de vehicule</a>
 			<a class="nav-link"href="<c:url value="/Marques" />">Liste des marques</a> 	
 		</nav>

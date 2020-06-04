@@ -49,7 +49,6 @@ public class PieceFactory extends BeanFactory<Piece> {
 	// mise à jour dans la base de données
 	@Override
 	public void updateChange(Piece newB, Piece old) {
-		// TODO Auto-generated method stub
 		old.setPieceName(newB.getPieceName());
 		old.setMark(newB.getMark());
 		old.setModal(newB.getModal());

@@ -6,6 +6,6 @@
 	<li class="nav-item rounded-pill bg-success  mb-1"><a class="nav-link text-light " href="#">Regions</a></li>
 	<li class="nav-item rounded-pill bg-success  mb-1"><a class="nav-link text-light" href="#">Utilisateurs</a></li>
 	<li class="nav-item rounded-pill bg-success  mb-1"><a class="nav-link text-light" href="<c:url value="/Vehicules"/>">Vehicules</a></li>
-	<li class="nav-item rounded-pill bg-success  mb-1"><a class="nav-link text-light" href="#">Conducteurs</a></li>
+	<li class="nav-item rounded-pill bg-success  mb-1"><a class="nav-link text-light" href="<c:url value="/drivers"/>">Conducteurs</a></li>
 	<li class="nav-item rounded-pill bg-success  mb-1"><a class="nav-link text-light" href="<c:url value="/pieces"/>">Pièces</a></li>
 </ul>
