@@ -24,9 +24,7 @@ import beans.entities.general.Image;
 @Entity
 public class Vehicule implements Serializable {
     
-    /**
-     * 
-     */
+  
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -34,9 +32,10 @@ public class Vehicule implements Serializable {
     @Size(min=5,max=20)
     private String num_immatriculation;
     
-    
+    @NotNull
     @ManyToOne
     private Modele modele;
+    
     @NotNull
     @ManyToOne
     private Marque marque;
@@ -55,6 +54,10 @@ public class Vehicule implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     private Image photo;
     
+    
+    @NotNull
+    @ManyToOne
+    private CategorieVehicule categorie;
     
     public Vehicule() {
       
@@ -129,6 +132,13 @@ public class Vehicule implements Serializable {
     }
     
     
+    public CategorieVehicule getCategorie() {
+        return categorie;
+    }
+    
+    public void setCategorie( CategorieVehicule categorie ) {
+        this.categorie = categorie;
+    }
     
 
 }

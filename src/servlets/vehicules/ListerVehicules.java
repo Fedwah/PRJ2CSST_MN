@@ -34,6 +34,7 @@ import beans.session.general.BeanValidator;
 import beans.session.general.PageGenerator;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.VehiculesManager;
+import beans.session.vehicules.marques.MarqueManager;
 
 
 
@@ -45,11 +46,17 @@ import beans.session.vehicules.VehiculesManager;
 public class ListerVehicules extends HttpServlet {
   
     
-    private static final String TITRE_VUE        = "La Liste des vehicule";
+    private static final String ATT_FILTRE_MARQUES = "filtre_marques";
+    private static final String ATT_FIELDS = "fields";
+    private static final String ATT_VEHICULES = "vehicules";
+    private static final String TITRE_VUE        = "La Liste des vehicules";
 	private static final long serialVersionUID = 1L;
        
 	@EJB
 	private VehiculesManager vm;
+	
+	@EJB
+	private MarqueManager marM;
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -65,16 +72,33 @@ public class ListerVehicules extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_LIST, TITRE_VUE );
 		
-		request.setAttribute( "Vehicules", vm.lister( 0, 10 ));
-		request.setAttribute( "fields", Vehicule.class.getDeclaredFields());
+	    VehiculeFactory vf = new VehiculeFactory();
+        vf.getEntityFields().generateFields( Vehicule.class );
+        System.out.println("les fields : "+vf.getEntityFields().filedsLabels().toString());
+        
+		request.setAttribute( ATT_VEHICULES, vm.lister());
+		request.setAttribute( ATT_FIELDS, VehiculeFactory.FIELDS);
+		request.setAttribute( ATT_FILTRE_MARQUES,marM.lister());
 		pg.generate( getServletContext(), request, response );
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	@Override
+	protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
+	    PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_LIST, TITRE_VUE );
+        
+	    String search = request.getParameter( "search" );
+	    String field = request.getParameter( "field" );
+	    
+	    VehiculeFactory vf = new VehiculeFactory();
+	    vf.getEntityFields().generateFields( Vehicule.class );
+        System.out.println("les fields : "+vf.getEntityFields());
+	    request.setAttribute( ATT_VEHICULES, vm.lister());
+        request.setAttribute( ATT_FIELDS, VehiculeFactory.FIELDS);
+        request.setAttribute( ATT_FILTRE_MARQUES,marM.lister());
+        pg.generate( getServletContext(), request, response );
+	
 	}
+	
+	
 
 }

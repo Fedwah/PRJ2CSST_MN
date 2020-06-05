@@ -1,4 +1,4 @@
-package servlets.vehicules.marques;
+package servlets.vehicules.marque;
 
 import java.io.IOException;
 
@@ -21,10 +21,11 @@ import beans.session.vehicules.marques.MarqueManager;
 @WebServlet("/Marques/add")
 @MultipartConfig(maxFileSize = 16177215)    // upload file's size up to 16MB
 public class CreationMarques extends HttpServlet {
+    private static final String PARAM_TITRE = "titre";
     private static final String ATT_ERREURS = "erreurs";
     private static final String ATT_MARQUE = "marque";
-    private static final String VUE = "/WEB-INF/vues/vehicules/marques/marques.form.jsp";
-    private static final String REDIRECT_URL = "/Marques";
+    
+   
     private static final String TITRE_VUE= "Creation d'une marque";
     private static final long serialVersionUID = 1L;
 	
@@ -43,7 +44,7 @@ public class CreationMarques extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    PageGenerator pg = new PageGenerator( VUE, TITRE_VUE );
+	    PageGenerator pg = new PageGenerator( MarqueFactory.VUE_FORM, TITRE_VUE );
         
 	    pg.generate( getServletContext(), request, response );
 	}
@@ -52,12 +53,14 @@ public class CreationMarques extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    PageGenerator pg = new PageGenerator( VUE, TITRE_VUE, REDIRECT_URL );
+	    PageGenerator pg = new PageGenerator( MarqueFactory.VUE_FORM,TITRE_VUE, MarqueFactory.DEFAULT_REDIRECT_URL);
         
-        System.out.println(request.getParameter("titre"));
+        System.out.println(request.getParameter(PARAM_TITRE));
         MarqueFactory mf = new MarqueFactory();
         Marque m = mf.create( request );
+        
         System.out.println( "IMAGE ID "+m.getImage().getTitre() );
+        
         if(mf.validate( m )){
             mf.uniqueSave( db, m, m.getTitre(),MarqueFactory.PARAM_TITRE);
             pg.redirect(getServletContext(), request, response );
@@ -67,7 +70,6 @@ public class CreationMarques extends HttpServlet {
             request.setAttribute(ATT_ERREURS, mf.getErreurs() );
             pg.generate( getServletContext(), request, response );
         };
-       
        
 	}
 	

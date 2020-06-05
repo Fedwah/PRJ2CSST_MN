@@ -3,18 +3,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="container-fluid p-5">
 	<div class="">
+		
 		<h1 class="display-5 text-success">${title}</h1>
 		<div>
 			<form action="" method="post" class="needs-validation" novalidate>
 				<div class="form-group ">
-					<label for="new_etat">Inserer un nouveau etat ?</label>
+					<label for="new_categorie">Inserer un nouvelle categorie ?</label>
 					<div class='input-group ${empty erreurs["titre"]?"":"is-invalid"}'>
 						<input type="text"
-							class='form-control ${empty erreurs["
-					titre"]?"":"is-invalid"}'
-							name="new_etat" placeholder="Titre de l'etat a ajouter"
+							class='form-control ${empty erreurs["titre"]?"":"is-invalid"}'
+							name="new_categorie" placeholder="Titre de la categorie a ajouter"
 							aria-label="Recipient's username" aria-describedby="button-add"
-							id="new_etat">
+							id="new_categorie">
 						<div class="input-group-append">
 							<button class="btn btn-outline-success" type="submit"
 								id="button-add">Ajouter</button>
@@ -38,13 +38,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${etats}" var="etat" varStatus="status">
+					<c:forEach items="${categories}" var="categ" varStatus="status">
 						<tr>
 							<th scope="row">${status.index}</th>
-							<td>${etat.titre}</td>
+							<td>${categ.titre}</td>
 							<td><a class="btn btn-outline-danger"
-								href='<c:url value="/Vehicules/Etats/remove/${etat.titre}"/>'>Supprimer</a></td>
-
+								href='<c:url value="/Vehicules/Categories/remove/${categ.titre}"/>'>Supprimer</a></td>
 						</tr>
 					</c:forEach>
 				</tbody>

@@ -6,12 +6,52 @@
 		<h1 class="display-4 text-success">Liste des vehicules</h1>
 		<nav class="nav justify-content-end mb-2">
 			<a class="btn btn-outline-success"
-						href='<c:url value="/Vehicules/edit/"/>'>Ajouter un vehicule</a>
-			<a class="nav-link " href="<c:url value="/Vehicules/Etats" />">Liste des etats de vehicule</a>
-			<a class="nav-link"href="<c:url value="/Marques" />">Liste des marques</a> 	
+				href='<c:url value="/Vehicules/edit/"/>'>Ajouter un vehicule</a> <a
+				class="nav-link " href="<c:url value="/Vehicules/Etats" />">Liste
+				des etats de vehicule</a> <a class="nav-link"
+				href="<c:url value="/Marques" />">Liste des marques</a> <a
+				class="nav-link" href="<c:url value="/Vehicules/Categories" />">Liste
+				des categories de vehicule</a>
 		</nav>
 	</div>
-	
+	<div>
+		<form class="" metho="post" action="/">
+			<div class="form-row">
+				<div class="form-group mt-3 col-md-4">
+					<input type="text" class="form-control" id="search" name="search"
+						placeholder="search">
+				</div>
+				<div class="form-group mt-3 col-md-2">
+					<select id="field" class="form-control" required="required"
+						name="field">
+						<c:forEach items="${fields}" var="f">
+							<option>${f}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="form-group mt-3 col-md-2">
+					<select id="filtre_marques" class="form-control" 
+						name="filtre_marques">
+						<option value="">Toutes les marques</option>
+						<c:forEach items="${filtre_marques}" var="m">
+							<option value="m.titre">${m.titre}</option>
+						</c:forEach>
+					</select>
+				</div>
+				
+				<div class="form-group mt-3 col-md-2">
+					<select id="filtre_regions" class="form-control" 
+						name="filtre_regions">
+						<option value="">Toutes les regions</option>
+						<c:forEach items="${filtre_regions}" var="r">
+							<option value="r.titre">${r.titre}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<button type="submit" class="btn btn-light rounded-circle m-auto"><img height="30px" width="30px" src='<c:url value="/public/img/icon/search_green_nobackground.png"/>' /></button>
+			</div>
+		</form>
+	</div>
 	<table class="table">
 		<thead>
 			<tr class="text-success">
@@ -27,15 +67,16 @@
 			<c:forEach items="${vehicules}" var="vehicule">
 				<tr>
 					<th scope="row"><img class="img-fluid"
-						src='<c:url value="/Images/${vehicule.marque.image.titre}" />' width="75" height="75" />
-					</th>
+						src='<c:url value="/Images/${vehicule.marque.image.titre}" />'
+						width="75" height="75" /></th>
 					<td>${vehicule.modele.titre}</td>
 					<td>${vehicule.num_immatriculation}</td>
 					<td>${vehicule.date_achat}</td>
 					<td>${vehicule.etat.titre}</td>
-					<td>
-						<a class="btn btn-outline-primary" href='<c:url value="/Vehicules/edit/${vehicule.num_immatriculation}"/>'>Editer</a>
-						<a class="btn btn-outline-danger" href='<c:url value="/Vehicules/remove/${vehicule.num_immatriculation}"/>'>Supprimer</a>
+					<td><a class="btn btn-outline-primary"
+						href='<c:url value="/Vehicules/edit/${vehicule.num_immatriculation}"/>'><img  width="15px" height="15px"  src="<c:url value='/public/img/icon/edit_green.png'/>"/></a>
+						<a class="btn btn-outline-danger "
+						href='<c:url value="/Vehicules/remove/${vehicule.num_immatriculation}"/>'><img  width="15px" height="15px"  src="<c:url value='/public/img/icon/delete_green.png'/>"/></a>
 					</td>
 				</tr>
 			</c:forEach>

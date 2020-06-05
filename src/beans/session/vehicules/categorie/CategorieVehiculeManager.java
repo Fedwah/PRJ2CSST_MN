@@ -1,19 +1,20 @@
-package beans.session.vehicules.modeles;
+package beans.session.vehicules.categorie;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import beans.entities.vehicules.Modele;
+import beans.entities.vehicules.CategorieVehicule;
 import beans.session.general.BeanManager;
 
 @Stateless
-public class ModeleManager extends BeanManager<Modele> {
+public class CategorieVehiculeManager extends BeanManager<CategorieVehicule> {
 
     @PersistenceContext(unitName = "MN_unit")
     EntityManager em;
-    public ModeleManager() {
-        super(Modele.class);
+    
+    public CategorieVehiculeManager() {
+        super(CategorieVehicule.class);
     }
     @Override
     public EntityManager getEntityManger() {

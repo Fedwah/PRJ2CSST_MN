@@ -80,4 +80,16 @@ public class PageGenerator {
             this.getRequestDispatcher( contexte, request, response );
         }
     }
+    
+    public String getPathId(HttpServletRequest request) {
+        String id ="";
+        if ( request.getPathInfo() != null ) {
+            id = request.getPathInfo().substring( 1 );
+        }
+        return id;
+    }
+    
+    public void setRedirectURL( String redirectURL ) {
+        this.redirectURL = redirectURL;
+    }
 }

@@ -1,4 +1,4 @@
-package servlets.vehicules.etat;
+package servlets.vehicules.categorie;
 
 import java.io.IOException;
 
@@ -9,30 +9,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import beans.entities.vehicules.CategorieVehicule;
 import beans.entities.vehicules.EtatVehicule;
 import beans.session.general.PageGenerator;
+import beans.session.vehicules.categorie.CategorieVehiculeFactory;
+import beans.session.vehicules.categorie.CategorieVehiculeManager;
 import beans.session.vehicules.etats.EtatVehiculeFactory;
 import beans.session.vehicules.etats.EtatVehiculeManager;
 
 /**
  * Servlet implementation class CreationEtListeEtat
  */
-@WebServlet( "/Vehicules/Etats" )
-public class CreationEtListeEtat extends HttpServlet {
-    private static final String ATT_ETATS        = "etats";
-    private static final String ATT_NEW_ETAT     = "new_etat";
+@WebServlet( "/Vehicules/Categories" )
+public class CreationEtListeCategorie extends HttpServlet {
+    private static final String ATT_CATEGORIES       = "categories";
+    private static final String ATT_NEW_CATEGORIE     = "new_categorie";
     private static final String ATT_ERREURS      = "erreurs";
     private static final long   serialVersionUID = 1L;
 
-    private static final String TITRE_VUE        = "Liste des etats d'un vehicule";
+    private static final String TITRE_VUE        = "Liste des categories de vehicule";
 
     @EJB
-    EtatVehiculeManager         etatM;
+    CategorieVehiculeManager   categM;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreationEtListeEtat() {
+    public CreationEtListeCategorie() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,8 +47,8 @@ public class CreationEtListeEtat extends HttpServlet {
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
         // TODO Auto-generated method stub
-        PageGenerator pg = new PageGenerator( EtatVehiculeFactory.VUE_LIST_FORM, TITRE_VUE );
-        request.setAttribute( ATT_ETATS, etatM.lister( ) );
+        PageGenerator pg = new PageGenerator( CategorieVehiculeFactory.VUE_LIST_FORM, TITRE_VUE );
+        request.setAttribute( ATT_CATEGORIES, categM.lister( ) );
         pg.generate( getServletContext(), request, response );
     }
 
@@ -55,17 +58,18 @@ public class CreationEtListeEtat extends HttpServlet {
      */
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
-        PageGenerator pg = new PageGenerator( EtatVehiculeFactory.VUE_LIST_FORM, TITRE_VUE );
-        EtatVehiculeFactory etatF = new EtatVehiculeFactory();
+        PageGenerator pg = new PageGenerator( CategorieVehiculeFactory.VUE_LIST_FORM, TITRE_VUE );
+        CategorieVehiculeFactory categF = new CategorieVehiculeFactory();
 
-        EtatVehicule etat = etatF.create( request );
-        if (etatF.validate( etat ) ) {
-            etatF.uniqueSave( etatM, etat, etat.getTitre(), EtatVehiculeFactory.PARAM_TITRE ); 
+        CategorieVehicule categ = categF.create( request );
+        
+        if (categF.validate( categ ) ) {
+            categF.uniqueSave(categM, categ,categ.getTitre(),"titre"); 
                   
         }
-        request.setAttribute( ATT_ERREURS, etatF.getErreurs() );
-        request.setAttribute( ATT_NEW_ETAT, etat );
-        request.setAttribute( ATT_ETATS, etatM.lister() );
+        request.setAttribute( ATT_ERREURS, categF.getErreurs() );
+        request.setAttribute( ATT_NEW_CATEGORIE, categ );
+        request.setAttribute( ATT_CATEGORIES, categM.lister() );
         pg.generate( getServletContext(), request, response );
     }
 

@@ -1,4 +1,4 @@
-package beans.session.vehicules.modeles;
+package beans.session.vehicules.marques.modeles;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -6,7 +6,10 @@ import beans.entities.vehicules.Modele;
 import beans.session.general.BeanFactory;
 
 public class ModeleFactory extends BeanFactory<Modele> {
-    public static final String PARAM_TITRE = "modele";
+    
+    public static final String PARAM_TITRE = "new_modele";
+    public static final String VUE_LIST_FORM                  = "/WEB-INF/vues/vehicules/marques/modeles/marques.modeles.jsp";
+    public static final String DEFAULT_REDIRECT_URL      = "/Marques";
 
     public ModeleFactory() {
         // TODO Auto-generated constructor stub
@@ -30,6 +33,6 @@ public class ModeleFactory extends BeanFactory<Modele> {
     @Override
     public void validateChilds( Modele bean ) {
         // TODO Auto-generated method stub
-        //Pas de propietie fils complex (manyToOneou autre) 
+        //Pas de propietie fils complex (manyToOne ou autre) 
     }
 }

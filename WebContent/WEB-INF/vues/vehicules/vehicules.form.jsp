@@ -10,15 +10,14 @@
 
 		<div class="form-row">
 			<div class="form-group col-md-9">
-				<div class="form-group ">
-					<label for="num_immatriculation">Numero d'immatriculation</label> 
-					<input
+
+				<div class="form-group">
+					<label for="num_immatriculation">Numero d'immatriculation</label> <input
 						type="text"
 						class='form-control ${empty erreurs["num_immatriculation"]?"":"is-invalid"} '
 						id="num_immatriculation" name="numImmatriculation"
 						value="<c:out value="${vehicule.num_immatriculation}" />"
-						${disabled_id? 'disabled':''}
-						>
+						${disabled_id? 'disabled':''}>
 					<c:if test="${disabled_id}">
 						<input type="hidden" name="numImmatriculation"
 							value="${vehicule.num_immatriculation}">
@@ -30,27 +29,24 @@
 					</div>
 				</div>
 
-
 				<div class="form-row">
-					<div class="form-group col-md-6">
-						<label for="modele">Modele</label> <input list="modeles"
-							name="modele"
-							class="form-control ${empty erreurs['modele']?'':'is-invalid'} "
-							value="${vehicule.modele.titre}">
-						<datalist id="modeles" class="">
-							<c:forEach items="${modeles}" var="modele">
-								<option class="" value="${modele.titre}">
-							</c:forEach>
-						</datalist>
+					<div class="form-group col-md-4">
+						<label for="categorie">Categorie de vehicule</label>
+						<div class="input-group mb-3">
+							<select id="categorie" class="form-control" required="required"
+								name="categorie">
+								<c:forEach items="${categories}" var="categ">
+									<option ${vehicule.categorie.titre==categ.titre?"selected":""}>${categ.titre}</option>
+								</c:forEach>
+							</select>
 
-						<div class="invalid-feedback">
-							<c:forEach items='${erreurs["modele"]}' var="err">
-								<span class="badge badge-pill badge-danger">${err}</span>
-							</c:forEach>
+							<div class="input-group-append">
+								<a class="btn btn-outline-success"
+									href='<c:url value="/Vehicules/Categories"/>'>+</a>
+							</div>
 						</div>
 					</div>
-
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-4">
 						<label for="marque">Marque</label>
 						<div class="input-group mb-3">
 							<select id="marque" class="form-control" required="required"
@@ -61,11 +57,35 @@
 							</select>
 							<div class="input-group-append">
 								<a class="btn btn-outline-success"
-									href='<c:url value="/Marques/add"/>'>Ajouter</a>
+									href='<c:url value="/Marques/add"/>'>+</a>
 							</div>
 						</div>
 
 					</div>
+
+					<div class="form-group col-md-4">
+						<label for="modele">Modele</label>
+						<div class="input-group mb-3">
+							<select id="modele" class="form-control" required="required"
+								name="modele">
+								<c:forEach items="${marques}" var="marq">
+									<optgroup label="${marq.titre}">
+										<c:forEach items="${marq.modeles}" var="m">
+											<option ${vehicule.modele.titre==m.titre?"selected":""} value='${m.id}'>${m.titre}</option>
+										</c:forEach>
+									</optgroup>
+
+								</c:forEach>
+							</select>
+							<div class="input-group-append">
+								<a class="btn btn-outline-success"
+									href='<c:url value="/Marques/Modeles"/>'>+</a>
+							</div>
+						</div>
+
+					</div>
+
+
 
 				</div>
 
@@ -94,12 +114,14 @@
 							</div>
 						</c:forEach>
 						<a class="btn btn-sm btn-outline-success"
-							href='<c:url value="/Vehicules/Etats"/>'>Ajouter</a>
+							href='<c:url value="/Vehicules/Etats"/>'>+</a>
 					</div>
 
 				</div>
-
 			</div>
+
+
+
 
 			<div class="form-group col-md-3">
 				<label for="photo">Photo du vehicule</label> <img id="preview"
@@ -124,6 +146,7 @@
 
 		<button type="submit" class="btn btn-primary">Valider</button>
 		<button type="reset" class="btn btn-danger">Annuler</button>
+
 	</form>
 </div>
 <script>
@@ -139,7 +162,35 @@
 		}
 	}
 
+	//pour la preview de l'image
 	$("#photo").change(function() {
 		readURL(this);
 	});
+
+	
+	//pour le filtrage des modeles selon la marque
+	
+	/*$("document").ready(function(){
+		$("#marque").change()
+	})*/
+	
+	$("#marque").change(function() {
+		var marque = this.value
+		$("#modele").val(" ")
+		$("#modele optgroup").each(function() {
+			if (this.label != marque) {
+				this.hidden = true
+			} else {
+				this.hidden = false
+				console.log(this.firstElementChild)
+				if(this.firstElementChild){
+					this.firstElementChild.selected = true
+				}
+			
+			}
+		})
+
+	})
+	
+	
 </script>

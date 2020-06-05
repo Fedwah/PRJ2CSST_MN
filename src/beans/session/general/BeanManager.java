@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 
-import beans.entities.pieces.Piece;
+
 
 public abstract class BeanManager<T> {
 
@@ -21,7 +21,7 @@ public abstract class BeanManager<T> {
     }
 
     public abstract EntityManager getEntityManger();
-    //inserer à la base de données
+    //inserer ï¿½ la base de donnï¿½es
     public boolean ajouter( T bean ) {
         try {
 
@@ -34,7 +34,7 @@ public abstract class BeanManager<T> {
         }
 
     }
-    // inserer si l'objet n'existe pas déjà
+    // inserer si l'objet n'existe pas dï¿½jï¿½
     public boolean ajouterUnique( T bean, Object id ) {
         if ( trouver( id ) == null ) {
             ajouter( bean );
@@ -60,10 +60,21 @@ public abstract class BeanManager<T> {
         return this.getEntityManger().createQuery( "SELECT b from " + beanClass.getName() + " b" )
                 .setFirstResult( debut ).setMaxResults( nb ).getResultList();
     }
+    
     public List<T> lister() {
         return this.getEntityManger().createQuery( "SELECT b from " + beanClass.getName() + " b" ).getResultList();
     }
   
+    public List<T> lister(Map<String, String> fields){
+        String where ="";
+        for ( Map.Entry<String, String> param : fields.entrySet() ) {
+            where.concat( param.getKey() + "LIKE %:" + param.getKey()+"%" );
+            this.getEntityManger().setProperty( param.getKey(), param.getValue());
+        }
+        
+        return this.getEntityManger().createQuery( "SELCET b FROM " + beanClass.getName() + " b where " + where )
+                .getResultList();
+    }
     public T trouver( Object id ) {
         T bean = null;
         try {
@@ -78,19 +89,20 @@ public abstract class BeanManager<T> {
 
     }
 
-    public Object trouver( Class classToFind, Object idOfClass ) {
+    public T trouver( Class classToFind, Object idOfClass ) {
         try {
-            return this.getEntityManger().find( classToFind, idOfClass );
+            return (T)this.getEntityManger().find( classToFind, idOfClass );
         } catch ( EntityNotFoundException e ) {
             System.out.println( "Erreur trouver :" + e.getMessage() );
             return null;
         }
     }
+    
 
-    public T trouver( Map<String, String[]> parameters ) {
+    public T trouver( Map<String, String[]> fields ) {
         String where = "";
 
-        for ( Map.Entry<String, String[]> param : parameters.entrySet() ) {
+        for ( Map.Entry<String, String[]> param : fields.entrySet() ) {
             where.concat( param.getKey() + "= :" + param.getKey() );
             this.getEntityManger().setProperty( param.getKey(), param.getValue()[0] );
         }
@@ -112,11 +124,11 @@ public abstract class BeanManager<T> {
 
     
     /**
-     * // mise à jour dans la base de donnée
+     * // mise ï¿½ jour dans la base de donnï¿½e
      * @param id identifiant de la classe
      * @param beanF classe bean factory
-     * @param newBean nouvelle classe à insérer
-     * @return booleen : true si la modification a été faite, false si echec
+     * @param newBean nouvelle classe ï¿½ insï¿½rer
+     * @return booleen : true si la modification a ï¿½tï¿½ faite, false si echec
      *    
      */
     public boolean mettreAJour( Object id, BeanFactory<T> beanF, T newBean ) {

@@ -6,7 +6,7 @@ package beans.session.vehicules;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
+
 
 import beans.entities.vehicules.EtatVehicule;
 import beans.entities.vehicules.Marque;
@@ -14,7 +14,7 @@ import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.BeanFactory;
 import beans.session.general.BeanManager;
-import beans.session.vehicules.modeles.ModeleFactory;
+import beans.session.vehicules.marques.modeles.ModeleFactory;
 
 @Stateless
 public class VehiculesManager  extends BeanManager<Vehicule>{
@@ -34,16 +34,12 @@ public class VehiculesManager  extends BeanManager<Vehicule>{
    @Override
     public boolean mettreAJour( Object id, BeanFactory<Vehicule> beanF, Vehicule newBean ) {
         Vehicule v = trouver( id );
-        Modele m = null;
-        ModeleFactory mf = new ModeleFactory();
+       
         if(v!=null) {
             
             newBean.setEtat( (EtatVehicule)ObtenirRefence( EtatVehicule.class, newBean.getEtat().getTitre() ) );
-            newBean.setMarque( (Marque)ObtenirRefence( Marque.class, newBean.getMarque().getTitre() ) );
-         
-            
-           
-            newBean.setModel((Modele)ObtenirRefence( Modele.class, newBean.getModele().getTitre() ));
+            newBean.setMarque( (Marque)ObtenirRefence( Marque.class, newBean.getMarque().getTitre() ) );    
+            newBean.setModel((Modele)ObtenirRefence( Modele.class, newBean.getModele().getId()));
            
             //Remettre l'ancienne photo , si pas de nouveau
             if(newBean.getPhoto().getTitre()==null) {

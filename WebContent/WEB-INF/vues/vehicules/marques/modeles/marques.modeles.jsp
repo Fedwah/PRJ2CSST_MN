@@ -7,12 +7,11 @@
 		<div>
 			<form action="" method="post" class="needs-validation" novalidate>
 				<div class="form-group ">
-					<label for="new_etat">Inserer un nouveau etat ?</label>
+					<label for="new_modele">Inserer un nouveau modeles ?</label>
 					<div class='input-group ${empty erreurs["titre"]?"":"is-invalid"}'>
 						<input type="text"
-							class='form-control ${empty erreurs["
-					titre"]?"":"is-invalid"}'
-							name="new_etat" placeholder="Titre de l'etat a ajouter"
+							class='form-control ${empty erreurs["titre"]?"":"is-invalid"}'
+							name="new_modele" placeholder="Titre de l'etat a ajouter"
 							aria-label="Recipient's username" aria-describedby="button-add"
 							id="new_etat">
 						<div class="input-group-append">
@@ -38,12 +37,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${etats}" var="etat" varStatus="status">
+					<c:forEach items="${modeles}" var="modele" varStatus="status">
 						<tr>
 							<th scope="row">${status.index}</th>
-							<td>${etat.titre}</td>
+							<td>${modele.titre}</td>
 							<td><a class="btn btn-outline-danger"
-								href='<c:url value="/Vehicules/Etats/remove/${etat.titre}"/>'>Supprimer</a></td>
+								href='<c:url value="/Marques/Modeles/remove/${modele.id}"/>'>Supprimer</a></td>
 
 						</tr>
 					</c:forEach>
