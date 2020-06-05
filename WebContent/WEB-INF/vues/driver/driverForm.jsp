@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
 	<form class="p-4 needs-validation " method="post"
-		action="<c:out value=""/>" novalidate enctype="multipart/form-data">
+		action="<c:out value=""/>" enctype="multipart/form-data" >
 
 		<!-- ${ erreurs } <!-- pour tester -->
 
@@ -15,35 +15,45 @@
 					<input
 						type="text"
 						class='form-control '
-						id="nom" name="driverName"
+						id="nom" name="nom"
 						value="<c:out value="${driver.lastN}" />"
 						
 					>
+					<c:forEach items='${erreurs["lastN"]}' var="errl">
+								<span class="badge badge-pill badge-danger">${errl}</span>
+					</c:forEach>
+					</div>
 					<label for="prenom">Prenom</label> 
 					<input
 						type="text"
 						class='form-control '
-						id="prenom" name="driverFirst"
+						id="prenom" name="prenom"
 						value="<c:out value="${driver.firstN}" />"
 						
 					>
-					
-						<label for="recruit">Date de recrutement</label> <input type="date"
+					<div>
+					<c:forEach items='${erreurs["firstN"]}' var="errf">
+								<span class="badge badge-pill badge-danger">${errf}</span>
+					</c:forEach>
+					</div>
+						<label for="recruit">Date de recrutement</label> 
+						<input type="date"
 							class="form-control ${empty erreurs['recruit']?'':'is-invalid'} "
-							id="recruit" required="required" name="recruitD"
+							id="recruit" required="required" name="recruit"
 							value="<c:out value="${driver.recruitDate}"/>">
-						<div class="invalid-feedback">
-							<c:forEach items='${erreurs["recruit"]}' var="err">
-								<span class="badge badge-pill badge-danger">${err}</span>
+						<div>
+							<c:forEach items='${erreurs["recruitDate"]}' var="errD">
+								<span class="badge badge-pill badge-danger">${errD}</span>
 							</c:forEach>
 						</div>
 				</div>
-			</div>
-
+			
 			<div class="form-group col-md-3">
-				<label for="photo">Photo du conducteur</label> <img id="preview"
+				<label for="photo">Photo du conducteur</label> 
+				<img id="preview"
 					class="img-fluid rounded shadow-sm mx-auto d-block"
-					src='<c:url value="${empty driver.photo.titre?'/public/img/notfound.png':'/Images/'}${driver.photo.titre}" />'
+					
+					src='<c:url value="${empty driver.photo.titre?'/public/img/driver_white_greenBackground.png':'/Images/'}${driver.photo.titre}" />'
 					width="200" />
 
 				<div class="custom-file">

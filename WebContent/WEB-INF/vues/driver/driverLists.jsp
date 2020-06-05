@@ -25,16 +25,16 @@
 			<c:forEach items="${drivers}" var="dr">
 				<tr>
 					<th scope="row"><img class="img-fluid"
-						src='<c:url value="/Images/${dr.image}" />' width="75" height="75" />
+						src='<c:url value="/Images/${dr.photo}" />' width="75" height="75" />
 					</th>
-					<td>${dr.nom}</td>
-					<td>${dr.prenom}</td>
+					<td>${dr.lastN}</td>
+					<td>${dr.firstN}</td>
 					<td>${dr.recruitDate}</td>
 					<td></td>
 					
 					<td>
-						<a class="btn btn-outline-primary" href='<c:url value="/drivers/edit/${dr.id}"/>'>Editer</a>
-						<a class="btn btn-outline-danger" href='<c:url value="/drivers/remove/${dr.id}"/>'>Supprimer</a>
+						<a class="btn btn-outline-primary" href='<c:url value="/drivers/edit/${dr.IDdriver}"/>'>Editer</a>
+						<a class="btn btn-outline-danger" href='<c:url value="/drivers/remove/${dr.IDdriver}"/>'>Supprimer</a>
 					</td>
 				</tr>
 			</c:forEach>

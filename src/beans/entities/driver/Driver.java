@@ -15,6 +15,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Size;
 
 import beans.entities.general.Image;
 
@@ -26,9 +27,11 @@ public class Driver implements Serializable{
 	private int IDdriver;
 	// prenom
 	@NotEmpty
+	@Size(min=3,max=25)
 	private String firstN;
 	// nom
 	@NotEmpty
+	@Size(min=3,max=25)
 	private String lastN;
 	// date de recrutement
 	@PastOrPresent

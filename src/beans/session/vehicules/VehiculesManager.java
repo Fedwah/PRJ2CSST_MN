@@ -28,13 +28,11 @@ public class VehiculesManager  extends BeanManager<Vehicule>{
     
    @Override
     public EntityManager getEntityManger() {
-        // TODO Auto-generated method stub
         return em;
     }
    
    @Override
     public boolean mettreAJour( Object id, BeanFactory<Vehicule> beanF, Vehicule newBean ) {
-        // TODO Auto-generated method stub
         Vehicule v = trouver( id );
         Modele m = null;
         ModeleFactory mf = new ModeleFactory();

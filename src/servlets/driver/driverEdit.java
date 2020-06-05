@@ -2,9 +2,12 @@ package servlets.driver;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.driver.Driver;
 import beans.entities.pieces.Piece;
+import beans.session.drivers.DriverFactory;
 import beans.session.drivers.DriverManager;
 import beans.session.general.PageGenerator;
 import beans.session.pieces.PieceFactory;
@@ -20,13 +24,15 @@ import beans.session.pieces.PieceFactory;
  * Servlet implementation class driverEdit
  */
 @WebServlet("/drivers/edit/*")
+@MultipartConfig( maxFileSize = 16177215 ) // upload file's size up to 16MB
 public class driverEdit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
 	private DriverManager dm;
 	private Driver dr = null;
     private static final String Form_Driver = "/WEB-INF/vues/driver/driverForm.jsp";  
-    private static final String REDIRECT = "/WEB-INF/vues/driver/driverLists.jsp";
+    private static final String REDIRECT = "/drivers";
+    private boolean edit = false;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -40,27 +46,25 @@ public class driverEdit extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator( Form_Driver, "",REDIRECT);
-		String id = "";
+		String id= "";
 		if ( request.getPathInfo() != null ) {
+			System.out.println("path info not null");
             id = request.getPathInfo().substring( 1 );
+            edit = false;
         }
-		if(id != "")
+		if(id.length() != 0 )
 		{
-			/*dr = (Driver) dm.trouver(id);
+			edit =true;
+			System.out.println("cas d'edition, id est de longeur"+ id.length());
+			dr = (Driver) dm.trouver(Integer.parseInt(id));
 			
-			if(p != null)//edition
+			if(dr != null)//edition
 			{
-				request.setAttribute( "piece", p );
-				request.setAttribute( "disabled_id", true );
+				request.setAttribute( "driver", dr );
 			
 			}
-			else {
-				System.out.println("p est null");
-				request.setAttribute( "disabled_id", false );
-			}*/
+
 		}
-		//request.setAttribute( "marques", mManager.lister( 0, 10 ) );
-        //request.setAttribute( "modeles", modManager.lister( 0, 10 ) );		
 		pg.generate( getServletContext(), request, response );
 	
 	}
@@ -71,17 +75,17 @@ public class driverEdit extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		PageGenerator pg = new PageGenerator( Form_Driver , "Driver", REDIRECT);
-		//PieceFactory pf = new PieceFactory();
-		String code = request.getParameter("codepiece");
-		//boolean insert = false ;
-		if (dr != null) // si on est entrain d'editer
+		DriverFactory df = new DriverFactory();
+		if (edit) // si on est entrain d'editer
 		{
-			/*Piece newP = pf.create(request);
-			newP.setId(p.getId());
-			if(pf.validate(newP))
+			System.out.println("edition");
+			Driver newD = (Driver) df.create(request);
+			if(df.validate(newD))
 			{
-				if(em.updatePiece(p.getId(), newP)) 
+				// si les champs simple sans valide --> mettre à jour les modifications
+				if(dm.mettreAJour(dr.getIDdriver(), df , newD))
 				{
+					System.out.println("champs valide");
 					pg.redirect(getServletContext(), request, response);
 				}
 
@@ -89,36 +93,33 @@ public class driverEdit extends HttpServlet {
 			else
 			{
 				// champs incorects
-				System.out.println("champs non valide");//at this case only name of piece is empty
-			}*/
+				request.setAttribute("driver", newD);
+				request.setAttribute( "erreurs", df.getErreurs() );
+		        pg.generate( getServletContext(), request, response );
+
+			}
 			
 		}
 		else // cas d'addition
 		{
-			
-			/*p = pf.create(request);
-			if(pf.validate(p))
+			System.out.println("ajouter un nouveau conducteur");
+			dr = (Driver) df.create(request);
+			if(df.validate(dr))
 			{
 				// insertion dans la bdd
 				System.out.println("valide");
-				if(em.ajouterUnique(p,code)) 
+				if(dm.ajouter(dr)) 
 				{
 					pg.redirect( getServletContext(), request, response );
 				}
-				else 
-				{
-					//code dupliqué
-					System.out.println("non insérée");
-					System.out.println("code est " + code);
-					PrintWriter out = response.getWriter();// je vais l'afficher apres en dessous de code piece
-					out.println("<script>alert(\"Ce code de piece existe déjà\");</script>");
-				}
+
 			}
 			else {
-				// champs incorects
-				System.out.println("non valide");// should get the error and show it the user
+				request.setAttribute("driver", dr);
+				request.setAttribute( "erreurs", df.getErreurs() );
+		        pg.generate( getServletContext(), request, response );
 
-			}*/
+			}
 	}
 	}
 
