@@ -31,7 +31,7 @@
 
 				<div class="form-row">
 					<div class="form-group col-md-4">
-						<label for="categoie">Categorie de vehicule</label>
+						<label for="categorie">Categorie de vehicule</label>
 						<div class="input-group mb-3">
 							<select id="categorie" class="form-control" required="required"
 								name="categorie">
@@ -71,7 +71,7 @@
 								<c:forEach items="${marques}" var="marq">
 									<optgroup label="${marq.titre}">
 										<c:forEach items="${marq.modeles}" var="m">
-											<option ${vehicule.modele.titre==m.titre?"selected":""}>${m.titre}</option>
+											<option ${vehicule.modele.titre==m.titre?"selected":""} value='${m.id}'>${m.titre}</option>
 										</c:forEach>
 									</optgroup>
 
@@ -170,21 +170,23 @@
 	
 	//pour le filtrage des modeles selon la marque
 	
-	$("document").ready(function(){
+	/*$("document").ready(function(){
 		$("#marque").change()
-	})
+	})*/
 	
 	$("#marque").change(function() {
 		var marque = this.value
-		console.log(marque)
+		$("#modele").val(" ")
 		$("#modele optgroup").each(function() {
 			if (this.label != marque) {
 				this.hidden = true
 			} else {
 				this.hidden = false
-				console.log(this.firstElementChild.text)
-				var newVal = this.firstElementChild.text
-				$("#modele").val(newVal)
+				console.log(this.firstElementChild)
+				if(this.firstElementChild){
+					this.firstElementChild.selected = true
+				}
+			
 			}
 		})
 

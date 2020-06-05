@@ -23,10 +23,14 @@ public class Modele {
     public Modele() {
         // TODO Auto-generated constructor stub
     }
-    public Modele( String titre ) {
+   
+    
+    public Modele( Integer id ) {
         super();
-        this.titre = titre;
+        this.id = id;
     }
+
+
     public void setTitre( String titre ) {
         this.titre = titre;
     }

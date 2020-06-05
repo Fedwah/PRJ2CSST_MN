@@ -12,7 +12,7 @@ public class EtatVehicule {
     
     @Id
     @NotEmpty
-    @Size(min = 1,max = 10)
+    @Size(min = 1,max = 20)
     private String titre;
 
     public EtatVehicule() {

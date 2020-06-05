@@ -21,14 +21,18 @@ import beans.session.vehicules.marques.modeles.ModeleFactory;
 
 public class VehiculeFactory extends BeanFactory<Vehicule>{
     
-    private static final String PARAM_CATEGORIES_VEHICULE = "categorie_vehicule";
+ 
+    
     public static final String PARAM_ETAT                = "etat";
     public static final String PARAM_PHOTO               = "photo";
     public static final String PARAM_DATE_ACHAT          = "dateAchat";
     public static final String PARAM_NUM_IMMATRICULATION = "numImmatriculation";
     public static final String PARAM_MODELE              = "modele";
     public static final String PARAM_MARQUE              = "marque";
-
+    public static final String PARAM_CATEGORIES_VEHICULE = "categorie";
+    
+    public static final String[] FIELDS = {"Matricule","Etat","Date achat","Modele","Marque","Categorie"};
+    
     public static final String VUE_FORM                  = "/WEB-INF/vues/vehicules/vehicules.form.jsp";
     public static final String VUE_LIST                  = "/WEB-INF/vues/vehicules/vehicules.list.jsp";
     public static final String DEFAULT_REDIRECT_URL      = "/Vehicules";
@@ -40,7 +44,7 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
     @Override
     public Vehicule create( HttpServletRequest request ) {
 
-        Modele modele = new Modele( request.getParameter( PARAM_MODELE ) );
+        Modele modele = new Modele( Integer.decode(request.getParameter( PARAM_MODELE ) ) );
 
         Marque marque = new Marque( request.getParameter( PARAM_MARQUE ) );
        
@@ -50,6 +54,7 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
         
         Vehicule v = new Vehicule();
 
+       
         v.setMarque( marque );
         v.setModel( modele );
         v.setEtat( etat );

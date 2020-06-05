@@ -65,6 +65,16 @@ public abstract class BeanManager<T> {
         return this.getEntityManger().createQuery( "SELECT b from " + beanClass.getName() + " b" ).getResultList();
     }
   
+    public List<T> lister(Map<String, String> fields){
+        String where ="";
+        for ( Map.Entry<String, String> param : fields.entrySet() ) {
+            where.concat( param.getKey() + "LIKE %:" + param.getKey()+"%" );
+            this.getEntityManger().setProperty( param.getKey(), param.getValue());
+        }
+        
+        return this.getEntityManger().createQuery( "SELCET b FROM " + beanClass.getName() + " b where " + where )
+                .getResultList();
+    }
     public T trouver( Object id ) {
         T bean = null;
         try {
@@ -79,19 +89,20 @@ public abstract class BeanManager<T> {
 
     }
 
-    public Object trouver( Class classToFind, Object idOfClass ) {
+    public T trouver( Class classToFind, Object idOfClass ) {
         try {
-            return this.getEntityManger().find( classToFind, idOfClass );
+            return (T)this.getEntityManger().find( classToFind, idOfClass );
         } catch ( EntityNotFoundException e ) {
             System.out.println( "Erreur trouver :" + e.getMessage() );
             return null;
         }
     }
+    
 
-    public T trouver( Map<String, String[]> parameters ) {
+    public T trouver( Map<String, String[]> fields ) {
         String where = "";
 
-        for ( Map.Entry<String, String[]> param : parameters.entrySet() ) {
+        for ( Map.Entry<String, String[]> param : fields.entrySet() ) {
             where.concat( param.getKey() + "= :" + param.getKey() );
             this.getEntityManger().setProperty( param.getKey(), param.getValue()[0] );
         }

@@ -113,14 +113,13 @@ public class EditVehicules extends HttpServlet {
                 VehiculeFactory.DEFAULT_REDIRECT_URL );
 
         VehiculeFactory vehiculeF = new VehiculeFactory();
-        ModeleFactory modeleF = new ModeleFactory();
-        CategorieVehiculeFactory categF = new CategorieVehiculeFactory();
+      
+       
         
         Vehicule old_v = vehM.trouver( id );
         Vehicule new_v = vehiculeF.create( request );
 
-        Modele m = null;
-        CategorieVehicule categ = null;
+      
         
         Image old_img = ( old_v != null ? old_v.getPhoto() : null );
 
@@ -128,32 +127,24 @@ public class EditVehicules extends HttpServlet {
         System.out.println( "IMG EDIT OLD :" + ( old_img != null ? old_img.getTitre() : "pas d'image" ) );
 
         if ( vehiculeF.validate( new_v ) ) {
-
-            // Creation d'un nouveau modele si necessaire
-            modeleF.uniqueSave( modM, new_v.getModele(), new_v.getModele().getTitre(), ModeleFactory.PARAM_TITRE );
-            new_v.setModel( modM.trouver( new_v.getModele().getTitre() ) );
-            
-            //Creation d'une nouvelle categorie
-            // Creation du vehicule si y'a pas eu d'erreurs avec le modele
-            if ( vehiculeF.getFieldError( VehiculeFactory.PARAM_MODELE ).size() <= 1 ) {
-                System.out.println( "Modele charger avec success" );
-                if ( old_v == null ) {// Creation
-                    if ( vehiculeF.uniqueSave( vehM, new_v, new_v.getNum_immatriculation(),
+                if ( old_v == null ) {
+                    // Creation
+                    if ( vehiculeF.uniqueSave(vehM, new_v, new_v.getNum_immatriculation(),
                             VehiculeFactory.PARAM_NUM_IMMATRICULATION ) ) {
                         System.out.println( "Vehicule crée" );
                         pg.redirect( getServletContext(), request, response );
                     }
-                } else { // Insertion
+                } else { 
+                    // Insertion
                     vehM.mettreAJour( id, vehiculeF, new_v );
                 }
-            }
-
-        } else {
+            
+        }else {
             System.out.println( "Erreur le vehicule n'a pas été crée " + vehiculeF.getErreurs().toString() );
         }
         
         
-
+        request.setAttribute( "fields",Vehicule.class.getDeclaredFields());
         request.setAttribute( ATT_VEHICULE, new_v );
         request.setAttribute( ATT_MARQUES, marM.lister() );
         request.setAttribute( ATT_MODELES, modM.lister() );

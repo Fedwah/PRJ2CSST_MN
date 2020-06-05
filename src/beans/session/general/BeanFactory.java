@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,13 +19,18 @@ public abstract class BeanFactory<T> {
 
     private static final String            MSG_ERREUR_ID_NON_UNIQUE = "doit etre ounique";
     private Map<String, ArrayList<String>> erreurs;
-
-    public abstract T create( HttpServletRequest request );
+    private Map<String,String> filtres;
+    private EntityField<T> entityFields;
+    
+    
+   
 
     public BeanFactory() {
-        // TODO Auto-generated constructor stub
+        this.entityFields = new EntityField<T>();
     }
 
+    public abstract T create( HttpServletRequest request );
+    
     public boolean validate( T bean ) {
         boolean result = true;
         if ( bean != null ) {
@@ -33,14 +39,20 @@ public abstract class BeanFactory<T> {
 
             if ( !this.erreurs.isEmpty() ) {
             	System.out.println("list of errors not empty");
-                for ( ArrayList<String> err : this.getErreurs().values() ) {
-                    System.out.println( "List " + err.get( 0 ) + " Empty : " + err.isEmpty() );
-                    result = result && err.isEmpty();
+            	
+                for ( ArrayList<String> err : this.erreurs.values() ) {
+                 //TODO pas sur a 100% de ce test
+                    if(!err.isEmpty()) {
+                        System.out.println( "childs error empty : "+err.get( 0 )+" ? : "+ err.get( 0 ).equals( "{}" ) );
+                        result = result && err.get( 0 ).equals( "{}" );
+                    }
+                    
+                    
                 }
             }
-
+            System.out.println( this.getClass().getSimpleName()+"is valid ? :"+( this.erreurs.isEmpty() || result ));
             return ( this.erreurs.isEmpty() || result );
-        } else {
+        }else {
             this.erreurs = new HashMap<String, ArrayList<String>>();
         }
 
@@ -65,6 +77,7 @@ public abstract class BeanFactory<T> {
         return new ArrayList<String>();
     }
   
+        
     public void addErreurs( String champ, ArrayList<String> erreurs ) {
      
         addErreurs( champ, (String[])erreurs.toArray());
@@ -142,5 +155,11 @@ public abstract class BeanFactory<T> {
     };
 
     public abstract void updateChange( T newB, T old );
-
+    
+    
+    public EntityField<T> getEntityFields() {
+        return entityFields;
+    }
+    
+   
 }
