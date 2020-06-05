@@ -140,9 +140,9 @@ public class EditVehicules extends HttpServlet {
         }
 
         request.setAttribute( ATT_VEHICULE, new_v );
-        request.setAttribute( ATT_MARQUES, marM.lister( 0, 10 ) );
-        request.setAttribute( ATT_MODELES, modM.lister( 0, 10 ) );
-        request.setAttribute( ATT_ETATS, etaM.lister( 0, 10 ) );
+        request.setAttribute( ATT_MARQUES, marM.lister() );
+        request.setAttribute( ATT_MODELES, modM.lister() );
+        request.setAttribute( ATT_ETATS, etaM.lister() );
         request.setAttribute( ATT_ERREURS, vehiculeF.getErreurs() );
         pg.generate( getServletContext(), request, response );
 

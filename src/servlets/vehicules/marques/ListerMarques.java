@@ -43,7 +43,7 @@ public class ListerMarques extends HttpServlet {
 		// TODO Auto-generated method stub
 		PageGenerator pg = new PageGenerator( VUE, TITRE_VUE );
 		
-		request.setAttribute( "marques",db.lister(0,10));
+		request.setAttribute( "marques",db.lister());
 		pg.generate( getServletContext(), request, response );
 	}
 

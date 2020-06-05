@@ -66,7 +66,7 @@ public class CreationEtListeEtat extends HttpServlet {
         }
         request.setAttribute( ATT_ERREURS, etatF.getErreurs() );
         request.setAttribute( ATT_NEW_ETAT, etat );
-        request.setAttribute( ATT_ETATS, etatM.lister( 0, 10 ) );
+        request.setAttribute( ATT_ETATS, etatM.lister() );
         pg.generate( getServletContext(), request, response );
     }
 
