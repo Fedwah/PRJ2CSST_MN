@@ -11,12 +11,14 @@
 		<div class="form-row">
 			<div class="form-group col-md-9">
 				<div class="form-group ">
-					<label for="num_immatriculation">Numero d'immatriculation</label> <input
+					<label for="num_immatriculation">Numero d'immatriculation</label> 
+					<input
 						type="text"
 						class='form-control ${empty erreurs["num_immatriculation"]?"":"is-invalid"} '
 						id="num_immatriculation" name="numImmatriculation"
 						value="<c:out value="${vehicule.num_immatriculation}" />"
-						${disabled_id? 'disabled':''}>
+						${disabled_id? 'disabled':''}
+						>
 					<c:if test="${disabled_id}">
 						<input type="hidden" name="numImmatriculation"
 							value="${vehicule.num_immatriculation}">

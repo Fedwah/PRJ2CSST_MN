@@ -33,7 +33,7 @@ public class VehiculesManager  extends BeanManager<Vehicule>{
     }
    
    @Override
-    public void mettreAJour( Object id, BeanFactory<Vehicule> beanF, Vehicule newBean ) {
+    public boolean mettreAJour( Object id, BeanFactory<Vehicule> beanF, Vehicule newBean ) {
         // TODO Auto-generated method stub
         Vehicule v = trouver( id );
         Modele m = null;
@@ -54,6 +54,8 @@ public class VehiculesManager  extends BeanManager<Vehicule>{
                  
             beanF.updateChange(newBean,v);
             System.out.println( "Change updated "+ (this.getEntityManger().contains( v )) );
+            return true;
         }
+        return false;
     }
 }

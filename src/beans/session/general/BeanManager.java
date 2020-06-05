@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 
+import beans.entities.pieces.Piece;
+
 public abstract class BeanManager<T> {
 
     private Class<T> beanClass;
@@ -19,7 +21,7 @@ public abstract class BeanManager<T> {
     }
 
     public abstract EntityManager getEntityManger();
-
+    //inserer à la base de données
     public boolean ajouter( T bean ) {
         try {
 
@@ -32,7 +34,7 @@ public abstract class BeanManager<T> {
         }
 
     }
-
+    // inserer si l'objet n'existe pas déjà
     public boolean ajouterUnique( T bean, Object id ) {
         if ( trouver( id ) == null ) {
             ajouter( bean );
@@ -41,7 +43,7 @@ public abstract class BeanManager<T> {
         return false;
 
     }
-
+    // supprimer
     public boolean supprimer( T bean ) {
         try {
             this.getEntityManger().remove(
@@ -53,11 +55,15 @@ public abstract class BeanManager<T> {
         }
     }
 
+    
     public List<T> lister( int debut, int nb ) {
         return this.getEntityManger().createQuery( "SELECT b from " + beanClass.getName() + " b" )
                 .setFirstResult( debut ).setMaxResults( nb ).getResultList();
     }
-
+    public List<T> lister() {
+        return this.getEntityManger().createQuery( "SELECT b from " + beanClass.getName() + " b" ).getResultList();
+    }
+  
     public T trouver( Object id ) {
         T bean = null;
         try {
@@ -104,9 +110,24 @@ public abstract class BeanManager<T> {
         return false;
     }
 
-    public void mettreAJour( Object id, BeanFactory<T> beanF, T newBean ) {
+    
+    /**
+     * // mise à jour dans la base de donnée
+     * @param id identifiant de la classe
+     * @param beanF classe bean factory
+     * @param newBean nouvelle classe à insérer
+     * @return booleen : true si la modification a été faite, false si echec
+     *    
+     */
+    public boolean mettreAJour( Object id, BeanFactory<T> beanF, T newBean ) {
         T bean = trouver( id );
-        beanF.updateChange( newBean, bean );
+        if(bean != null)
+        	{
+        	beanF.updateChange( newBean, bean );
+        	return true;
+        	}
+        return false;
+        
     }
 
     public T ObtenirRefrence( Object id ) {

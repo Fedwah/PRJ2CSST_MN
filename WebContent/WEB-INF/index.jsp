@@ -16,7 +16,7 @@
 	<c:import url="vues/header/header.jsp"></c:import>
 	<div class="row">
 		<div class="col-md-3">
-			<c:import url="vues/menu/menu.jsp"></c:import>
+			<c:import url="vues/menu/menuAdmin.jsp"></c:import>
 		</div>
 		
 		<div class="col-md">

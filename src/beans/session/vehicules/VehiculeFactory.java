@@ -17,7 +17,7 @@ import beans.session.vehicules.etats.EtatVehiculeFactory;
 import beans.session.vehicules.marques.MarqueFactory;
 import beans.session.vehicules.modeles.ModeleFactory;
 
-public class VehiculeFactory extends BeanFactory<Vehicule> {
+public class VehiculeFactory extends BeanFactory<Vehicule>{
     public static final String PARAM_ETAT                = "etat";
     public static final String PARAM_PHOTO               = "photo";
     public static final String PARAM_DATE_ACHAT          = "dateAchat";

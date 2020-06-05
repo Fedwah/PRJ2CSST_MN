@@ -32,6 +32,7 @@ public abstract class BeanFactory<T> {
             validateChilds( bean );
 
             if ( !this.erreurs.isEmpty() ) {
+            	System.out.println("list of errors not empty");
                 for ( ArrayList<String> err : this.getErreurs().values() ) {
                     System.out.println( "List " + err.get( 0 ) + " Empty : " + err.isEmpty() );
                     result = result && err.isEmpty();
