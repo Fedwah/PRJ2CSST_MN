@@ -9,7 +9,7 @@ public class ModeleFactory extends BeanFactory<Modele> {
     
     public static final String PARAM_TITRE = "new_modele";
     public static final String VUE_LIST_FORM                  = "/WEB-INF/vues/vehicules/marques/modeles/marques.modeles.jsp";
-    public static final String DEFAULT_REDIRECT_URL      = "/Modeles";
+    public static final String DEFAULT_REDIRECT_URL      = "/Marques";
 
     public ModeleFactory() {
         // TODO Auto-generated constructor stub

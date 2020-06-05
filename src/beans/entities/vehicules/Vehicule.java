@@ -24,9 +24,7 @@ import beans.entities.general.Image;
 @Entity
 public class Vehicule implements Serializable {
     
-    /**
-     * 
-     */
+  
     private static final long serialVersionUID = 1L;
 
     @Id

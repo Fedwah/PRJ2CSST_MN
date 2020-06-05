@@ -31,12 +31,13 @@ import beans.session.vehicules.marques.modeles.ModeleManager;
 @WebServlet( "/Vehicules/edit/*" )
 @MultipartConfig( maxFileSize = 16177215 ) // upload file's size up to 16MB
 public class EditVehicules extends HttpServlet {
-    private static final String ATT_CATEGORIES_VEHICULE = "categories_vehicule";
+    private static final String ATT_CATEGORIES_VEHICULE = "categories";
     private static final String ATT_DISABLE_ID   = "disabled_id";
     private static final String ATT_ERREURS      = "erreurs";
     private static final String ATT_ETATS        = "etats";
     private static final String ATT_MODELES      = "modeles";
     private static final String ATT_MARQUES      = "marques";
+    
     private static final String ATT_VEHICULE     = "vehicule";
 
     private static final long   serialVersionUID = 1L;
@@ -78,9 +79,7 @@ public class EditVehicules extends HttpServlet {
         Vehicule v = null;
         Boolean trouver = false;
 
-        if ( request.getPathInfo() != null ) {
-            id = request.getPathInfo().substring( 1 );
-        }
+        id = pg.getPathId( request );
 
         if ( id != "" ) {
             v = vehM.trouver( id );

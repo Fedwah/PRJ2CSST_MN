@@ -7,13 +7,16 @@ import beans.session.general.BeanFactory;
 
 public class CategorieVehiculeFactory extends BeanFactory<CategorieVehicule> {
 
-    public static final String PARAM_TITRE = "categorie_vehicule";
+    public static final String PARAM_TITRE = "new_categorie";
+    
+    public static final String VUE_LIST_FORM                  = "/WEB-INF/vues/vehicules/categories/vehicules.categories.jsp";
+    public static final String DEFAULT_REDIRECT_URL      = "/Vehicules/Categories";
     @Override
     
     public CategorieVehicule create( HttpServletRequest request ) {
         // TODO Auto-generated method stub
         CategorieVehicule categ = new CategorieVehicule();
-        categ.setTitre((String) (request.getAttribute( PARAM_TITRE )));
+        categ.setTitre((String) (request.getParameter( PARAM_TITRE )));
         return categ;
     }
     

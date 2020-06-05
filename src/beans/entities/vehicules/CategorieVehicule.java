@@ -2,12 +2,14 @@ package beans.entities.vehicules;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Entity
 public class CategorieVehicule {
     
     @Id
+    @NotEmpty
     @Size(min=1,max=10)
     private String titre;
     

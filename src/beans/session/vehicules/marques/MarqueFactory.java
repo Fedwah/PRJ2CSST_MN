@@ -1,9 +1,12 @@
 package beans.session.vehicules.marques;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import beans.entities.general.Image;
 import beans.entities.vehicules.Marque;
+import beans.entities.vehicules.Modele;
 import beans.session.general.BeanFactory;
 import beans.session.general.BeanValidator;
 
@@ -38,7 +41,7 @@ public class MarqueFactory extends BeanFactory<Marque> {
         }
         
         if(!old.getModeles().equals( newB.getModeles() )) {
-            old.setModeles( newB.getModeles() );
+            old.setModeles( (ArrayList<Modele>)newB.getModeles() );
         }
 
     }

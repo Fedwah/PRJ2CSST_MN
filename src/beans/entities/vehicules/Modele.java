@@ -11,6 +11,9 @@ import javax.validation.constraints.Size;
 public class Modele {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    
     @Size(min=1,max=10)
     private String titre;
     
@@ -39,4 +42,7 @@ public class Modele {
         this.marque = marque;
     }
     
+    public Integer getId() {
+        return id;
+    }
 }

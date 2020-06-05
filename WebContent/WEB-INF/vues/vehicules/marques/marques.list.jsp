@@ -20,9 +20,13 @@
 								<h5 class="card-title">
 									<c:out value="${marque.titre}" />
 								</h5>
-								
-								<a href='<c:url value="/Marques/edit/${marque.titre}"/>'
-									class="btn btn-sm btn-outline-primary btn-block">Editer</a>
+								<div class="row">
+									<a href='<c:url value="/Marques/edit/${marque.titre}"/>'
+										class="btn btn-sm btn-outline-primary btn-block">Editer</a> 
+									<a href='<c:url value="/Marques/Modeles/${marque.titre}"/>'
+										class="btn btn-sm btn-outline-secondary btn-block">Voir ces modeles</a>
+								</div>
+
 							</div>
 						</div>
 					</div>

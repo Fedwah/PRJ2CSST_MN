@@ -70,11 +70,13 @@ public abstract class BeanFactory<T> {
         addErreurs( champ, (String[])erreurs.toArray());
     }
     public void addErreurs(String champ,String... erreurs) {
-        
-        if(erreurs.length==0) {
+       
+        if(erreurs.length!=0) {
             if ( this.erreurs.containsKey( champ ) ) {
+                //System.out.println( "Ajout de l'erreur" );
                 this.erreurs.get( champ ).addAll(Arrays.asList(erreurs ));
             } else {
+                //System.out.println( "Creation de l'erreur" );
                 this.erreurs.put( champ, new ArrayList<String>(Arrays.asList(erreurs )));
             }
         }
@@ -111,13 +113,16 @@ public abstract class BeanFactory<T> {
         return img;
     }
 
+    
     public boolean uniqueSave( BeanManager<T> em, T bean, Object id, String PARAM_ID ) {
 
         if ( em.ajouterUnique( bean, id ) ) {
-            // System.out.println( "Bean "+id+" added" );
+           System.out.println( "Bean "+id+" added" );
             return true;
         } else {
-            // System.out.println( "Bean "+id+" read" );
+            System.out.println( "Bean "+id+" error unique" );
+            System.out.println( "PARAM ID  : "+ PARAM_ID );
+           
             this.addErreurs(PARAM_ID, MSG_ERREUR_ID_NON_UNIQUE );
         }
 
