@@ -7,17 +7,21 @@ import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpServletRequest;
 
 import beans.entities.general.Image;
+import beans.entities.vehicules.CategorieVehicule;
 import beans.entities.vehicules.EtatVehicule;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.BeanFactory;
 import beans.session.general.BeanValidator;
+import beans.session.vehicules.categorie.CategorieVehiculeFactory;
 import beans.session.vehicules.etats.EtatVehiculeFactory;
 import beans.session.vehicules.marques.MarqueFactory;
-import beans.session.vehicules.modeles.ModeleFactory;
+import beans.session.vehicules.marques.modeles.ModeleFactory;
 
 public class VehiculeFactory extends BeanFactory<Vehicule>{
+    
+    private static final String PARAM_CATEGORIES_VEHICULE = "categorie_vehicule";
     public static final String PARAM_ETAT                = "etat";
     public static final String PARAM_PHOTO               = "photo";
     public static final String PARAM_DATE_ACHAT          = "dateAchat";
@@ -39,15 +43,20 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
         Modele modele = new Modele( request.getParameter( PARAM_MODELE ) );
 
         Marque marque = new Marque( request.getParameter( PARAM_MARQUE ) );
+       
         EtatVehicule etat = new EtatVehicule( request.getParameter( PARAM_ETAT ) );
 
+        CategorieVehicule categ =  new CategorieVehicule(request.getParameter(PARAM_CATEGORIES_VEHICULE));
+        
         Vehicule v = new Vehicule();
 
         v.setMarque( marque );
         v.setModel( modele );
         v.setEtat( etat );
+        v.setCategorie( categ );
 
         v.setNum_immatriculation( request.getParameter( PARAM_NUM_IMMATRICULATION ) );
+        
         try {
             v.setDate_achat( new SimpleDateFormat( "yyyy-MM-dd" ).parse( request.getParameter( PARAM_DATE_ACHAT ) ) );
         } catch ( ParseException e ) {
@@ -75,7 +84,8 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
         old.setEtat( newB.getEtat() );
         old.setMarque( newB.getMarque() );
         old.setModel( newB.getModele() );
-
+        old.setCategorie( newB.getCategorie() );
+        
         if ( newB.getPhoto().getTitre() != null ) {
             old.setPhoto( newB.getPhoto() );
         }
@@ -87,11 +97,12 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
         ModeleFactory modF = new ModeleFactory();
         MarqueFactory marF = new MarqueFactory();
         EtatVehiculeFactory etatF = new EtatVehiculeFactory();
-       
+        CategorieVehiculeFactory categF = new CategorieVehiculeFactory();
+        
         marF.validate( bean.getMarque() );
         modF.validate( bean.getModele() );
         etatF.validate( bean.getEtat() );
-
+        categF.validate( bean.getCategorie() );
         
         // si on veut aussi valider l'image
         //this.addErreurs( PARAM_PHOTO,new BeanValidator<Image>( bean.getPhoto()).getErreurs().toString());
@@ -100,5 +111,7 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
         this.addErreurs( PARAM_MARQUE, marF.getErreurs().toString());
         this.addErreurs( PARAM_MODELE, modF.getErreurs().toString());
         this.addErreurs( PARAM_ETAT, etatF.getErreurs().toString());
+        this.addErreurs( PARAM_CATEGORIES_VEHICULE,categF.getErreurs().toString());
+        
     }
 }

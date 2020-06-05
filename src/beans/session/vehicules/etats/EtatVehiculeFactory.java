@@ -10,6 +10,9 @@ import beans.session.general.BeanFactory;
 public class EtatVehiculeFactory extends BeanFactory<EtatVehicule> {
 
     public static final String PARAM_TITRE = "new_etat";
+    
+    public static final String VUE_LIST_FORM                  = "/WEB-INF/vues/vehicules/etats/vehicules.etats.jsp";
+    public static final String DEFAULT_REDIRECT_URL      = "/Vehicules/Etats";
 
     public EtatVehiculeFactory() {
         // TODO Auto-generated constructor stub

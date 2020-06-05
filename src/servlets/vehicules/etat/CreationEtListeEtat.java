@@ -23,7 +23,7 @@ public class CreationEtListeEtat extends HttpServlet {
     private static final String ATT_NEW_ETAT     = "new_etat";
     private static final String ATT_ERREURS      = "erreurs";
     private static final long   serialVersionUID = 1L;
-    private static final String VUE              = "/WEB-INF/vues/vehicules/etats/vehicules.etats.jsp";
+
     private static final String TITRE_VUE        = "Liste des etats d'un vehicule";
 
     @EJB
@@ -44,8 +44,8 @@ public class CreationEtListeEtat extends HttpServlet {
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
         // TODO Auto-generated method stub
-        PageGenerator pg = new PageGenerator( VUE, TITRE_VUE );
-        request.setAttribute( ATT_ETATS, etatM.lister( 0, 10 ) );
+        PageGenerator pg = new PageGenerator( EtatVehiculeFactory.VUE_LIST_FORM, TITRE_VUE );
+        request.setAttribute( ATT_ETATS, etatM.lister( ) );
         pg.generate( getServletContext(), request, response );
     }
 
@@ -55,12 +55,11 @@ public class CreationEtListeEtat extends HttpServlet {
      */
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
-        PageGenerator pg = new PageGenerator( VUE, TITRE_VUE );
+        PageGenerator pg = new PageGenerator( EtatVehiculeFactory.VUE_LIST_FORM, TITRE_VUE );
         EtatVehiculeFactory etatF = new EtatVehiculeFactory();
 
         EtatVehicule etat = etatF.create( request );
         if (etatF.validate( etat ) ) {
-            
             etatF.uniqueSave( etatM, etat, etat.getTitre(), EtatVehiculeFactory.PARAM_TITRE ); 
                   
         }

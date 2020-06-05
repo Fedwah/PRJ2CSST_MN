@@ -32,7 +32,43 @@
 
 
 				<div class="form-row">
-					<div class="form-group col-md-6">
+					
+					<div class="form-group col-md-4">
+						<label for="modele">Catagorie vehicule</label> <input list="categories_vehicule"
+							name="categorie_vehicule"
+							class="form-control ${empty erreurs['categories_vehicule']?'':'is-invalid'} "
+							value="${vehicule.modele.titre}">
+						<datalist id="categories_vehicule" class="">
+							<c:forEach items="${categories_vehicule}" var="categorie">
+								<option class="" value="${categorie.titre}">
+							</c:forEach>
+						</datalist>
+
+						<div class="invalid-feedback">
+							<c:forEach items='${erreurs["categories_vehicule"]}' var="err">
+								<span class="badge badge-pill badge-danger">${err}</span>
+							</c:forEach>
+						</div>
+					</div>
+					
+					<div class="form-group col-md-4">
+						<label for="marque">Marque</label>
+						<div class="input-group mb-3">
+							<select id="marque" class="form-control" required="required"
+								name="marque">
+								<c:forEach items="${marques}" var="marque">
+									<option ${vehicule.marque.titre==marque.titre?"selected":""}>${marque.titre}</option>
+								</c:forEach>
+							</select>
+							<div class="input-group-append">
+								<a class="btn btn-outline-success"
+									href='<c:url value="/Marques/add"/>'>Ajouter</a>
+							</div>
+						</div>
+
+					</div>
+					
+					<div class="form-group col-md-4">
 						<label for="modele">Modele</label> <input list="modeles"
 							name="modele"
 							class="form-control ${empty erreurs['modele']?'':'is-invalid'} "
@@ -50,22 +86,7 @@
 						</div>
 					</div>
 
-					<div class="form-group col-md-6">
-						<label for="marque">Marque</label>
-						<div class="input-group mb-3">
-							<select id="marque" class="form-control" required="required"
-								name="marque">
-								<c:forEach items="${marques}" var="marque">
-									<option ${vehicule.marque.titre==marque.titre?"selected":""}>${marque.titre}</option>
-								</c:forEach>
-							</select>
-							<div class="input-group-append">
-								<a class="btn btn-outline-success"
-									href='<c:url value="/Marques/add"/>'>Ajouter</a>
-							</div>
-						</div>
-
-					</div>
+					
 
 				</div>
 

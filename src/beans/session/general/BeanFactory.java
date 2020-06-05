@@ -118,7 +118,7 @@ public abstract class BeanFactory<T> {
             return true;
         } else {
             // System.out.println( "Bean "+id+" read" );
-            this.addErreurs( MarqueFactory.PARAM_TITRE, MSG_ERREUR_ID_NON_UNIQUE );
+            this.addErreurs(PARAM_ID, MSG_ERREUR_ID_NON_UNIQUE );
         }
 
         return false;

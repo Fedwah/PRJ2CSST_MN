@@ -1,4 +1,4 @@
-package servlets.vehicules.marques;
+package servlets.vehicules.marque;
 
 import java.io.IOException;
 
@@ -42,8 +42,8 @@ public class ListerMarques extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PageGenerator pg = new PageGenerator( VUE, TITRE_VUE );
-		
-		request.setAttribute( "marques",db.lister());
+	
+		request.setAttribute("marques",db.lister());
 		pg.generate( getServletContext(), request, response );
 	}
 
@@ -52,7 +52,7 @@ public class ListerMarques extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		
 	}
 
 }

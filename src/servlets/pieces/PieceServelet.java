@@ -19,7 +19,7 @@ import beans.session.pieces.PieceFactory;
 import beans.session.pieces.PieceManager;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.marques.MarqueManager;
-import beans.session.vehicules.modeles.ModeleManager;
+import beans.session.vehicules.marques.modeles.ModeleManager;
 
 /**
  * Servlet implementation class pieceServelet
@@ -120,11 +120,11 @@ public class PieceServelet extends HttpServlet {
 				}
 				else 
 				{
-					//code dupliqué
-					System.out.println("non insérée");
+					//code dupliquï¿½
+					System.out.println("non insï¿½rï¿½e");
 					System.out.println("code est " + code);
 					PrintWriter out = response.getWriter();// je vais l'afficher apres en dessous de code piece
-					out.println("<script>alert(\"Ce code de piece existe déjà\");</script>");
+					out.println("<script>alert(\"Ce code de piece existe dï¿½jï¿½\");</script>");
 				}
 			}
 			else {

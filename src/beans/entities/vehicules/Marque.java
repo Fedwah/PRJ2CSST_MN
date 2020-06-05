@@ -1,6 +1,8 @@
 package beans.entities.vehicules;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PersistenceUnit;
 import javax.validation.constraints.NotEmpty;
@@ -30,13 +33,17 @@ public class Marque implements Serializable {
     private Image image;
    
     
+    @OneToMany
+    private List<Modele> modeles;
+   
     public Marque() {
-        // TODO Auto-generated constructor stub
+        this.modeles = new ArrayList<Modele>();
     }
     
     public Marque( String titre ) {
         super();
         this.titre = titre;
+        this.modeles = new ArrayList<Modele>();
     }
     
     public String getTitre() {
@@ -54,5 +61,11 @@ public class Marque implements Serializable {
         this.image = image;
     }
     
+    public ArrayList<Modele> getModeles() {
+        return (ArrayList<Modele>)modeles;
+    }
     
+    public void setModeles( ArrayList<Modele> modeles ) {
+        this.modeles = modeles;
+    }
 }

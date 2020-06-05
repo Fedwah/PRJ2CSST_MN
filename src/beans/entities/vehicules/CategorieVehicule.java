@@ -1,42 +1,31 @@
 package beans.entities.vehicules;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
 @Entity
-public class Modele {
+public class CategorieVehicule {
     
     @Id
     @Size(min=1,max=10)
     private String titre;
     
-    @ManyToOne
-    private Marque marque;
-    
-    public Modele() {
+    public CategorieVehicule() {
         // TODO Auto-generated constructor stub
     }
-    public Modele( String titre ) {
+     
+    
+    public CategorieVehicule( String titre ) {
         super();
         this.titre = titre;
     }
+
+
     public void setTitre( String titre ) {
         this.titre = titre;
     }
     public String getTitre() {
         return titre;
     }
-    
-    public Marque getMarque() {
-        return marque;
-    }
-    
-    public void setMarque( Marque marque ) {
-        this.marque = marque;
-    }
-    
 }

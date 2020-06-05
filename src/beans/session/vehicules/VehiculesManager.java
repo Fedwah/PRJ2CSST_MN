@@ -14,7 +14,7 @@ import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.BeanFactory;
 import beans.session.general.BeanManager;
-import beans.session.vehicules.modeles.ModeleFactory;
+import beans.session.vehicules.marques.modeles.ModeleFactory;
 
 @Stateless
 public class VehiculesManager  extends BeanManager<Vehicule>{
