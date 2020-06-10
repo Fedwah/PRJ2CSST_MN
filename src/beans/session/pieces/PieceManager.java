@@ -1,14 +1,11 @@
 package beans.session.pieces;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import beans.entities.pieces.Piece;
-import beans.session.general.BeanFactory;
 import beans.session.general.BeanManager;
 
 @Stateless
