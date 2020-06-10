@@ -31,6 +31,8 @@ import beans.session.vehicules.marques.modeles.ModeleManager;
 @WebServlet( "/Vehicules/edit/*" )
 @MultipartConfig( maxFileSize = 16177215 ) // upload file's size up to 16MB
 public class EditVehicules extends HttpServlet {
+    private static final String ATT_NAMES = "names";
+    private static final String ATT_LABELS = "labels";
     private static final String ATT_CATEGORIES_VEHICULE = "categories";
     private static final String ATT_DISABLE_ID   = "disabled_id";
     private static final String ATT_ERREURS      = "erreurs";
@@ -78,7 +80,8 @@ public class EditVehicules extends HttpServlet {
         PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_FORM, "Vehicule " + id );
         Vehicule v = null;
         Boolean trouver = false;
-
+        VehiculeFactory vehiculeF = new VehiculeFactory(Vehicule.class);
+        
         id = pg.getPathId( request );
 
         if ( id != "" ) {
@@ -91,6 +94,7 @@ public class EditVehicules extends HttpServlet {
         }
 
         request.setAttribute( ATT_VEHICULE, v );
+        request.setAttribute( ATT_NAMES, vehiculeF.getEntityFields().fieldsNames());
         request.setAttribute( ATT_MARQUES, marM.lister());
         request.setAttribute( ATT_MODELES, modM.lister());
         request.setAttribute( ATT_CATEGORIES_VEHICULE,categM.lister());
@@ -112,8 +116,8 @@ public class EditVehicules extends HttpServlet {
         PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_FORM, "Vehicule " + id,
                 VehiculeFactory.DEFAULT_REDIRECT_URL );
 
-        VehiculeFactory vehiculeF = new VehiculeFactory();
-      
+        VehiculeFactory vehiculeF = new VehiculeFactory(Vehicule.class);
+        
        
         
         Vehicule old_v = vehM.trouver( id );
@@ -144,8 +148,9 @@ public class EditVehicules extends HttpServlet {
             System.out.println( "Erreur le vehicule n'a pas été crée " + vehiculeF.getErreurs().toString() );
         }
         
-        
-        request.setAttribute( "fields",Vehicule.class.getDeclaredFields());
+      
+        request.setAttribute( ATT_LABELS,vehiculeF.getEntityFields().filedsLabels());
+        request.setAttribute( ATT_NAMES,vehiculeF.getEntityFields().fieldsNames());
         request.setAttribute( ATT_VEHICULE, new_v );
         request.setAttribute( ATT_MARQUES, marM.lister() );
         request.setAttribute( ATT_MODELES, modM.lister() );

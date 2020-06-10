@@ -6,20 +6,20 @@
 	<form class="p-4 needs-validation " method="post"
 		action="<c:out value=""/>" novalidate enctype="multipart/form-data">
 
-		${ erreurs } <!-- pour tester -->
+		<!--  ${ erreurs } <!-- pour tester -->
 
 		<div class="form-row">
 			<div class="form-group col-md-9">
 
 				<div class="form-group">
-					<label for="num_immatriculation">Numero d'immatriculation</label> <input
+					<label for="${names.num_immatriculation}">Numero d'immatriculation</label> <input
 						type="text"
 						class='form-control ${empty erreurs["num_immatriculation"]?"":"is-invalid"} '
-						id="num_immatriculation" name="num_immatriculation"
+						id="${names.num_immatriculation}" name="${names.num_immatriculation}"
 						value="<c:out value="${vehicule.num_immatriculation}" />"
 						${disabled_id? 'disabled':''}>
 					<c:if test="${disabled_id}">
-						<input type="hidden" name="numImmatriculation"
+						<input type="hidden" name="${names.num_immatriculation}"
 							value="${vehicule.num_immatriculation}">
 					</c:if>
 					<div class="invalid-feedback">
@@ -50,7 +50,7 @@
 						<label for="marque">Marque</label>
 						<div class="input-group mb-3">
 							<select id="marque" class="form-control" required="required"
-								name="marque">
+								name="${names.marque}">
 								<c:forEach items="${marques}" var="marque">
 									<option ${vehicule.marque.titre==marque.titre?"selected":""}>${marque.titre}</option>
 								</c:forEach>
@@ -67,7 +67,7 @@
 						<label for="modele">Modele</label>
 						<div class="input-group mb-3">
 							<select id="modele" class="form-control" required="required"
-								name="modele">
+								name="${names.modele}">
 								<c:forEach items="${marques}" var="marq">
 									<optgroup label="${marq.titre}">
 										<c:forEach items="${marq.modeles}" var="m">
@@ -93,7 +93,7 @@
 					<div class="form-group col-md-6">
 						<label for="date_achat">Date d'achat</label> <input type="date"
 							class="form-control ${empty erreurs['date_achat']?'':'is-invalid'} "
-							id="date_achat" required="required" name="date_achat"
+							id="date_achat" required="required" name="${names.date_achat}"
 							value="<c:out value="${vehicule.date_achat}"/>">
 						<div class="invalid-feedback">
 							<c:forEach items='${erreurs["date_achat"]}' var="err">
@@ -106,7 +106,7 @@
 						<label for="etat">Etat</label>
 						<c:forEach items="${etats}" var="etat">
 							<div class="custom-control custom-radio">
-								<input type="radio" id="${etat.titre}" name="etat"
+								<input type="radio" id="${etat.titre}" name="${names.etat}"
 									class="custom-control-input ${empty erreurs['date_achat']?'':'is-invalid'}"
 									value="${etat.titre}"
 									${etat.titre==vehicule.etat.titre?"checked":""}> <label
@@ -135,7 +135,7 @@
 					</c:otherwise>
 				</c:choose>
 				<div class="custom-file">
-					<input id="photo" name="photo" type="file"
+					<input id="photo" name="${names.photo}" type="file"
 						class="custom-file-input"> <label
 						class="custom-file-label" for="photo">Importer une image</label>
 				</div>

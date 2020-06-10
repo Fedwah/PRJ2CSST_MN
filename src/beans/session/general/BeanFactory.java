@@ -19,18 +19,24 @@ public abstract class BeanFactory<T> {
 
     private static final String            MSG_ERREUR_ID_NON_UNIQUE = "doit etre ounique";
     private Map<String, ArrayList<String>> erreurs;
-    private Map<String,String> filtres;
-    private EntityField<T> entityFields;
+    private Map<String, Object>            filtres;
+    private EntityField<T>                 entityFields;
+    private Class<T> beanClass;
     
-    
-   
-
-    public BeanFactory() {
+    public BeanFactory( Class<T> beanClass) {
+        this.filtres = new HashMap<String, Object>();
+        
         this.entityFields = new EntityField<T>();
+        this.beanClass = beanClass;
+        this.getEntityFields().generateFields( beanClass );
+    }
+    
+    public BeanFactory() {
+        this.filtres = new HashMap<String, Object>();
     }
 
     public abstract T create( HttpServletRequest request );
-    
+
     public boolean validate( T bean ) {
         boolean result = true;
         if ( bean != null ) {
@@ -38,20 +44,20 @@ public abstract class BeanFactory<T> {
             validateChilds( bean );
 
             if ( !this.erreurs.isEmpty() ) {
-            	System.out.println("list of errors not empty");
-            	
+                System.out.println( "list of errors not empty" );
+
                 for ( ArrayList<String> err : this.erreurs.values() ) {
-                 //TODO pas sur a 100% de ce test
-                    if(!err.isEmpty()) {
+                    // TODO pas sur a 100% de ce test
+                    if ( !err.isEmpty() ) {
                         result = result && err.get( 0 ).equals( "{}" );
                     }
-                    
-                    
+
                 }
             }
-            System.out.println( this.getClass().getSimpleName()+"is valid ? :"+( this.erreurs.isEmpty() || result ));
+            System.out
+                    .println( this.getClass().getSimpleName() + "is valid ? :" + ( this.erreurs.isEmpty() || result ) );
             return ( this.erreurs.isEmpty() || result );
-        }else {
+        } else {
             this.erreurs = new HashMap<String, ArrayList<String>>();
         }
 
@@ -75,24 +81,24 @@ public abstract class BeanFactory<T> {
 
         return new ArrayList<String>();
     }
-  
-        
+
     public void addErreurs( String champ, ArrayList<String> erreurs ) {
-     
-        addErreurs( champ, (String[])erreurs.toArray());
+
+        addErreurs( champ, (String[]) erreurs.toArray() );
     }
-    public void addErreurs(String champ,String... erreurs) {
-       
-        if(erreurs.length!=0) {
+
+    public void addErreurs( String champ, String... erreurs ) {
+
+        if ( erreurs.length != 0 ) {
             if ( this.erreurs.containsKey( champ ) ) {
-                //System.out.println( "Ajout de l'erreur" );
-                this.erreurs.get( champ ).addAll(Arrays.asList(erreurs ));
+                // System.out.println( "Ajout de l'erreur" );
+                this.erreurs.get( champ ).addAll( Arrays.asList( erreurs ) );
             } else {
-                //System.out.println( "Creation de l'erreur" );
-                this.erreurs.put( champ, new ArrayList<String>(Arrays.asList(erreurs )));
+                // System.out.println( "Creation de l'erreur" );
+                this.erreurs.put( champ, new ArrayList<String>( Arrays.asList( erreurs ) ) );
             }
         }
-       
+
     }
 
     public Image readImage( HttpServletRequest request, String PARAM_IMAGE ) {
@@ -101,21 +107,20 @@ public abstract class BeanFactory<T> {
         Image img = null;
         try {
             in = request.getPart( PARAM_IMAGE ).getInputStream();
-         
+
             int length;
             byte[] buffer = new byte[1024];
-          
 
-            if ( in != null  && !request.getPart( PARAM_IMAGE ).getSubmittedFileName().isEmpty()) {
+            if ( in != null && !request.getPart( PARAM_IMAGE ).getSubmittedFileName().isEmpty() ) {
                 img = new Image();
                 while ( ( length = in.read( buffer ) ) != -1 )
                     out.write( buffer, 0, length );
-            
+
                 img.setTitre( request.getPart( PARAM_IMAGE ).getSubmittedFileName() );
                 img.setBinary( out.toByteArray() );
                 System.out.println( "IMG readed " + img.getTitre() );
             }
-               
+
         } catch ( IOException e ) {
             // TODO Auto-generated catch block
 
@@ -127,17 +132,16 @@ public abstract class BeanFactory<T> {
         return img;
     }
 
-    
     public boolean uniqueSave( BeanManager<T> em, T bean, Object id, String PARAM_ID ) {
 
         if ( em.ajouterUnique( bean, id ) ) {
-           System.out.println( "Bean "+id+" added" );
+            System.out.println( "Bean " + id + " added" );
             return true;
         } else {
-            System.out.println( "Bean "+id+" error unique" );
-            System.out.println( "PARAM ID  : "+ PARAM_ID );
-           
-            this.addErreurs(PARAM_ID, MSG_ERREUR_ID_NON_UNIQUE );
+            System.out.println( "Bean " + id + " error unique" );
+            System.out.println( "PARAM ID  : " + PARAM_ID );
+
+            this.addErreurs( PARAM_ID, MSG_ERREUR_ID_NON_UNIQUE );
         }
 
         return false;
@@ -156,11 +160,33 @@ public abstract class BeanFactory<T> {
     };
 
     public abstract void updateChange( T newB, T old );
-    
-    
-    public EntityField<T> getEntityFields() {
+
+    public EntityField<T> getEntityFields() {   
         return entityFields;
     }
     
-   
+    public Map<String,String> fieldName() {
+        return getEntityFields().fieldsNames();
+    }
+
+    public Map<String, Object> getFiltres() {
+        return filtres;
+    }
+    
+    public void addFiltre(String field , Object value) {
+         addFiltre(field,"", value );
+    }
+    
+    public void addFiltre(String field ,String subField,Object value) {
+        if(field!="" && value!=null) {
+            if(subField!="") {
+                this.filtres.put(field+"."+subField, value );
+            }else {
+                this.filtres.put(field, value );
+            }
+            
+        }
+    }
+    
+    
 }

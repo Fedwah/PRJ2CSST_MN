@@ -3,14 +3,13 @@ package beans.session.general;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 
 import beans.entities.vehicules.Modele;
-
-
 
 public abstract class BeanManager<T> {
 
@@ -25,7 +24,8 @@ public abstract class BeanManager<T> {
     }
 
     public abstract EntityManager getEntityManger();
-    //inserer � la base de donn�es
+
+    // inserer � la base de donn�es
     public boolean ajouter( T bean ) {
         try {
 
@@ -38,6 +38,7 @@ public abstract class BeanManager<T> {
         }
 
     }
+
     // inserer si l'objet n'existe pas d�j�
     public boolean ajouterUnique( T bean, Object id ) {
         if ( trouver( id ) == null ) {
@@ -47,6 +48,7 @@ public abstract class BeanManager<T> {
         return false;
 
     }
+
     // supprimer
     public boolean supprimer( T bean ) {
         try {
@@ -59,26 +61,19 @@ public abstract class BeanManager<T> {
         }
     }
 
-    
     public List<T> lister( int debut, int nb ) {
         return this.getEntityManger().createQuery( "SELECT b from " + beanClass.getName() + " b" )
                 .setFirstResult( debut ).setMaxResults( nb ).getResultList();
     }
-    
+
     public List<T> lister() {
         return this.getEntityManger().createQuery( "SELECT b from " + beanClass.getName() + " b" ).getResultList();
     }
-  
-    public List<T> lister(Map<String, String> fields){
-        String where ="";
-        for ( Map.Entry<String, String> param : fields.entrySet() ) {
-            where.concat( param.getKey() + "LIKE %:" + param.getKey()+"%" );
-            this.getEntityManger().setProperty( param.getKey(), param.getValue());
-        }
-        
-        return this.getEntityManger().createQuery( "SELCET b FROM " + beanClass.getName() + " b where " + where )
-                .getResultList();
+
+    public List<T> lister( Map<String, Object> fields ) {
+        return this.QuerryBuilder( fields, true ).getResultList();
     }
+
     public T trouver( Object id ) {
         T bean = null;
         try {
@@ -95,52 +90,17 @@ public abstract class BeanManager<T> {
 
     public T trouver( Class classToFind, Object idOfClass ) {
         try {
-            return (T)this.getEntityManger().find( classToFind, idOfClass );
+            return (T) this.getEntityManger().find( classToFind, idOfClass );
         } catch ( EntityNotFoundException e ) {
             System.out.println( "Erreur trouver :" + e.getMessage() );
             return null;
         }
     }
-    
 
-   /* public T trouver( Map<String, String[]> fields ) {
-        String where = "";
-
-        for ( Map.Entry<String, String[]> param : fields.entrySet() ) {
-            where.concat( param.getKey() + "= :" + param.getKey() );
-            this.getEntityManger().setProperty( param.getKey(), param.getValue()[0] );
-        }
-
-        return (T) this.getEntityManger().createQuery( "SELCET b FROM " + beanClass.getName() + " b where " + where )
-                .getSingleResult();
-    }*/
     public T trouver( Map<String, Object> fields ) {
     	
-    	
-    	String qr = "";
-    	
-        Iterator iterator = fields.entrySet().iterator();
-		while(iterator.hasNext())
-		{
-			Map.Entry mapentry = (Map.Entry) iterator.next();
-			qr = qr + " b." + mapentry.getKey() + "= :" + mapentry.getKey();
-			System.out.println(mapentry.getValue());
-			if(iterator.hasNext())
-			{
-				qr = qr + " and " ;
-			}
-		}
-		
-		System.out.println(qr);
-		
-		Query query  = this.getEntityManger().createQuery("SELECT b FROM " + beanClass.getName() + " b where" + qr);
-		for (Map.Entry mapentry : fields.entrySet()) {
-	          query.setParameter((String) mapentry.getKey(), mapentry.getValue());
-	           
-	    }
-    	return (T) query.getSingleResult() ;
-           	   	
-        
+    	return (T) this.QuerryBuilder( fields, true ).getSingleResult() ;
+          
     }
 
     public boolean trouverSupprimer( Object id ) {
@@ -154,24 +114,26 @@ public abstract class BeanManager<T> {
         return false;
     }
 
-    
     /**
      * // mise � jour dans la base de donn�e
-     * @param id identifiant de la classe
-     * @param beanF classe bean factory
-     * @param newBean nouvelle classe � ins�rer
+     * 
+     * @param id
+     *            identifiant de la classe
+     * @param beanF
+     *            classe bean factory
+     * @param newBean
+     *            nouvelle classe � ins�rer
      * @return booleen : true si la modification a �t� faite, false si echec
-     *    
+     * 
      */
     public boolean mettreAJour( Object id, BeanFactory<T> beanF, T newBean ) {
         T bean = trouver( id );
-        if(bean != null)
-        	{
-        	beanF.updateChange( newBean, bean );
-        	return true;
-        	}
+        if ( bean != null ) {
+            beanF.updateChange( newBean, bean );
+            return true;
+        }
         return false;
-        
+
     }
 
     public T ObtenirRefrence( Object id ) {
@@ -194,6 +156,32 @@ public abstract class BeanManager<T> {
         }
 
     }
-    
+
+    private Query QuerryBuilder(Map<String, Object> fields ,boolean and) {
+        
+        String qr = "";
+        
+        Iterator<Map.Entry<String, Object>> iterator = fields.entrySet().iterator();
+        while(iterator.hasNext())
+        {
+            Map.Entry<String, Object> mapentry =  iterator.next();
+            qr = qr + " b." + mapentry.getKey() + "= :" + mapentry.getKey();
+            System.out.println(mapentry.getValue());
+            if(iterator.hasNext())
+            {
+                qr = qr + (and?" and " :" or ") ;
+            }
+        }
+        
+        System.out.println(qr);
+        
+        Query query  = this.getEntityManger().createQuery("SELECT b FROM " + beanClass.getName() + " b"+ (qr!=""?" where" + qr:""));
+        for (Map.Entry<String, Object> mapentry : fields.entrySet()) {
+              query.setParameter((String) mapentry.getKey(), mapentry.getValue());
+               
+        }
+        
+        return query;
+    }
 
 }

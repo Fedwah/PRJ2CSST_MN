@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,12 +48,14 @@ import beans.session.vehicules.marques.MarqueManager;
 public class ListerVehicules extends HttpServlet {
   
     
+    private static final String ATT_FIELD = "field";
+    private static final String ATT_SEARCH = "search";
     private static final String ATT_FILTRE_MARQUES = "filtre_marques";
     private static final String ATT_FIELDS = "fields";
     private static final String ATT_VEHICULES = "vehicules";
     private static final String TITRE_VUE        = "La Liste des vehicules";
 	private static final long serialVersionUID = 1L;
-       
+    
 	@EJB
 	private VehiculesManager vm;
 	
@@ -72,12 +76,12 @@ public class ListerVehicules extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_LIST, TITRE_VUE );
 		
-	    VehiculeFactory vf = new VehiculeFactory();
-        vf.getEntityFields().generateFields( Vehicule.class );
-        System.out.println("les fields : "+vf.getEntityFields().filedsLabels().toString());
+	    VehiculeFactory vf = new VehiculeFactory(Vehicule.class);
+	    
         
-		request.setAttribute( ATT_VEHICULES, vm.lister());
-		request.setAttribute( ATT_FIELDS, VehiculeFactory.FIELDS);
+ 
+		request.setAttribute( ATT_VEHICULES, vm.lister());	
+		request.setAttribute( ATT_FIELDS, vf.getEntityFields().filedsLabels());
 		request.setAttribute( ATT_FILTRE_MARQUES,marM.lister());
 		pg.generate( getServletContext(), request, response );
 	}
@@ -86,14 +90,38 @@ public class ListerVehicules extends HttpServlet {
 	protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
 	    PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_LIST, TITRE_VUE );
         
-	    String search = request.getParameter( "search" );
-	    String field = request.getParameter( "field" );
+	    String search = request.getParameter( ATT_SEARCH );
+	    String field = request.getParameter( ATT_FIELD );
 	    
-	    VehiculeFactory vf = new VehiculeFactory();
-	    vf.getEntityFields().generateFields( Vehicule.class );
-        System.out.println("les fields : "+vf.getEntityFields());
-	    request.setAttribute( ATT_VEHICULES, vm.lister());
-        request.setAttribute( ATT_FIELDS, VehiculeFactory.FIELDS);
+	    VehiculeFactory vf = new VehiculeFactory(Vehicule.class);
+	    
+	    
+	    
+	    if(!search.isEmpty()) {
+	        
+	        Class<?> c;
+            try {
+                c = Class.forName(vf.getEntityFields().fieldsClasses().get( field ) );
+                Constructor<?> cons = c.getConstructor(String.class);
+                Object object = cons.newInstance(search);
+                System.out.println( "Filtrer "+field+" avec "+search);
+               
+                vf.addFiltre(field,object );
+            } catch ( Exception e ) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } 
+	       
+	        
+	        
+	    }
+	    
+	   
+    
+	    request.setAttribute( ATT_VEHICULES, vm.lister(vf.getFiltres()));
+        request.setAttribute( ATT_FIELDS, vf.getEntityFields().filedsLabels());
+        request.setAttribute( ATT_SEARCH, search );
+        request.setAttribute( ATT_FIELD, field );
         request.setAttribute( ATT_FILTRE_MARQUES,marM.lister());
         pg.generate( getServletContext(), request, response );
 	

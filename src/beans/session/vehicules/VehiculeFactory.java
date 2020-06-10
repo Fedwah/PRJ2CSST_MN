@@ -31,14 +31,17 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
     public static final String PARAM_MARQUE              = "marque";
     public static final String PARAM_CATEGORIES_VEHICULE = "categorie";
     
-    public static final String[] FIELDS = {"Matricule","Etat","Date achat","Modele","Marque","Categorie"};
+    
     
     public static final String VUE_FORM                  = "/WEB-INF/vues/vehicules/vehicules.form.jsp";
     public static final String VUE_LIST                  = "/WEB-INF/vues/vehicules/vehicules.list.jsp";
     public static final String DEFAULT_REDIRECT_URL      = "/Vehicules";
 
-    public VehiculeFactory() {
+   
 
+    public VehiculeFactory( Class<Vehicule> beanClass ) {
+        super( beanClass );
+        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -91,7 +94,7 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
         old.setModel( newB.getModele() );
         old.setCategorie( newB.getCategorie() );
         
-        if ( newB.getPhoto().getTitre() != null ) {
+        if ( newB.getPhoto() != null ) {
             old.setPhoto( newB.getPhoto() );
         }
 

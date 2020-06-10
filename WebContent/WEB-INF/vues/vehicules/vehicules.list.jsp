@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="container-fluid p-3">
 	<div class="">
-		<h1 class="display-4 text-success">Liste des vehicules</h1>
+		<h1 class="display-4 text-success">${title}</h1>
 		<nav class="nav justify-content-end mb-2">
 			<a class="btn btn-outline-success"
 				href='<c:url value="/Vehicules/edit/"/>'>Ajouter un vehicule</a> <a
@@ -15,22 +15,23 @@
 		</nav>
 	</div>
 	<div>
-		<form class="" metho="post" action="/">
+		<form class="" method="post" action="">
 			<div class="form-row">
 				<div class="form-group mt-3 col-md-4">
 					<input type="text" class="form-control" id="search" name="search"
-						placeholder="search">
+						 ${empty search ?'placeholder="search"':'value='}"${search}">
 				</div>
 				<div class="form-group mt-3 col-md-2">
 					<select id="field" class="form-control" required="required"
 						name="field">
+						
 						<c:forEach items="${fields}" var="f">
-							<option>${f}</option>
+							<option value="${f.key}" ${f.key==field ?'selected':''}>${f.value}</option>
 						</c:forEach>
 					</select>
 				</div>
 				<div class="form-group mt-3 col-md-2">
-					<select id="filtre_marques" class="form-control" 
+					<select id="filtre_marques" class="form-control"
 						name="filtre_marques">
 						<option value="">Toutes les marques</option>
 						<c:forEach items="${filtre_marques}" var="m">
@@ -38,9 +39,9 @@
 						</c:forEach>
 					</select>
 				</div>
-				
+
 				<div class="form-group mt-3 col-md-2">
-					<select id="filtre_regions" class="form-control" 
+					<select id="filtre_regions" class="form-control"
 						name="filtre_regions">
 						<option value="">Toutes les regions</option>
 						<c:forEach items="${filtre_regions}" var="r">
@@ -48,7 +49,10 @@
 						</c:forEach>
 					</select>
 				</div>
-				<button type="submit" class="btn btn-light rounded-circle m-auto"><img height="30px" width="30px" src='<c:url value="/public/img/icon/search_green_nobackground.png"/>' /></button>
+				<button type="submit" class="btn btn-light rounded-circle m-auto">
+					<img height="20px" width="20px"
+						src='<c:url value="/public/img/icon/search_green_nobackground.png"/>' />
+				</button>
 			</div>
 		</form>
 	</div>
@@ -74,10 +78,13 @@
 					<td>${vehicule.date_achat}</td>
 					<td>${vehicule.etat.titre}</td>
 					<td><a class="btn btn-outline-primary"
-						href='<c:url value="/Vehicules/edit/${vehicule.num_immatriculation}"/>'><img  width="15px" height="15px"  src="<c:url value='/public/img/icon/edit_green.png'/>"/></a>
-						<a class="btn btn-outline-danger "
-						href='<c:url value="/Vehicules/remove/${vehicule.num_immatriculation}"/>'><img  width="15px" height="15px"  src="<c:url value='/public/img/icon/delete_green.png'/>"/></a>
-					</td>
+						href='<c:url value="/Vehicules/edit/${vehicule.num_immatriculation}"/>'><img
+							width="15px" height="15px"
+							src="<c:url value='/public/img/icon/edit_green.png'/>" /></a> <a
+						class="btn btn-outline-danger "
+						href='<c:url value="/Vehicules/remove/${vehicule.num_immatriculation}"/>'><img
+							width="15px" height="15px"
+							src="<c:url value='/public/img/icon/delete_green.png'/>" /></a></td>
 				</tr>
 			</c:forEach>
 		</tbody>

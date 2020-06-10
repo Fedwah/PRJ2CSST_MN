@@ -42,7 +42,7 @@ public class VehiculesManager  extends BeanManager<Vehicule>{
             newBean.setModel((Modele)ObtenirRefence( Modele.class, newBean.getModele().getId()));
            
             //Remettre l'ancienne photo , si pas de nouveau
-            if(newBean.getPhoto().getTitre()==null) {
+            if(newBean.getPhoto()==null) {
                 newBean.setPhoto( v.getPhoto() );
             }
                  
