@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
@@ -23,6 +24,7 @@ public class Marque implements Serializable {
     private String titre;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = true)
     private Image image;
    
     

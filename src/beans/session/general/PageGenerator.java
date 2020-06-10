@@ -44,7 +44,7 @@ public class PageGenerator {
         this.pageWrapperJSP = PAGE_WRAPPER;
     }
     
-    
+   
     
 
     public PageGenerator( String pageWrapperJSP, String vueJSP, String pageTitle, String redirectURL ) {
@@ -91,5 +91,9 @@ public class PageGenerator {
     
     public void setRedirectURL( String redirectURL ) {
         this.redirectURL = redirectURL;
+    }
+    
+    public void setPageTitle( String pageTitle ) {
+        this.pageTitle = pageTitle;
     }
 }

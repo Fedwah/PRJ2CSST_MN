@@ -25,8 +25,8 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
     
     public static final String PARAM_ETAT                = "etat";
     public static final String PARAM_PHOTO               = "photo";
-    public static final String PARAM_DATE_ACHAT          = "dateAchat";
-    public static final String PARAM_NUM_IMMATRICULATION = "numImmatriculation";
+    public static final String PARAM_DATE_ACHAT          = "date_achat";
+    public static final String PARAM_NUM_IMMATRICULATION = "num_immatriculation";
     public static final String PARAM_MODELE              = "modele";
     public static final String PARAM_MARQUE              = "marque";
     public static final String PARAM_CATEGORIES_VEHICULE = "categorie";

@@ -12,8 +12,19 @@
 				<div class="card mb-1">
 					<div class="row no-gutters">
 						<div class="col-md-2 my-auto ">
-							<img src='<c:url value="/Images/${marque.image.titre}" />'
-								class="img-fluid text-center " alt="..." width="75" height="75">
+							<c:choose>
+								<c:when test="${marque.image!=null}">
+									<img id="preview"
+										class="img-fluid rounded shadow-sm mx-auto d-block"
+										src='<c:url value="/Images/${marque.image.titre}"/>' height="75" width="75"/>
+								</c:when>
+								<c:otherwise>
+									<img id="preview"
+										class="img-fluid rounded shadow-sm mx-auto d-block"
+										src='<c:url value="/public/img/notfound.png" />' height="75" width="75"/>
+								</c:otherwise>
+							</c:choose>
+
 						</div>
 						<div class="">
 							<div class="card-body">
@@ -22,9 +33,10 @@
 								</h5>
 								<div class="row">
 									<a href='<c:url value="/Marques/edit/${marque.titre}"/>'
-										class="btn btn-sm btn-outline-primary btn-block">Editer</a> 
-									<a href='<c:url value="/Marques/Modeles/${marque.titre}"/>'
-										class="btn btn-sm btn-outline-secondary btn-block">Voir ces modeles</a>
+										class="btn btn-sm btn-outline-primary btn-block">Editer</a> <a
+										href='<c:url value="/Marques/Modeles/${marque.titre}"/>'
+										class="btn btn-sm btn-outline-secondary btn-block">Voir
+										ces modeles</a>
 								</div>
 
 							</div>

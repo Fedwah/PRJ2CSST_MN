@@ -128,6 +128,7 @@ public class EditVehicules extends HttpServlet {
 
         if ( vehiculeF.validate( new_v ) ) {
                 if ( old_v == null ) {
+                   
                     // Creation
                     if ( vehiculeF.uniqueSave(vehM, new_v, new_v.getNum_immatriculation(),
                             VehiculeFactory.PARAM_NUM_IMMATRICULATION ) ) {

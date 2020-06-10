@@ -57,7 +57,9 @@ public class CreationEtListeModele extends HttpServlet {
 	    if ( request.getPathInfo() != null ) {
             id = request.getPathInfo().substring( 1 );
         }
+	    
 	    pg = new PageGenerator( ModeleFactory.VUE_LIST_FORM,TITRE_VUE+id,ModeleFactory.DEFAULT_REDIRECT_URL);
+	    
 	    if(id!="") {
 	        marque = marM.trouver(id);
 	    }
@@ -85,16 +87,21 @@ public class CreationEtListeModele extends HttpServlet {
 	    
       
         
-        pg = new PageGenerator( ModeleFactory.VUE_LIST_FORM, TITRE_VUE+id);
-        id = pg.getPathId( request );
         
+	    pg = new PageGenerator( ModeleFactory.VUE_LIST_FORM, TITRE_VUE+id);
+        id = pg.getPathId( request );
+        pg.setPageTitle( TITRE_VUE+id );
+        
+    
         if(id!="") {
             marque = marM.trouver(id);
         }
        
+        
         if(marque!=null) {
-            System.out.println( "Modele lue : "+ modele.getTitre());
+            System.out.println( "Modele lue : "+ modele.getTitre()+" et la marque : "+marque.getTitre());
             modele.setMarque( marque );
+            
             if( modF.validate( modele )) {
                 modM.ajouter( modele );
             }
