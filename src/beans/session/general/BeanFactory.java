@@ -43,7 +43,6 @@ public abstract class BeanFactory<T> {
                 for ( ArrayList<String> err : this.erreurs.values() ) {
                  //TODO pas sur a 100% de ce test
                     if(!err.isEmpty()) {
-                        System.out.println( "childs error empty : "+err.get( 0 )+" ? : "+ err.get( 0 ).equals( "{}" ) );
                         result = result && err.get( 0 ).equals( "{}" );
                     }
                     
@@ -102,19 +101,21 @@ public abstract class BeanFactory<T> {
         Image img = null;
         try {
             in = request.getPart( PARAM_IMAGE ).getInputStream();
-            img = new Image();
-            img.setTitre( request.getPart( PARAM_IMAGE ).getSubmittedFileName() );
-
+         
             int length;
             byte[] buffer = new byte[1024];
-            while ( ( length = in.read( buffer ) ) != -1 )
-                out.write( buffer, 0, length );
+          
 
-            System.out.println( "IMG readed " + img.getTitre() );
-
-            if ( in != null )
+            if ( in != null  && !request.getPart( PARAM_IMAGE ).getSubmittedFileName().isEmpty()) {
+                img = new Image();
+                while ( ( length = in.read( buffer ) ) != -1 )
+                    out.write( buffer, 0, length );
+            
+                img.setTitre( request.getPart( PARAM_IMAGE ).getSubmittedFileName() );
                 img.setBinary( out.toByteArray() );
-
+                System.out.println( "IMG readed " + img.getTitre() );
+            }
+               
         } catch ( IOException e ) {
             // TODO Auto-generated catch block
 

@@ -59,7 +59,7 @@ public class CreationMarques extends HttpServlet {
         MarqueFactory mf = new MarqueFactory();
         Marque m = mf.create( request );
         
-        System.out.println( "IMAGE ID "+m.getImage().getTitre() );
+        //System.out.println( "IMAGE ID "+m.getImage().getTitre() );
         
         if(mf.validate( m )){
             mf.uniqueSave( db, m, m.getTitre(),MarqueFactory.PARAM_TITRE);

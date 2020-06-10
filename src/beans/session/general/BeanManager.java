@@ -118,6 +118,7 @@ public abstract class BeanManager<T> {
     	
     	
     	String qr = "";
+    	
         Iterator iterator = fields.entrySet().iterator();
 		while(iterator.hasNext())
 		{
@@ -129,12 +130,14 @@ public abstract class BeanManager<T> {
 				qr = qr + " and " ;
 			}
 		}
+		
 		System.out.println(qr);
+		
 		Query query  = this.getEntityManger().createQuery("SELECT b FROM " + beanClass.getName() + " b where" + qr);
 		for (Map.Entry mapentry : fields.entrySet()) {
 	          query.setParameter((String) mapentry.getKey(), mapentry.getValue());
 	           
-	        }
+	    }
     	return (T) query.getSingleResult() ;
            	   	
         

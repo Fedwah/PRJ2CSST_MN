@@ -39,6 +39,7 @@ public class ModeleFactory extends BeanFactory<Modele> {
         // TODO Auto-generated method stub
         //Pas de propietie fils complex (manyToOne ou autre) 
     }
+    
     public Modele filtrer(HttpServletRequest request, ModeleManager em)
     {
     	String mark = request.getParameter("marque");	

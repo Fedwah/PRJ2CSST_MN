@@ -6,7 +6,7 @@
 	<form class="p-4 needs-validation " method="post"
 		action="<c:out value=""/>" novalidate enctype="multipart/form-data">
 
-		<!-- ${ erreurs } <!-- pour tester -->
+		${ erreurs } <!-- pour tester -->
 
 		<div class="form-row">
 			<div class="form-group col-md-9">
@@ -15,7 +15,7 @@
 					<label for="num_immatriculation">Numero d'immatriculation</label> <input
 						type="text"
 						class='form-control ${empty erreurs["num_immatriculation"]?"":"is-invalid"} '
-						id="num_immatriculation" name="numImmatriculation"
+						id="num_immatriculation" name="num_immatriculation"
 						value="<c:out value="${vehicule.num_immatriculation}" />"
 						${disabled_id? 'disabled':''}>
 					<c:if test="${disabled_id}">
@@ -93,7 +93,7 @@
 					<div class="form-group col-md-6">
 						<label for="date_achat">Date d'achat</label> <input type="date"
 							class="form-control ${empty erreurs['date_achat']?'':'is-invalid'} "
-							id="date_achat" required="required" name="dateAchat"
+							id="date_achat" required="required" name="date_achat"
 							value="<c:out value="${vehicule.date_achat}"/>">
 						<div class="invalid-feedback">
 							<c:forEach items='${erreurs["date_achat"]}' var="err">
@@ -124,11 +124,16 @@
 
 
 			<div class="form-group col-md-3">
-				<label for="photo">Photo du vehicule</label> <img id="preview"
-					class="img-fluid rounded shadow-sm mx-auto d-block"
-					src='<c:url value="${empty vehicule.photo.titre?'/public/img/notfound.png':'/Images/'}${vehicule.photo.titre}" />'
-					width="200" />
-
+				<label for="photo">Photo du vehicule</label> 
+				
+				<c:choose>
+					<c:when test="${vehicule.photo!=null}">
+						<img id="preview" class="img-fluid rounded shadow-sm mx-auto d-block" src='<c:url value="/Images/${vehicule.photo.titre}"/>'/>
+					</c:when>
+					<c:otherwise>
+						<img id="preview" class="img-fluid rounded shadow-sm mx-auto d-block" src='<c:url value="/public/img/notfound.png" />'/>
+					</c:otherwise>
+				</c:choose>
 				<div class="custom-file">
 					<input id="photo" name="photo" type="file"
 						class="custom-file-input"> <label

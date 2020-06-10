@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -36,6 +37,7 @@ public class Vehicule implements Serializable {
     @ManyToOne
     private Modele modele;
     
+   
     @NotNull
     @ManyToOne
     private Marque marque;
@@ -50,8 +52,9 @@ public class Vehicule implements Serializable {
     @Temporal(value=TemporalType.DATE)
     private Date date_achat;  
    
-    @NotNull
+   
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = true)
     private Image photo;
     
     
