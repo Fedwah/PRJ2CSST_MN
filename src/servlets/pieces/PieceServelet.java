@@ -3,6 +3,8 @@ package servlets.pieces;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -19,6 +21,7 @@ import beans.session.pieces.PieceFactory;
 import beans.session.pieces.PieceManager;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.marques.MarqueManager;
+import beans.session.vehicules.marques.modeles.ModeleFactory;
 import beans.session.vehicules.marques.modeles.ModeleManager;
 
 /**
@@ -35,6 +38,7 @@ public class PieceServelet extends HttpServlet {
 	private ModeleManager modManager;
 	private static final String Piece_Vue = "/WEB-INF/vues/piece/addPiece.jsp"; 
 	private static final String REDIRECT = "/pieces"; 
+	private boolean edit = false;
 	private Piece p = null;
        
     /**
@@ -59,15 +63,18 @@ public class PieceServelet extends HttpServlet {
 		{
 			p = (Piece) em.trouver(id);
 			
-			if(p != null)
+			if(p != null) // cas d'edition
 			{
 				request.setAttribute( "piece", p );
 				request.setAttribute( "disabled_id", true );
+				edit = true;
 			
 			}
 			else {
 				System.out.println("p est null");
 				request.setAttribute( "disabled_id", false );
+				edit = false ;
+				
 			}
 		}
 		request.setAttribute( "marques", mManager.lister( 0, 10 ) );
@@ -80,15 +87,18 @@ public class PieceServelet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		PageGenerator pg = new PageGenerator(Piece_Vue, "Piece", REDIRECT);
 		PieceFactory pf = new PieceFactory();
 		String code = request.getParameter("codepiece");
-		boolean insert = false ;
-		if (p!= null) // si on est entrain d'editer
+		// chercher le modele dans la base de données
+		ModeleFactory modF = new ModeleFactory();
+		Modele mod = modF.filtrer(request,modManager);
+		if (edit) // si on est entrain d'editer
 		{
 			Piece newP = pf.create(request);
 			newP.setId(p.getId());
+			newP.setModal(mod);
 			if(pf.validate(newP))
 			{
 				
@@ -101,19 +111,27 @@ public class PieceServelet extends HttpServlet {
 			}
 			else
 			{
+				
 				// champs incorects
-				System.out.println("champs non valide");//at this case only name of piece is empty
+				request.setAttribute("piece", newP);
+				request.setAttribute( "erreurs", pf.getErreurs() );
+				request.setAttribute( "disabled_id", true );
+				request.setAttribute( "marques", mManager.lister( 0, 10 ) );
+		        request.setAttribute( "modeles", modManager.lister( 0, 10 ) );	
+		        pg.generate( getServletContext(), request, response );
 			}
 			
 		}
 		else // cas d'addition
 		{
-			
+		
 			p = pf.create(request);
+			p.setModal(mod);
 			if(pf.validate(p))
 			{
 				// insertion dans la bdd
 				System.out.println("valide");
+				
 				if(em.ajouterUnique(p,code)) 
 				{
 					pg.redirect( getServletContext(), request, response );
@@ -129,7 +147,12 @@ public class PieceServelet extends HttpServlet {
 			}
 			else {
 				// champs incorects
-				System.out.println("non valide");// should get the error and show it the user
+				
+				request.setAttribute("piece", p);
+				request.setAttribute( "erreurs", pf.getErreurs() );
+				request.setAttribute( "marques", mManager.lister( 0, 10 ) );
+		        request.setAttribute( "modeles", modManager.lister( 0, 10 ) );	
+		        pg.generate( getServletContext(), request, response );
 
 			}
 			

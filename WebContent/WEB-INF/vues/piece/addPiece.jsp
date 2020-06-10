@@ -18,7 +18,10 @@
 						name= "codepiece" 
 						value="<c:out value="${piece.id}" />"
 						${disabled_id? 'disabled':''}
-						/>			
+						/>
+					 <c:forEach items='${erreurs["id"]}' var="errl">
+								<span class="badge badge-pill badge-danger">${errl}</span>
+					</c:forEach>			
 				</div>
 				<div class="form-group ">
 					<label for="nompiece">Nom de la piece</label> 
@@ -27,7 +30,10 @@
 						class='form-control'
 						name= "nom"
 						value="<c:out value="${piece.pieceName}" />" 
-					/>				
+					/>
+					<c:forEach items='${erreurs["pieceName"]}' var="errf">
+								<span class="badge badge-pill badge-danger">${errf}</span>
+					</c:forEach>				
 				</div>
 				<div class="form-row">
 					<div class="form-group col-md-6">

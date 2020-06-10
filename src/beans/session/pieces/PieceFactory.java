@@ -1,16 +1,22 @@
 package beans.session.pieces;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
 import beans.entities.pieces.Piece;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 import beans.session.general.BeanFactory;
+import beans.session.vehicules.marques.modeles.ModeleFactory;
+import beans.session.vehicules.marques.modeles.ModeleManager;
 
 public class PieceFactory extends BeanFactory<Piece> {
+
 
 	@Override
 	public Piece create(HttpServletRequest request) {
@@ -19,27 +25,10 @@ public class PieceFactory extends BeanFactory<Piece> {
 		String mark = request.getParameter("marque");	
 		Marque m = new Marque(mark);
 		String modal = request.getParameter("modele");
-		Modele mod = new Modele(modal);
+		Modele mod = new Modele(modal,m);
 		Piece p = new Piece(code,nom,m,mod);
 		return p;
-	}
-	public boolean validate( Piece bean ) {
-		//Map<String,ArrayList<String>> err = getErreurs();
-		boolean valide = true;
-		if(bean.getId().isEmpty())
-		{
-	
-			addErreurs("ID", "Empty ID");
-			valide = false;
-		}
-		if(bean.getPieceName().isEmpty())
-		{
-			
-			addErreurs("pieceName", "Empty Name");
-			valide = false;
-		}
-		return valide;		
-	}
+	}	
 
 	@Override
 	public void validateChilds(Piece bean) {

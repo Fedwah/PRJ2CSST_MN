@@ -1,10 +1,14 @@
 package beans.session.general;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+
+import beans.entities.vehicules.Modele;
 
 
 
@@ -99,7 +103,7 @@ public abstract class BeanManager<T> {
     }
     
 
-    public T trouver( Map<String, String[]> fields ) {
+   /* public T trouver( Map<String, String[]> fields ) {
         String where = "";
 
         for ( Map.Entry<String, String[]> param : fields.entrySet() ) {
@@ -109,6 +113,31 @@ public abstract class BeanManager<T> {
 
         return (T) this.getEntityManger().createQuery( "SELCET b FROM " + beanClass.getName() + " b where " + where )
                 .getSingleResult();
+    }*/
+    public T trouver( Map<String, Object> fields ) {
+    	
+    	
+    	String qr = "";
+        Iterator iterator = fields.entrySet().iterator();
+		while(iterator.hasNext())
+		{
+			Map.Entry mapentry = (Map.Entry) iterator.next();
+			qr = qr + " b." + mapentry.getKey() + "= :" + mapentry.getKey();
+			System.out.println(mapentry.getValue());
+			if(iterator.hasNext())
+			{
+				qr = qr + " and " ;
+			}
+		}
+		System.out.println(qr);
+		Query query  = this.getEntityManger().createQuery("SELECT b FROM " + beanClass.getName() + " b where" + qr);
+		for (Map.Entry mapentry : fields.entrySet()) {
+	          query.setParameter((String) mapentry.getKey(), mapentry.getValue());
+	           
+	        }
+    	return (T) query.getSingleResult() ;
+           	   	
+        
     }
 
     public boolean trouverSupprimer( Object id ) {

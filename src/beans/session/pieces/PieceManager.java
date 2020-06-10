@@ -30,4 +30,5 @@ public class PieceManager extends BeanManager<Piece> {
 		// TODO Auto-generated method stub
 		return em;
 	}
+
 }

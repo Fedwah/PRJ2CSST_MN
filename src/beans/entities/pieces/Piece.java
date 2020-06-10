@@ -20,6 +20,7 @@ public class Piece implements Serializable {
 @Size(min=1,max=10)
 private String id;
 @NotEmpty
+@Size(min=3,max=20)
 private String pieceName;
 @ManyToOne
 private Marque mark;

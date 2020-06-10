@@ -25,7 +25,14 @@ public class Modele {
     }
    
     
-    public Modele( Integer id ) {
+    public Modele(String titre, Marque marque) {
+		super();
+		this.titre = titre;
+		this.marque = marque;
+	}
+
+
+	public Modele( Integer id ) {
         super();
         this.id = id;
     }
