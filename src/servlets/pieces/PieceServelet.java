@@ -36,7 +36,7 @@ public class PieceServelet extends HttpServlet {
 	private MarqueManager mManager;
 	@EJB
 	private ModeleManager modManager;
-	private static final String Piece_Vue = "/WEB-INF/vues/piece/addPiece.jsp"; 
+	private static final String FORM = "/WEB-INF/vues/piece/addPiece.jsp"; 
 	private static final String REDIRECT = "/pieces"; 
 	private boolean edit = false;
 	private Piece p = null;
@@ -54,7 +54,7 @@ public class PieceServelet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		PageGenerator pg = new PageGenerator( Piece_Vue, "  ");
+		PageGenerator pg = new PageGenerator( FORM, "  ");
 		String id = "";
 		if ( request.getPathInfo() != null ) {
             id = request.getPathInfo().substring( 1 );
@@ -88,7 +88,7 @@ public class PieceServelet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		PageGenerator pg = new PageGenerator(Piece_Vue, "Piece", REDIRECT);
+		PageGenerator pg = new PageGenerator(FORM, "Piece", REDIRECT);
 		PieceFactory pf = new PieceFactory();
 		String code = request.getParameter("codepiece");
 		// chercher le modele dans la base de données
