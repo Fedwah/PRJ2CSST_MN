@@ -3,8 +3,11 @@ package beans.session.general;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import beans.entities.general.Image;
+import beans.session.general.fields.EntityFields;
 import beans.session.vehicules.marques.MarqueFactory;
 
 public abstract class BeanFactory<T> {
@@ -20,13 +24,13 @@ public abstract class BeanFactory<T> {
     private static final String            MSG_ERREUR_ID_NON_UNIQUE = "doit etre ounique";
     private Map<String, ArrayList<String>> erreurs;
     private Map<String, Object>            filtres;
-    private EntityField<T>                 entityFields;
+    private EntityFields<T>                 entityFields;
     private Class<T> beanClass;
     
     public BeanFactory( Class<T> beanClass) {
         this.filtres = new HashMap<String, Object>();
         
-        this.entityFields = new EntityField<T>();
+        this.entityFields = new EntityFields<T>();
         this.beanClass = beanClass;
         this.getEntityFields().generateFields( beanClass );
     }
@@ -132,6 +136,19 @@ public abstract class BeanFactory<T> {
         return img;
     }
 
+    public Date readDate(HttpServletRequest request, String PARAM_DATE) {
+       return this.readDate( request.getParameter( PARAM_DATE ) );
+    }
+    public Date readDate(String date) {
+        Date d = null;
+        try {
+            d = new SimpleDateFormat( "yyyy-MM-dd" ).parse( date );
+        } catch ( ParseException e ) {
+            // TODO Auto-generated catch block
+           System.err.println( "Format date invalide" );
+        }
+        return d;
+    }
     public boolean uniqueSave( BeanManager<T> em, T bean, Object id, String PARAM_ID ) {
 
         if ( em.ajouterUnique( bean, id ) ) {
@@ -161,12 +178,12 @@ public abstract class BeanFactory<T> {
 
     public abstract void updateChange( T newB, T old );
 
-    public EntityField<T> getEntityFields() {   
+    public EntityFields<T> getEntityFields() {   
         return entityFields;
     }
     
     public Map<String,String> fieldName() {
-        return getEntityFields().fieldsNames();
+        return getEntityFields().names();
     }
 
     public Map<String, Object> getFiltres() {
