@@ -25,7 +25,7 @@
 			<c:forEach items="${drivers}" var="dr">
 				<tr>
 					<th scope="row"><img class="img-fluid"
-						src='<c:url value="/Images/${dr.photo}" />' width="75" height="75" />
+						src='<c:url value="/Images/${dr.photo.titre}" />' width="75" height="75" />
 					</th>
 					<td>${dr.lastN}</td>
 					<td>${dr.firstN}</td>

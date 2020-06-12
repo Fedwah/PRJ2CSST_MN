@@ -50,9 +50,9 @@ public class unitesList extends HttpServlet {
 		if(id != "")
 		{
 			Map<String,Object> fields = new HashMap();
-			fields.put("region", regManager.trouver(id));
+			Region reg =  regManager.trouver(id);
 			request.setAttribute("code", id);
-			request.setAttribute( "unite", em.lister(fields));
+			request.setAttribute( "unite", reg.getUnites());
 			request.setAttribute( "fields", Unite.class.getDeclaredFields());
 			pg.generate( getServletContext(), request, response );
 		}
