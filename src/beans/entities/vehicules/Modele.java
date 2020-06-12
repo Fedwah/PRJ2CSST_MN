@@ -40,6 +40,12 @@ public class Modele {
         this.id = id;
     }
 
+	public Modele(String titre) {
+	    super();
+	    this.id = null;
+	    this.titre = titre;
+	    this.marque = null;
+	}
 
     public void setTitre( String titre ) {
         this.titre = titre;

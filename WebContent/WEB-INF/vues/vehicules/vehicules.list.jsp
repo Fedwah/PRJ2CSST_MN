@@ -21,25 +21,16 @@
 					<input type="text" class="form-control" id="search" name="search"
 						 ${empty search ?'placeholder="search"':'value='}"${search}">
 				</div>
-				<div class="form-group mt-3 col-md-2">
+				<div class="form-group mt-3 col-md-3">
 					<select id="field" class="form-control" required="required"
 						name="field">
 						
-						<c:forEach items="${fields}" var="f">
+						<c:forEach items="${filtres}" var="f">
 							<option value="${f.key}" ${f.key==field ?'selected':''}>${f.value}</option>
 						</c:forEach>
 					</select>
 				</div>
-				<div class="form-group mt-3 col-md-2">
-					<select id="filtre_marques" class="form-control"
-						name="filtre_marques">
-						<option value="">Toutes les marques</option>
-						<c:forEach items="${filtre_marques}" var="m">
-							<option value="m.titre">${m.titre}</option>
-						</c:forEach>
-					</select>
-				</div>
-
+				
 				<div class="form-group mt-3 col-md-2">
 					<select id="filtre_regions" class="form-control"
 						name="filtre_regions">

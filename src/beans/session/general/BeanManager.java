@@ -1,5 +1,6 @@
 package beans.session.general;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 
 import beans.entities.vehicules.Modele;
+import beans.session.general.fields.EntityFields;
+import beans.session.general.fields.FieldDefinition;
 
 public abstract class BeanManager<T> {
 
@@ -71,7 +74,9 @@ public abstract class BeanManager<T> {
     }
 
     public List<T> lister( Map<String, Object> fields ) {
+
         return this.QuerryBuilder( fields, true ).getResultList();
+
     }
 
     public T trouver( Object id ) {
@@ -98,9 +103,9 @@ public abstract class BeanManager<T> {
     }
 
     public T trouver( Map<String, Object> fields ) {
-    	
-    	return (T) this.QuerryBuilder( fields, true ).getSingleResult() ;
-          
+
+        return (T) this.QuerryBuilder( fields, true ).getSingleResult();
+
     }
 
     public boolean trouverSupprimer( Object id ) {
@@ -157,31 +162,89 @@ public abstract class BeanManager<T> {
 
     }
 
-    private Query QuerryBuilder(Map<String, Object> fields ,boolean and) {
+    private Query QuerryBuilder(Map<String, Object> values, boolean and ) {
         
-        String qr = "";
+        EntityFields<T> fields = new EntityFields<T>();
+        String where = "";
+        String join = "";
+        String q = null;
         
-        Iterator<Map.Entry<String, Object>> iterator = fields.entrySet().iterator();
-        while(iterator.hasNext())
-        {
-            Map.Entry<String, Object> mapentry =  iterator.next();
-            qr = qr + " b." + mapentry.getKey() + "= :" + mapentry.getKey();
-            System.out.println(mapentry.getValue());
-            if(iterator.hasNext())
-            {
-                qr = qr + (and?" and " :" or ") ;
-            }
-        }
         
-        System.out.println(qr);
+        fields.generateFields( this.beanClass );
+        System.out.println( "fields : " + fields.fields().toString() );
+        join = joinBuilder(fields,values);
         
-        Query query  = this.getEntityManger().createQuery("SELECT b FROM " + beanClass.getName() + " b"+ (qr!=""?" where" + qr:""));
-        for (Map.Entry<String, Object> mapentry : fields.entrySet()) {
-              query.setParameter((String) mapentry.getKey(), mapentry.getValue());
-               
+        where = whereBuilder(fields,values, and );
+        
+        q = "SELECT b FROM " + beanClass.getName() + " b" +
+                (join!=""?" JOIN "+ join:"")+ 
+                (where != "" ? " WHERE " + where : "" );
+        
+       
+        
+       
+        
+        Query query = this.getEntityManger().createQuery(q);
+        
+        System.out.println( "Query Build: "+ q );
+        
+        for ( Map.Entry<String, Object> mapentry : values.entrySet() ) {
+            query.setParameter( (String) fields.getValidName(( mapentry.getKey())), mapentry.getValue() );
         }
         
         return query;
     }
+
+    
+    private String joinBuilder( EntityFields<T> fields, Map<String,Object> values ) {
+        String j = "";
+        Iterator<Map.Entry<String, Object>> it = values.entrySet().iterator();
+        Map<String,FieldDefinition> map = fields.fields();
+        
+        
+        while ( it.hasNext() ) {
+            Map.Entry<String, Object> f = it.next();
+           
+            if(!map.get(fields.getValidName( f.getKey())).isBasicClass) {
+                j = j+"b."+f.getKey().substring( 0, f.getKey().indexOf( '.' ) )+" "+fields.getValidName(f.getKey());
+                if(it.hasNext()) {
+                    j = j+" , ";
+                }
+            }
+           
+        }
+      
+        return j;
+    }
+
+    private String whereBuilder(EntityFields<T> fields,Map<String, Object> values, boolean and) {
+        String qr = "";
+       
+        Iterator<Map.Entry<String, Object>> iterator = values.entrySet().iterator();
+        Map<String,FieldDefinition> map = fields.fields();
+        
+        
+        while ( iterator.hasNext() ) {
+            Map.Entry<String, Object> f = iterator.next();
+            
+            
+            if(map.get(fields.getValidName(f.getKey())).isBasicClass){
+                qr = qr + " b." + f.getKey() + " = :" + f.getKey();
+            }else {
+                qr = qr +f.getKey()+ " = :" + fields.getValidName(f.getKey());
+            }
+            
+            
+            if ( iterator.hasNext() ) {
+                qr = qr + ( and ? " and " : " or " );
+            }
+        }
+        
+        
+        
+        return qr;
+    }
+    
+   
 
 }

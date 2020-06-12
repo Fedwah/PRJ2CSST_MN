@@ -44,6 +44,7 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
         // TODO Auto-generated constructor stub
     }
 
+    
     @Override
     public Vehicule create( HttpServletRequest request ) {
 
@@ -64,29 +65,18 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
         v.setCategorie( categ );
 
         v.setNum_immatriculation( request.getParameter( PARAM_NUM_IMMATRICULATION ) );
-        
-        try {
-            v.setDate_achat( new SimpleDateFormat( "yyyy-MM-dd" ).parse( request.getParameter( PARAM_DATE_ACHAT ) ) );
-        } catch ( ParseException e ) {
-            // TODO Auto-generated catch block
-           System.err.println( "Format date invalide" );
-        }
+        v.setDate_achat( this.readDate( request, PARAM_DATE_ACHAT ) );
         v.setPhoto( this.readImage( request, PARAM_PHOTO ) );
 
         return v;
     }
-
+    
     @Override
     public void updateChange( Vehicule newB, Vehicule old ) {
 
         if ( newB.getDate_achat() != old.getDate_achat() ) {
-            try {
-                old.setDate_achat( new SimpleDateFormat( "yyyy-MM-dd" ).parse( newB.getDate_achat() ) );
-            } catch ( ParseException e ) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
+         
+            old.setDate_achat(this.readDate(newB.getDate_achat()));
         }
 
         old.setEtat( newB.getEtat() );
