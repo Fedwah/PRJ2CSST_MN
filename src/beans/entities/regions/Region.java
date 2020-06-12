@@ -27,6 +27,11 @@ public class Region implements Serializable {
 			this.codeReg = codeReg;
 			this.adress = adress;
 		}
+		
+		public Region(String codeReg) {
+			super();
+			this.codeReg = codeReg;
+		}
 		public String getCodeReg() {
 			return codeReg;
 		}

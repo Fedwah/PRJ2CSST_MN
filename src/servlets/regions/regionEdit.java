@@ -42,8 +42,7 @@ public class regionEdit extends HttpServlet {
 		PageGenerator pg = new PageGenerator( FORM, "  ");
 		String id = "";
 		if ( request.getPathInfo() != null ) {
-            id = request.getPathInfo().substring( 1 );
-            System.out.println("id est" + id);
+            id = request.getPathInfo().substring( 1 );          
         }
 		if(id != "")
 		{

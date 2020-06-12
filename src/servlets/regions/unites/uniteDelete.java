@@ -1,4 +1,4 @@
-package servlets.regions;
+package servlets.regions.unites;
 
 import java.io.IOException;
 
@@ -9,26 +9,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import beans.entities.pieces.Piece;
-import beans.entities.regions.Region;
+import beans.entities.regions.unites.Unite;
 import beans.session.general.PageGenerator;
 import beans.session.regions.RegionManager;
+import beans.session.regions.unites.UniteManager;
 
 /**
- * Servlet implementation class regionsLists
+ * Servlet implementation class uniteDelete
  */
-@WebServlet("/regions")
-public class regionsLists extends HttpServlet {
+@WebServlet("/regions/unites/remove/*")
+public class uniteDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String vueReg = "/WEB-INF/vues/regions/regionLists.jsp" ; 
-	private static final String title = "Liste des régions";
+	private static final String UNLIST =  "/regions/";
 	@EJB
-	private RegionManager em;
+	private UniteManager em;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public regionsLists() {
+    public uniteDelete() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,16 +36,21 @@ public class regionsLists extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PageGenerator pg = new PageGenerator(vueReg, title);
-		request.setAttribute( "region", em.lister());
-		request.setAttribute( "fields", Region.class.getDeclaredFields());
-		pg.generate( getServletContext(), request, response );
+		
+        String id = request.getPathInfo().substring( 1 );// id of element
+        Unite u = em.trouver(id);
+        PageGenerator pg = new PageGenerator(UNLIST+ u.getRegion().getCodeReg());
+        if ( em.supprimer(u)) // chercher l'element et le supprimer
+        {
+            pg.redirect( getServletContext(), request, response );
+        } 
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
