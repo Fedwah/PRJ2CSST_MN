@@ -44,6 +44,7 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
         // TODO Auto-generated constructor stub
     }
 
+    
     @Override
     public Vehicule create( HttpServletRequest request ) {
 
@@ -69,7 +70,7 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
 
         return v;
     }
-
+    
     @Override
     public void updateChange( Vehicule newB, Vehicule old ) {
 

@@ -94,7 +94,7 @@ public class EditVehicules extends HttpServlet {
         }
 
         request.setAttribute( ATT_VEHICULE, v );
-        request.setAttribute( ATT_NAMES, vehiculeF.getEntityFields().fieldsNames());
+        request.setAttribute( ATT_NAMES, vehiculeF.getEntityFields().names());
         request.setAttribute( ATT_MARQUES, marM.lister());
         request.setAttribute( ATT_MODELES, modM.lister());
         request.setAttribute( ATT_CATEGORIES_VEHICULE,categM.lister());
@@ -149,8 +149,8 @@ public class EditVehicules extends HttpServlet {
         }
         
       
-        request.setAttribute( ATT_LABELS,vehiculeF.getEntityFields().filedsLabels());
-        request.setAttribute( ATT_NAMES,vehiculeF.getEntityFields().fieldsNames());
+        request.setAttribute( ATT_LABELS,vehiculeF.getEntityFields().labels());
+        request.setAttribute( ATT_NAMES,vehiculeF.getEntityFields().names());
         request.setAttribute( ATT_VEHICULE, new_v );
         request.setAttribute( ATT_MARQUES, marM.lister() );
         request.setAttribute( ATT_MODELES, modM.lister() );

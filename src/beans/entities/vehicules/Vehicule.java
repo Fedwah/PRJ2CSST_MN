@@ -69,15 +69,20 @@ public class Vehicule implements Serializable {
     
 
     public Vehicule( String num_immatriculation, Modele modele, Marque marque, EtatVehicule etat, Date date_achat,
-            Image photo ) {
-        
+            Image photo, CategorieVehicule categorie ) {
+        super();
         this.num_immatriculation = num_immatriculation;
         this.modele = modele;
         this.marque = marque;
         this.etat = etat;
         this.date_achat = date_achat;
         this.photo = photo;
+        this.categorie = categorie;
     }
+
+
+
+   
 
 
 

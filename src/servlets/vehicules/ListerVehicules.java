@@ -44,6 +44,7 @@ import beans.session.vehicules.marques.MarqueManager;
 @WebServlet( "/Vehicules" )
 public class ListerVehicules extends HttpServlet {
 
+    private static final String ATT_FILTRES = "filtres";
     private static final String ATT_FIELD          = "field";
     private static final String ATT_SEARCH         = "search";
     private static final String ATT_FILTRE_MARQUES = "filtre_marques";
@@ -82,6 +83,7 @@ public class ListerVehicules extends HttpServlet {
         // modele.titre ='M-3' ").getResultList());
         request.setAttribute( ATT_VEHICULES, vm.lister() );
         request.setAttribute( ATT_FIELDS, vf.getEntityFields().labels() );
+        request.setAttribute( ATT_FILTRES, vf.getNamesToFilter() );
         request.setAttribute( ATT_FILTRE_MARQUES, marM.lister() );
         pg.generate( getServletContext(), request, response );
     }
@@ -100,23 +102,11 @@ public class ListerVehicules extends HttpServlet {
         if ( !search.isEmpty() ) {
 
             if ( vf.getEntityFields().fields().get( field ).isBasicClass ) {
-                
-                if ( vf.getEntityFields().fields().get( field ).class_.equals( "java.util.Date" )) {
-                    vf.addFiltre( field, vf.readDate( search ) );
-                } else {
-                    vf.addFiltre( field, search );
-                }
+                vf.addFiltre( field, search );
 
             } else {
                 vf.addFiltre( field, "titre", search );
             }
-
-            /*
-             * TODO automatiser create c =
-             * Class.forName(vf.getEntityFields().fields().get( field ).class_
-             * ); Constructor<?> cons = c.getConstructor(String.class); Object
-             * object = cons.newInstance(search);
-             */
 
         }
 
@@ -124,6 +114,7 @@ public class ListerVehicules extends HttpServlet {
 
         request.setAttribute( ATT_VEHICULES, vm.lister( vf.getFiltres() ) );
         request.setAttribute( ATT_FIELDS, vf.getEntityFields().labels() );
+        request.setAttribute( ATT_FILTRES, vf.getNamesToFilter() );
         request.setAttribute( ATT_SEARCH, search );
         request.setAttribute( ATT_FIELD, field );
         request.setAttribute( ATT_FILTRE_MARQUES, marM.lister() );
