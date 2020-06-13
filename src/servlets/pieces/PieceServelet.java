@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import beans.entities.pieces.Piece;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
+import beans.entities.vehicules.Vehicule;
 import beans.session.general.PageGenerator;
 import beans.session.pieces.PieceFactory;
 import beans.session.pieces.PieceManager;
@@ -56,6 +57,7 @@ public class PieceServelet extends HttpServlet {
 		// TODO Auto-generated method stub
 		PageGenerator pg = new PageGenerator( FORM, "  ");
 		String id = "";
+		PieceFactory pf = new PieceFactory(Piece.class);
 		if ( request.getPathInfo() != null ) {
             id = request.getPathInfo().substring( 1 );
         }
@@ -77,8 +79,8 @@ public class PieceServelet extends HttpServlet {
 				
 			}
 		}
-		request.setAttribute( "marques", mManager.lister( 0, 10 ) );
-        request.setAttribute( "modeles", modManager.lister( 0, 10 ) );		
+		request.setAttribute( "marques", mManager.lister() );
+        request.setAttribute( "modeles", modManager.lister() );		
 		pg.generate( getServletContext(), request, response );
 	
 	}
@@ -89,16 +91,12 @@ public class PieceServelet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		PageGenerator pg = new PageGenerator(FORM, "Piece", REDIRECT);
-		PieceFactory pf = new PieceFactory();
+		PieceFactory pf = new PieceFactory(Piece.class);
 		String code = request.getParameter("codepiece");
-		// chercher le modele dans la base de données
-		ModeleFactory modF = new ModeleFactory();
-		Modele mod = modF.filtrer(request,modManager);
 		if (edit) // si on est entrain d'editer
 		{
 			Piece newP = pf.create(request);
 			newP.setId(p.getId());
-			newP.setModal(mod);
 			if(pf.validate(newP))
 			{
 				
@@ -116,8 +114,8 @@ public class PieceServelet extends HttpServlet {
 				request.setAttribute("piece", newP);
 				request.setAttribute( "erreurs", pf.getErreurs() );
 				request.setAttribute( "disabled_id", true );
-				request.setAttribute( "marques", mManager.lister( 0, 10 ) );
-		        request.setAttribute( "modeles", modManager.lister( 0, 10 ) );	
+				request.setAttribute( "marques", mManager.lister() );
+		        request.setAttribute( "modeles", modManager.lister() );	
 		        pg.generate( getServletContext(), request, response );
 			}
 			
@@ -126,7 +124,6 @@ public class PieceServelet extends HttpServlet {
 		{
 		
 			p = pf.create(request);
-			p.setModal(mod);
 			if(pf.validate(p))
 			{
 				// insertion dans la bdd
@@ -150,8 +147,9 @@ public class PieceServelet extends HttpServlet {
 				
 				request.setAttribute("piece", p);
 				request.setAttribute( "erreurs", pf.getErreurs() );
-				request.setAttribute( "marques", mManager.lister( 0, 10 ) );
-		        request.setAttribute( "modeles", modManager.lister( 0, 10 ) );	
+				request.setAttribute( "marques", mManager.lister() );
+				request.setAttribute( "names", pf.getEntityFields().names());
+		        request.setAttribute( "modeles", modManager.lister() );	
 		        pg.generate( getServletContext(), request, response );
 
 			}

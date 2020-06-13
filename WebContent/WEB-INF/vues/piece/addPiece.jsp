@@ -24,6 +24,18 @@
 					</c:forEach>			
 				</div>
 				<div class="form-group ">
+					<label for="nompiece">Reference de la piece</label> 
+					<input
+						type="text"
+						class='form-control'
+						name= "ref"
+						value="<c:out value="${piece.reference}" />" 
+					/>
+					<c:forEach items='${erreurs["reference"]}' var="errf">
+								<span class="badge badge-pill badge-danger">${errf}</span>
+					</c:forEach>				
+				</div>
+				<div class="form-group ">
 					<label for="nompiece">Nom de la piece</label> 
 					<input
 						type="text"
@@ -36,7 +48,7 @@
 					</c:forEach>				
 				</div>
 				<div class="form-row">
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-12">
 						<label for="marque">Marque</label>
 						<div class="input-group mb-3">
 							<select id="marque" class="form-control" required="required"
@@ -47,15 +59,22 @@
 							</select>
 							<div class="input-group-append">
 								<a class="btn btn-outline-success"
-									href='<c:url value="/Marques/add"/>'>Ajouter</a>
+									href='<c:url value="/Marques/add"/>'>+</a>
 							</div>
 						</div>
 					</div>
-					<div class="form-group col-md-6">
-						<label for="marque">Modele</label>
+					<div class="form-group col-md-12">
+						<label for="modele">Modele</label>
 						<div class="input-group mb-3">
-							<select id="marque" class="form-control" required="required"
+							<select id="modele" class="form-control" required="required"
 								name="modele">
+								<c:forEach items="${marques}" var="marq">
+									<optgroup label="${marq.titre}">
+										<c:forEach items="${marq.modeles}" var="m">
+											<option ${piece.modal.titre==m.titre?"selected":""} value='${m.id}'>${m.titre}</option>
+										</c:forEach>
+									</optgroup>
+								</c:forEach>
 								<c:forEach items="${modeles}" var="modele">
 									<!-- avant -->
 									<option ${piece.modal.titre==modele.titre?"selected":""} >${modele.titre}</option>
@@ -63,11 +82,17 @@
 									<option ${piece.modal.titre==modele.titre?"selected":""} value="${modele.id}" >${modele.titre}</option>
 								</c:forEach>
 							</select>
+
 							<div class="input-group-append">
 								<a class="btn btn-outline-success"
-									href='<c:url value="/Marques/add"/>'>Ajouter</a>
+									href='<c:url value="/Marques/Modeles"/>'>+</a>
 							</div>
+						    
 						</div>
+						<c:forEach items='${erreurs["modal"]}' var="errf">
+								<span class="badge badge-pill badge-danger">${errf}</span>
+						</c:forEach>
+
 					</div>
 
 				</div>
