@@ -57,7 +57,10 @@
 							<select id="marque" class="form-control" required="required"
 								name="modele">
 								<c:forEach items="${modeles}" var="modele">
-									<option ${piece.modal.titre==modele.titre?"selected":""}>${modele.titre}</option>
+									<!-- avant -->
+									<option ${piece.modal.titre==modele.titre?"selected":""} >${modele.titre}</option>
+									<!-- apres -->
+									<option ${piece.modal.titre==modele.titre?"selected":""} value="${modele.id}" >${modele.titre}</option>
 								</c:forEach>
 							</select>
 							<div class="input-group-append">

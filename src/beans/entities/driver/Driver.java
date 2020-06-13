@@ -37,7 +37,7 @@ public class Driver implements Serializable{
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date recruitDate ;
-	// unité
+	// unitï¿½
 	//TODO pas faites
 	// image
 	@NotNull
@@ -75,6 +75,7 @@ public class Driver implements Serializable{
 	public void setPhoto(Image photo) {
 		this.photo = photo;
 	}
+	
 	// constructor without ID
 	public Driver(String firstN, String lastN, Date recruitDate, Image photo) {
 		super();

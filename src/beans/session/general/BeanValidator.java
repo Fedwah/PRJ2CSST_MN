@@ -15,6 +15,7 @@ public class BeanValidator<T> {
 
     private Map<String,ArrayList<String>> erreurs ;
     private Validator validator;
+    
     public BeanValidator(T bean) {
         super();
         

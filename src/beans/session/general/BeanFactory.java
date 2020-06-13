@@ -128,7 +128,7 @@ public abstract class BeanFactory<T> {
 
                 img.setTitre( request.getPart( PARAM_IMAGE ).getSubmittedFileName() );
                 img.setBinary( out.toByteArray() );
-                System.out.println( "IMG readed " + img.getTitre() );
+                //System.out.println( "IMG readed " + img.getTitre() );
             }
 
         } catch ( IOException e ) {

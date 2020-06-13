@@ -75,7 +75,14 @@ public abstract class BeanManager<T> {
 
     public List<T> lister( Map<String, Object> fields ) {
 
-        return this.QuerryBuilder( fields, true ).getResultList();
+        return this.QuerryBuilder( fields, true,"").getResultList();
+
+    }
+    
+    
+    public List<T> lister( Map<String, Object> fields, String orderBy) {
+
+        return this.QuerryBuilder( fields, true ,orderBy).getResultList();
 
     }
 
@@ -104,7 +111,7 @@ public abstract class BeanManager<T> {
 
     public T trouver( Map<String, Object> fields ) {
 
-        return (T) this.QuerryBuilder( fields, true ).getSingleResult();
+        return (T) this.QuerryBuilder( fields, true ,"").getSingleResult();
 
     }
 
@@ -137,6 +144,7 @@ public abstract class BeanManager<T> {
             beanF.updateChange( newBean, bean );
             return true;
         }
+        System.out.println( "Change in "+this.beanClass.getName()+"updated "+ (this.getEntityManger().contains( bean )) );
         return false;
 
     }
@@ -162,7 +170,7 @@ public abstract class BeanManager<T> {
 
     }
 
-    private Query QuerryBuilder(Map<String, Object> values, boolean and ) {
+    private Query QuerryBuilder(Map<String, Object> values,boolean and,String orderBy) {
         
         EntityFields<T> fields = new EntityFields<T>();
         String where = "";
@@ -178,7 +186,8 @@ public abstract class BeanManager<T> {
         
         q = "SELECT b FROM " + beanClass.getName() + " b" +
                 (join!=""?" JOIN "+ join:"")+ 
-                (where != "" ? " WHERE " + where : "" );
+                (where != "" ? " WHERE " + where : "" )+
+                (orderBy!=""?" ORDER BY b."+orderBy:"");
         
        
         

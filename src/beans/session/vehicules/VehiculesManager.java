@@ -47,7 +47,7 @@ public class VehiculesManager  extends BeanManager<Vehicule>{
             }
                  
             beanF.updateChange(newBean,v);
-            System.out.println( "Change updated "+ (this.getEntityManger().contains( v )) );
+            
             return true;
         }
         return false;

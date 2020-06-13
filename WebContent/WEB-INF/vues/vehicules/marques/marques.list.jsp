@@ -32,11 +32,12 @@
 									<c:out value="${marque.titre}" />
 								</h5>
 								<div class="row">
-									<a href='<c:url value="/Marques/edit/${marque.titre}"/>'
-										class="btn btn-sm btn-outline-primary btn-block">Editer</a> <a
+									 <a
 										href='<c:url value="/Marques/Modeles/${marque.titre}"/>'
 										class="btn btn-sm btn-outline-secondary btn-block">Voir
 										ces modeles</a>
+									<a href='<c:url value="/Marques/remove/${marque.titre}"/>'
+										class="btn btn-sm btn-outline-primary btn-block">Supprimer</a>
 								</div>
 
 							</div>
