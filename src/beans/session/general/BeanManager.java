@@ -63,6 +63,18 @@ public abstract class BeanManager<T> {
             return false;
         }
     }
+    public boolean trouverSupprimer( Object id ) {
+        T bean;
+        if ( id != null ) {
+            if ( ( bean = this.trouver( id ) ) != null ) {
+                return this.supprimer( bean );
+            }
+        }
+
+        return false;
+    }
+
+    // lister
 
     public List<T> lister( int debut, int nb ) {
         return this.getEntityManger().createQuery( "SELECT b from " + beanClass.getName() + " b" )
@@ -115,16 +127,7 @@ public abstract class BeanManager<T> {
 
     }
 
-    public boolean trouverSupprimer( Object id ) {
-        T bean;
-        if ( id != null ) {
-            if ( ( bean = this.trouver( id ) ) != null ) {
-                return this.supprimer( bean );
-            }
-        }
-
-        return false;
-    }
+   
 
     /**
      * // mise � jour dans la base de donn�e
