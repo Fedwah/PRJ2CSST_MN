@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<%@taglib prefix="btn" tagdir="/WEB-INF/tags/btn" %>
+
 <div class="container-fluid p-3">
 	<div class="">
 		<h1 class="display-4 text-success">${title}</h1>
 		<nav class="nav justify-content-end mb-2">
 			<a class="btn btn-outline-success"
-				href='<c:url value="/Vehicules/edit/"/>'>Ajouter un vehicule</a> <a
+				href='<c:url value="/Vehicules/edit/"/>'>Ajouter un vehicule</a> 
+				<a
 				class="nav-link " href="<c:url value="/Vehicules/Etats" />">Liste
 				des etats de vehicule</a> <a class="nav-link"
 				href="<c:url value="/Marques" />">Liste des marques</a> <a
@@ -68,14 +72,11 @@
 					<td>${vehicule.num_immatriculation}</td>
 					<td>${vehicule.date_achat}</td>
 					<td>${vehicule.etat.titre}</td>
-					<td><a class="btn btn-outline-primary"
-						href='<c:url value="/Vehicules/edit/${vehicule.num_immatriculation}"/>'><img
-							width="15px" height="15px"
-							src="<c:url value='/public/img/icon/edit_green.png'/>" /></a> <a
-						class="btn btn-outline-danger "
-						href='<c:url value="/Vehicules/remove/${vehicule.num_immatriculation}"/>'><img
-							width="15px" height="15px"
-							src="<c:url value='/public/img/icon/delete_green.png'/>" /></a></td>
+					<td>
+						<btn:edit value="/Vehicules/edit/${vehicule.num_immatriculation}" />
+						<btn:remove value="/Vehicules/remove/${vehicule.num_immatriculation}"/>
+						<btn:affectation value="/Vehicules/Affectations/${vehicule.num_immatriculation}" text="Conducteur" />
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>

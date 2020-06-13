@@ -12,7 +12,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
 import beans.entities.driver.Driver;
 
 @Entity
@@ -43,6 +42,7 @@ public class AffectationConducteur implements Serializable {
 	@OneToOne
 	@NotNull
 	private Vehicule car;
+	
 	
 	// Default constructor
 	public AffectationConducteur() {

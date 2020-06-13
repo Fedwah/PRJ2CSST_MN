@@ -7,45 +7,46 @@
 	<div class="row ">
 		<div class="col-7">
 			<div class="card mb-3 border-${actuelle!=null?'success':'danger'}">
-				<div class="row">
-					<div class="col-md-4">
-
+				<div class="row no-gutters" style="min-height: 200px;">
+					<div class="cold-md-3">
 						<c:choose>
 							<c:when test="${actuelle.driver.photo!=null}">
-								<div class="card-img">
+								<div class="card-img img-fluid">
 									<img
 										src='<c:url value="/Images/${actuelle.driver.photo.titre}" />'
-										class="" alt="..." width="100px" height="100px">
+										class="" alt="..." width="150px" height="200px">
 								</div>
 
 							</c:when>
 							<c:otherwise>
-								<div class="card-img">
+								<div class="card-img img-fluid">
 									<img class="" src='<c:url value="/public/img/notfound.png" />'
-										width="100px" height="100px" />
-								</div>
-
-							</c:otherwise>
-						</c:choose>
-						<c:choose>
-							<c:when test="${actuelle.car.photo!=null}">
-								<div class="card-img">
-									<img class=""
-										src='<c:url value="/Images/${actuelle.car.photo.titre}" />'
-										width="100px" height="100px" />
-								</div>
-
-							</c:when>
-							<c:otherwise>
-								<div class="card-img">
-									<img class="" src='<c:url value="/public/img/notfound.png" />'
-										width="100px" height="100px" />
+										width="150px" height="200px" />
 								</div>
 
 							</c:otherwise>
 						</c:choose>
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-3">
+						<c:choose>
+							<c:when test="${actuelle.car.photo!=null}">
+								<div class="card-img">
+									<img class=""
+										src='<c:url value="/Images/${actuelle.car.photo.titre}" />'
+										width="150px" height="200px" />
+								</div>
+
+							</c:when>
+							<c:otherwise>
+								<div class="card-img">
+									<img class="" src='<c:url value="/public/img/notfound.png" />'
+										width="150px" height="200px" />
+								</div>
+
+							</c:otherwise>
+						</c:choose>
+					</div>
+					<div class="col-md-6">
 						<div class="card-body">
 							<c:choose>
 								<c:when test="${actuelle!=null}">
@@ -77,9 +78,10 @@
 			</div>
 
 		</div>
-		<div class="col-5">
+		<div class="col-5 " >
 			<h5>Recommandation de conducteur</h5>
-			<table class="table table-bordered" style="font-size: 12px;">
+			<div class="overflow-auto p-2" style="max-height: 250px;">
+			<table class="table table-sm table-bordered " style="font-size: 12px;">
 				<thead>
 					<tr class="text-success">
 						<th scope="col">Profile</th>
@@ -88,7 +90,8 @@
 						<th scope="col" class="col">Operations</th>
 					</tr>
 				</thead>
-				<tbody>
+				
+				<tbody >
 					<c:forEach items="${drivers}" var="dr">
 						<tr>
 							<th scope="row"><img class="img-fluid"
@@ -109,7 +112,9 @@
 						</tr>
 					</c:forEach>
 				</tbody>
+				
 			</table>
+			</div>
 		</div>
 	</div>
 
