@@ -75,12 +75,6 @@
 										</c:forEach>
 									</optgroup>
 								</c:forEach>
-								<c:forEach items="${modeles}" var="modele">
-									<!-- avant -->
-									<option ${piece.modal.titre==modele.titre?"selected":""} >${modele.titre}</option>
-									<!-- apres -->
-									<option ${piece.modal.titre==modele.titre?"selected":""} value="${modele.id}" >${modele.titre}</option>
-								</c:forEach>
 							</select>
 
 							<div class="input-group-append">
