@@ -19,6 +19,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import beans.entities.driver.Driver;
 import beans.entities.general.Image;
 
 
@@ -61,13 +62,13 @@ public class Vehicule implements Serializable {
     @NotNull
     @ManyToOne
     private CategorieVehicule categorie;
+     
     
     public Vehicule() {
       
     }
     
-    
-
+   
     public Vehicule( String num_immatriculation, Modele modele, Marque marque, EtatVehicule etat, Date date_achat,
             Image photo, CategorieVehicule categorie ) {
         super();

@@ -74,7 +74,12 @@
 											<option ${piece.modal.titre==m.titre?"selected":""} value='${m.id}'>${m.titre}</option>
 										</c:forEach>
 									</optgroup>
-
+								</c:forEach>
+								<c:forEach items="${modeles}" var="modele">
+									<!-- avant -->
+									<option ${piece.modal.titre==modele.titre?"selected":""} >${modele.titre}</option>
+									<!-- apres -->
+									<option ${piece.modal.titre==modele.titre?"selected":""} value="${modele.id}" >${modele.titre}</option>
 								</c:forEach>
 							</select>
 

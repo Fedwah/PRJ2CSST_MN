@@ -43,12 +43,12 @@ public class ModeleFactory extends BeanFactory<Modele> {
     public Modele filtrer(HttpServletRequest request, ModeleManager em)
     {
     	String mark = request.getParameter("marque");	
-		Marque m = new Marque(mark);
+		
 		String modal = request.getParameter("modele");
-		Map<String,Object> fields = new HashMap();
-		fields.put("titre", modal);
-		fields.put("marque", m);
-        Modele modele = em.trouver(fields);
+		this.addFiltre( "titre", modal );
+		this.addFiltre("marque","titre",mark);
+		
+        Modele modele = em.trouver(this.getFiltres());
         return modele;
     }
    

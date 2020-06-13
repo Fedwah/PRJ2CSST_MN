@@ -31,13 +31,13 @@ public class Image {
     public void setTitre( String titre ) {
         if(titre != null) {
             if(!titre.isEmpty()) {
-                System.out.println("new titre image "+titre.length());
+                //System.out.println("new titre image "+titre.length());
                 String type = titre.substring( titre.lastIndexOf( '.' ) );
 
                 String name = titre.substring( 0, titre.lastIndexOf( '.' ) );
 
                 this.titre = name + '-' + System.currentTimeMillis() + type;
-                System.out.println( "Image set : " + this.titre );
+                //System.out.println( "Image set : " + this.titre );
             }
            
         }
