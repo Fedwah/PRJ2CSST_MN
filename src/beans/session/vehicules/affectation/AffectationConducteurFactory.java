@@ -82,13 +82,15 @@ public class AffectationConducteurFactory extends BeanFactory<AffectationConduct
                 if(newAff!=null) {
                     if(oldAffecter!=null) affectations.get( affectations.size()-1).setEndDate( newAff.getStartDate());
                     affectations.add( newAff );
-                 }
+                }
             }
+            return newAff;
         }else {
              affectations.get( affectations.size()-1).setEndDate(new Date());
+             return null;
         }
         
-        return newAff;
+        
        
    
     }

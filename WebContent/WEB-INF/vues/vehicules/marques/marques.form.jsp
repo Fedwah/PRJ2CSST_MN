@@ -1,44 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="form" tagdir="/WEB-INF/tags/form"%>
 
 <div class="container-fluid ">
-	${erreurs}
+	
 	<form class="p-5 needs-validation p-2" method="post"
 		action="<c:out value="add"/>" novalidate enctype="multipart/form-data">
 		
-		<div class="form-group">
-			<label for="titre">Nom de la marque</label> <input type="text"
-				class='form-control ${empty erreurs["titre"]?"":"is-invalid"} '
-				id="titre" name="titre" value="<c:out value="${marque.titre}"/>">
-
-			<div class="invalid-feedback">
-				<c:forEach items='${erreurs["titre"]}' var="err">
-					<span class="badge badge-pill badge-danger">${err}</span>
-				</c:forEach>
-			</div>
-		</div>
-
-
-		<div class="form-group">
-			<label for="photo"> Photo du vehicule</label> <img id="preview"
-				class='img-fluid rounded shadow-sm mx-auto d-block'
-				src='<c:url value="/public/img/notfound.png" />' width="200" />
-			<div class="custom-file">
-				<input id="photo" name="image" type="file"
-					class='custom-file-input form-control ${empty erreurs["image"]?"":"is-invalid"}'>
-				<label class='custom-file-label' for="photo">Importer une
-					image</label>
-			</div>
-
-			<div class="invalid-feedback">
-
-				<c:forEach items='${erreurs["image"]}' var="err">
-					<span class="badge badge-pill badge-danger">${err}</span>
-				</c:forEach>
-			</div>
-		</div>
-
+		<form:input name="titre" col="" type="text" value="${marque.titre}" 
+			label="Nom de la marque" erreurs="${erreurs['titre']}" >
+		</form:input>
+		
+		<form:img-upload label="Photo de la marque" name="image" 
+			col="" image="${marque.image}" erreurs="${erreurs['image']}"  >
+		</form:img-upload>
+	
 		<div class="form-group">
 			<button type="submit" class="btn btn-primary btn-block">Valider</button>
 			<button type="reset" class="btn btn-danger btn-block">Annuler</button>
@@ -60,6 +37,7 @@
 		}
 	}
 
+	
 	$("#photo").change(function() {
 		readURL(this);
 	});

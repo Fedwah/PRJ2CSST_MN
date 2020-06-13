@@ -3,12 +3,13 @@
 
 <%@attribute name="type" required="true"%>
 <%@attribute name="value" required="true"%>
+<%@attribute name="subType" required="false" %>
 
 <%@attribute name="text" %>
 <%@attribute name="img" %>
 
 
-<a class="btn btn-outline-${type}" href='<c:url value="${value}"/>'>
+<a class="btn btn${empty subType?'-outline':''}-${type}" href='<c:url value="${value}"/>'>
 
 	<c:choose>
 		<c:when test="${img!=null}">

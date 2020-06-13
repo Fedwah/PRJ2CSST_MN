@@ -8,19 +8,17 @@
 		action="<c:out value=""/>" novalidate enctype="multipart/form-data">
 
 		<!--  ${ erreurs } <!-- pour tester -->
-		<div class="row">
-
+		<div class="form-row">
+ 
 			<div class="col-md-9">
 				<div class="form-row">
 					<form:input erreurs="${erreurs['num_immatriculation']}"
 						label="Numero d'immatriculation"
-						name="${names.num_immatriculation}" col="col-md-9" type="text"
+						name="${names.num_immatriculation}" col="col-md" type="text"
 						value="${vehicule.num_immatriculation}"
 						isDisabled="${disabled_id}">
 					</form:input>
 				</div>
-
-
 
 				<div class="form-row">
 					<form:select fieldID="titre" fieldToTest="titre"

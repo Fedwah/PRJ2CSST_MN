@@ -8,6 +8,7 @@
 <%@attribute name="label" required="true"%>
 
 
+<%@attribute name="erreurs" required="false" type="java.util.List"%>
 <%@attribute name="image" required="true" type="beans.entities.general.Image"%>
 <div class="form-group ${col}">
 	<label for="${name}">${label}</label>
@@ -23,7 +24,7 @@
 		</c:otherwise>
 	</c:choose>
 	<div class="custom-file">
-		<input id="${name}" name="${name}" type="file"
+		<input id="photo" name="${name}" type="file"
 			class="custom-file-input"> <label class="custom-file-label"
 			for="photo">Importer</label>
 	</div>
