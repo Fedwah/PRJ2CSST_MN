@@ -8,20 +8,19 @@
 		<div class="col-md-6" style='position: relative; top: 0px; left: -15px;'>
 		<input
 						type="text"
-						class='form-control col-md-6' align="left'
-						name= "search" 
-						value="<c:out value="${$word}" />"
+						class='form-control col-md-6'
+						name= "word" 
+						value="${wordf}"
 						placeholder ="chercher"
 						style='display: inline-block;'
 						
 		/>
 		<select class="form-control col-md-3" name="type" style='display: inline-block;'>
-				<option>Code</option>
-				<option>Reference</option>
-				<option>Marque</option>
-				<option>Modele</option>
+				<option value="id"  ${value==by?"selected":""}  >Code</option>
+				<option value="reference"  ${value==by?"selected":""}  >Reference</option>
+				<option value="pieceName"  ${value==by?"selected":""}  >Nom</option>
 		</select>
-		<button type="submit" class="btn btn-light rounded-circle" 
+		<button type="submit" class="btn btn-light rounded-circle" name="search"
 		style='display: inline-block;height:40px; width:40px;position: relative; top: -3px; left: 0px;'>
 			<img height="40px" width="40px" style='position: relative; top: -6px; left: -11px;' src='<c:url value="/public/img/icon/search_green_nobackground.png"/>' />
 		</button>

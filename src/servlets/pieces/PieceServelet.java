@@ -123,7 +123,7 @@ public class PieceServelet extends HttpServlet {
 		else // cas d'addition
 		{
 		
-			p = pf.create(request);
+			p = pf.create(request,mManager,modManager);
 			if(pf.validate(p))
 			{
 				// insertion dans la bdd

@@ -54,23 +54,39 @@ public class PieceLists extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String filter = request.getParameter("mark");
 		PageGenerator pg = new PageGenerator(LIST , "Liste des pieces");
-		if(!filter.contentEquals("Tous les marques"))
+		Map<String,Object> fields = new HashMap();
+		if(request.getParameter("filter")!= null)
 		{
-			Map<String,Object> fields = new HashMap();
+			System.out.println("cas de filtrer");
+			if(!filter.contentEquals("Tous les marques"))
+			{
 			fields.put("mark.titre", filter);	
 			System.out.println(filter);
 			request.setAttribute( "pieces", em.lister(fields));
 			request.setAttribute( "marques", markManager.lister());
 			request.setAttribute( "selectedMark", filter);
 			request.setAttribute( "fields", Piece.class.getDeclaredFields());
-		}
-		else
-		{
+			}
+			else
+			{
 			request.setAttribute( "pieces", em.lister());
-			request.setAttribute( "marques", markManager.lister());
-		}
+			
+			}
 		
-		pg.generate( getServletContext(), request, response );	
-	}
+			
+		}
+		else if (request.getParameter("search")!= null)
+		{
+			System.out.println("cas de recherche");
+			String search = request.getParameter("word");
+			String by = request.getParameter("type");
+			fields.put(by, search);	
+			request.setAttribute( "pieces", em.searchby(fields));
+			request.setAttribute("by", by);
+			request.setAttribute("wordf", search);
+		}
+		request.setAttribute( "marques", markManager.lister());
+		pg.generate( getServletContext(), request, response );
+		}
 
 }

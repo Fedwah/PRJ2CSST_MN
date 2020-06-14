@@ -91,6 +91,12 @@ public abstract class BeanManager<T> {
 
     }
     
+    public List<T> searchby( Map<String, Object> fields ) {
+
+        return this.QuerryBuilderSearch( fields, true,"").getResultList();
+
+    }
+    
     
     public List<T> lister( Map<String, Object> fields, String orderBy) {
 
@@ -206,7 +212,39 @@ public abstract class BeanManager<T> {
         
         return query;
     }
-
+private Query QuerryBuilderSearch(Map<String, Object> values,boolean and,String orderBy) {
+        
+        EntityFields<T> fields = new EntityFields<T>();
+        String where = "";
+        String join = "";
+        String q = null;
+        
+        
+        fields.generateFields( this.beanClass );
+        System.out.println( "fields : " + fields.fields().toString() );
+        join = joinBuilder(fields,values);
+        
+        where = whereBuilderSearch(fields,values, and );
+        
+        q = "SELECT b FROM " + beanClass.getName() + " b" +
+                (join!=""?" JOIN "+ join:"")+ 
+                (where != "" ? " WHERE " + where : "" )+
+                (orderBy!=""?" ORDER BY b."+orderBy:"");
+        
+       
+        
+       
+        
+        Query query = this.getEntityManger().createQuery(q);
+        
+        System.out.println( "Query Build: "+ q );
+        
+        for ( Map.Entry<String, Object> mapentry : values.entrySet() ) {
+            query.setParameter( (String) fields.getValidName(( mapentry.getKey())), "%"+mapentry.getValue()+"%" );
+        }
+        
+        return query;
+    }
     
     private String joinBuilder( EntityFields<T> fields, Map<String,Object> values ) {
         String j = "";
@@ -257,6 +295,33 @@ public abstract class BeanManager<T> {
         return qr;
     }
     
+    private String whereBuilderSearch(EntityFields<T> fields,Map<String, Object> values, boolean and) {
+        String qr = "";
+       
+        Iterator<Map.Entry<String, Object>> iterator = values.entrySet().iterator();
+        Map<String,FieldDefinition> map = fields.fields();
+        
+        
+        while ( iterator.hasNext() ) {
+            Map.Entry<String, Object> f = iterator.next();
+            
+            
+            if(map.get(fields.getValidName(f.getKey())).isBasicClass){
+                qr = qr + " b." + f.getKey() + " like :" + f.getKey() ;
+            }else {
+                qr = qr +f.getKey()+ " = :" + fields.getValidName(f.getKey());
+            }
+            
+            
+            if ( iterator.hasNext() ) {
+                qr = qr + ( and ? " and " : " or " );
+            }
+        }
+        
+        
+        
+        return qr;
+    }
    
 
 }

@@ -1,6 +1,7 @@
 package beans.session.vehicules.marques;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -53,5 +54,16 @@ public class MarqueFactory extends BeanFactory<Marque> {
             this.addErreurs(PARAM_IMAGE,new BeanValidator<Image>(bean.getImage()).getErreurs().toString());
         }
         
+    }
+    public boolean findModal(Marque mark, Modele mod)
+    {
+    	List<Modele> modals = mark.getModeles();
+    	for(Modele m : modals) {
+            if(m.getId().equals(mod.getId())) {
+                return true;
+            }
+        }
+        return false;
+    	
     }
 }
