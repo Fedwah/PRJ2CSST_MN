@@ -11,7 +11,7 @@
 		<div>
 			<form action="" method="post" class="needs-validation" novalidate>
 				<form:input-button name="new_etat" col="" type="texte" value=""
-					label="Inserer un nouveau etat ?" erreurs="${erreurs['titre']}">
+					label="Inserer un nouveau etat ?" erreurs_="${erreurs['titre']}">
 				</form:input-button>
 			</form>
 

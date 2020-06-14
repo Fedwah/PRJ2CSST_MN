@@ -6,7 +6,7 @@
 <%@attribute name="label" required="true"%>
 <%@attribute name="addLink" required="true"%>
 
-<%@attribute name="erreurs" required="false" type="java.util.List"%>
+<%@attribute name="erreurs_" required="false" type="java.util.List"%>
 <%@attribute name="isDisabled" required="false" type="java.lang.Boolean"  %>
 
 <%@attribute name="selectedValue" required="true"%>
@@ -22,10 +22,11 @@
 		<div class="custom-control custom-radio">
 		
 			<input type="radio" id="${i[fieldID]}" name="${name}"
-				class="custom-control-input ${empty erreurs?'':'is-invalid'}"
+				class="custom-control-input "
 				value="${i[fieldID]}"
 				${i[fieldToTest]==selectedValue?"checked":""}> <label
-				class="custom-control-label" for="${i[fieldID]}">${i[fieldID]}</label>
+				class="custom-control-label" for="${i[fieldID]}">${i[fieldID]}</label> 
+				<!--${empty erreurs_ ?'':'is-invalid'}" a faire apres-->
 		</div>
 	</c:forEach>
 	<a class="btn btn-sm btn-outline-success"

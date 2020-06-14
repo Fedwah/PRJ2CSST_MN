@@ -9,11 +9,11 @@
 		action="<c:out value="add"/>" novalidate enctype="multipart/form-data">
 		
 		<form:input name="titre" col="" type="text" value="${marque.titre}" 
-			label="Nom de la marque" erreurs="${erreurs['titre']}" >
+			label="Nom de la marque" erreurs_="${erreurs['titre']}" >
 		</form:input>
 		
 		<form:img-upload label="Photo de la marque" name="image" 
-			col="" image="${marque.image}" erreurs="${erreurs['image']}"  >
+			col="" image="${marque.image}" erreurs_="${erreurs['image']}"  >
 		</form:img-upload>
 	
 		<div class="form-group">

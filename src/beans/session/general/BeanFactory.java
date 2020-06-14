@@ -27,7 +27,7 @@ import beans.session.vehicules.marques.MarqueFactory;
 
 public abstract class BeanFactory<T> {
 
-    private static final String            MSG_ERREUR_ID_NON_UNIQUE = "doit etre ounique";
+    private static final String            MSG_ERREUR_ID_NON_UNIQUE = "doit etre unique";
     private Map<String, ArrayList<String>> erreurs;
     private Filter<T>                      filteres;
     private EntityFields<T>                entityFields;

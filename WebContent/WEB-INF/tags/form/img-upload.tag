@@ -8,7 +8,7 @@
 <%@attribute name="label" required="true"%>
 
 
-<%@attribute name="erreurs" required="false" type="java.util.List"%>
+<%@attribute name="erreurs_" required="false" type="java.util.List"%>
 <%@attribute name="image" required="true" type="beans.entities.general.Image"%>
 <div class="form-group ${col}">
 	<label for="${name}">${label}</label>
@@ -31,7 +31,7 @@
 
 	<div class="invalid-feedback">
 
-		<c:forEach items='${erreurs}' var="err">
+		<c:forEach items='${erreurs_}' var="err">
 			<span class="badge badge-pill badge-danger">${err}</span>
 		</c:forEach>
 	</div>

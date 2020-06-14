@@ -62,7 +62,7 @@
 									</p>
 									<form method="post" action="">
 										<form:input name="driver" type="hidden"
-											value="${actuelle.driver.IDdriver}">
+											value="${actuelle.driver.IDdriver}" >
 										</form:input>
 										<input type="submit" value="Mettre fin a l'affectation"
 											class="btn btn-sm btn-danger" />

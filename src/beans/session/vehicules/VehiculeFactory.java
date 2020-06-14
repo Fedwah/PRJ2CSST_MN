@@ -1,19 +1,13 @@
 package beans.session.vehicules;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpServletRequest;
 
-import beans.entities.general.Image;
 import beans.entities.vehicules.CategorieVehicule;
 import beans.entities.vehicules.EtatVehicule;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.BeanFactory;
-import beans.session.general.BeanValidator;
 import beans.session.vehicules.categorie.CategorieVehiculeFactory;
 import beans.session.vehicules.etats.EtatVehiculeFactory;
 import beans.session.vehicules.marques.MarqueFactory;

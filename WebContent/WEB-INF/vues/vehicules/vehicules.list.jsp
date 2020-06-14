@@ -10,7 +10,7 @@
 	<div class="">
 		<h1 class="display-4 text-success">${title}</h1>
 		<nav class="nav justify-content-end mb-2">
-			<l:link label="Ajouter un vehicule" value="/Vehicules/edit/"></l:link>
+			<btn:btn type="success" value="/Vehicules/edit/" text="Ajouter un vehicule"></btn:btn>
 			<l:link label="Liste des etats de vehicule" value="/Vehicules/Etats"></l:link>
 			<l:link label="Liste des marques" value="/Marques"></l:link>
 			<l:link label="Liste des categories de vehicule" value="/Vehicules/Categories"></l:link>

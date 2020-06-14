@@ -12,7 +12,7 @@
 			<form action="" method="post" class="needs-validation" novalidate>
 				<form:input-button name="new_categorie" col="" type="texte" value="" label="Inserer un nouvelle categorie ?" 
 					placeHolder="Titre de la categorie a ajouter"
-					erreurs="${erreurs['titre']}">
+					erreurs_="${erreurs['titre']}">
 				</form:input-button>
 			</form>
 

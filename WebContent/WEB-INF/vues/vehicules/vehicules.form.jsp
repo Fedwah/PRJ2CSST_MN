@@ -11,14 +11,18 @@
 		<div class="form-row">
  
 			<div class="col-md-9">
+			
 				<div class="form-row">
-					<form:input erreurs="${erreurs['num_immatriculation']}"
+				
+					<form:input erreurs_="${erreurs['num_immatriculation']}"
 						label="Numero d'immatriculation"
 						name="${names.num_immatriculation}" col="col-md" type="text"
 						value="${vehicule.num_immatriculation}"
 						isDisabled="${disabled_id}">
 					</form:input>
+					
 				</div>
+
 
 				<div class="form-row">
 					<form:select fieldID="titre" fieldToTest="titre"
@@ -46,17 +50,19 @@
 
 				<div class="form-row">
 					<form:input label="Date d'achat" name="${names.date_achat}"
-						col="col-md-6" type="date" value="${vehicule.date_achat}"
-						erreurs="${erreurs['date_achat']}"></form:input>
-
-					<form:radio name="${names.etat}" fieldToTest="titre" col="col-md-4"
+						col="col-md-4" type="date" value="${vehicule.date_achat}"
+						erreurs_="${erreurs[names.date_achat]}" ></form:input>
+						
+						
+					<form:radio name="${names.etat}" fieldToTest="titre" col="col-md-4" 
 						fieldToPrint="titre" selectedValue="${vehicule.etat.titre }"
-						items="${etats}" addLink="/Vehicules/Etats" label="Etat"
-						fieldID="titre">
+						items="${etats}" 
+						addLink="/Vehicules/Etats" label="Etat" fieldID="titre"
+						erreurs_="${erreurs[names.etat]}">
 					</form:radio>
 				</div>
 			</div>
-
+			<!-- Probleme lors de la creation perte de l'image en cas d'erreur -->
 			<form:img-upload label="Photo du vehicule" name="${names.photo}"
 				col="col-md-3" image="${vehicule.photo}">
 			</form:img-upload>

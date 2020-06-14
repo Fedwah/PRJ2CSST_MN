@@ -9,19 +9,19 @@
 <%@attribute name="type" required="true"%>
 <%@attribute name="placeHolder" required="false"%>
 
-<%@attribute name="erreurs" required="false" type="java.util.List"%>
+<%@attribute name="erreurs_" required="false" type="java.util.List"%>
 <%@attribute name="isDisabled" required="false" type="java.lang.Boolean"%>
 
 
 
 
 <div class="form-group ${col}">
-	<c:if test="${lablel!=null}">
+	<c:if test="${label!=null}">
 		<label for="${name}">${label}</label>
 	</c:if>
 
 	<input type="${type}"
-		class='form-control ${empty erreurs ?"":"is-invalid"} ' id="${name}"
+		class='form-control ${empty erreurs_ ?"":"is-invalid"} ' id="${name}"
 		name="${name}" ${isDisabled?'disabled':''}
 		<c:choose>
 				<c:when test="${empty value}">
@@ -35,11 +35,13 @@
 	<c:if test="${isDisabled}">
 		<input type="hidden" name="${name}" value="<c:out value='${value}' />" />
 	</c:if>
+	<c:if test="${!erreurs_.isEmpty()}">
+		<div class="invalid-feedback">
+			<c:forEach items='${erreurs_}' var="err">
+				<span class="badge badge-pill badge-danger">${err}</span>
+			</c:forEach>
+		</div>
+	</c:if>
 
-	<div class="invalid-feedback">
-		<c:forEach items='${erreurs}' var="err">
-			<span class="badge badge-pill badge-danger">${err}</span>
-		</c:forEach>
-	</div>
 </div>
 

@@ -8,15 +8,15 @@
 <%@attribute name="type" required="true"%>
 <%@attribute name="placeHolder" required="false"%>
 
-<%@attribute name="erreurs" required="false" type="java.util.List"%>
+<%@attribute name="erreurs_" required="false" type="java.util.List"%>
 
 <div class="form-group ${col}">
 	<c:if test="${lablel!=null}">
 		<label for="${name}">${label}</label>
 	</c:if>
-	<div class='input-group ${empty erreurs?"":"is-invalid"}'>
+	<div class='input-group ${empty erreurs_?"":"is-invalid"}'>
 		<input type="${type}"
-			class='form-control ${empty erreurs?"":"is-invalid"}' name="${name}"
+			class='form-control ${empty erreurs_?"":"is-invalid"}' name="${name}"
 			aria-label="Recipient's username" aria-describedby="button-add"
 			id="${name}"
 			<c:choose>
@@ -34,7 +34,7 @@
 	</div>
 
 	<div class="invalid-feedback">
-		<c:forEach items='${erreurs}' var="err">
+		<c:forEach items='${erreurs_}' var="err">
 			<span class="badge badge-pill badge-danger">${err}</span>
 		</c:forEach>
 	</div>

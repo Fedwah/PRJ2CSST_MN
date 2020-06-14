@@ -11,7 +11,7 @@
 			<form action="" method="post" class="needs-validation" novalidate>
 				<form:input-button name="new_modele" col="" 
 					type="texte" value="" placeHolder="Titre de l'etat a ajouter"
-					erreurs="${erreurs['titre']}">
+					erreurs_="${erreurs['titre']}">
 				</form:input-button>
 			</form>
 
