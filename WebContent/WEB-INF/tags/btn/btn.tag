@@ -13,7 +13,7 @@
 
 	<c:choose>
 		<c:when test="${img!=null}">
-			<img width="15px" height="15px" src="<c:url value='${img}'/>" />
+			<img width="20px" height="20px" src="<c:url value='${img}'/>" alt="${value}"/>
 		</c:when>
 		<c:otherwise>
 			${text}

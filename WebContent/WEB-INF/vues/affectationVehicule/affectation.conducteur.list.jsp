@@ -101,7 +101,7 @@
 								<th scope="row"><img class="img-fluid"
 									src='<c:url value="/Images/${dr.photo.titre}" />' width="50"
 									height="50" /></th>
-								<td>${dr.lastN}${dr.firstN}</td>
+								<td>${dr.lastN} ${dr.firstN}</td>
 
 								<td>mettre des etoiles</td>
 
@@ -143,7 +143,7 @@
 							<th scope="row"><img class="img-fluid"
 								src='<c:url value="/Images/${aff.driver.photo.titre}" />'
 								width="50" height="50" /></th>
-							<td>${aff.driver.lastN}${aff.driver.firstN}</td>
+							<td>${aff.driver.lastN} ${aff.driver.firstN}</td>
 							<td>De ${aff.startDate} à <fmt:formatDate
 									value="${aff.endDate}" pattern="yyyy-MM-dd" />
 							</td>
