@@ -4,7 +4,7 @@
 <%@attribute name="value" required="true"%>
 <%@attribute name="text" required="false"%>
 
-<btn:btn type="warning" value="${value}" text="${text}"></btn:btn>
+<btn:btn type="warning" value="${value}" text="${text}" img="/public/img/icon/driver_white_greenBackground.png"></btn:btn>
 
 
 

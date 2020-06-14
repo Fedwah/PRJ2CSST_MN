@@ -14,7 +14,6 @@
 			<l:link label="Liste des etats de vehicule" value="/Vehicules/Etats"></l:link>
 			<l:link label="Liste des marques" value="/Marques"></l:link>
 			<l:link label="Liste des categories de vehicule" value="/Vehicules/Categories"></l:link>
-			
 		</nav>
 	</div>
 	<div>

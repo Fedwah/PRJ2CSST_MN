@@ -14,7 +14,7 @@
 <link href="/public/style/main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-
+	
 	<c:import url="vues/header/header.jsp"></c:import>
 	<div class="row">
 		<div class="col-md-2">
