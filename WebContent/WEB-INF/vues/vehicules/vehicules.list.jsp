@@ -29,8 +29,7 @@
 				-->
 
 				<button type="submit" class="btn btn-light rounded-circle mx-auto mb-3">
-					<img height="20px" width="20px"
-						src='<c:url value="/public/img/icon/search_green_nobackground.png"/>' />
+					<img height="20px" width="20px" src='<c:url value="/public/img/icon/search_green_nobackground.png"/>' />
 				</button>
 			</div>
 		</form>

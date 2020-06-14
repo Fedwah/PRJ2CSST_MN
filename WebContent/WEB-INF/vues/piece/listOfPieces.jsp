@@ -3,38 +3,47 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="container-fluid p-3">
 	<form class=" " method="post" action="<c:out value=""/>" >
-		<h3 class="display-4 text-success">Liste des pieces</h3>
+		<h3 class="display-4" style='color: #3E703D;font-size:40px;font-style:gras;'>Liste des pieces</h3>
 		<nav class="nav justify-content-end mb-2" width="500px">
+		<div class="col-md-6" style='position: relative; top: 0px; left: -15px;'>
 		<input
 						type="text"
-						class='form-control col-md-3' align="left'
+						class='form-control col-md-6' align="left'
 						name= "search" 
 						value="<c:out value="${$word}" />"
 						placeholder ="chercher"
+						style='display: inline-block;'
 						
 		/>
-		<select class="form-control col-md-1" name="type">
+		<select class="form-control col-md-3" name="type" style='display: inline-block;'>
 				<option>Code</option>
 				<option>Reference</option>
 				<option>Marque</option>
 				<option>Modele</option>
 		</select>
-		<select class="form-control col-md-2" name="mark">
+		<button type="submit" class="btn btn-light rounded-circle" 
+		style='display: inline-block;height:40px; width:40px;position: relative; top: -3px; left: 0px;'>
+			<img height="40px" width="40px" style='position: relative; top: -6px; left: -11px;' src='<c:url value="/public/img/icon/search_green_nobackground.png"/>' />
+		</button>
+		</div>
+		<div class="col-md-6" align="right">
+		<select class="form-control col-md-4" style='display: inline-block;' name="mark">
 				<option>Tous les marques</option>
 				<c:forEach items="${marques}" var="m">
 					<option ${selectedMark==m.titre?"selected":""}> ${m.titre}</option>
 				</c:forEach>
 		</select>
-		<button type="submit" class="btn btn-outline-success" name="filter" >filtrer</button>
-		<a class="add"
+		<button type="submit" class="form-control col-md-2 btn-outline-success" style='display: inline-block;' name="filter" >filtrer</button>
+		<a class="btn btn-light rounded-circle" style='display: inline-block;height:40px; width:40px;'
 				href='<c:url value="/pieces/edit/"/>'>
-				<img width="40px" height="40px" src="<c:url value='/public/img/icon/add.png'/>" />
+				<img width="50px" height="50px" style='position: relative; top: -10px; left: -17px;' src="<c:url value='/public/img/icon/add_green_nobackground.png'/>" />
 		</a>
+		</div>
 		</nav>
 	
 	<table class="table">
 		<thead>
-			<tr class="text-success">
+			<tr style='color: #3E703D;' >
 				<th scope="col">Code</th>
 				<th scope="col">Reference</th>
 				<th scope="col">Nom</th>
