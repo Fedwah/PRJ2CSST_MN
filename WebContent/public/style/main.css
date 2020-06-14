@@ -8,3 +8,6 @@ Ici mettre le css de toute l'application
 	float: left;
     clear: none; 
 }
+.backgroundColor {
+	background-color: #3E703D;
+}

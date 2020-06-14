@@ -21,7 +21,7 @@
 		<form class="" method="post" action="">
 			<div class="form-row">
 				
-				<form:input  name="search" col="col-md-4" type="text" value="${search}" placeHolder="search"></form:input>
+				<form:input  name="search" col="col-md-4" type="text" value="${search}" placeHolder="chercher"></form:input>
 				
 				<form:select name="field" fieldToTest="key" col="col-md-3" fieldToPrint="value" selectedValue="${field}" map="${filtres}"  fieldID="key"></form:select>
 				
