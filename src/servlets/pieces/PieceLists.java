@@ -1,6 +1,8 @@
 package servlets.pieces;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import beans.entities.pieces.Piece;
 import beans.session.general.PageGenerator;
 import beans.session.pieces.PieceManager;
+import beans.session.vehicules.marques.MarqueManager;
 
 /**
  * Servlet implementation class PieceLists
@@ -19,9 +22,11 @@ import beans.session.pieces.PieceManager;
 @WebServlet("/pieces")
 public class PieceLists extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String LIST = "/WEB-INF/vues/piece/listOfPieces.jsp";
 	@EJB
 	private PieceManager em;
-       
+    @EJB
+    private MarqueManager markManager;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -35,9 +40,10 @@ public class PieceLists extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		PageGenerator pg = new PageGenerator( "/WEB-INF/vues/piece/listOfPieces.jsp", "Liste des pieces");
+		PageGenerator pg = new PageGenerator(LIST , "Liste des pieces");
 		
 		request.setAttribute( "pieces", em.lister());
+		request.setAttribute( "marques", markManager.lister());
 		request.setAttribute( "fields", Piece.class.getDeclaredFields());
 		pg.generate( getServletContext(), request, response );
 	}
@@ -46,8 +52,25 @@ public class PieceLists extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String filter = request.getParameter("mark");
+		PageGenerator pg = new PageGenerator(LIST , "Liste des pieces");
+		if(!filter.contentEquals("Tous les marques"))
+		{
+			Map<String,Object> fields = new HashMap();
+			fields.put("mark.titre", filter);	
+			System.out.println(filter);
+			request.setAttribute( "pieces", em.lister(fields));
+			request.setAttribute( "marques", markManager.lister());
+			request.setAttribute( "selectedMark", filter);
+			request.setAttribute( "fields", Piece.class.getDeclaredFields());
+		}
+		else
+		{
+			request.setAttribute( "pieces", em.lister());
+			request.setAttribute( "marques", markManager.lister());
+		}
+		
+		pg.generate( getServletContext(), request, response );	
 	}
 
 }

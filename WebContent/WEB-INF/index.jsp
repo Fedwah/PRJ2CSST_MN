@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>${title}</title>
-<link type="text/css" rel="stylesheet"
-	href="<c:url value="/public/bootstrap/css/bootstrap.min.css"/>" />
+<link type="text/css" rel="stylesheet" href="<c:url value="/public/bootstrap/css/bootstrap.min.css"/>" />
+<link href="/public/style/main.css" rel="stylesheet" type="text/css">
 <script src="<c:url value="/public/js/jquery-3.5.1.min.js"/>"></script>
 <script src="<c:url value="/public/bootstrap/js/bootstrap.min.js"/>"></script>
 </head>
