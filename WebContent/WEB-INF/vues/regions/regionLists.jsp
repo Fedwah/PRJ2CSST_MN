@@ -24,7 +24,7 @@
 				<tr>
 				    <td>${region.codeReg}</td>
 					<td>${region.adress}</td>
-					<td>${unitsNumb}</td>
+					<td>${region.unites.size()}</td>
 					<td>
 						<a class="btn btn-outline-primary" href='<c:url value="/regions/${region.codeReg}"/>'>Unités</a>
 						<a class="btn btn-outline-primary" href='<c:url value="/regions/edit/${region.codeReg}"/>'>Editer</a>
