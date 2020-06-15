@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,6 +19,7 @@ import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 
 import beans.entities.general.Image;
+import beans.entities.regions.unites.Unite;
 
 @Entity
 public class Driver implements Serializable{
@@ -37,12 +40,27 @@ public class Driver implements Serializable{
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date recruitDate ;
-	// unit�
-	//TODO pas faites
-	// image
+	// unite
 	@NotNull
+	@ManyToOne
+	private Unite unite;
+	// image
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = true)
     private Image photo;
+	
+	// constructor without ID
+	public Driver(String firstN, String lastN, Date recruitDate, Image photo) {
+		super();
+		this.firstN = firstN;
+		this.lastN = lastN;
+		this.recruitDate = recruitDate;
+		this.photo = photo;
+	}
+	// Default constructor
+	public Driver() {
+		
+	}
 	
 	// getters and setters
 	public int getIDdriver() {
@@ -75,22 +93,12 @@ public class Driver implements Serializable{
 	public void setPhoto(Image photo) {
 		this.photo = photo;
 	}
-	
-	// constructor without ID
-	public Driver(String firstN, String lastN, Date recruitDate, Image photo) {
-		super();
-		this.firstN = firstN;
-		this.lastN = lastN;
-		this.recruitDate = recruitDate;
-		this.photo = photo;
+	public Unite getUnite() {
+		return unite;
 	}
-	// Default constructor
-	public Driver() {
-		
+	public void setUnite(Unite unite) {
+		this.unite = unite;
 	}
-	
-	
-	
 	
 
 }

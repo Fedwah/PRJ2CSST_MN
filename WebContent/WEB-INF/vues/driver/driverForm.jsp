@@ -46,6 +46,18 @@
 								<span class="badge badge-pill badge-danger">${errD}</span>
 							</c:forEach>
 						</div>
+						<label for="unite">Code unité</label> 
+						<input
+						type="text"
+						class='form-control '
+						id="unite" name="un"
+						value="<c:out value="${driver.unite.codeUN}" />"					
+						>
+						<div>
+							<c:forEach items='${erreurs["unite"]}' var="errf">
+								<span class="badge badge-pill badge-danger">${errf}</span>
+							</c:forEach>
+						</div>
 				</div>
 			
 			<div class="form-group col-md-3">
