@@ -118,11 +118,12 @@ public class driverEdit extends HttpServlet {
 
 			}
 			else {
+				
 				request.setAttribute("driver", dr);
 				request.setAttribute( "erreurs", df.getErreurs() );
 		        pg.generate( getServletContext(), request, response );
 
-		}
+			}
 	}
 	}
 

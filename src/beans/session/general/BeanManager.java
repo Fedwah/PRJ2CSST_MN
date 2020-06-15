@@ -309,7 +309,7 @@ private Query QuerryBuilderSearch(Map<String, Object> values,boolean and,String 
             if(map.get(fields.getValidName(f.getKey())).isBasicClass){
                 qr = qr + " b." + f.getKey() + " like :" + f.getKey() ;
             }else {
-                qr = qr +f.getKey()+ " = :" + fields.getValidName(f.getKey());
+                qr = qr +f.getKey()+ " like :" + fields.getValidName(f.getKey());
             }
             
             
