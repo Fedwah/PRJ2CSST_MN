@@ -16,9 +16,9 @@
 						
 		/>
 		<select class="form-control col-md-3" name="type" style='display: inline-block;'>
-				<option value="id"  ${value==by?"selected":""}  >Code</option>
-				<option value="reference"  ${value==by?"selected":""}  >Reference</option>
-				<option value="pieceName"  ${value==by?"selected":""}  >Nom</option>
+				<option value="id"  ${by=='id'?"selected":""}  >Code</option>
+				<option value="reference"  ${by=='reference'?"selected":""}  >Reference</option>
+				<option value="pieceName"  ${by=='pieceName'?"selected":""}  >Nom</option>
 		</select>
 		<button type="submit" class="btn btn-light rounded-circle" name="search"
 		style='display: inline-block;height:40px; width:40px;position: relative; top: -3px; left: 0px;'>

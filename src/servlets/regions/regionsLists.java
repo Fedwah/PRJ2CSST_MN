@@ -1,6 +1,8 @@
 package servlets.regions;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -47,7 +49,16 @@ public class regionsLists extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		PageGenerator pg = new PageGenerator(vueReg, title);
+		String search = request.getParameter("word");
+		String by = request.getParameter("type");
+		Map<String,Object> fields = new HashMap();
+		fields.put(by, search);
+		request.setAttribute( "region", em.searchby(fields));
+		request.setAttribute( "fields", Region.class.getDeclaredFields());
+		request.setAttribute("by", by);
+		request.setAttribute("wordf", search);
+		pg.generate( getServletContext(), request, response );
 	}
 
 }
