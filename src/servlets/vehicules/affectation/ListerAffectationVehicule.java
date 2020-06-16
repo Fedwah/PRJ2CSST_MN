@@ -17,12 +17,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.vehicules.AffectationConducteur;
+import beans.entities.vehicules.Mission;
 import beans.entities.vehicules.Vehicule;
 import beans.session.drivers.DriverManager;
 import beans.session.general.PageGenerator;
 import beans.session.vehicules.VehiculesManager;
 import beans.session.vehicules.affectation.AffectationConducteurFactory;
 import beans.session.vehicules.affectation.AffectationConducteurManager;
+import beans.session.vehicules.missions.MissionFactory;
+import beans.session.vehicules.missions.MissionManager;
 
 /**
  * Servlet implementation class AffectationVehicule
@@ -36,7 +39,9 @@ public class ListerAffectationVehicule extends HttpServlet {
     @EJB
     AffectationConducteurManager affM;
 
- 
+    
+    @EJB
+    MissionManager miM;
 
     @EJB
     DriverManager                conM;
@@ -56,9 +61,13 @@ public class ListerAffectationVehicule extends HttpServlet {
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
         PageGenerator pg = new PageGenerator( AffectationConducteurFactory.VUE_LIST,AffectationConducteurFactory.TITRE_VUE_LIST );
+        
         AffectationConducteurFactory affF = new AffectationConducteurFactory();
+        MissionFactory miF = new MissionFactory();
+        
         AffectationConducteur actuelle = null;
         List<AffectationConducteur> affectations = null;
+        List<Mission> missions = null;
         String id = pg.getPathId( request );
        
         pg.setPageTitle( AffectationConducteurFactory.TITRE_VUE_LIST + id );
@@ -70,15 +79,22 @@ public class ListerAffectationVehicule extends HttpServlet {
         actuelle = (affectations.size()>0?affectations.get( affectations.size()-1 ):null);
         
         if(actuelle!=null) {
-            actuelle = (actuelle.getEndDate()!=null?null:actuelle);
+            if(actuelle.getEndDate()!=null) {
+                actuelle =null;
+            }else{
+                miF.addFiltre( "affectation","id",actuelle.getId());
+                missions=miM.lister( miF.getFiltres() ) ;
+            }
+            
         }
         
-
+        
         Collections.reverse( affectations );
         request.setAttribute( "vehicule", id );
         request.setAttribute( "affectations", affectations );
         request.setAttribute( "actuelle", actuelle );
         request.setAttribute( "drivers", conM.lister() );
+        request.setAttribute( "missions",missions);
         pg.generate( getServletContext(), request, response );
     }
 
@@ -90,7 +106,9 @@ public class ListerAffectationVehicule extends HttpServlet {
             throws ServletException, IOException {
         PageGenerator pg = new PageGenerator( AffectationConducteurFactory.VUE_LIST,
                 AffectationConducteurFactory.TITRE_VUE_LIST );
+        
         AffectationConducteurFactory affF = new AffectationConducteurFactory();
+       
         
         AffectationConducteur newAffecter = null;
         
@@ -108,7 +126,7 @@ public class ListerAffectationVehicule extends HttpServlet {
         
         newAffecter = affF.affecter(request, affM, affectations);
         
-       
+        
        
     
         Collections.reverse( affectations );
@@ -117,6 +135,7 @@ public class ListerAffectationVehicule extends HttpServlet {
         request.setAttribute( "affectations", affectations );
         request.setAttribute( "actuelle", newAffecter );
         request.setAttribute( "drivers", conM.lister() );
+      
         pg.generate( getServletContext(), request, response );
         
     }

@@ -143,9 +143,29 @@ public abstract class BeanFactory<T> {
     }
 
     public Date readDate( HttpServletRequest request, String PARAM_DATE ) {
-        return this.readDate( request.getParameter( PARAM_DATE ) );
+        System.out.println( "Read date : " +request.getParameter( PARAM_DATE ));
+        if(request.getParameter( PARAM_DATE ).contains( "T" )) {
+            String datetime = request.getParameter( PARAM_DATE ).replace( 'T', ' ' );
+            System.out.println( "Date transformed : "+datetime );
+            return this.readDateTime( datetime );
+        }else {
+            return this.readDate( request.getParameter( PARAM_DATE ) );
+        }
+        
     }
-
+    
+    public Date readDateTime(String date) {
+        Date d = null;
+      
+        try {
+            d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse( date );
+        } catch ( ParseException e ) {
+            // TODO Auto-generated catch block
+            System.err.println( "Format date time invalide" );
+        }
+        return d;
+      
+    }
     public Date readDate( String date ) {
         Date d = null;
         try {
@@ -214,6 +234,14 @@ public abstract class BeanFactory<T> {
     
     public Map<String,String> getNamesToFilter(){
         return this.filteres.labelsToFilter( getEntityFields() );
+    }    
+    public int castId(String id) {
+        if(id!=null) {
+            if(!id.isEmpty()) {
+                return Integer.decode( id );
+            }
+        }
+        return 0;
     }
 
 }

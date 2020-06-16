@@ -14,8 +14,8 @@ public class AffectationConducteurFactory extends BeanFactory<AffectationConduct
 
     public static final String TITRE_VUE_LIST = "L'historique des conducteurs du vehicule ";
     public static final String TITRE_VUE_FORM = "Affectation d'un conducteur au vehicule ";
-    public static final String VUE_LIST = "/WEB-INF/vues/affectationVehicule/affectation.conducteur.list.jsp";
-    public static final String VUE_FORM = "/WEB-INF/vues/affectationVehicule/affectation.conducteur.form.jsp";
+    public static final String VUE_LIST = "/WEB-INF/vues/vehicules/affectation/affectation.conducteur.list.jsp";
+    public static final String VUE_FORM = "";
    
     public AffectationConducteurFactory() {
         super(AffectationConducteur.class);
@@ -26,6 +26,7 @@ public class AffectationConducteurFactory extends BeanFactory<AffectationConduct
         AffectationConducteur aff = new AffectationConducteur();
         Vehicule v = new Vehicule();
         Driver d = new Driver();
+      
         v.setNum_immatriculation( request.getParameter( "vehicule" ) );
         aff.setCar(v);
         d.setIDdriver( Integer.decode(request.getParameter("driver") ));
