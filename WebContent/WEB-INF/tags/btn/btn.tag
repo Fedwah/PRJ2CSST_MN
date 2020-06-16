@@ -3,13 +3,18 @@
 
 <%@attribute name="type" required="true"%>
 <%@attribute name="value" required="true"%>
-<%@attribute name="subType" required="false" %>
-
+<%@attribute name="outline" required="false" type="java.lang.Boolean"%>
+<%@attribute name="small" required="false"  type="java.lang.Boolean"%>
+<%@attribute name="disable" required="false"  type="java.lang.Boolean"%>
+<%@attribute name="class_" required="false"%>
 <%@attribute name="text" %>
 <%@attribute name="img" %>
 
 
-<a class="btn btn${empty subType?'-outline':''}-${type}" href='<c:url value="${value}"/>'>
+<a class="btn ${small!=null && small?'btn-sm':''} 
+		  btn${outline!=null && !outline?'':'-outline'}-${type} ${class_}
+		  ${disable!=null && disable?'disabled':''}" 
+	href='<c:url value="${value}"/>' >
 
 	<c:choose>
 		<c:when test="${img!=null}">

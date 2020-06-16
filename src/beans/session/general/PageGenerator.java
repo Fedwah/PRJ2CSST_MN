@@ -1,6 +1,8 @@
 package beans.session.general;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -87,6 +89,15 @@ public class PageGenerator {
             id = request.getPathInfo().substring( 1 );
         }
         return id;
+    }
+    
+    public String[] getPathIds(HttpServletRequest request){
+        if(request.getPathInfo()!=null) {
+            return request.getPathInfo().substring( 1 ).split( "/" );
+        }else {
+            return null;
+        }
+        
     }
     
     public void setRedirectURL( String redirectURL ) {

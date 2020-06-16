@@ -9,6 +9,7 @@
 <div class="container-fluid p-3">
 	<div class="">
 		<h1 class="display-4 text-success">${title}</h1>
+		
 		<nav class="nav justify-content-end mb-2">
 			<btn:btn type="success" value="/Vehicules/edit/" text="Ajouter un vehicule"></btn:btn>
 			<l:link label="Liste des etats de vehicule" value="/Vehicules/Etats"></l:link>

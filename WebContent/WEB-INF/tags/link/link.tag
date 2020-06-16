@@ -4,5 +4,5 @@
 <%@attribute name="value" required="true"%>
 <%@attribute name="label" required="true"%>
 
-<btn:btn type="link" value="${value}"  subType="btn" text="${label}"></btn:btn>
+<btn:btn type="link" value="${value}"  outline="${false }" text="${label}"></btn:btn>
 

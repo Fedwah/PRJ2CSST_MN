@@ -92,9 +92,7 @@ public abstract class BeanManager<T> {
     }
     
     public List<T> searchby( Map<String, Object> fields ) {
-
         return this.QuerryBuilderSearch( fields, true,"").getResultList();
-
     }
     
     

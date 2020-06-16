@@ -1,13 +1,17 @@
 package beans.entities.vehicules;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,7 +21,13 @@ import beans.entities.driver.Driver;
 @Entity
 public class AffectationConducteur implements Serializable {
     
-	// id
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
+
+    // id
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id ;
@@ -42,6 +52,10 @@ public class AffectationConducteur implements Serializable {
 	@OneToOne
 	@NotNull
 	private Vehicule car;
+	
+	
+	@OneToMany(cascade = CascadeType.REMOVE , mappedBy = "affectation")
+	private List<Mission> missions;
 	
 	
 	// Default constructor
