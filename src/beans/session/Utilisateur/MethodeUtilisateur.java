@@ -10,11 +10,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import beans.entities.utilisateurs.Utilisateur;
+import beans.session.general.BeanManager;
 
  
 @Stateless
 @LocalBean
-public class MethodeUtilisateur {
+public class MethodeUtilisateur extends BeanManager<Utilisateur> {
 	    @PersistenceContext(unitName="MN_unit")
 		private EntityManager em;
 	    private static final String JPQL_SELECT_PAR_NOM = "SELECT u FROM Utilisateur u WHERE u.nom=:nom";
@@ -36,7 +37,7 @@ public class MethodeUtilisateur {
 	    public static String result    ="id";
 	    
     public MethodeUtilisateur() {
-       
+       super(Utilisateur.class);
     }
     
 
@@ -121,4 +122,11 @@ public class MethodeUtilisateur {
               return result;
 
 }
+
+
+	@Override
+	public EntityManager getEntityManger() {
+		
+		return em;
+	}
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.pieces.Piece;
 import beans.entities.regions.Region;
+import beans.session.Utilisateur.MethodeUtilisateur;
 import beans.session.general.PageGenerator;
 import beans.session.regions.RegionFactory;
 import beans.session.regions.RegionManager;
@@ -27,6 +28,8 @@ public class regionEdit extends HttpServlet {
 	private boolean edit = false;
 	@EJB
 	private RegionManager em;
+	@EJB
+	private MethodeUtilisateur userManager;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -68,7 +71,7 @@ public class regionEdit extends HttpServlet {
 		PageGenerator pg = new PageGenerator(FORM, "Piece", REDIRECT);
 		String code = request.getParameter("code");
 		RegionFactory rf = new RegionFactory();
-		Region reg = rf.create(request);
+		Region reg = rf.create(request,userManager);
 		if (edit)
 		{
 			request.setAttribute( "disabled_id", true );

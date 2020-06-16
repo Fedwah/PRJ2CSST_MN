@@ -128,8 +128,14 @@ public abstract class BeanManager<T> {
     }
 
     public T trouver( Map<String, Object> fields ) {
-
-        return (T) this.QuerryBuilder( fields, true ,"").getSingleResult();
+    	try {
+    		return (T) this.QuerryBuilder( fields, true ,"").getSingleResult();
+    	}
+    	catch(Exception e)
+    	{
+    		return null;
+    	}
+        
 
     }
 
@@ -186,7 +192,7 @@ public abstract class BeanManager<T> {
         String join = "";
         String q = null;
         
-        
+        System.out.println(this.beanClass);
         fields.generateFields( this.beanClass );
         System.out.println( "fields : " + fields.fields().toString() );
         join = joinBuilder(fields,values);

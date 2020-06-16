@@ -50,6 +50,8 @@ public class Unite implements Serializable {
 				this.adress = adress;
 				this.region = region;
 			}
+			
+			//getters and setters
 			public String getCodeUN() {
 				return codeUN;
 			}
@@ -74,6 +76,8 @@ public class Unite implements Serializable {
 			public void setDrs(List<Driver> drs) {
 				this.drs = drs;
 			}
+			
+			
 			
 			
 			

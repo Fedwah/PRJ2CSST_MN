@@ -9,8 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import beans.entities.regions.Region;
+import beans.entities.utilisateurs.Utilisateur;
 import beans.session.Utilisateur.MethodeUtilisateur;
 import beans.session.general.PageGenerator;
+import beans.session.regions.RegionFactory;
+import beans.session.regions.RegionManager;
 
  
 @WebServlet("/SuppUser/*")
@@ -22,7 +26,8 @@ public class SuppUser extends HttpServlet {
 	 private static String result = ""; 
 	 @EJB
 	 private MethodeUtilisateur User;         
-    
+     @EJB
+     private RegionManager regM;
     public SuppUser() {
         super();
          
@@ -33,6 +38,19 @@ public class SuppUser extends HttpServlet {
 	  	/* PageGenerator pg = new PageGenerator("/Utilisateurs");*/
 		 PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/SuppUsers.jsp", "Liste des utilisateurs");
 		 id = Integer.parseInt(request.getPathInfo().substring( 1 ));
+		 /*******************************************************************/
+		 // afin de mettre la region null avant de supprimer l'utilisateur
+		 Utilisateur u = User.trouver(id);
+		 if(u.getRegion() != null)
+		 {
+			 Region oldReg = u.getRegion();
+			 Region newReg = u.getRegion();
+			 newReg.setUser(null);
+			 RegionFactory rf = new RegionFactory();
+			 regM.mettreAJour(oldReg.getCodeReg(), rf, newReg);
+			 
+		 }
+		 /******************************************************************/
 		 result = User.supprimerUser(id);
 		 request.setAttribute( ATT_RESULTAT, result );
 		 pg.generate( getServletContext(), request, response );

@@ -11,7 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
+import beans.entities.regions.Region;
 import beans.entities.regions.unites.Unite;
 
 @Entity
@@ -25,9 +27,14 @@ public class Utilisateur implements Serializable {
 	    private String    motDePasse;
 	    private String    nom;
 	    private String    prenom;
-	    private String type;
+	    private String    type;
 	    private String    role;
-
+	    @OneToOne
+	    @JoinColumn(nullable=true)
+	    private Region region;
+	    @OneToOne
+	    @JoinColumn(nullable=true)
+	    private Unite unite;
 	    
 		public Utilisateur() {
 			super();
@@ -48,6 +55,20 @@ public class Utilisateur implements Serializable {
 		}
 
 
+		
+		public Utilisateur(int id, String nomUtilisateur, String motDePasse, String nom, String prenom, String type,
+				String role, Region region, Unite unite) {
+			super();
+			this.id = id;
+			this.nomUtilisateur = nomUtilisateur;
+			this.motDePasse = motDePasse;
+			this.nom = nom;
+			this.prenom = prenom;
+			this.type = type;
+			this.role = role;
+			this.region = region;
+			this.unite = unite;
+		}
 
 
 
@@ -116,6 +137,31 @@ public class Utilisateur implements Serializable {
 		public void setRole(String role) {
 			this.role = role;
 		}
+
+
+
+		public Region getRegion() {
+			return region;
+		}
+
+
+
+		public void setRegion(Region region) {
+			this.region = region;
+		}
+
+
+
+		public Unite getUnite() {
+			return unite;
+		}
+
+
+
+		public void setUnite(Unite unite) {
+			this.unite = unite;
+		}
+		
 	    
 
 }
