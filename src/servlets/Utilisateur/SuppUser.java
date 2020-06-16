@@ -45,7 +45,7 @@ public class SuppUser extends HttpServlet {
 		 {
 			 Region oldReg = u.getRegion();
 			 Region newReg = u.getRegion();
-			 newReg.setUser(null);
+			 //newReg.setUser(null);
 			 RegionFactory rf = new RegionFactory();
 			 regM.mettreAJour(oldReg.getCodeReg(), rf, newReg);
 			 

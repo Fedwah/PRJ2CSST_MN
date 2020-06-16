@@ -29,10 +29,10 @@ public class Utilisateur implements Serializable {
 	    private String    prenom;
 	    private String    type;
 	    private String    role;
-	    @OneToOne
+	    @ManyToOne
 	    @JoinColumn(nullable=true)
 	    private Region region;
-	    @OneToOne
+	    @ManyToOne
 	    @JoinColumn(nullable=true)
 	    private Unite unite;
 	    

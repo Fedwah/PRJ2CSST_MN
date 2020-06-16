@@ -38,14 +38,13 @@ public class RegionFactory extends BeanFactory<Region> {
 
 	@Override
 	public void validateChilds(Region bean) {
-		if(bean.getUser() == null) this.addErreurs("user", "Ce nom utilisateur n'existe pas");
+		
 		
 	}
 
 	@Override
 	public void updateChange(Region newB, Region old) {
 		old.setAdress(newB.getAdress());
-		old.setUser(newB.getUser());
 	}
 	public List<Unite> findinListByCode(Region reg, Unite un)
     {
