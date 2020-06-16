@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import beans.entities.regions.Region;
 import beans.entities.regions.unites.Unite;
 import beans.session.general.PageGenerator;
+import beans.session.regions.RegionFactory;
 import beans.session.regions.RegionManager;
 import beans.session.regions.unites.UniteManager;
 
@@ -29,6 +30,7 @@ public class unitesList extends HttpServlet {
 	private UniteManager em;
 	@EJB
 	private RegionManager regManager ;
+	private Region reg = null; 
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -50,7 +52,7 @@ public class unitesList extends HttpServlet {
 		if(id != "")
 		{
 			Map<String,Object> fields = new HashMap();
-			Region reg =  regManager.trouver(id);
+			reg =  regManager.trouver(id);
 			request.setAttribute("code", id);
 			request.setAttribute( "unite", reg.getUnites());
 			request.setAttribute( "fields", Unite.class.getDeclaredFields());
@@ -64,8 +66,22 @@ public class unitesList extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		PageGenerator pg = new PageGenerator(UNITES, title);
+		String search = request.getParameter("word");
+		RegionFactory regF = new RegionFactory();
+		String by = request.getParameter("type");
+		if(by.equals("codeUN"))
+		{
+			request.setAttribute( "unite", regF.findinListByCode(reg, new Unite(search,"")));
+		}
+		else 
+		{
+			request.setAttribute( "unite", regF.findinListByAdr(reg, new Unite("",search)));
+		}
+		
+		request.setAttribute("by", by);
+		request.setAttribute("wordf", search);
+		pg.generate( getServletContext(), request, response );
 	}
 
 }

@@ -65,7 +65,7 @@ public class PieceLists extends HttpServlet {
 			request.setAttribute( "pieces", em.lister(fields));
 			request.setAttribute( "marques", markManager.lister());
 			request.setAttribute( "selectedMark", filter);
-			request.setAttribute( "fields", Piece.class.getDeclaredFields());
+			//request.setAttribute( "fields", Piece.class.getDeclaredFields());
 			}
 			else
 			{

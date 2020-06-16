@@ -42,7 +42,8 @@
 				<th scope="col">Code</th>
 				<th scope="col">Adresse</th>
 				<th scope="col">Responsable</th>
-				<th scope="col">Nombre d'unité</th>				
+				<th scope="col">Nombre d'unité</th>	
+				<th></th>			
 			</tr>
 		</thead>
 		<tbody>

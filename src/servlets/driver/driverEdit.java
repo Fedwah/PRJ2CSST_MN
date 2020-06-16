@@ -19,6 +19,7 @@ import beans.session.drivers.DriverFactory;
 import beans.session.drivers.DriverManager;
 import beans.session.general.PageGenerator;
 import beans.session.pieces.PieceFactory;
+import beans.session.regions.unites.UniteManager;
 
 /**
  * Servlet implementation class driverEdit
@@ -29,6 +30,8 @@ public class driverEdit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
 	private DriverManager dm;
+	@EJB 
+	private UniteManager um;
 	private Driver dr = null;
     private static final String Form_Driver = "/WEB-INF/vues/driver/driverForm.jsp";  
     private static final String REDIRECT = "/drivers";
@@ -103,7 +106,7 @@ public class driverEdit extends HttpServlet {
 		else // cas d'addition
 		{
 			System.out.println("ajouter un nouveau conducteur");
-			dr = (Driver) df.create(request);
+			dr = (Driver) df.create(request,um);
 			if(df.validate(dr))
 			{
 				// insertion dans la bdd
@@ -115,6 +118,7 @@ public class driverEdit extends HttpServlet {
 
 			}
 			else {
+				
 				request.setAttribute("driver", dr);
 				request.setAttribute( "erreurs", df.getErreurs() );
 		        pg.generate( getServletContext(), request, response );

@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -21,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import com.sun.mail.imap.protocol.FetchItem;
 
 import beans.entities.general.Image;
+import beans.entities.vehicules.Marque;
+import beans.entities.vehicules.Modele;
 import beans.session.general.fields.EntityFields;
 import beans.session.general.fillter.Filter;
 import beans.session.vehicules.marques.MarqueFactory;
@@ -243,5 +246,6 @@ public abstract class BeanFactory<T> {
         }
         return 0;
     }
+
 
 }

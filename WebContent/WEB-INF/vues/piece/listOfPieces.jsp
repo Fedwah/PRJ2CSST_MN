@@ -48,7 +48,7 @@
 				<th scope="col">Nom</th>
 				<th scope="col">Marque</th>
 				<th scope="col">Modele</th>
-				
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
