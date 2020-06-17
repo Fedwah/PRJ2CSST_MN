@@ -113,8 +113,8 @@ public class EditMission extends HttpServlet {
        
         AffectationConducteur aff = affM.trouver(mF.castId( ids[0] ));
         
-        pg.setPageTitle( MissionFactory.TITRE_VUE_FORM+aff.getCar().getNum_immatriculation());
-        pg.setRedirectURL( MissionFactory.REDIRECT_URL+aff.getCar().getNum_immatriculation());
+        pg.setPageTitle( MissionFactory.TITRE_VUE_FORM+aff.getCar().getMatricule_interne());
+        pg.setRedirectURL( MissionFactory.REDIRECT_URL+aff.getCar().getMatricule_interne());
         
         
         newM=mF.create( request );

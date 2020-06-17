@@ -27,7 +27,7 @@ public class AffectationConducteurFactory extends BeanFactory<AffectationConduct
         Vehicule v = new Vehicule();
         Driver d = new Driver();
       
-        v.setNum_immatriculation( request.getParameter( "vehicule" ) );
+        v.setMatricule_interne( request.getParameter( "vehicule" ) );
         aff.setCar(v);
         d.setIDdriver( Integer.decode(request.getParameter("driver") ));
         aff.setDriver(d);
@@ -67,7 +67,7 @@ public class AffectationConducteurFactory extends BeanFactory<AffectationConduct
         AffectationConducteur newAff = this.create( request );
         AffectationConducteur oldAffecter = null;
         
-        System.out.println( "Operation affecter sur :"+newAff.getStartDate()+" "+newAff.getCar().getNum_immatriculation()+" "
+        System.out.println( "Operation affecter sur :"+newAff.getStartDate()+" "+newAff.getCar().getMatricule_interne()+" "
                 +newAff.getDriver().getIDdriver());
         
         oldAffecter = (affectations.size()>0?(affectations.get( affectations.size()-1 )):null);
@@ -76,7 +76,7 @@ public class AffectationConducteurFactory extends BeanFactory<AffectationConduct
             finirAffectation( oldAffecter, affM );
         }
       
-        if(this.validate( newAff ) && newAff.getCar().getNum_immatriculation()!=null) {
+        if(this.validate( newAff ) && newAff.getCar().getMatricule_interne()!=null) {
             System.out.println( "Affectation ajouter" );
             if(affM.ajouter( newAff )) {
                 newAff = affM.trouver(newAff.getId());

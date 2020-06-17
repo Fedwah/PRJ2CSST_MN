@@ -33,7 +33,9 @@ public class Vehicule implements Serializable {
     @Id
     @NotEmpty
     @Size(min=5,max=20)
-    private String num_immatriculation;
+    private String matricule_interne;
+    
+    private String matricule_externe;
     
     @NotNull
     @ManyToOne
@@ -65,7 +67,8 @@ public class Vehicule implements Serializable {
     private CategorieVehicule categorie;
     
     @NotNull
-    private Unite un;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Unite unite;
      
     
     public Vehicule() {
@@ -74,38 +77,66 @@ public class Vehicule implements Serializable {
     
     
     
-    public Vehicule(String num_immatriculation) {
+    public Vehicule(String matricule_interne) {
 		super();
-		this.num_immatriculation = num_immatriculation;
+		this.matricule_interne = matricule_interne;
 	}
 
 
 
-	public Vehicule( String num_immatriculation, Modele modele, Marque marque, EtatVehicule etat, Date date_achat,
-            Image photo, CategorieVehicule categorie ) {
+
+
+    public Vehicule( String matricule_interne, String matricule_externe, Modele modele, Marque marque,
+            EtatVehicule etat, Date date_achat, Image photo, CategorieVehicule categorie, Unite unite ) {
         super();
-        this.num_immatriculation = num_immatriculation;
+        this.matricule_interne = matricule_interne;
+        this.matricule_externe = matricule_externe;
         this.modele = modele;
         this.marque = marque;
         this.etat = etat;
         this.date_achat = date_achat;
         this.photo = photo;
         this.categorie = categorie;
+        this.unite = unite;
+    }
+
+
+    
+    public String getMatricule_interne() {
+        return matricule_interne;
     }
 
 
 
-   
-
-
-
-    public String getNum_immatriculation() {
-        return num_immatriculation;
+    public void setMatricule_interne( String matricule_interne ) {
+        this.matricule_interne = matricule_interne;
     }
 
-    public void setNum_immatriculation( String num_immatriculation ) {
-        this.num_immatriculation = num_immatriculation;
+
+
+    public String getMatricule_externe() {
+        return matricule_externe;
     }
+
+
+
+    public void setMatricule_externe( String matricule_externe ) {
+        this.matricule_externe = matricule_externe;
+    }
+
+
+
+    public Unite getUnite() {
+        return unite;
+    }
+
+
+
+    public void setUnite( Unite unite ) {
+        this.unite = unite;
+    }
+
+
 
     public Marque getMarque() {
         return marque;
@@ -161,20 +192,6 @@ public class Vehicule implements Serializable {
         this.categorie = categorie;
     }
 
-
-
-	public Unite getUn() {
-		return un;
-	}
-
-
-
-	public void setUn(Unite un) {
-		this.un = un;
-	}
-
-    
-    
     
 
 }

@@ -34,7 +34,7 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
 		Maintenance m = new Maintenance();
 		Vehicule v = vm.trouver(request.getParameter("matricule"));
 		m.setV(v);
-		m.setUn(v.getUn());
+		m.setUn(v.getUnite());
 		Piece p = new Piece(request.getParameter("piece"));
 		m.setP(p);
 		Niveau n = new Niveau(Integer.parseInt(request.getParameter("niv")));
