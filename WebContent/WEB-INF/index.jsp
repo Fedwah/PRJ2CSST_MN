@@ -22,7 +22,10 @@
 					
 				</c:when>
 				<c:otherwise>
+					Menu admin root
 					<c:import url="vues/menu/menuAdmin.jsp"></c:import>
+					Menu admin opérationnel
+					<c:import url="vues/menu/menuAdminOP.jsp"></c:import>
 				</c:otherwise>
 			</c:choose>
 

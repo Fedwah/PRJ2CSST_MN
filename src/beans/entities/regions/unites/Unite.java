@@ -51,6 +51,11 @@ public class Unite implements Serializable {
 				this.region = region;
 			}
 			
+			
+			public Unite(String codeUN) {
+				super();
+				this.codeUN = codeUN;
+			}
 			//getters and setters
 			public String getCodeUN() {
 				return codeUN;

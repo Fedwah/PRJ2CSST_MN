@@ -2,6 +2,7 @@ package beans.session.vehicules;
 
 import javax.servlet.http.HttpServletRequest;
 
+import beans.entities.regions.unites.Unite;
 import beans.entities.vehicules.CategorieVehicule;
 import beans.entities.vehicules.EtatVehicule;
 import beans.entities.vehicules.Marque;
@@ -54,14 +55,14 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
 
        
         v.setMarque( marque );
-        v.setModel( modele );
+        v.setModele( modele );
         v.setEtat( etat );
         v.setCategorie( categ );
 
         v.setNum_immatriculation( request.getParameter( PARAM_NUM_IMMATRICULATION ) );
         v.setDate_achat( this.readDate( request, PARAM_DATE_ACHAT ) );
         v.setPhoto( this.readImage( request, PARAM_PHOTO ) );
-
+        v.setUn(new Unite("un1"));
         return v;
     }
     
@@ -75,7 +76,7 @@ public class VehiculeFactory extends BeanFactory<Vehicule>{
 
         old.setEtat( newB.getEtat() );
         old.setMarque( newB.getMarque() );
-        old.setModel( newB.getModele() );
+        old.setModele( newB.getModele() );
         old.setCategorie( newB.getCategorie() );
         
         if ( newB.getPhoto() != null ) {

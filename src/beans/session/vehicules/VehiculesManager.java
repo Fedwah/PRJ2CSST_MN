@@ -39,7 +39,7 @@ public class VehiculesManager  extends BeanManager<Vehicule>{
             
             newBean.setEtat( (EtatVehicule)ObtenirRefence( EtatVehicule.class, newBean.getEtat().getTitre() ) );
             newBean.setMarque( (Marque)ObtenirRefence( Marque.class, newBean.getMarque().getTitre() ) );    
-            newBean.setModel((Modele)ObtenirRefence( Modele.class, newBean.getModele().getId()));
+            newBean.setModele((Modele)ObtenirRefence( Modele.class, newBean.getModele().getId()));
            
             //Remettre l'ancienne photo , si pas de nouveau
             if(newBean.getPhoto()==null) {

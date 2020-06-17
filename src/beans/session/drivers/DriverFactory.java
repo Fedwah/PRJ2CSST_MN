@@ -28,8 +28,8 @@ public class DriverFactory extends BeanFactory<Driver> {
 		dr.setLastN(request.getParameter("nom"));
 		try {
 			dr.setRecruitDate( new SimpleDateFormat( "yyyy-MM-dd" ).parse( request.getParameter( "recruit" ) ));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+		} catch (ParseException e) 
+		{
 			e.printStackTrace();
 		}
 		dr.setPhoto(this.readImage(request,"photo"));

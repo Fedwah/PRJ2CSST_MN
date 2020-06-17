@@ -21,6 +21,7 @@ import javax.validation.constraints.Size;
 
 import beans.entities.driver.Driver;
 import beans.entities.general.Image;
+import beans.entities.regions.unites.Unite;
 
 
 @Entity
@@ -62,14 +63,25 @@ public class Vehicule implements Serializable {
     @NotNull
     @ManyToOne
     private CategorieVehicule categorie;
+    
+    @NotNull
+    private Unite un;
      
     
     public Vehicule() {
       
     }
     
-   
-    public Vehicule( String num_immatriculation, Modele modele, Marque marque, EtatVehicule etat, Date date_achat,
+    
+    
+    public Vehicule(String num_immatriculation) {
+		super();
+		this.num_immatriculation = num_immatriculation;
+	}
+
+
+
+	public Vehicule( String num_immatriculation, Modele modele, Marque marque, EtatVehicule etat, Date date_achat,
             Image photo, CategorieVehicule categorie ) {
         super();
         this.num_immatriculation = num_immatriculation;
@@ -136,7 +148,7 @@ public class Vehicule implements Serializable {
         return modele;
     }
 
-    public void setModel( Modele model ) {
+    public void setModele( Modele model ) {
         this.modele = model;
     }
     
@@ -148,6 +160,21 @@ public class Vehicule implements Serializable {
     public void setCategorie( CategorieVehicule categorie ) {
         this.categorie = categorie;
     }
+
+
+
+	public Unite getUn() {
+		return un;
+	}
+
+
+
+	public void setUn(Unite un) {
+		this.un = un;
+	}
+
+    
+    
     
 
 }

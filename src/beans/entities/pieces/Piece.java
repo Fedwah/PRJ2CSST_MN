@@ -54,6 +54,12 @@ public Piece(String id, String reference, String pieceName, Marque mark, Modele 
 	this.modal = modal;
 }
 
+
+public Piece(String id) {
+	super();
+	this.id = id;
+}
+
 public String getId() {
 	return id;
 }
