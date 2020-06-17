@@ -30,7 +30,6 @@ public class RegionFactory extends BeanFactory<Region> {
 		String user = request.getParameter("user");
 		Map<String,Object> fields = new HashMap();
 		fields.put("type","Regional" );
-		fields.put("nomUtilisateur", user);
 		Utilisateur u = em.trouver(fields);
 		Region reg = new Region(code,adr,u);
 		return reg;

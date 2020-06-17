@@ -16,6 +16,7 @@ import beans.entities.vehicules.Vehicule;
 import beans.session.general.PageGenerator;
 import beans.session.maintenance.MaintenanceFactory;
 import beans.session.maintenance.MaintenanceManager;
+import beans.session.pieces.PieceManager;
 import beans.session.vehicules.VehiculesManager;
 
 /**
@@ -31,6 +32,8 @@ public class maintenanceAdd extends HttpServlet {
 	private VehiculesManager vehM;
 	@EJB
 	private MaintenanceManager mm;
+	@EJB
+	private PieceManager pm;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -55,6 +58,10 @@ public class maintenanceAdd extends HttpServlet {
 			{
 				request.setAttribute("vehicule", v);
 				Map<String,Object> fields = new HashMap();
+				fields.put("mark.titre",v.getMarque());
+				fields.put("modal.titre",v.getMarque());
+				request.setAttribute("piece", pm.lister(fields));
+				
 			}
 		}
 		pg.generate( getServletContext(), request, response );

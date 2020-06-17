@@ -41,7 +41,6 @@
 			<tr style='color: #3E703D;'>
 				<th scope="col">Code</th>
 				<th scope="col">Adresse</th>
-				<th scope="col">Responsable</th>
 				<th scope="col">Nombre d'unité</th>	
 				<th></th>			
 			</tr>
@@ -51,7 +50,6 @@
 				<tr>
 				    <td>${region.codeReg}</td>
 					<td>${region.adress}</td>
-					<td>${region.user.nomUtilisateur}</td>
 					<td>${region.unites.size()}</td>
 					<td align = "right">
 						<a class="btn btn-outline-success" href='<c:url value="/regions/${region.codeReg}"/>'>Unités</a>
