@@ -35,18 +35,6 @@
 								<span class="badge badge-pill badge-danger">${errf}</span>
 					</c:forEach>				
 				</div>
-				<div class="form-group ">
-					<label for="adresse">Responsable : Nom utlisateur</label> 
-					<input
-						type="text"
-						class='form-control'
-						name= "user"
-						value="<c:out value="${region.user}" />" 
-					/>
-					<c:forEach items='${erreurs["user"]}' var="errf">
-								<span class="badge badge-pill badge-danger">${errf}</span>
-					</c:forEach>				
-				</div>
 			</div>			
 		</div>
 		
