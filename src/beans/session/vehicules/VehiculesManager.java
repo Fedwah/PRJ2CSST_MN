@@ -7,7 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-
+import beans.entities.regions.unites.Unite;
 import beans.entities.vehicules.EtatVehicule;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
@@ -40,7 +40,7 @@ public class VehiculesManager  extends BeanManager<Vehicule>{
             newBean.setEtat( (EtatVehicule)ObtenirRefence( EtatVehicule.class, newBean.getEtat().getTitre() ) );
             newBean.setMarque( (Marque)ObtenirRefence( Marque.class, newBean.getMarque().getTitre() ) );    
             newBean.setModele((Modele)ObtenirRefence( Modele.class, newBean.getModele().getId()));
-           
+            
             //Remettre l'ancienne photo , si pas de nouveau
             if(newBean.getPhoto()==null) {
                 newBean.setPhoto( v.getPhoto() );
@@ -51,5 +51,15 @@ public class VehiculesManager  extends BeanManager<Vehicule>{
             return true;
         }
         return false;
+    }
+   
+   @Override
+    public Vehicule trouver( Object id ) {
+        // TODO Auto-generated method stub
+        Vehicule v = super.trouver( id );
+        if(v!=null) {
+            System.out.println("unite init "+v.getUnite());
+        }
+        return v;
     }
 }

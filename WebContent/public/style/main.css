@@ -3,16 +3,32 @@ Ici mettre le css de toute l'application
 */
 
 
+.page-title{
+	color: #3E703D;
+	font-size:40px;
+	font-style:gras;
+}
+
+
  .add{
  	border : none;
  }
+ 
 .horizontal{
 	float: left;
     clear: none; 
 }
-.backgroundColor {
+.bg-color {
 	background-color: #3E703D;
 }
-.textColor{
+
+.text-color{
 	color:#3E703D;
 }
+
+.btn-add{
+	
+}
+
+
+

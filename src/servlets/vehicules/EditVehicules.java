@@ -97,7 +97,8 @@ public class EditVehicules extends HttpServlet {
                 v.setMatricule_interne( id );
             }
         }
-
+        
+       
         request.setAttribute( ATT_VEHICULE, v );
         request.setAttribute( ATT_NAMES, vehiculeF.getEntityFields().names());
         request.setAttribute( ATT_MARQUES, marM.lister());
@@ -147,6 +148,8 @@ public class EditVehicules extends HttpServlet {
                     }
                 } else { 
                     // Insertion
+                    System.out.println( "old_v unit : "+old_v.getUnite().getCodeUN() );
+                    System.out.println( "new_v unit : "+new_v.getUnite().getCodeUN() );
                     vehM.mettreAJour( id, vehiculeF, new_v );
                 }
             

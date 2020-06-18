@@ -73,7 +73,8 @@ public class VehiculeFactory extends BeanFactory<Vehicule> {
         old.setMarque( newB.getMarque() );
         old.setModele( newB.getModele() );
         old.setCategorie( newB.getCategorie() );
-
+        old.setMatricule_externe( newB.getMatricule_externe() );
+        old.setUnite( newB.getUnite() );
         if ( newB.getPhoto() != null ) {
             old.setPhoto( newB.getPhoto() );
         }

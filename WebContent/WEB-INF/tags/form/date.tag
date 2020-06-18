@@ -14,10 +14,11 @@
 <%@attribute name="erreurs_" required="false" type="java.util.List"%>
 <%@attribute name="isDisabled" required="false" type="java.lang.Boolean"%>
 
-<fmt:formatDate value="${value}" pattern="dd/MM/yyyy" var="date"/>
+
+
 
 <form:input name="${name}" type="date"
-				 value='${date}'
+				 value='${value}'
 				 label="${label}" col="${col}"
 				 erreurs_="${erreurs_}" placeHolder="${placeHolder}" isDisabled="${isDisabled}">
 </form:input>
