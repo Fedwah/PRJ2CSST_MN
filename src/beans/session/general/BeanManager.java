@@ -194,9 +194,9 @@ public abstract class BeanManager<T> {
         fields.generateFields( this.beanClass );
         System.out.println( "fields : " + fields.fields().toString() );
         join = joinBuilder(fields,values);
-        
+        System.out.println("join est "+ join);
         where = whereBuilder(fields,values, and );
-        
+        System.out.println("where est "+ where);
         q = "SELECT b FROM " + beanClass.getName() + " b" +
                 (join!=""?" JOIN "+ join:"")+ 
                 (where != "" ? " WHERE " + where : "" )+

@@ -17,7 +17,7 @@
 						class='form-control' 
 						name= "codepiece" 
 						value="<c:out value="${piece.id}" />"
-						${disabled_id? 'disabled':''}
+						
 						/>
 					 <c:forEach items='${erreurs["id"]}' var="errl">
 								<span class="badge badge-pill badge-danger">${errl}</span>
