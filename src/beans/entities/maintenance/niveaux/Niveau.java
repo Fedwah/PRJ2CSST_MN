@@ -56,6 +56,10 @@ public class Niveau implements Serializable {
 		super();
 		this.idNiv = idNiv;
 	}
+	
+	
+
+
 	// getters and setters 
 	
 

@@ -6,30 +6,28 @@
 
 <div class="container-fluid p-5">
 	<div class="">
-		<h1 class="display-5 text-success">${title}</h1>
+		<h3 class="display-4" style='color: #3E703D;font-size:40px;font-style:gras;'>Niveaux de maintenance</h3>
 		<div>
 			<form action="" method="post" class="needs-validation" novalidate>
 				<form:input-button name="niveau" col="" 
 					type="texte" value="" placeHolder="Niveau"
-					erreurs_="${erreurs['niv']}">
+					erreurs_="${erreurs['niveau']}">
 				</form:input-button>
 			</form>
 
-			<table class="table table-bordered">
+			<table class="table">
 				<thead>
 					<tr>
+						<th scope="col">Niveau</th>
 						<th scope="col"></th>
-						<th scope="col">Titre</th>
-						<th scope="col">Operation</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${niveaux}" var="n" varStatus="status">
+					<c:forEach items="${niveaux}" var="n" >
 						<tr>
-							<th scope="row">${status.index}</th>
-							<td>${n.titre}</td>
-							<td>
-								<btn:remove value="/maintenance/niveau/remove/${n.id}"></btn:remove>	
+							<td>${n.niveau}</td>
+							<td align="right">
+								<btn:remove value="/maintenance/niveaux/remove/${n.idNiv}"></btn:remove>	
 							</td>
 
 						</tr>
