@@ -16,6 +16,7 @@ import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
 import beans.session.ImageManager;
 import beans.session.general.PageGenerator;
+import beans.session.regions.unites.UniteManager;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.VehiculesManager;
 import beans.session.vehicules.categorie.CategorieVehiculeFactory;
@@ -31,6 +32,7 @@ import beans.session.vehicules.marques.modeles.ModeleManager;
 @WebServlet( "/Vehicules/edit/*" )
 @MultipartConfig( maxFileSize = 16177215 ) // upload file's size up to 16MB
 public class EditVehicules extends HttpServlet {
+    private static final String ATT_UNITES = "unites";
     private static final String ATT_NAMES = "names";
     private static final String ATT_LABELS = "labels";
     private static final String ATT_CATEGORIES_VEHICULE = "categories";
@@ -61,6 +63,9 @@ public class EditVehicules extends HttpServlet {
 
     @EJB
     private ImageManager        imgM;
+    
+    @EJB
+    private UniteManager uM;  
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -89,14 +94,16 @@ public class EditVehicules extends HttpServlet {
             trouver = ( v != null );
             if ( !trouver ) {
                 v = new Vehicule();
-                v.setNum_immatriculation( id );
+                v.setMatricule_interne( id );
             }
         }
-
+        
+       
         request.setAttribute( ATT_VEHICULE, v );
         request.setAttribute( ATT_NAMES, vehiculeF.getEntityFields().names());
         request.setAttribute( ATT_MARQUES, marM.lister());
         request.setAttribute( ATT_MODELES, modM.lister());
+        request.setAttribute( ATT_UNITES, uM.lister() );
         request.setAttribute( ATT_CATEGORIES_VEHICULE,categM.lister());
         request.setAttribute( ATT_ETATS, etaM.lister() );
         request.setAttribute( ATT_DISABLE_ID, ( !trouver ? false : true ) );
@@ -134,13 +141,15 @@ public class EditVehicules extends HttpServlet {
                 if ( old_v == null ) {
                    
                     // Creation
-                    if ( vehiculeF.uniqueSave(vehM, new_v, new_v.getNum_immatriculation(),
-                            VehiculeFactory.PARAM_NUM_IMMATRICULATION ) ) {
+                    if ( vehiculeF.uniqueSave(vehM, new_v, new_v.getMatricule_interne(),
+                            VehiculeFactory.PARAM_MATRICULE_INTERNE ) ) {
                         System.out.println( "Vehicule crée" );
                         pg.redirect( getServletContext(), request, response );
                     }
                 } else { 
                     // Insertion
+                    System.out.println( "old_v unit : "+old_v.getUnite().getCodeUN() );
+                    System.out.println( "new_v unit : "+new_v.getUnite().getCodeUN() );
                     vehM.mettreAJour( id, vehiculeF, new_v );
                 }
             
@@ -155,6 +164,7 @@ public class EditVehicules extends HttpServlet {
         request.setAttribute( ATT_VEHICULE, new_v );
         request.setAttribute( ATT_MARQUES, marM.lister() );
         request.setAttribute( ATT_MODELES, modM.lister() );
+        request.setAttribute( ATT_UNITES, uM.lister() );
         request.setAttribute( ATT_CATEGORIES_VEHICULE, categM.lister() );
         request.setAttribute( ATT_ETATS, etaM.lister() );
         request.setAttribute( ATT_ERREURS, vehiculeF.getErreurs() );

@@ -4,7 +4,7 @@
 <%@taglib prefix="form" tagdir="/WEB-INF/tags/form"%>
 
 <div class="container-fluid">
-	<form class="p-4 needs-validation " method="post"
+	<form class="p-5 needs-validation " method="post"
 		action="<c:out value=""/>" novalidate enctype="multipart/form-data">
 
 		<!--  ${ erreurs } <!-- pour tester -->
@@ -14,16 +14,26 @@
 			
 				<div class="form-row">
 				
-					<form:input erreurs_="${erreurs['num_immatriculation']}"
-						label="Numero d'immatriculation"
-						name="${names.num_immatriculation}" col="col-md" type="text"
-						value="${vehicule.num_immatriculation}"
+					<form:input erreurs_="${erreurs['matricule_interne']}"
+						label="Matricule interne"
+						name="${names.matricule_interne}" col="col-md-6" type="text"
+						value="${vehicule.matricule_interne}"
 						isDisabled="${disabled_id}">
 					</form:input>
 					
+					<form:input name="${names.matricule_externe}" type="texte"
+							 value="${vehicule.matricule_externe}" col="col-md-6"
+							 erreurs_="${erreurs['matricule_externe']}" label="Matricule externe" >
+					</form:input>
+					
 				</div>
-
-
+				
+			
+				<form:select name="${names.unite}" fieldToTest="codeUN" col="" fieldToPrint="adress" 
+					selectedValue="${vehicule.unite.codeUN}" fieldID="codeUN"
+					items="${unites}" label="Structure de ratachement" addLink="/regions">
+				</form:select>
+				
 				<div class="form-row">
 					<form:select fieldID="titre" fieldToTest="titre"
 						items="${categories}" label="Categorie de vehicule"
@@ -53,9 +63,8 @@
 					<form:date name="${names.date_achat}"  value="${vehicule.date_achat}" 
 						col="col-md-4" erreurs_="${erreurs[names.date_achat]}"
 						label="Date d'achat">
-						
 					</form:date>
-						
+					
 					<form:radio name="${names.etat}" fieldToTest="titre" col="col-md-4" 
 						fieldToPrint="titre" selectedValue="${vehicule.etat.titre }"
 						items="${etats}" 

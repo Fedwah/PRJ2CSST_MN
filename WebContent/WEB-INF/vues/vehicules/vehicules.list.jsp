@@ -6,37 +6,43 @@
 <%@taglib prefix="l" tagdir="/WEB-INF/tags/link"%>
 <%@taglib prefix="form" tagdir="/WEB-INF/tags/form"%>
 
+
 <div class="container-fluid p-3">
 	<div class="">
-		<h1 class="display-4 text-success">${title}</h1>
-		
+		<h1 class="page-title">${title}</h1>
+
 		<nav class="nav justify-content-end mb-2">
-			<btn:btn type="success" value="/Vehicules/edit/" text="Ajouter un vehicule"></btn:btn>
-			<l:link label="Liste des etats de vehicule" value="/Vehicules/Etats"></l:link>
-			<l:link label="Liste des marques" value="/Marques"></l:link>
-			<l:link label="Liste des categories de vehicule" value="/Vehicules/Categories"></l:link>
+			<l:link label="Categories de vehicule" value="/Vehicules/Categories"></l:link>
+			<l:link label="Etats des vehicules" value="/Vehicules/Etats"></l:link>
 		</nav>
 	</div>
-	<div>
-		<form class="" method="post" action="">
+	<div class="row p-1">
+		<form class="col-md-9" method="post" action="">
 			<div class="form-row">
-				
-				<form:input  name="search" col="col-md-4" type="text" value="${search}" placeHolder="chercher"></form:input>
-				
-				<form:select name="field" fieldToTest="key" col="col-md-3" fieldToPrint="value" selectedValue="${field}" map="${filtres}"  fieldID="key"></form:select>
-				
-				<!--<form:select name="filtre_regions" fieldToTest="titre" col="col-md-2" fieldToPrint="titre" selectedValue="" fieldID="titre" items="${filtre_regions}"></form:select>
-				-->
 
-				<button type="submit" class="btn btn-light rounded-circle mx-auto mb-3">
-					<img height="20px" width="20px" src='<c:url value="/public/img/icon/search_green_nobackground.png"/>' />
-				</button>
+				<form:input name="search" col="col-md-3" type="text"
+					value="${search}" placeHolder="chercher"></form:input>
+
+				<form:select name="field" fieldToTest="key" col="col-md-3"
+					fieldToPrint="value" selectedValue="${field}" map="${filtres}"
+					fieldID="key"></form:select>
+
+				
+
+				<btn:search name="search" />
 			</div>
 		</form>
+		
+		<form:select name="filtre_regions" fieldToTest="titre" col="col-md-2" fieldToPrint="titre" selectedValue="" fieldID="titre" items="${filtre_regions}"></form:select>
+		
+		<div class="col-md-1 " >
+			<btn:add value="/Vehicules/edit/"></btn:add>
+		</div>
+		
 	</div>
 	<table class="table">
 		<thead>
-			<tr class="text-success">
+			<tr class="text-color">
 				<th scope="col">Marque</th>
 				<th scope="col">Modele</th>
 				<th scope="col">Code</th>
@@ -52,14 +58,19 @@
 						src='<c:url value="/Images/${vehicule.marque.image.titre}" />'
 						width="75" height="75" /></th>
 					<td>${vehicule.modele.titre}</td>
-					<td>${vehicule.num_immatriculation}</td>
+					<td>${vehicule.matricule_interne}
+						${empty vehicule.matricule_externe?"":"/"}
+						${vehicule.matricule_externe}</td>
 					<td>${vehicule.date_achat}</td>
 					<td>${vehicule.etat.titre}</td>
-					<td><btn:edit
-							value="/Vehicules/edit/${vehicule.num_immatriculation}" /> <btn:remove
-							value="/Vehicules/remove/${vehicule.num_immatriculation}" /> <btn:affectation
-							value="/Vehicules/Affectations/${vehicule.num_immatriculation}"
-							text="Conducteur" /></td>
+					<td>
+						<btn:affectation
+							value="/Vehicules/Affectations/${vehicule.matricule_interne}"
+							text="Conducteur" />
+						<btn:edit value="/Vehicules/edit/${vehicule.matricule_interne}" /> 
+						<btn:remove value="/Vehicules/remove/${vehicule.matricule_interne}" />
+					   
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>

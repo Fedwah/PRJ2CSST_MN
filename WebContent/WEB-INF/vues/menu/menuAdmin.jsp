@@ -1,14 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib tagdir="/WEB-INF/tags/menu" prefix="menu"%>
 
-<div class="nav flex-column  text-center  p-4" >
-</div>
 <div>
+
 <ul class="nav flex-column  text-center  p-3">
-	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="<c:url value="/regions"/>">Regions</a></li>
-	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="<c:url value="/Utilisateurs"/>">Utilisateurs</a></li>
-	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="<c:url value="/pieces"/>">Pièces</a></li>
+	
+	<menu:link label="Regions" value="/regions"></menu:link>
+	<menu:link label="Utilisateurs" value="/Utilisateurs"></menu:link>
+	<menu:link label="Pièces" value="/pieces"></menu:link>
+	<menu:link label="Marques" value="/Marques"></menu:link>
+	<menu:link label="Vehicules" value="/Vehicules"></menu:link>
+		
 </ul>
 </div>
 

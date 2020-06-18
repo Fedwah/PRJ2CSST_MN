@@ -23,18 +23,22 @@ public class Unite implements Serializable {
 			@NotEmpty
 			@Size(min=3,max=25)
 			private String codeUN;
+			
 			// adress
 			@NotEmpty
 			@Size(min=3,max=25)
 			private String adress;
+			
 			// responsable
 			//TODO pas fait encore
 			// region dont laquelle elle apprtient
 			@NotNull
 			@ManyToOne
 			private Region region;
+			
 			@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE,mappedBy = "unite")
 			private List<Driver> drs;
+			
 			public Unite() {
 			
 			}

@@ -9,6 +9,8 @@
 <%@attribute name="class_" required="false"%>
 <%@attribute name="text" %>
 <%@attribute name="img" %>
+<%@attribute name="img_size" %>
+
 
 
 <a class="btn ${small!=null && small?'btn-sm':''} 
@@ -18,7 +20,7 @@
 
 	<c:choose>
 		<c:when test="${img!=null}">
-			<img width="20px" height="20px" src="<c:url value='${img}'/>" alt="${value}"/>
+			<img width=${empty img_size?"20px":img_size} height=${empty img_size?"20px":img_size} src="<c:url value='${img}'/>" alt="${value}"/>
 		</c:when>
 		<c:otherwise>
 			${text}
