@@ -2,6 +2,10 @@ package beans.session.maintenance;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,11 +15,13 @@ import beans.entities.pieces.Piece;
 import beans.entities.regions.unites.Unite;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.BeanFactory;
+import beans.session.maintenance.niveaux.NiveauManager;
+import beans.session.pieces.PieceManager;
 import beans.session.vehicules.VehiculesManager;
 
 public class MaintenanceFactory extends BeanFactory<Maintenance> {
 	
-	
+	private Map<String, String> indexPiece;
 
 	public MaintenanceFactory() {
 
@@ -33,10 +39,15 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
 		Vehicule v = new Vehicule(request.getParameter("matricule"));
 		m.setV(v);
 		m.setUn(v.getUnite());
-		System.out.println("id est piece " + request.getParameter("piece"));
-		Piece p = new Piece(request.getParameter("piece"));
-		m.setP(p);
-		System.out.println("niveau est " + request.getParameter("niveau"));
+		try
+		{
+			m.setNbP(Integer.parseInt(request.getParameter("nbP")));
+		}
+		catch(Exception e)
+		{
+			m.setNbP(0);
+		}
+		
 		Niveau n = new Niveau(Integer.parseInt(request.getParameter("niveau")));
 		m.setNiv(n);
 		try {
@@ -49,32 +60,20 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
 		return m ;
 	}
 	
-	public Maintenance create(HttpServletRequest request, VehiculesManager vm) {
-		Maintenance m = new Maintenance();
-		if(vm !=null)
-		{
-			System.out.println("vm est null");
-		}
-		Vehicule v = vm.trouver(request.getParameter("matricule"));
-		m.setV(v);
-		m.setUn(v.getUnite());
-		Piece p = new Piece(request.getParameter("piece"));
-		m.setP(p);
-		Niveau n = new Niveau(Integer.parseInt(request.getParameter("niv")));
-		try {
-			m.setStartDate( new SimpleDateFormat( "yyyy-MM-dd" ).parse( request.getParameter( "recruit" ) ));
-		} catch (ParseException e) 
-		{
-			e.printStackTrace();
-		}
-		return m ; 
-	}
+
 
 	@Override
 	public void validateChilds(Maintenance bean) {
 		if(bean.getV() == null)
 		{
 			this.addErreurs("v", "Ce numero d'immatriculation n'appartient à aucun véhicule");
+		}
+		if(bean.getPieces() != null)
+		{
+		if(bean.getNbP() != bean.getPieces().size())
+		{
+			this.addErreurs("piece", "veuillze inserer les pieces de rechange en cliquant sur le bouton ajouter");
+		}
 		}
 		
 	}
@@ -84,5 +83,63 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public boolean validateStartDate(MaintenanceManager em, Maintenance bean)
+	{
+		Map<String,Object> fields = new HashMap();
+		
+		List<Maintenance> currentM = em.findCurrentMaintenace(bean);
+		if(currentM != null)
+		{
+			System.out.println("liste des maintenaces de ce vehicule est non null "+ currentM.size());
+			if(currentM.size()> 0)
+			{
+				//System.out.println("liste des maintenaces de ce vehicule est non null " + currentM.size());
+				this.addErreurs("v", "Ce vehicule a déjà une maintenance non terminée");
+				return false;
+			}
+			
+		}
+		return true;
+	}
+	public boolean validateEndDate(Maintenance m )
+	{
+		if(m.getEndDate().compareTo(m.getStartDate())>0)
+		{
+			
+			System.out.println("end date valide");
+			return true;
+		}
+		else
+		{
+			this.addErreurs("startDate", "ce véhicule a déjà une maintenance non terminé");
+			return false;
+		}
+		
+	}
+	public boolean validateInsertion(Maintenance bean , MaintenanceManager em)
+	{
+		if(validate(bean) && validateStartDate(em,bean))
+		{
+			return true;
+		}
+		return false;
+	}
+	public void createPieces(HttpServletRequest request,Maintenance bean)
+	{
+		
+		List<Piece> pieces = new ArrayList();
+
+		for(int i=0; i< bean.getNbP();i++)
+		{
+			Piece p = new Piece(request.getParameter(Integer.toString(i)));
+			pieces.add(p);
+
+		}
+
+		bean.setPieces(pieces);
+
+	}
+
 
 }

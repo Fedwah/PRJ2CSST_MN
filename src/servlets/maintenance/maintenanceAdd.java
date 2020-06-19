@@ -63,11 +63,7 @@ public class maintenanceAdd extends HttpServlet {
 			{
 				System.out.println(id);
 				request.setAttribute("Vehicule", v);
-				Map<String,Object> fields = new HashMap();
-				fields.put("modal.id",v.getModele().getId());
-				request.setAttribute("piece", pm.lister(fields));
-				
-				
+								
 			}
 		}
 		request.setAttribute("niveaux", nManager.lister());
@@ -82,30 +78,47 @@ public class maintenanceAdd extends HttpServlet {
 		MaintenanceFactory mf = new MaintenanceFactory(Maintenance.class);
 		Maintenance newM = mf.create(request);
 		newM.setV(vehM.trouver(newM.getV().getMatricule_interne()));
-		if(mf.validate(newM))
+		if(request.getParameter("save")!= null)
 		{
-				System.out.println("maintenace valide");
-				mm.ajouter(newM);
-				pg.redirect(getServletContext(), request, response);
-				
 			
-		}
-		else
-		{
-			System.out.println(mf.getErreurs());
-			request.setAttribute( "erreurs", mf.getErreurs() );
-			if(newM.getV() != null)
+			if(mf.validateInsertion(newM, mm))
 			{
-				request.setAttribute("Vehicule", newM.getV());
-				Map<String,Object> fields = new HashMap();
-				fields.put("modal.id",newM.getV().getModele().getId());
-				request.setAttribute("piece", pm.lister(fields));
+					System.out.println("maintenace valide");
+					mm.ajouter(newM);
+					pg.redirect(getServletContext(), request, response);				
 			}
-			
-			request.setAttribute("niveaux", nManager.lister());
-			pg.generate( getServletContext(), request, response );
+			else
+			{
+				System.out.println(" maintenance non valide");
+				System.out.println(mf.getErreurs());
+				request.setAttribute( "erreurs", mf.getErreurs() );
+				if(newM.getV() != null)
+				{
+					request.setAttribute("Vehicule", newM.getV());
+					request.setAttribute("maintenance", newM);
+					request.setAttribute("niveaux",nManager.lister());
+					Map<String,Object> fields = new HashMap();
+					fields.put("modal.id",newM.getV().getModele().getId());	
+					request.setAttribute("piece", pm.lister(fields));
+				}
+				
+				pg.generate( getServletContext(), request, response );
+				
+			}
 		}
-		
+		else if(request.getParameter("addPiece")!= null)
+		{
+			// ajout des pieces de rechnages 
+			System.out.println(" ajout de piece de rechange");
+			request.setAttribute("Vehicule", newM.getV());
+			request.setAttribute("maintenance", newM);
+			request.setAttribute("niveaux",nManager.lister());
+			Map<String,Object> fields = new HashMap();
+			fields.put("modal.id",newM.getV().getModele().getId());	
+			request.setAttribute("piece", pm.lister(fields));
+			pg.generate( getServletContext(), request, response );
+
+		}	
 		
 	}
 

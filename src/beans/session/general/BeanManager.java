@@ -133,9 +133,7 @@ public abstract class BeanManager<T> {
     	{
     		return null;
     	}
-        
-
-    }
+       }
 
    
 
@@ -216,6 +214,8 @@ public abstract class BeanManager<T> {
         
         return query;
     }
+    
+
 private Query QuerryBuilderSearch(Map<String, Object> values,boolean and,String orderBy) {
         
         EntityFields<T> fields = new EntityFields<T>();
@@ -299,6 +299,7 @@ private Query QuerryBuilderSearch(Map<String, Object> values,boolean and,String 
         return qr;
     }
     
+   
     private String whereBuilderSearch(EntityFields<T> fields,Map<String, Object> values, boolean and) {
         String qr = "";
        

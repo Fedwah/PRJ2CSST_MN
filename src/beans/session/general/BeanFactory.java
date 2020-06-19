@@ -194,6 +194,23 @@ public abstract class BeanFactory<T> {
 
         return false;
     }
+    
+    public boolean uniqueField( BeanManager<T> em, String fieldName, Object fieldValue ) {
+    	
+    	Map<String,Object> fields = new HashMap();
+    	fields.put(fieldName,fieldValue );
+        if ( em.trouver(fields) == null ) 
+        {
+            System.out.println( "attribut unique" );
+            return true;
+        } 
+        else 
+        {
+            this.addErreurs( fieldName, "Ce parametre doit être unique" );
+        }
+
+        return false;
+    }
 
     public boolean updateAndValidate( HttpServletRequest request, T old ) {
         T newB = create( request );

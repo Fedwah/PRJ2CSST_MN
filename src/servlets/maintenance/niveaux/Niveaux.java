@@ -13,6 +13,7 @@ import beans.entities.maintenance.niveaux.Niveau;
 import beans.entities.pieces.Piece;
 import beans.entities.regions.unites.Unite;
 import beans.session.general.PageGenerator;
+import beans.session.maintenance.niveaux.NiveauFactory;
 import beans.session.maintenance.niveaux.NiveauManager;
 
 /**
@@ -49,8 +50,22 @@ public class Niveaux extends HttpServlet {
 		PageGenerator pg = new PageGenerator(NIVEAU , "Niveaux de maintenace");
 		String niv = request.getParameter("niveau");
 		Unite un = new Unite("un1");
-		em.ajouter(new Niveau(niv,un));
-		doGet(request,response);
+		Niveau n = new Niveau(niv,un);
+		NiveauFactory nivF = new NiveauFactory();
+		if(nivF.validate(n) && nivF.uniqueField(em, "niveau", niv))
+		{
+			System.out.println("tout est bien");
+			em.ajouter(new Niveau(niv,un));
+			doGet(request,response);
+		}
+		else
+		{
+			request.setAttribute("erreurs", nivF.getErreurs());
+			request.setAttribute("niveaux", em.lister());
+			pg.generate(getServletContext(), request, response);
+		}
+		
+		
 	}
 
 }

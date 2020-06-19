@@ -2,12 +2,15 @@ package beans.entities.maintenance;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.FutureOrPresent;
@@ -39,24 +42,33 @@ public class Maintenance implements Serializable{
 	@FutureOrPresent
 	@Temporal(TemporalType.DATE)
 	@JoinColumn(nullable=true)
-	private Date endDate;
+	private Date endDate = null;
 	
 	// Vehicule
 	
 	@NotNull
+	@ManyToOne
 	private Vehicule v;
+	
+	//nombre de piece 
+	@NotNull
+	private int nbP;
 	
 	// Piece 
 	
 	@JoinColumn(nullable = true)
-	private Piece p;
+	@ManyToMany
+	private List<Piece> pieces;
+	
 
 	
 	// Niveau de maintenance
 	@NotNull
+	@ManyToOne
 	private Niveau niv;
 	
 	@NotNull
+	@ManyToOne
 	private Unite un;
 	
 	// AMDEC peut etre
@@ -72,28 +84,53 @@ public class Maintenance implements Serializable{
 	}
 
 	
-	public Maintenance(Date startDate, Date endDate, Vehicule v, Piece p, Niveau niv) {
+	
+
+	
+
+	public Maintenance(Date startDate, Vehicule v, List<Piece> pieces, Niveau niv, Unite un) {
 		super();
 		this.startDate = startDate;
-		this.endDate = endDate;
 		this.v = v;
-		this.p = p;
+		this.pieces = pieces;
 		this.niv = niv;
+		this.un = un;
 	}
 
 
-	public Maintenance(int idMaintenance, Date startDate, Date endDate, Vehicule v, Piece p, Niveau niv) {
+
+
+
+
+	public Maintenance(int idMaintenance, Date startDate, Date endDate, Vehicule v, List<Piece> pieces, Niveau niv,
+			Unite un) {
 		super();
 		this.idMaintenance = idMaintenance;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.v = v;
-		this.p = p;
+		this.pieces = pieces;
 		this.niv = niv;
+		this.un = un;
 	}
 
 
+	public Maintenance(Date startDate, Vehicule v, int nbP, Niveau niv, Unite un) {
+		super();
+		this.startDate = startDate;
+		this.v = v;
+		this.nbP = nbP;
+		this.niv = niv;
+		this.un = un;
+	}
+
+
+
+
+
+
 	// Getters and setters
+	
 	
 	public int getIdMaintenance() {
 		return idMaintenance;
@@ -135,13 +172,13 @@ public class Maintenance implements Serializable{
 	}
 
 
-	public Piece getP() {
-		return p;
+	public List<Piece> getPieces() {
+		return pieces;
 	}
 
 
-	public void setP(Piece p) {
-		this.p = p;
+	public void setPieces(List<Piece> pieces) {
+		this.pieces = pieces;
 	}
 
 
@@ -163,7 +200,16 @@ public class Maintenance implements Serializable{
 	public void setUn(Unite un) {
 		this.un = un;
 	}
-	
+
+	public int getNbP() {
+		return nbP;
+	}
+
+
+	public void setNbP(int nbP) {
+		this.nbP = nbP;
+	}
+
 	
 	
 		
