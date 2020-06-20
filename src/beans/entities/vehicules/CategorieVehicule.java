@@ -1,12 +1,14 @@
 package beans.entities.vehicules;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Entity
-public class CategorieVehicule {
+public class CategorieVehicule implements Serializable {
     
     @Id
     @NotEmpty

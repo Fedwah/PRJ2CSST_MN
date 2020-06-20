@@ -36,7 +36,7 @@ public class Unite implements Serializable {
 			@ManyToOne
 			private Region region;
 			
-			@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE,mappedBy = "unite")
+			@OneToMany
 			private List<Driver> drs;
 			
 			public Unite() {

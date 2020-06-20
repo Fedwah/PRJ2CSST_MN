@@ -1,6 +1,10 @@
 package beans.entities.general;
 
 
+import java.io.Serializable;
+import java.util.Arrays;
+
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
@@ -8,7 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-public class Image {
+public class Image implements Serializable {
 
     @Id
     @NotEmpty

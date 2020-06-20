@@ -1,5 +1,7 @@
 package beans.entities.vehicules;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Entity
-public class EtatVehicule {
+public class EtatVehicule implements Serializable {
     
     @Id
     @NotEmpty
