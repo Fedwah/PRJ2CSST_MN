@@ -281,7 +281,7 @@ public abstract class BeanFactory<T> {
         } 
         else 
         {
-            this.addErreurs( fieldName, "Ce parametre doit être unique" );
+            this.addErreurs( fieldName, "Ce parametre doit ï¿½tre unique" );
         }
 
         return false;
@@ -390,9 +390,10 @@ public abstract class BeanFactory<T> {
 
     }
 
-    public void insertAll( List<?> beans, BeanManager<?> beanM) {
+    public List<Map<String,ArrayList<String>>> insertAll( List<?> beans, BeanManager<?> beanM) {
         int row = 2;
         BeanManager<T> bM= (BeanManager<T>)beanM;
+        List<Map<String,ArrayList<String>>> errs = new ArrayList<Map<String,ArrayList<String>>>();
         for ( Object b : beans ) {
             // System.out.println( "GET ID automaticly : " + this.getIdValue( b
             // ) );
@@ -404,8 +405,11 @@ public abstract class BeanFactory<T> {
             } else {
                 System.out.println( "Erreur lors de l'inserations ligne" + row + " : " + this.getErreurs() );
             }
+            errs.add( this.getErreurs() );
             row++;
         }
+        
+        return errs;
     }
 
     public T create( Map<String, Object> values ) {

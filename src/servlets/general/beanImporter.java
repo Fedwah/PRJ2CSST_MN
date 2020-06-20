@@ -2,6 +2,7 @@ package servlets.general;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,8 +117,11 @@ public class beanImporter extends HttpServlet {
                 System.out.println( "File size :"+request.getPart( "file" ).getSize());
                 List<?> beans  = beanF.importExcel((BufferedInputStream) request.getPart( "file" ).getInputStream());
                 
-                beanF.insertAll(  beans, generalM );
+                List<Map<String,ArrayList<String>>> errs = beanF.insertAll(  beans, generalM );
+                
                 request.setAttribute( "classes", classes );
+                request.setAttribute( "erreurs",  errs);
+                request.setAttribute( "names", beanF.getEntityFields().names() );
                 pg.generate( getServletContext(), request, response );
             }
            
