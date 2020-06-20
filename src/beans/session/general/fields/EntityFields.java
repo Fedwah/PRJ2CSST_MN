@@ -1,20 +1,33 @@
 package beans.session.general.fields;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
 public class EntityFields<T> {
 
     private Map<String, FieldDefinition> fields;
     private FieldDefinition              idField;
-
+    private static String[]     fieldsToBan = { "serialVersionUID"};
+    private Map<String,Field> fields_java;
    
 
     public EntityFields() {
         this.fields = new LinkedHashMap<String, FieldDefinition>();
+        this.fields_java = new LinkedHashMap<String, Field>();
         this.idField = null;
     }
 
@@ -44,10 +57,13 @@ public class EntityFields<T> {
 
     public Map<String, Class<?>> classes() {
         Map<String, Class<?>> out = new LinkedHashMap<String, Class<?>>();
-
+        String class_="";
+   
         try {
             for ( Map.Entry<String, FieldDefinition> f : this.fields.entrySet() ) {
-                out.put( f.getKey(), Class.forName( f.getValue().class_ ) );
+                class_= f.getValue().class_;
+               
+                out.put( f.getKey(), Class.forName(  class_) );
             }
 
             return out;
@@ -55,7 +71,7 @@ public class EntityFields<T> {
         } catch ( ClassNotFoundException e ) {
             // TODO Auto-generated catch block
             
-            e.printStackTrace();
+            System.out.println( "EntityFields | class not found" );
             return out;
         }
     }
@@ -65,24 +81,30 @@ public class EntityFields<T> {
     public void generateFields( Class<T> beanClass ) {
         FieldDefinition fd = null;
         this.fields.clear();
-
+    
         for ( Field f : beanClass.getDeclaredFields() ) {
+            
             fd = new FieldDefinition( formatName( f.getName() ), formatLabel( formatField( f.getName() ) ),
                     formatClass( f.toGenericString() ), isBasicClass( f.toGenericString() ) );
             /*System.out.println( "field add : " + formatField( f.getName() ) + " | " + fd.label + " | " + fd.class_
                     + " | " + fd.isBasicClass );*/
-            this.putField( formatField( f.getName() ), fd );
+            this.putField( formatField( f.getName() ), fd ,f);
+            
+            
+            if(f.getAnnotation( Id.class )!=null) {
+                //System.out.println( "ID found : "+ fd.name );
+                this.idField = fd;
+            }
 
         }
     }
 
-    public void putField( String field, FieldDefinition definition ) {
-        if ( definition.label != " " && field != " " ) {
-            if ( this.idField == null ) {
-                this.idField = definition;
-            }
+    public void putField( String field, FieldDefinition definition ,Field f ) {
+        
+        if ( definition.label != " " && field != " " && Arrays.binarySearch(fieldsToBan,field)<0) {
+            
             this.fields.put( field, definition );
-
+            this.fields_java.put( field, f );
         }
     }
 
@@ -96,7 +118,7 @@ public class EntityFields<T> {
 
     private String formatLabel( String label ) {
         String out = label;
-        int index = 0;
+    
 
         out = out.replaceAll( "_", " " );
         out = out.substring( 0, 1 ).toUpperCase() + out.substring( 1 );
@@ -112,8 +134,10 @@ public class EntityFields<T> {
     private boolean isBasicClass( String className ) {
         return formatClass( className ).startsWith( "java" );
     }
+    
+   
 
-    public FieldDefinition idField() {
+    public FieldDefinition getIdField() {
 
         return this.idField;
     }
@@ -126,4 +150,88 @@ public class EntityFields<T> {
             return fieldName;
         }
     }
+    
+    public Class<?> getClass(String name) {
+        try {
+            return Class.forName( this.fields.get( name ).class_);
+        } catch ( ClassNotFoundException e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public String getChildId(String childName) {
+        Class<?> class_ = this.getClass( childName );
+        for(Field f :class_.getDeclaredFields()) {
+            if(f.getAnnotation( Id.class )!=null) {
+              return f.getName();
+            }
+        }
+        return null;
+    }
+    
+    public Method getGetter(Class<?> class_ ,String name) {
+        if(name!=null) {
+            String out = name.substring( 0,1 ).toUpperCase()+name.substring( 1);
+            try {
+                return class_.getMethod( "get"+out, (Class<?>[])null );
+                
+            } catch ( Exception e ) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } 
+        }
+       
+        return null;
+    }
+
+    public Field getFields_java(String name) {
+        return fields_java.get( name );
+    }
+    
+    
+    public List<String> getListFields(){
+        List<String> out = new ArrayList<String>();
+        
+        for (FieldDefinition f :this.fields.values()) {
+            if(f.class_.contains( "List" )) {
+                out.add( f.name );
+            }
+        }
+        return out;
+    }
+    
+    public boolean hasCascadePersist(String field) {
+        Field f = this.getFields_java( field );
+        Annotation a = null;
+        
+        
+        
+        CascadeType[] types = null;
+       
+        
+        if((a = f.getAnnotation( ManyToOne.class ))!=null) {
+            types = ((ManyToOne) a).cascade();
+        }else if((a = f.getAnnotation( OneToMany.class ))!=null) {
+            types = ((OneToMany) a).cascade();  
+        }else if((a = f.getAnnotation( OneToOne.class ))!=null) {
+            types = ((OneToOne) a).cascade();
+        }else if ((a = f.getAnnotation( ManyToMany.class ))!=null) {
+            types = ((ManyToMany) a).cascade();
+        }
+      
+        
+        //System.out.println( "this child "+field+" is annotated  "+(types!=null));
+        
+   
+       
+        if(types!=null) {
+            return Arrays.binarySearch( types, CascadeType.ALL )>=0 || Arrays.binarySearch( types, CascadeType.PERSIST )>=0;
+        }else {
+            return false;
+        }
+        
+    }
+    
 }

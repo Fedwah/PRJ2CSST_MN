@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import beans.entities.vehicules.EtatVehicule;
 import beans.session.general.BeanFactory;
+import beans.session.general.BeanManager;
 
 public class EtatVehiculeFactory extends BeanFactory<EtatVehicule> {
 
@@ -47,7 +48,7 @@ public class EtatVehiculeFactory extends BeanFactory<EtatVehicule> {
     }
     
     @Override
-    public void validateChilds( EtatVehicule bean ) {
+    public void validateChilds( EtatVehicule bean, BeanManager<EtatVehicule> beanM ) {
         // TODO Auto-generated method stub
         
     }

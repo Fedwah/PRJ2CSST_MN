@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import beans.entities.maintenance.niveaux.Niveau;
 import beans.session.general.BeanFactory;
+import beans.session.general.BeanManager;
 
 public class NiveauFactory extends BeanFactory<Niveau> {
 	
@@ -25,9 +26,9 @@ public class NiveauFactory extends BeanFactory<Niveau> {
 	}
 
 	@Override
-	public void validateChilds(Niveau bean) {
-		// TODO Auto-generated method stub
-		
+	public void validateChilds( Niveau bean, BeanManager<Niveau> beanM ) {
+	    // TODO Auto-generated method stub
+	    
 	}
 
 	@Override

@@ -10,16 +10,16 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import beans.entities.driver.Driver;
+
 import beans.entities.general.Image;
 import beans.entities.regions.unites.Unite;
 
@@ -30,6 +30,7 @@ public class Vehicule implements Serializable {
   
     private static final long serialVersionUID = 1L;
 
+   
     @Id
     @NotEmpty
     @Size(min=5,max=20)
@@ -70,7 +71,6 @@ public class Vehicule implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Unite unite;
      
-    
     public Vehicule() {
       
     }

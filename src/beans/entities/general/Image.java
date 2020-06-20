@@ -1,8 +1,6 @@
 package beans.entities.general;
 
-import java.util.Arrays;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
@@ -24,13 +22,29 @@ public class Image {
         // TODO Auto-generated constructor stub
     }
 
+    
+    public Image( String titre ) {
+        super();
+        this.titre = titre;
+    }
+
+    
+    public Image( String titre, byte[] bin ) {
+        super();
+        this.titre = titre;
+        this.bin = bin;
+    }
+
+
     public String getTitre() {
         return this.titre;
     }
 
     public void setTitre( String titre ) {
+        
         if(titre != null) {
             if(!titre.isEmpty()) {
+                titre = extractName( titre );
                 //System.out.println("new titre image "+titre.length());
                 String type = titre.substring( titre.lastIndexOf( '.' ) );
 
@@ -70,4 +84,11 @@ public class Image {
          }
         
     }
+     
+   private String extractName(String cheminFichier) {
+       int index = cheminFichier.lastIndexOf( '\\' );
+       if(index!=-1) cheminFichier = cheminFichier.substring(index+1);
+       
+       return cheminFichier;
+   }
 }

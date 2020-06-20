@@ -10,6 +10,7 @@ import beans.entities.maintenance.niveaux.Niveau;
 import beans.entities.pieces.Piece;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.BeanFactory;
+import beans.session.general.BeanManager;
 import beans.session.vehicules.VehiculesManager;
 
 public class MaintenanceFactory extends BeanFactory<Maintenance> {
@@ -48,9 +49,9 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
 	}
 
 	@Override
-	public void validateChilds(Maintenance bean) {
-		// TODO Auto-generated method stub
-		
+	public void validateChilds( Maintenance bean, BeanManager<Maintenance> beanM ) {
+	    // TODO Auto-generated method stub
+	    
 	}
 
 	@Override

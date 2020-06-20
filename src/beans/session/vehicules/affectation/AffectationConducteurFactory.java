@@ -9,6 +9,7 @@ import beans.entities.driver.Driver;
 import beans.entities.vehicules.AffectationConducteur;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.BeanFactory;
+import beans.session.general.BeanManager;
 
 public class AffectationConducteurFactory extends BeanFactory<AffectationConducteur> {
 
@@ -56,8 +57,9 @@ public class AffectationConducteurFactory extends BeanFactory<AffectationConduct
     
     
     
+    
     @Override
-    public void validateChilds( AffectationConducteur bean ) {
+    public void validateChilds( AffectationConducteur bean, BeanManager<AffectationConducteur> beanM ) {
         // TODO Auto-generated method stub
         
     }

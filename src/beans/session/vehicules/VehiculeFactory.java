@@ -9,6 +9,7 @@ import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.BeanFactory;
+import beans.session.general.BeanManager;
 import beans.session.vehicules.categorie.CategorieVehiculeFactory;
 import beans.session.vehicules.etats.EtatVehiculeFactory;
 import beans.session.vehicules.marques.MarqueFactory;
@@ -30,6 +31,10 @@ public class VehiculeFactory extends BeanFactory<Vehicule> {
     public static final String  VUE_LIST                  = "/WEB-INF/vues/vehicules/vehicules.list.jsp";
     public static final String  DEFAULT_REDIRECT_URL      = "/Vehicules";
 
+    public VehiculeFactory() {
+        super( Vehicule.class );
+    }
+    
     public VehiculeFactory( Class<Vehicule> beanClass ) {
         super( beanClass );
         // TODO Auto-generated constructor stub
@@ -56,6 +61,7 @@ public class VehiculeFactory extends BeanFactory<Vehicule> {
         v.setMatricule_externe( request.getParameter( PARAM_MATRICULE_EXTERNE ) );
         v.setMatricule_interne( request.getParameter( PARAM_MATRICULE_INTERNE ) );
         v.setDate_achat( this.readDate( request, PARAM_DATE_ACHAT ) );
+        
         v.setPhoto( this.readImage( request, PARAM_PHOTO ) );
         v.setUnite( new Unite( request.getParameter( PARAM_UNITE ) ) );
         return v;
@@ -82,7 +88,7 @@ public class VehiculeFactory extends BeanFactory<Vehicule> {
     }
 
     @Override
-    public void validateChilds( Vehicule bean ) {
+    public void validateChilds( Vehicule bean ,BeanManager<Vehicule> beanM) {
         ModeleFactory modF = new ModeleFactory();
         MarqueFactory marF = new MarqueFactory();
         EtatVehiculeFactory etatF = new EtatVehiculeFactory();

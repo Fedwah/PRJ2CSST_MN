@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import beans.entities.regions.Region;
 import beans.entities.regions.unites.Unite;
 import beans.session.general.BeanFactory;
+import beans.session.general.BeanManager;
 
 
 public class UniteFactory extends BeanFactory<Unite>{
@@ -21,9 +22,9 @@ public class UniteFactory extends BeanFactory<Unite>{
 	}
 
 	@Override
-	public void validateChilds(Unite bean) {
-		// TODO Auto-generated method stub
-		
+	public void validateChilds( Unite bean, BeanManager<Unite> beanM ) {
+	    // TODO Auto-generated method stub
+	    
 	}
 
 	@Override
