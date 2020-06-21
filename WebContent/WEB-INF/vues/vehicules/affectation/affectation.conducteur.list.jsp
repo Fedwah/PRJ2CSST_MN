@@ -5,50 +5,18 @@
 
 <%@taglib prefix="form" tagdir="/WEB-INF/tags/form"%>
 <%@taglib prefix="btn" tagdir="/WEB-INF/tags/btn"%>
-
+<%@taglib prefix="img" tagdir="/WEB-INF/tags/img"%>
 <div class="container-fluid  p-3">
 	<div class="row mb-2">
 		<div class="col-md-7">
 			<div class="card  border-${actuelle!=null?'success':'danger'}">
 				<div class="row no-gutters">
 					<div class="cold-md-3">
-
-						<c:choose>
-							<c:when test="${actuelle.driver.photo!=null}">
-								<div class="card-img img-fluid">
-									<img
-										src='<c:url value="/Images/${actuelle.driver.photo.titre}" />'
-										class="" alt="..." width="150px">
-								</div>
-
-							</c:when>
-							<c:otherwise>
-								<div class="card-img img-fluid">
-									<img class="" src='<c:url value="/public/img/notfound.png" />'
-										width="150px" />
-								</div>
-
-							</c:otherwise>
-						</c:choose>
+						<img:card-img szie="150px" value="${actuelle.driver.photo}"/>
 					</div>
 					<div class="col-md-3">
-						<c:choose>
-							<c:when test="${actuelle.car.photo!=null}">
-								<div class="card-img">
-									<img class=""
-										src='<c:url value="/Images/${actuelle.car.photo.titre}" />'
-										width="150px" />
-								</div>
-
-							</c:when>
-							<c:otherwise>
-								<div class="card-img">
-									<img class="" src='<c:url value="/public/img/notfound.png" />'
-										width="150px" />
-								</div>
-
-							</c:otherwise>
-						</c:choose>
+						<img:card-img szie="150px"  value="${actuelle.car.photo}"/>
+						
 					</div>
 					<div class="col-md-6">
 						<div class="card-body">
@@ -77,6 +45,7 @@
 						text="Démarer une mission" outline="${false}" small="${true}"
 						disable="${actuelle==null}">
 					</btn:btn>
+
 
 					<form method="post" action="" class="col-6 form-row ">
 						<form:input name="driver" type="hidden"
@@ -206,7 +175,7 @@
 										<form:input name="driver" type="hidden"
 											value="${aff.driver.IDdriver}"></form:input>
 										<form:input name="vehicule" type="hidden"
-											value="${aff.car.num_immatriculation}"></form:input>
+											value="${aff.car.matricule_interne}"></form:input>
 										<input type="submit" value="Affecter"
 											class="btn btn-sm btn-outline-success" />
 									</form> <btn:remove value="/Vehicules/Affectations/remove/${aff.id}"></btn:remove>

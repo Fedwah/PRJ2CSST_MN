@@ -18,7 +18,7 @@ public class MissionFactory extends BeanFactory<Mission> {
     public static final String TITRE_VUE_FORM = "Mission ";
     public static final String VUE_LIST = "";
     public static final String VUE_FORM = "/WEB-INF/vues/vehicules/missions/missions.form.jsp";
-    public static final String REDIRECT_URL = "/Vehicules/Affectations/";
+    public static final String REDIRECT_URL = "/Vehicules/";
 
     public MissionFactory() {
         super( Mission.class );

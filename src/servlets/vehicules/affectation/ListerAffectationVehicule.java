@@ -31,7 +31,7 @@ import beans.session.vehicules.missions.MissionManager;
  * Servlet implementation class AffectationVehicule
  */
 
-@WebServlet( "/Vehicules/Affectations/*" )
+@WebServlet( "/Affectations/*" )
 public class ListerAffectationVehicule extends HttpServlet {
 
     private static final long    serialVersionUID = 1L;
@@ -72,7 +72,7 @@ public class ListerAffectationVehicule extends HttpServlet {
        
         pg.setPageTitle( AffectationConducteurFactory.TITRE_VUE_LIST + id );
 
-        affF.addFiltre( "car", "num_immatriculation", id );
+        affF.addFiltre( "car", "matricule_interne", id );
         
         affectations = affM.lister( affF.getFiltres());
         
@@ -118,7 +118,7 @@ public class ListerAffectationVehicule extends HttpServlet {
 
         pg.setPageTitle( AffectationConducteurFactory.TITRE_VUE_LIST + id );
 
-        affF.addFiltre( "car", "num_immatriculation", id );
+        affF.addFiltre( "car", "matricule_intere", id );
         
         affectations = affM.lister( affF.getFiltres() );
         

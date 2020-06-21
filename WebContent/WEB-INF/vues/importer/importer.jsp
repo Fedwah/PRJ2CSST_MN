@@ -18,7 +18,7 @@
 			<form:file-upload name="file" col="" text="Importer un excel"></form:file-upload>
 			<button type="submit" class="btn btn-primary col" name="importer">Valider
 				l'importation</button>
-			<c:if test="${erreurs.isEmpty()">
+			<c:if test="${erreurs.isEmpty()}">
 				<div >
 					Inseretion réussite
 				</div>

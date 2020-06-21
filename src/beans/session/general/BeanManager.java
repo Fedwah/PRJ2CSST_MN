@@ -339,6 +339,28 @@ private Query QuerryBuilderSearch(Map<String, Object> values,boolean and,String 
     }
    
     
+    public T ObtenirDernier() {
+        List<?> l  = this.getEntityManger()
+                .createQuery( "SELECT b from "+this.beanClass.getName()+" b ORDER by "+this.fields.getIdField().name+" DESC")
+                .setMaxResults( 1 )
+                .getResultList();
+        
+        if(l.size()>0) {
+           return (T)l.get( 0 );
+        }else
+            return null;
+                
+    }
     
+    public T ObtenirDernier(Map<String,Object> filtre) {
+        List<?> l  = this.QuerryBuilder( filtre, true, this.fields.getIdField().name+" DESC")
+                .setMaxResults( 1 ).getResultList();
+        if(l.size()>0) {
+            return (T)l.get( 0 );
+         }else
+             return null;
+                 
+        
+    }
    
 }

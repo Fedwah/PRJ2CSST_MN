@@ -13,17 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.driver.Driver;
 import beans.entities.pieces.Piece;
+import beans.entities.vehicules.AffectationConducteur;
 import beans.entities.vehicules.Vehicule;
 import beans.session.drivers.DriverFactory;
 import beans.session.drivers.DriverManager;
 import beans.session.general.PageGenerator;
 import beans.session.regions.RegionManager;
 import beans.session.vehicules.VehiculeFactory;
+import beans.session.vehicules.affectation.AffectationConducteurFactory;
+import beans.session.vehicules.affectation.AffectationConducteurManager;
 
 /**
  * Servlet implementation class driversList
  */
-@WebServlet("/drivers")
+@WebServlet({"/drivers","/Vehicules/Affectation/*"})
 public class driversList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String driverVue = "/WEB-INF/vues/driver/driverLists.jsp";
@@ -31,6 +34,8 @@ public class driversList extends HttpServlet {
 	private DriverManager dm;
 	@EJB
 	private RegionManager regManager;
+	@EJB
+	private AffectationConducteurManager affM;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -48,6 +53,7 @@ public class driversList extends HttpServlet {
 		request.setAttribute( "drivers", dm.lister());
 		request.setAttribute("region", regManager.lister());
 		request.setAttribute( "fields", Driver.class.getDeclaredFields());
+		request.setAttribute( "vehicule", pg.getPathId( request ));
 		pg.generate( getServletContext(), request, response );
 	}
 
@@ -98,6 +104,22 @@ public class driversList extends HttpServlet {
 			
 			request.setAttribute("by", by);
 			request.setAttribute("wordf", search);
+		}else if (request.getParameter( "affecter" )!=null){
+		    //AJouter par @Syphax pour faire l'affectation
+		    AffectationConducteurFactory affF = new AffectationConducteurFactory();
+		    String id = pg.getPathId( request );
+		    AffectationConducteur oldAff = null;
+		    
+		    
+		    affF.addFiltre( "car", "matricule_interne", id );
+		    oldAff=affM.ObtenirDernier(affF.getFiltres());
+		    
+		    affF.affecter( request, affM, oldAff );
+		    
+		    
+		    pg.setRedirectURL( AffectationConducteurFactory.DEFAULT_REDIRECT+id );
+		    pg.redirect( getServletContext(), request, response );
+		    
 		}
 		request.setAttribute( "region", regManager.lister());
 		pg.generate( getServletContext(), request, response );
