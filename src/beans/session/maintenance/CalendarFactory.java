@@ -244,8 +244,13 @@ public class CalendarFactory {
 					if(hasPriority)
 					{
 						ArrayList indexes = this.getIndexById(idMain, monthList);
-						int i = indexes.size() - 1 ;
-						monthList.remove(i);
+						
+						for(int i = indexes.size() - 1; i >= 0 ; i--)
+						{
+							monthList.remove(indexes.get(i));
+						
+						}
+						
 					}
 				}
 			}
