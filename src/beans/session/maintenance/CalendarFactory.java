@@ -2,10 +2,12 @@ package beans.session.maintenance;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -162,14 +164,94 @@ public class CalendarFactory {
 		return conv;
 	}
 	
-	public Map<Integer, Maintenance> maintenaceByDate(List<Maintenance> l)
+	public Map<Integer, List<Maintenance>> maintenaceByDate(List<Maintenance> l)
 	{
-		Map<Integer, Maintenance> map = new HashMap();
+		Map<Integer, List<Maintenance>> map = new HashMap();
 		for(Maintenance m : l)
 		{
-			map.put(m.getDay(),m);
+			int key = m.getDay();
+			if(map.get(key) == null)
+			{
+				map.put(key, new ArrayList());
+			}
+			map.get(key).add(m);
 		}
 		return map;
+	}
+	
+	public String getEtat(Maintenance m)
+	{
+		if(m.getEndDate() == null)
+		{
+			if(m.getDay() > this.iTDay)
+			{
+				return "a venir";
+			}
+			
+			else
+			{
+				return "en cours";
+			}
+		}
+		else
+		{
+			return "termine";
+		}
+	}
+	
+	public ArrayList<Integer> getIndexById(ArrayList<Integer> idMain,List<Maintenance> monthList)
+	{
+		ArrayList<Integer> indexes = new ArrayList();
+		for(int i = 0; i< monthList.size() ; i++)
+		{
+			for(int j : idMain)
+			{
+				if(monthList.get(i).getIdMaintenance() == j)
+				{
+					indexes.add(i);
+				}
+			}
+		}
+		return indexes;
+	}
+	
+	
+	public List<Maintenance> treatList(List<Maintenance> monthList)
+	{
+		Map<Integer,List<Maintenance>> organizedList = this.maintenaceByDate(monthList);
+		Iterator iterator = organizedList.entrySet().iterator();
+			while(iterator.hasNext())
+			{
+				Map.Entry mapentry = (Map.Entry) iterator.next();
+				List<Maintenance> listOfDay = (List<Maintenance>) mapentry.getValue();
+				if((listOfDay.size() > 1) && ((Integer) mapentry.getKey() < this.iTDay))
+				{
+					boolean hasPriority = false;
+					ArrayList<Integer> idMain = new ArrayList();
+					for(Maintenance m : listOfDay)
+					{
+						if(this.getEtat(m).equals("en cours"))
+						{
+							hasPriority =true;
+							
+						}
+						else if (this.getEtat(m).equals("termine"))
+						{
+							idMain.add(m.getIdMaintenance());
+						}
+					}
+					
+					if(hasPriority)
+					{
+						ArrayList indexes = this.getIndexById(idMain, monthList);
+						int i = indexes.size() - 1 ;
+						monthList.remove(i);
+					}
+				}
+			}
+			
+			return monthList;
+		
 	}
 
 }

@@ -49,7 +49,8 @@ public class calendrier extends HttpServlet {
 		request.setAttribute("months", calendrier.ListOfMonths());
 	    request.setAttribute("mois", calendrier.getMonthName(calendrier.getiMonth()));    
 	    List<Maintenance> showList = em.monthlyMaintenance(calendrier.getiMonth() + 1 , calendrier.getiYear());
-	    request.setAttribute("main", em.monthlyMaintenance(calendrier.getiMonth() + 1 , calendrier.getiYear()));
+	    List<Maintenance> threatedList = calendrier.treatList(showList);
+	    request.setAttribute("main", threatedList);
 		pg.generate( getServletContext(), request, response );
 	}
 
