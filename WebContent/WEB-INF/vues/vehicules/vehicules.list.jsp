@@ -64,9 +64,7 @@
 					<td>${vehicule.date_achat}</td>
 					<td>${vehicule.etat.titre}</td>
 					<td>
-						<btn:affectation
-							value="/Vehicules/Affectations/${vehicule.matricule_interne}"
-							text="Conducteur" />
+						<btn:btn type="primary" value="/Vehicules/${vehicule.matricule_interne}" text="Détail"/>
 						<btn:edit value="/Vehicules/edit/${vehicule.matricule_interne}" /> 
 						<btn:remove value="/Vehicules/remove/${vehicule.matricule_interne}" />
 					   
