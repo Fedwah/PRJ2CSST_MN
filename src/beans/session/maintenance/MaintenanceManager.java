@@ -35,4 +35,15 @@ public class MaintenanceManager extends BeanManager<Maintenance> {
 		return m;
 		
 	}
+	
+	public List<Maintenance> monthlyMaintenance(int month, int year)
+	{
+		//Query qr = this.em.createQuery("select b from Maintenance b where SubString(cast(b.startDate as text),1,4) = :year");
+		Query qr = this.em.createQuery("select b from Maintenance b where function('YEAR', b.startDate) = :year and "
+				+ "function('MONTH',b.startDate) = :month order by b.startDate");
+		qr.setParameter("year", year);
+		qr.setParameter("month", month);
+		List<Maintenance> m = qr.getResultList();
+		return m;
+	}
 }

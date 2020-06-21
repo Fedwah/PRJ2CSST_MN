@@ -1,6 +1,7 @@
 package beans.entities.maintenance;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -209,7 +210,13 @@ public class Maintenance implements Serializable{
 	public void setNbP(int nbP) {
 		this.nbP = nbP;
 	}
-
+	public int getDay()
+	{
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(this.startDate);
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		return day;
+	}
 	
 	
 		
