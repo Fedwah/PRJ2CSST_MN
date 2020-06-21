@@ -13,6 +13,7 @@ import beans.entities.utilisateurs.Utilisateur;
 
 import beans.session.Utilisateur.MethodeUtilisateur;
 import beans.session.general.BeanFactory;
+import beans.session.general.BeanManager;
 
 public class RegionFactory extends BeanFactory<Region> {
 
@@ -36,9 +37,9 @@ public class RegionFactory extends BeanFactory<Region> {
 	}
 
 	@Override
-	public void validateChilds(Region bean) {
-		
-		
+	public void validateChilds( Region bean, BeanManager<Region> beanM ) {
+	    // TODO Auto-generated method stub
+	    
 	}
 
 	@Override

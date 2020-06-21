@@ -1,13 +1,21 @@
 package beans.session.general;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.persistence.CascadeType;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Query;
 
 import beans.entities.vehicules.Modele;
@@ -17,13 +25,15 @@ import beans.session.general.fields.FieldDefinition;
 public abstract class BeanManager<T> {
 
     private Class<T> beanClass;
-
+    private EntityFields<T> fields ;
     public BeanManager() {
         // TODO Auto-generated constructor stub
     }
 
     public BeanManager( Class<T> beanClass ) {
         this.beanClass = beanClass;
+        this.fields = new EntityFields<T>();
+        this.fields.generateFields( beanClass );
     }
 
     public abstract EntityManager getEntityManger();
@@ -171,7 +181,7 @@ public abstract class BeanManager<T> {
 
     }
 
-    public Object ObtenirRefence( Class classTorRef, Object idToRef ) {
+    public Object ObtenirRefence( Class<?> classTorRef, Object idToRef ) {
         try {
             return this.getEntityManger().getReference( classTorRef, idToRef );
         } catch ( RuntimeException e ) {
@@ -218,7 +228,7 @@ public abstract class BeanManager<T> {
 
 private Query QuerryBuilderSearch(Map<String, Object> values,boolean and,String orderBy) {
         
-        EntityFields<T> fields = new EntityFields<T>();
+        
         String where = "";
         String join = "";
         String q = null;
@@ -328,5 +338,29 @@ private Query QuerryBuilderSearch(Map<String, Object> values,boolean and,String 
         return qr;
     }
    
-
+    
+    public T ObtenirDernier() {
+        List<?> l  = this.getEntityManger()
+                .createQuery( "SELECT b from "+this.beanClass.getName()+" b ORDER by "+this.fields.getIdField().name+" DESC")
+                .setMaxResults( 1 )
+                .getResultList();
+        
+        if(l.size()>0) {
+           return (T)l.get( 0 );
+        }else
+            return null;
+                
+    }
+    
+    public T ObtenirDernier(Map<String,Object> filtre) {
+        List<?> l  = this.QuerryBuilder( filtre, true, this.fields.getIdField().name+" DESC")
+                .setMaxResults( 1 ).getResultList();
+        if(l.size()>0) {
+            return (T)l.get( 0 );
+         }else
+             return null;
+                 
+        
+    }
+   
 }

@@ -9,6 +9,7 @@ import beans.entities.pieces.Piece;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 import beans.session.general.BeanFactory;
+import beans.session.general.BeanManager;
 import beans.session.vehicules.marques.MarqueFactory;
 import beans.session.vehicules.marques.MarqueManager;
 import beans.session.vehicules.marques.modeles.ModeleManager;
@@ -54,16 +55,17 @@ public class PieceFactory extends BeanFactory<Piece> {
 		Piece p = new Piece(code,ref,nom,m,mod);
 		return p;
 	}
+	
 	@Override
-	public void validateChilds(Piece bean) {
+	public void validateChilds(Piece bean , BeanManager<Piece> beanM) {
 		MarqueFactory mf = new MarqueFactory();
 		if (!mf.findModal(bean.getMark(), bean.getModal()))
 		{
-			this.addErreurs( "modal", "ce modele n'appartient pas à la marque sélectionnée");
+			this.addErreurs( "modal", "ce modele n'appartient pas ï¿½ la marque sï¿½lectionnï¿½e");
 		}
 		
 	}
-	// mise à jour dans la base de données
+	// mise ï¿½ jour dans la base de donnï¿½es
 	@Override
 	public void updateChange(Piece newB, Piece old) {
 		old.setPieceName(newB.getPieceName());

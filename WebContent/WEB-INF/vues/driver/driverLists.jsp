@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib tagdir="/WEB-INF/tags/form" prefix="form"%>
+
 <form class="p-4 needs-validation " method="post"
 		action="<c:out value=""/>" >
 <div class="container-fluid p-3">
@@ -86,12 +88,25 @@
 					<td></td>
 					
 					<td align="right">
-						<a class="btn btn-outline-primary" href='<c:url value="/drivers/edit/${dr.IDdriver}"/>'>
-							<img width="20px" height="20px" src="<c:url value='/public/img/icon/edit_green.png'/>" />
-						</a>
-						<a class="btn btn-outline-danger" href='<c:url value="/drivers/remove/${dr.IDdriver}"/>'>
-							<img width="20px" height="20px" src="<c:url value='/public/img/icon/delete_green.png'/>" />
-						</a>
+						<c:choose>
+							<c:when test="${vehicule!=null && !empty vehicule}">
+								<button type="submit" name="affecter" class="btn btn-primary">Affecter comme conducteur</button>
+								<form:input name="driver" type="hidden" value="${dr.IDdriver}"/>
+								<form:input name="vehicule" type="hidden" value="${vehicule }"/>
+								<!-- Ajouter par @Syphax pour l'affectatation -->
+							</c:when>
+							<c:otherwise>
+								<a class="btn btn-outline-primary" href='<c:url value="/drivers/edit/${dr.IDdriver}"/>'>
+									<img width="20px" height="20px" src="<c:url value='/public/img/icon/edit_green.png'/>" />
+								</a>
+								<a class="btn btn-outline-danger" href='<c:url value="/drivers/remove/${dr.IDdriver}"/>'>
+									<img width="20px" height="20px" src="<c:url value='/public/img/icon/delete_green.png'/>" />
+								</a>
+							</c:otherwise>
+						</c:choose>
+						
+						
+						
 					</td>
 				</tr>
 			</c:forEach>

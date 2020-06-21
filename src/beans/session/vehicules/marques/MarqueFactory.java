@@ -9,6 +9,7 @@ import beans.entities.general.Image;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 import beans.session.general.BeanFactory;
+import beans.session.general.BeanManager;
 import beans.session.general.BeanValidator;
 
 public class MarqueFactory extends BeanFactory<Marque> {
@@ -19,7 +20,7 @@ public class MarqueFactory extends BeanFactory<Marque> {
     public static final String VUE_FORM = "/WEB-INF/vues/vehicules/marques/marques.form.jsp";
     public static final String DEFAULT_REDIRECT_URL = "/Marques";
     public MarqueFactory() {
-        // TODO Auto-generated constructor stub
+        super( Marque.class );
     }
 
     public Marque create( HttpServletRequest request ) {
@@ -48,7 +49,7 @@ public class MarqueFactory extends BeanFactory<Marque> {
     }
     
     @Override
-    public void validateChilds( Marque bean ) {
+    public void validateChilds( Marque bean , BeanManager<Marque> beanM) {
         // TODO Auto-generated method stub
         if(bean.getImage()!=null) {
             this.addErreurs(PARAM_IMAGE,new BeanValidator<Image>(bean.getImage()).getErreurs().toString());

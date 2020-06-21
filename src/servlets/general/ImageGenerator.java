@@ -59,9 +59,9 @@ public class ImageGenerator extends HttpServlet {
             response.reset();
             response.setContentType( getServletContext().getMimeType( imgName ) );
             response.setContentLength( img.getBin().length );
-            System.out.println( "IMG found: "+img.getTitre() );
-            System.out.println( "IMG type: " + getServletContext().getMimeType( imgName ) );
-            System.out.println( "IMG Enocded length :" + img.getBin().length);
+            //System.out.println( "IMG found: "+img.getTitre() );
+            //System.out.println( "IMG type: " + getServletContext().getMimeType( imgName ) );
+            //System.out.println( "IMG Enocded length :" + img.getBin().length);
             //System.out.println( "IMG Deccoded length : " +Base64.getDecoder().decode( img.getBinary() ).length);
             response.getOutputStream().write(img.getBin());
         }

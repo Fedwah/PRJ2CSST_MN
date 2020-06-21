@@ -50,7 +50,7 @@
 
 					<form:filter-select name="${names.modele}" col="col-md-4"
 						childfieldToPrint="titre" fieldChild="modeles"
-						selectedValue="${vehicule.modele.titre}" items="${marques}"
+						selectedValue="${vehicule.modele.id}" items="${marques}"
 						childfieldID="id" addLink="/Marques/Modeles" label="Modele"
 						fieldID="titre" childfieldToTest="titre">
 					</form:filter-select>

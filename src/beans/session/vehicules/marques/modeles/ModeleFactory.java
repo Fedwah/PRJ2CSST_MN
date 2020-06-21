@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 import beans.session.general.BeanFactory;
+import beans.session.general.BeanManager;
 
 public class ModeleFactory extends BeanFactory<Modele> {
     
@@ -16,7 +17,7 @@ public class ModeleFactory extends BeanFactory<Modele> {
     public static final String VUE_LIST_FORM                  = "/WEB-INF/vues/vehicules/marques/modeles/marques.modeles.jsp";
     public static final String DEFAULT_REDIRECT_URL      = "/Marques";
     public ModeleFactory() {
-        // TODO Auto-generated constructor stub
+        super( Modele.class );
     }
 
     @Override
@@ -34,10 +35,11 @@ public class ModeleFactory extends BeanFactory<Modele> {
         }
         
     }
+   
     @Override
-    public void validateChilds( Modele bean ) {
+    public void validateChilds( Modele bean, BeanManager<Modele> beanM ) {
         // TODO Auto-generated method stub
-        //Pas de propietie fils complex (manyToOne ou autre) 
+        
     }
     
     public Modele filtrer(HttpServletRequest request, ModeleManager em)

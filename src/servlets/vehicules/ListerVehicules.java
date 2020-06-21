@@ -77,10 +77,8 @@ public class ListerVehicules extends HttpServlet {
 
         VehiculeFactory vf = new VehiculeFactory( Vehicule.class );
 
-        // request.setAttribute( ATT_VEHICULES,
-        // vm.getEntityManger().createQuery("SELECT b FROM
-        // beans.entities.vehicules.Vehicule b JOIN b.modele modele where
-        // modele.titre ='M-3' ").getResultList());
+        
+        
         request.setAttribute( ATT_VEHICULES, vm.lister() );
         request.setAttribute( ATT_FIELDS, vf.getEntityFields().labels() );
         request.setAttribute( ATT_FILTRES, vf.getNamesToFilter() );

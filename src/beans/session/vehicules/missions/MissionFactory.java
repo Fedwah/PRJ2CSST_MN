@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import beans.entities.vehicules.AffectationConducteur;
 import beans.entities.vehicules.Mission;
 import beans.session.general.BeanFactory;
+import beans.session.general.BeanManager;
 
 public class MissionFactory extends BeanFactory<Mission> {
 
@@ -17,7 +18,7 @@ public class MissionFactory extends BeanFactory<Mission> {
     public static final String TITRE_VUE_FORM = "Mission ";
     public static final String VUE_LIST = "";
     public static final String VUE_FORM = "/WEB-INF/vues/vehicules/missions/missions.form.jsp";
-    public static final String REDIRECT_URL = "/Vehicules/Affectations/";
+    public static final String REDIRECT_URL = "/Vehicules/";
 
     public MissionFactory() {
         super( Mission.class );
@@ -52,11 +53,11 @@ public class MissionFactory extends BeanFactory<Mission> {
         
     }
     
-    @Override
-    public void validateChilds( Mission bean ) {
-        // TODO Auto-generated method stub
-        
-    }
+   @Override
+   public void validateChilds( Mission bean, BeanManager<Mission> beanM ) {
+    // TODO Auto-generated method stub
+    
+   }
     
 
 }

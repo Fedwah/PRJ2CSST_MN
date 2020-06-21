@@ -12,6 +12,7 @@
 			<include-prelude>WEB-INF/taglibs.jsp</include-prelude>
 		</jsp-property-group>
 	</jsp-config>
+	
 	<!-- Pour valider les input contre XSS -->
 	<filter>
 		<filter-name>ParameterValidationFilter</filter-name>

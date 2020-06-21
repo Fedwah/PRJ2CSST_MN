@@ -10,6 +10,7 @@ import beans.entities.general.Image;
 import beans.entities.regions.unites.Unite;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.BeanFactory;
+import beans.session.general.BeanManager;
 import beans.session.regions.unites.UniteManager;
 
 public class DriverFactory extends BeanFactory<Driver> {
@@ -53,8 +54,8 @@ public class DriverFactory extends BeanFactory<Driver> {
 	}
 
 	@Override
-	public void validateChilds (Driver bean) {
-		if(bean.getUnite() == null) this.addErreurs("unite", "Ce code unité n'existe pas");
+	public void validateChilds (Driver bean , BeanManager<Driver> beanM) {
+		if(bean.getUnite() == null) this.addErreurs("unite", "Ce code unitï¿½ n'existe pas");
 		
 	}
 
