@@ -17,7 +17,7 @@ import beans.entities.driver.Driver;
 import beans.entities.pieces.Piece;
 import beans.session.drivers.DriverFactory;
 import beans.session.drivers.DriverManager;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.pieces.PieceFactory;
 import beans.session.regions.unites.UniteManager;
 
@@ -85,7 +85,7 @@ public class driverEdit extends HttpServlet {
 			Driver newD = (Driver) df.create(request);
 			if(df.validate(newD))
 			{
-				// si les champs simple sans valide --> mettre à jour les modifications
+				// si les champs simple sans valide --> mettre ï¿½ jour les modifications
 				if(dm.mettreAJour(dr.getIDdriver(), df , newD))
 				{
 					System.out.println("champs valide");

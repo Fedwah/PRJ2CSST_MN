@@ -33,6 +33,17 @@
 		</div>
 
 		<div class="col-md">
+		
+			<c:if test="${path!=null && !empty path}">
+				<div class="border-bottom p-2  rounded-0 mt-1">
+					<c:if test="${path.tooLong}"> ... </c:if>
+					<c:forEach items="${path.pages}" var="p">
+						/<a href='<c:url value="${p.link}" />' > ${p.path}</a>
+					</c:forEach>
+					
+				</div>
+			</c:if>
+			
 			<c:import url="${vue}"></c:import>
 		</div>
 	</div>

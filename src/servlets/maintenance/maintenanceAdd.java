@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.maintenance.Maintenance;
 import beans.entities.vehicules.Vehicule;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.maintenance.MaintenanceFactory;
 import beans.session.maintenance.MaintenanceManager;
 import beans.session.maintenance.niveaux.NiveauManager;

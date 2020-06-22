@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.utilisateurs.Utilisateur;
 import beans.session.Utilisateur.MethodeUtilisateur;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 
 
 @WebServlet("/EditUser/*")
@@ -89,7 +89,7 @@ public class EditUser extends HttpServlet {
 
       } else {
     	  PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/EditUsers.jsp",  "", "/EditUser/");
-          result = "Échec lors de la saisie des champs.";
+          result = "ï¿½chec lors de la saisie des champs.";
           request.setAttribute( ATT_RES,result);
           request.setAttribute( ATT_ID1,id );
           request.setAttribute( ATT_ERREURS, erreurs );
@@ -113,9 +113,9 @@ public class EditUser extends HttpServlet {
 	 private void validationMotsDePasse( String motDePasse, String confirmation ) throws Exception{
 	    if (motDePasse != null && motDePasse.trim().length() != 0 && confirmation != null && confirmation.trim().length() != 0) {
 	        if (!motDePasse.equals(confirmation)) {
-	            throw new Exception("Les mots de passe entrés sont différents, merci de les saisir à nouveau.");
+	            throw new Exception("Les mots de passe entrï¿½s sont diffï¿½rents, merci de les saisir ï¿½ nouveau.");
 	        } else if (motDePasse.trim().length() < 5) {
-	            throw new Exception("Les mots de passe doivent contenir au moins 5 caractères.");
+	            throw new Exception("Les mots de passe doivent contenir au moins 5 caractï¿½res.");
 	        }
 	    } else {
 	        throw new Exception("Merci de saisir et confirmer votre mot de passe.");

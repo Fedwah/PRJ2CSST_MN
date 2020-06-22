@@ -17,7 +17,7 @@ import beans.entities.pieces.Piece;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.pieces.PieceFactory;
 import beans.session.pieces.PieceManager;
 import beans.session.vehicules.VehiculeFactory;

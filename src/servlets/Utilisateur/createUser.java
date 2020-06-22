@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import beans.entities.utilisateurs.Utilisateur;
  
 import beans.session.Utilisateur.MethodeUtilisateur;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
  
 @WebServlet("/createUser")
 public class createUser extends HttpServlet {
@@ -57,7 +57,7 @@ public class createUser extends HttpServlet {
 
    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	 PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/createUser.jsp", "Créer un utilisateur");
+	 PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/createUser.jsp", "Crï¿½er un utilisateur");
 	 
 	  request.setAttribute( ATT_TYPE, type1 );
 	  request.setAttribute( ATT_ROLE, role1 );
@@ -88,7 +88,7 @@ public class createUser extends HttpServlet {
 	        
 	        if ( erreurs.isEmpty() ) {
 	        	PageGenerator pg1 = new PageGenerator("/WEB-INF/vues/Utilisateur/createUser.jsp", "", "/Utilisateurs");
-	            resultat = "Succès de l'inscription.";
+	            resultat = "Succï¿½s de l'inscription.";
 	            Utilisateur utilisateur = new Utilisateur(nomUtilisateur, motDePasse, nom, prenom, type, role);
 		        User.creer(utilisateur) ;
 		        request.setAttribute( ATT_ERREURS, erreurs );
@@ -100,8 +100,8 @@ public class createUser extends HttpServlet {
 		        
 
 	        } else {
-	        	PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/createUser.jsp","Créer un utilisateur");
-	            resultat = "Échec de l'inscription.";
+	        	PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/createUser.jsp","Crï¿½er un utilisateur");
+	            resultat = "ï¿½chec de l'inscription.";
 	            request.setAttribute( ATT_ERREURS, erreurs );
 		        request.setAttribute( ATT_RESULTAT, resultat );
 		        request.setAttribute( ATT_TYPE, type1 );
@@ -116,9 +116,9 @@ public class createUser extends HttpServlet {
 	 private void validationMotsDePasse( String motDePasse, String confirmation ) throws Exception{
 	    if (motDePasse != null && motDePasse.trim().length() != 0 && confirmation != null && confirmation.trim().length() != 0) {
 	        if (!motDePasse.equals(confirmation)) {
-	            throw new Exception("Les mots de passe entrés sont différents, merci de les saisir à nouveau.");
+	            throw new Exception("Les mots de passe entrï¿½s sont diffï¿½rents, merci de les saisir ï¿½ nouveau.");
 	        } else if (motDePasse.trim().length() < 5) {
-	            throw new Exception("Les mots de passe doivent contenir au moins 5 caractères.");
+	            throw new Exception("Les mots de passe doivent contenir au moins 5 caractï¿½res.");
 	        }
 	    } else {
 	        throw new Exception("Merci de saisir et confirmer votre mot de passe.");

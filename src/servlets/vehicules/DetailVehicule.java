@@ -15,7 +15,7 @@ import beans.entities.vehicules.AffectationConducteur;
 import beans.entities.vehicules.Mission;
 import beans.entities.vehicules.Vehicule;
 import beans.session.drivers.DriverManager;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.VehiculesManager;
 import beans.session.vehicules.affectation.AffectationConducteurFactory;

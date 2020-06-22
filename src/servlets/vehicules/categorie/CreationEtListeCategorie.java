@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.vehicules.CategorieVehicule;
 import beans.entities.vehicules.EtatVehicule;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.vehicules.categorie.CategorieVehiculeFactory;
 import beans.session.vehicules.categorie.CategorieVehiculeManager;
 import beans.session.vehicules.etats.EtatVehiculeFactory;

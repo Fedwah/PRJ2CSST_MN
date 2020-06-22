@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.pieces.Piece;
 import beans.entities.regions.Region;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.regions.RegionManager;
 
 /**
@@ -23,7 +23,7 @@ import beans.session.regions.RegionManager;
 public class regionsLists extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String vueReg = "/WEB-INF/vues/regions/regionLists.jsp" ; 
-	private static final String title = "Liste des régions";
+	private static final String title = "Liste des rï¿½gions";
 	@EJB
 	private RegionManager em;
        

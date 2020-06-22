@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.utilisateurs.Utilisateur;
 import beans.session.Utilisateur.MethodeUtilisateur;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 
 
 
@@ -69,12 +69,12 @@ public class ConsulterTousUtilisateurs extends HttpServlet {
   		    String nom = request.getParameter( CHAMP_S );
           user= User.trouverNOM(nom); 		  
      	    if (user!= null) {
-             resultat = "Utilisateur trouvé.";
+             resultat = "Utilisateur trouvï¿½.";
       	   request.setAttribute( ATT, user );
              request.setAttribute( ATT_RESULTAT, resultat );
              pg.generate( getServletContext(), request, response );
      	        } else 
-	           resultat = "Aucun utilisateur n'a été trouvé."; 
+	           resultat = "Aucun utilisateur n'a ï¿½tï¿½ trouvï¿½."; 
 	           request.setAttribute( ATT, user );
 	           request.setAttribute( ATT_RESULTAT, resultat ); 
 	           pg.generate( getServletContext(), request, response );

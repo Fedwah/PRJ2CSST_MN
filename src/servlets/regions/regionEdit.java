@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import beans.entities.pieces.Piece;
 import beans.entities.regions.Region;
 import beans.session.Utilisateur.MethodeUtilisateur;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.regions.RegionFactory;
 import beans.session.regions.RegionManager;
 
@@ -93,7 +93,7 @@ public class regionEdit extends HttpServlet {
 				}
 				else
 				{
-					// code dupliqué
+					// code dupliquï¿½
 				}
 				
 			}
