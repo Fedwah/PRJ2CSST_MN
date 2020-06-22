@@ -51,9 +51,21 @@ public class CalendarFactory {
 		
 		}
 	
+	public CalendarFactory() 
+	{
+		this.ca = new GregorianCalendar();
+		this.iTDay=ca.get(Calendar.DATE);
+		this.iTYear=ca.get(Calendar.YEAR);
+		this.iTMonth=ca.get(Calendar.MONTH);
+	}
+	
 	//getters and setters
 	
 	
+	
+
+
+
 	public int getiYear() {
 		return iYear;
 	}
@@ -185,7 +197,7 @@ public class CalendarFactory {
 		{
 			if(m.getDay() > this.iTDay)
 			{
-				return "a venir";
+				return "à venir";
 			}
 			
 			else
@@ -257,6 +269,12 @@ public class CalendarFactory {
 			
 			return monthList;
 		
+	}
+	
+	public String dateFromVlues(int day)
+	{ 
+		String date = Integer.toString(this.iYear)  + "-" + Integer.toString(this.iMonth +1) + "-" + Integer.toString(day);
+		return date;
 	}
 
 }

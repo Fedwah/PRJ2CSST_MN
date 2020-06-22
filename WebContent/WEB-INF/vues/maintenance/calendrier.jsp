@@ -92,10 +92,11 @@ function goTo()
         							<c:when test="${cal.iTDay == cnt-cal.weekStartDay+1 && cal.iTMonth == cal.iMonth && cal.iTYear == cal.iYear }">
         								<c:choose>
         									<c:when test="${exist}">
-        										<button type="button" class="btn btn-info rounded-circle">
+        										<a type="button" class="btn btn-info rounded-circle" 
+        										href='<c:url value="/maintenance/day/${cal.dateFromVlues(cnt-cal.weekStartDay+1) }"/>'>
         										<span>${cnt-cal.weekStartDay+1}        										
         										</span>       										
-        										</button>
+        										</a>
         										<span class="badge badge-danger rounded-circle " style='position: relative; top: -10px; left: -17px;'>!</span>
         									</c:when>
         									<c:otherwise>
@@ -108,22 +109,25 @@ function goTo()
         								
         							</c:when>
         							<c:when test="${exist && maintenance.endDate != null }">
-        							<button type="button" class="btn btn-success rounded-circle">
+        							<a type="button" class="btn btn-success rounded-circle" 
+        							href='<c:url value="/maintenance/day/${cal.dateFromVlues(cnt-cal.weekStartDay+1) }"/>'>
         								<span>${cnt-cal.weekStartDay+1}</span>
-        							</button>        								
+        							</a>        								
         							</c:when>
         							<c:when test="${exist && maintenance.endDate == null && maintenance.getDay() <= cal.iTDay }">
-        							<button type="button" class="btn btn-danger rounded-circle">
+        							<a type="button" class="btn btn-danger rounded-circle" 
+        							href='<c:url value="/maintenance/day/${cal.dateFromVlues(cnt-cal.weekStartDay+1) }"/>'>
         								<span>${cnt-cal.weekStartDay+1}</span>
-        							</button>        								
+        							</a>        								
         							</c:when>
         							<c:when test="${exist && maintenance.endDate == null && maintenance.getDay() > cal.iTDay }">
-        							<button type="button" class="btn btn-warning rounded-circle">
+        							<a type="button" class="btn btn-warning rounded-circle" 
+        							href='<c:url value="/maintenance/day/${cal.dateFromVlues(cnt-cal.weekStartDay+1) }"/>'>
         								<span>${cnt-cal.weekStartDay+1}</span>
-        							</button>        								
+        							</a>        								
         							</c:when>
         							<c:otherwise>
-        								<span>${cnt-cal.weekStartDay+1}</span>
+        								<span>${cnt-cal.weekStartDay+1}</span>        								
         							</c:otherwise>
         						</c:choose>				
                 		</td>

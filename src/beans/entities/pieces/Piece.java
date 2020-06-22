@@ -1,14 +1,17 @@
 package beans.entities.pieces;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import beans.entities.maintenance.Maintenance;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 @Entity
@@ -33,8 +36,25 @@ private Marque mark;
 @NotNull
 private Modele modal;
 
+@ManyToMany(mappedBy="pieces")
+private List<Maintenance> maintenances;
+
 public Piece() {
 }
+
+
+
+public Piece(String id, String reference, String pieceName, Marque mark, Modele modal, List<Maintenance> maintenances) {
+	super();
+	this.id = id;
+	this.reference = reference;
+	this.pieceName = pieceName;
+	this.mark = mark;
+	this.modal = modal;
+	this.maintenances = maintenances;
+}
+
+
 
 public Piece(String id, String pieceName, Marque mark, Modele modal) {
 	super();
@@ -99,6 +119,15 @@ public String getReference() {
 public void setReference(String reference) {
 	this.reference = reference;
 }
+
+public List<Maintenance> getMaintenances() {
+	return maintenances;
+}
+
+public void setMaintenances(List<Maintenance> maintenances) {
+	this.maintenances = maintenances;
+}
+
 
 
 
