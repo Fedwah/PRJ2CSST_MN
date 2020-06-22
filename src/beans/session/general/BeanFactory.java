@@ -71,9 +71,9 @@ public abstract class BeanFactory<T> {
         if ( bean != null ) {
             this.erreurs = new BeanValidator<T>( bean ).getErreurs(); // Test
                                                                       // standard
-                                                                      // (size,notNull,..)
+            System.out.println("avant validate childs");                                                          // (size,notNull,..)
             validateChilds( bean, beanM ); // Test personalisé
-
+            System.out.println("apr�s validate childs");   
             /* Tester l'unicité en BDD */
             if ( beanM != null && id != null ) {
                 // System.out.println( "Tester l'unicité de

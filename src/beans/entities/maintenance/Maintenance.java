@@ -59,8 +59,8 @@ public class Maintenance implements Serializable{
 	
 	// Piece 
 	
-	@JoinColumn(nullable = true)
-	@ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
+	
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Piece> pieces;
 	
 

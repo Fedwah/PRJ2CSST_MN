@@ -58,19 +58,21 @@
 								id="nb" name="nbP"
 								value="<c:out value="${maintenance.nbP}" 
 								/>">
-							<div>
+							
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-outline-success" name="addPiece">+</button>
+							</div>
+							
+						</div>
+						<div>
 							<c:forEach items='${erreurs["piece"]}' var="errD">
 								<span class="badge badge-pill badge-danger">${errD}</span>
 							</c:forEach>
 							</div>
-							<div class="input-group-append">
-								<button type="submit" class="btn btn-outline-success" name="addPiece">+</button>
-							</div>
-						</div>
 						<c:forEach var = "i" begin = "1" end = "${maintenance.nbP}">
-         					<label for="marque">Code de la piece</label>
+         					<label for="marque">Nom de la piece</label>
 						<div class="input-group mb-3">
-							<select id="marque" class="form-control" required="required" name="niveau">
+							<select id="marque" class="form-control" required="required" name="${i}">
 								<c:forEach items="${piece}" var="p">
 									<option value = "${p.id}"> ${p.pieceName}</option>
 								</c:forEach>

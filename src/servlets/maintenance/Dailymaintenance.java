@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import beans.entities.driver.Driver;
 import beans.entities.maintenance.Maintenance;
 import beans.session.drivers.DriverFactory;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.maintenance.CalendarFactory;
 import beans.session.maintenance.MaintenanceFactory;
 import beans.session.maintenance.MaintenanceManager;
@@ -43,7 +43,7 @@ public class Dailymaintenance extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PageGenerator pg = new PageGenerator(MAINTENANCES,TITLE);
+		PageGenerator pg = new PageGenerator( MAINTENANCES, TITLE);
         String date = request.getPathInfo().substring( 1 );// id of element
         if(!date.isEmpty())
         {

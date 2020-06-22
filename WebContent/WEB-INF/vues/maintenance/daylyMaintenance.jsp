@@ -24,7 +24,15 @@
 					${maintenance.startDate}
 					</h3>
 					</div>
-					<div class="col-md-6 " align="right">	
+					<div class="col-md-6 " align="right">
+					<c:choose>
+						<c:when test="${cal.getEtat(maintenance).equals('en cours')}">
+						<a href='<c:url value="/maintenace/edit/${maintenance.idMaintenance}"/>' 
+						name="end" class="btn" style='background-color: #3E703D;color:white;' >
+						terminer</a>
+						</c:when>
+					</c:choose>	
+					
 					<btn:remove value="/maintenance/remove/${maintenance.idMaintenance}" />
 					</div>
 					</div>
@@ -57,17 +65,11 @@
 						</div>
 						<div class="col-md-4" with="30%">
 							<c:choose>
-								<c:when test="${cal.getEtat(maintenance).equals('en cours')}">
-								<button type="submit" name="end" class="btn" style='background-color: #3E703D;color:white;' >
-								terminer</button>
-								</c:when>
-								<c:when test="${cal.getEtat(maintenance).equals('à venir')}">
-								</c:when>
-								<c:otherwise>
+								<c:when test="${cal.getEtat(maintenance).equals('terminé')}">
 								<h5 class="d-inline">Date de fin :</h5>
 								${maintenance.endDate}
-								<btn:edit value="/maintenance/edit/${maintenance.idMaintenance}" /> 
-								</c:otherwise>
+								<btn:edit value="/maintenance/edit/${maintenance.idMaintenance}" />
+								</c:when>
 							</c:choose>						
 							
 						</div>
@@ -76,14 +78,17 @@
 							<h5 class="d-inline">Niveau : </h5>
 							${maintenance.niv.niveau }
 						</div>
-
+						<div class="col-md-12" with="40%">
+							<h5 class="d-inline">Pieces de rechange estimé : </h5>
+							${maintenance.nbP }
+						</div>
+								
 								<table class="table">
 								<thead>
 								<tr style='color: #3E703D;' >
 								<th scope="col">Code</th>
 								<th scope="col">Reference</th>
 								<th scope="col">Nom</th>
-								<th></th>
 								</tr>
 								</thead>
 								<tbody>
@@ -97,8 +102,7 @@
 								</c:forEach> 
 								</tbody>
 								</table>
-
-				
+					
 					</div>
 				</div>
 			</div>

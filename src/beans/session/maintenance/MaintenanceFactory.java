@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.wildfly.security.manager.action.GetProtectionDomainAction;
+
 import beans.entities.maintenance.Maintenance;
 import beans.entities.maintenance.niveaux.Niveau;
 import beans.entities.pieces.Piece;
@@ -59,19 +61,16 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
 
     @Override
     public void validateChilds( Maintenance bean, BeanManager<Maintenance> beanM ) {
-        // TODO Auto-generated method stub
+    	 if ( bean.getV() == null ) {
+             this.addErreurs( "v", "Ce numero d'immatriculation n'appartient ï¿½ aucun vï¿½hicule" );
+         }
+         if ( bean.getPieces() != null ) {
+             if ( bean.getNbP() != bean.getPieces().size() ) {
+                 this.addErreurs( "piece", "veuillez inserer les pieces de rechange" );
+             }
+         }
     }
 
-    public void validateChilds( Maintenance bean ) {
-        if ( bean.getV() == null ) {
-            this.addErreurs( "v", "Ce numero d'immatriculation n'appartient ï¿½ aucun vï¿½hicule" );
-        }
-        if ( bean.getPieces() != null ) {
-            if ( bean.getNbP() != bean.getPieces().size() ) {
-                this.addErreurs( "piece", "veuillze inserer les pieces de rechange en cliquant sur le bouton ajouter" );
-            }
-        }
-    }
 
     @Override
     public void updateChange( Maintenance newB, Maintenance old ) {
@@ -88,7 +87,7 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
             if ( currentM.size() > 0 ) {
                 // System.out.println("liste des maintenaces de ce vehicule est
                 // non null " + currentM.size());
-                this.addErreurs( "v", "Ce vehicule a dï¿½jï¿½ une maintenance non terminï¿½e" );
+                this.addErreurs( "v", "Ce vehicule a déjà une maintenance non terminé" );
                 return false;
             }
 
@@ -102,27 +101,30 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
             System.out.println( "end date valide" );
             return true;
         } else {
-            this.addErreurs( "startDate", "ce vï¿½hicule a dï¿½jï¿½ une maintenance non terminï¿½" );
+            this.addErreurs( "startDate", "ce véhicule a déjà une maintenance non termininé" );
             return false;
         }
 
     }
 
     public boolean validateInsertion( Maintenance bean, MaintenanceManager em ) {
-        if ( validate( bean ) && validateStartDate( em, bean ) ) {
+        if ( this.validate( bean ) && this.validateStartDate( em, bean ) ) {
             return true;
         }
         return false;
     }
 
-    public void createPieces( HttpServletRequest request, Maintenance bean ) {
-
+    public void createPieces( HttpServletRequest request, Maintenance bean ) 
+    {
         List<Piece> pieces = new ArrayList();
 
-        for ( int i = 0; i < bean.getNbP(); i++ ) {
-            Piece p = new Piece( request.getParameter( Integer.toString( i ) ) );
-            pieces.add( p );
-
+        for ( int i = 1; i <= bean.getNbP(); i++ ) 
+        {
+        	if(request.getParameter( Integer.toString( i ) ) != null)
+        	{
+        		Piece p = new Piece( request.getParameter( Integer.toString( i ) ) );
+                pieces.add( p );
+        	}
         }
 
         bean.setPieces( pieces );

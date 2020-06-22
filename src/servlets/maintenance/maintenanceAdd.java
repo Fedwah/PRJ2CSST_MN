@@ -81,6 +81,8 @@ public class maintenanceAdd extends HttpServlet {
 		if(request.getParameter("save")!= null)
 		{
 			
+			mf.createPieces(request, newM);
+			System.out.println("taille de la liste des pieces " + newM.getPieces().size());
 			if(mf.validateInsertion(newM, mm))
 			{
 					System.out.println("maintenace valide");
