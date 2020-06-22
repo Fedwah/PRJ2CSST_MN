@@ -10,10 +10,10 @@
 
 <c:choose>
 	<c:when test="${value!=null && !empty value}">
-		<div class="img-fluid ">
+		<div class="img-fluid " style=" max-height: ${size}; max-width:${size}">
 			<img 
 				src='<c:url value="/Images/${value}" />' class="${class_}" alt="..."
-				width="${size}" />
+				width="${size}" height="${size}" />
 		</div>
 
 	</c:when>

@@ -52,7 +52,7 @@ public class Vehicule implements Serializable {
     private EtatVehicule etat;
     
     
-    @Past
+    
     @NotNull
     @Temporal(value=TemporalType.DATE)
     private Date date_achat;  
@@ -71,6 +71,10 @@ public class Vehicule implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Unite unite;
      
+    
+    @NotNull
+    private Double km;
+    
     public Vehicule() {
       
     }
@@ -87,7 +91,7 @@ public class Vehicule implements Serializable {
 
 
     public Vehicule( String matricule_interne, String matricule_externe, Modele modele, Marque marque,
-            EtatVehicule etat, Date date_achat, Image photo, CategorieVehicule categorie, Unite unite ) {
+            EtatVehicule etat, Date date_achat, Image photo, CategorieVehicule categorie, Unite unite ,Double km ) {
         super();
         this.matricule_interne = matricule_interne;
         this.matricule_externe = matricule_externe;
@@ -98,6 +102,7 @@ public class Vehicule implements Serializable {
         this.photo = photo;
         this.categorie = categorie;
         this.unite = unite;
+        this.km = km;
     }
 
 
@@ -154,12 +159,8 @@ public class Vehicule implements Serializable {
         this.etat = etat;
     }
 
-    public String getDate_achat() {
-        try {
-            return new SimpleDateFormat("yyyy-MM-dd" ).format( date_achat );
-        }catch(Exception e) {
-            return "";
-        }
+    public Date getDate_achat() {
+       return this.date_achat;
         
     }
 
@@ -190,6 +191,18 @@ public class Vehicule implements Serializable {
     
     public void setCategorie( CategorieVehicule categorie ) {
         this.categorie = categorie;
+    }
+
+
+
+    public Double getKm() {
+        return km;
+    }
+
+
+
+    public void setKm( Double km ) {
+        this.km = km;
     }
 
     

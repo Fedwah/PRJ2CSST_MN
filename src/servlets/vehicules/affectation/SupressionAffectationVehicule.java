@@ -44,7 +44,7 @@ public class SupressionAffectationVehicule extends HttpServlet {
         idVeh = aff.getCar().getMatricule_interne();
         affM.trouverSupprimer( Integer.decode(id ));
         System.out.println( "Allez vers "+"/Vehicules/Affectations/"+idVeh );
-        pg.setRedirectURL("/Vehicules/Affectations/"+idVeh );
+        pg.setRedirectURL("/Vehicules/"+idVeh );
         pg.redirect( getServletContext(), request, response );
 	}
 

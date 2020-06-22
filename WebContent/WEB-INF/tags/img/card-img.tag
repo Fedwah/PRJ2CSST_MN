@@ -8,18 +8,18 @@
 
 <c:choose>
 	<c:when test="${value!=null && !empty value}">
-		<div class="card-img img-fluid">
+		<div class="card-img img-fluid" style=" max-height: ${size}; max-width:${size}">
 			<img src='<c:url value="/Images/${value}" />' class="" alt="..."
-				width="${size}" />
+				width="${size}" height="${size}"/>
 		</div>
 
 	</c:when>
 
 	<c:otherwise>
-		<div class="card-img img-fluid">
+		<div class="card-img img-fluid" style=" max-height: ${size}; max-width:${size}">
 			<img class=""
 				src='<c:url value="${empty default_img|| defautl_img==null?'/public/img/notfound.png':default_img}"/>'
-				width="${size}" />
+				width="${size}" height="${size}"/>
 		</div>
 
 	</c:otherwise>

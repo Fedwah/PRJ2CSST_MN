@@ -58,7 +58,8 @@ public class VehiculesManager  extends BeanManager<Vehicule>{
         // TODO Auto-generated method stub
         Vehicule v = super.trouver( id );
         if(v!=null) {
-            System.out.println("unite init "+v.getUnite());
+            v.getUnite();
+            //System.out.println("unite init "+v.getUnite());
         }
         return v;
     }

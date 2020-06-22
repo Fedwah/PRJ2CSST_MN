@@ -83,7 +83,7 @@ public class EntityFields<T> {
         this.fields.clear();
     
         for ( Field f : beanClass.getDeclaredFields() ) {
-            
+           
             fd = new FieldDefinition( formatName( f.getName() ), formatLabel( formatField( f.getName() ) ),
                     formatClass( f.toGenericString() ), isBasicClass( f.toGenericString() ) );
             /*System.out.println( "field add : " + formatField( f.getName() ) + " | " + fd.label + " | " + fd.class_
@@ -127,7 +127,7 @@ public class EntityFields<T> {
     }
 
     private String formatClass( String className ) {
-
+        
         return className.substring( className.indexOf( ' ' ) + 1, className.lastIndexOf( ' ' ) );
     }
 

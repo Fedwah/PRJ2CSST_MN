@@ -35,6 +35,12 @@ public class Mission {
     @ManyToOne
     private AffectationConducteur affectation;
     
+    @NotNull
+    @ManyToOne 
+    private Vehicule vehicule;
+    
+    private Double distance_parcourue;
+    
     public Mission() {
         // TODO Auto-generated constructor stub
     }
@@ -42,6 +48,8 @@ public class Mission {
     public int getId() {
         return id;
     }
+    
+    
 
     public void setId( int id ) {
         this.id = id;
@@ -79,8 +87,25 @@ public class Mission {
         this.affectation = affectation;
     }
 
+    public Double getDistance_parcourue() {
+        return distance_parcourue;
+    }
+
+    public void setDistance_parcourue( Double distance_parcourue ) {
+        this.distance_parcourue = distance_parcourue;
+    }
+
+    public Vehicule getVehicule() {
+        return vehicule;
+    }
+
+    public void setVehicule( Vehicule vehicule ) {
+        this.vehicule = vehicule;
+    }
+
     
-   
+    
+    
  
     
 }

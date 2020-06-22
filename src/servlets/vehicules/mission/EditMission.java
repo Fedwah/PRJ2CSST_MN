@@ -2,6 +2,7 @@ package servlets.vehicules.mission;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Random;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -12,7 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.vehicules.AffectationConducteur;
 import beans.entities.vehicules.Mission;
+import beans.entities.vehicules.Vehicule;
 import beans.session.general.PageGenerator;
+import beans.session.vehicules.VehiculeFactory;
+import beans.session.vehicules.VehiculesManager;
 import beans.session.vehicules.affectation.AffectationConducteurManager;
 import beans.session.vehicules.missions.MissionFactory;
 import beans.session.vehicules.missions.MissionManager;
@@ -29,6 +33,9 @@ public class EditMission extends HttpServlet {
 
     @EJB
     AffectationConducteurManager affM;
+    
+    @EJB
+    VehiculesManager vehM;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -49,6 +56,7 @@ public class EditMission extends HttpServlet {
         PageGenerator pg = new PageGenerator( MissionFactory.VUE_FORM, "" );
         Mission m = null;
         AffectationConducteur aff = new AffectationConducteur();
+        
         MissionFactory mF = new MissionFactory();
         Boolean trouver = false;
         ids = pg.getPathIds( request );
@@ -67,8 +75,12 @@ public class EditMission extends HttpServlet {
                             trouver = true;
                             if ( m.getAffectation().getId() == mF.castId( ids[0] ) ) {
                                 pg.setPageTitle( MissionFactory.TITRE_VUE_FORM + ids[1] );
+                                if(m.getDateFin() == null) {
+                                    m.setDateFin( new Date() );
+                                    m.setDistance_parcourue((Math.random()*1190)+10); // min = 10mk ,max 1200 km
+                                }
                             }
-                            m.setDateFin( new Date() );
+                           
                         }
                         
                     }
@@ -80,7 +92,7 @@ public class EditMission extends HttpServlet {
                         m.setDateDebut( new Date() );
                           
                     }
-
+                    m.setVehicule( aff.getCar() );
                     m.setAffectation( aff );
                 }
 
@@ -110,7 +122,7 @@ public class EditMission extends HttpServlet {
         Mission newM = null;
         
         MissionFactory mF = new MissionFactory();
-       
+        VehiculeFactory vehF = new VehiculeFactory();
         AffectationConducteur aff = affM.trouver(mF.castId( ids[0] ));
         
         pg.setPageTitle( MissionFactory.TITRE_VUE_FORM+aff.getCar().getMatricule_interne());
@@ -121,12 +133,14 @@ public class EditMission extends HttpServlet {
          if(mF.validate( newM )){
              if(ids.length==1) {
                  //creation
+                
                  if(mF.uniqueSave( miM, newM, newM.getId(), MissionFactory.PARAM_ID )) {
                      System.out.println( "Mission crée" );
                      
                  }
              }else {
                  oldM=miM.trouver( mF.castId( ids[1] ) );
+                 vehF.mettreAjourKM(aff.getCar(),oldM.getDistance_parcourue(),newM.getDistance_parcourue(),vehM);
                  miM.mettreAJour( oldM.getId(), mF, newM );
              }
              pg.redirect( getServletContext(), request, response );

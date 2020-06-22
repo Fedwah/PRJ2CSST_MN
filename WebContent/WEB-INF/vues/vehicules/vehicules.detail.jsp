@@ -47,7 +47,8 @@
 
 						</div>
 						<div class="col-md-6">
-							<h5 class="">Km :</h5>
+							<h5 class="d-inline">Km :</h5>
+							${vehicule.km }
 						</div>
 					</div>
 
@@ -62,19 +63,20 @@
 			<h3 class="">Conducteur :</h3>
 			<c:choose>
 				<c:when test="${affectation!=null}">
-					
+		
 					 <img:img size="50px" value="${affectation.driver.photo.titre}" class_="border border-primary rounded-circle mx-2" />
+		
 					 <l:link label='${affectation.driver.lastN} ${affectation.driver.firstN}' value="Vehicules/Affectations/${affectation.id}" />
+		
 					 <div class="row no-gutters">
 					 	<form:hidden  
 					 		label="Terminer" 
 					 		action="/Vehicules/Affectation/${vehicule.matricule_interne}"  
-					 		btn_type="btn-sm btn-danger" name="affecter" >
-					 	
-					 	
+					 		btn_type="btn-sm btn-danger" name="affecter"  disabled="${mission!=null}">
 					 	</form:hidden>
 					 	<btn:btn type="primary" value="/Vehicules/Affectation/${vehicule.matricule_interne}" 
-							text="Affecter un autre conducteur" outline="${false }" small="${true}" class_="mx-1"/>
+							text="Affecter un autre conducteur" outline="${false }" small="${true}" 
+							class_="mx-1" disable="${mission!=null}"/>
 					 </div>
 					 
 				</c:when>
@@ -125,15 +127,17 @@
 							<th scope="col">Conducteur</th>
 							<th scope="col">description</th>
 							<th scope="col">Perdiode</th>
+							<th scope="col">Distance parcourue(Km)</th>
 							<th scope="col">Operations</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${missions}" var="m">
 							<tr>
-								<th>${m.affectation.id}</th>
+								<th>${m.affectation.driver.lastN} ${m.affectation.driver.firstN}</th>
 								<td>${m.description}</td>
 								<td>${m.dateDebut}-${m.dateFin}</td>
+								<td>${m.distance_parcourue}</td>
 								<td>
 									<btn:btn type="info" value="/Vehicules/Missions/${m.affectation.id}/${m.id}" 
 										text="${m.dateFin==null?'Terminer':'Editer'}"
@@ -169,10 +173,11 @@
 					<tbody>
 						<c:forEach items="${affectations}" var="aff">
 							<tr>
-								<th scope="row"><img class="img-fluid"
-									src='<c:url value="/Images/${aff.driver.photo.titre}" />'
-									width="50" height="50" /></th>
-								<td>${aff.driver.lastN}${aff.driver.firstN}</td>
+								<th scope="row">
+								
+									<img:img size="50px" value="${aff.driver.photo.titre}"/>
+								</th>
+								<td>${aff.driver.lastN} ${aff.driver.firstN}</td>
 								<td>De ${aff.startDate} à <fmt:formatDate
 										value="${aff.endDate}" pattern="yyyy-MM-dd" />
 								</td>
