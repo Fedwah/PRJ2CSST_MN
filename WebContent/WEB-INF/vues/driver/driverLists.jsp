@@ -90,9 +90,10 @@
 					<td align="right">
 						<c:choose>
 							<c:when test="${vehicule!=null && !empty vehicule}">
-								<button type="submit" name="affecter" class="btn btn-primary">Affecter comme conducteur</button>
-								<form:input name="driver" type="hidden" value="${dr.IDdriver}"/>
-								<form:input name="vehicule" type="hidden" value="${vehicule }"/>
+								<form:hidden name="affecter" label="Affecter comme conducteur" btn_type=" btn-primary"
+									values="${dr.IDdriver},${vehicule }" values_names="driver,vehicule"
+								>
+								</form:hidden>
 								<!-- Ajouter par @Syphax pour l'affectatation -->
 							</c:when>
 							<c:otherwise>

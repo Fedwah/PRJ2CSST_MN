@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.regions.unites.Unite;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.regions.RegionManager;
 import beans.session.regions.unites.UniteManager;
 

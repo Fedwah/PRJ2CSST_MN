@@ -21,7 +21,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import beans.session.general.BeanFactory;
 import beans.session.general.GeneralManager;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.marques.MarqueFactory;
 import beans.session.vehicules.marques.modeles.ModeleFactory;

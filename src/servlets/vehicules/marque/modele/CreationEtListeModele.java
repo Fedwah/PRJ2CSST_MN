@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.vehicules.marques.MarqueManager;
 import beans.session.vehicules.marques.modeles.ModeleFactory;
 import beans.session.vehicules.marques.modeles.ModeleManager;

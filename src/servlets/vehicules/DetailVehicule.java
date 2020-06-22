@@ -15,7 +15,7 @@ import beans.entities.vehicules.AffectationConducteur;
 import beans.entities.vehicules.Mission;
 import beans.entities.vehicules.Vehicule;
 import beans.session.drivers.DriverManager;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.VehiculesManager;
 import beans.session.vehicules.affectation.AffectationConducteurFactory;
@@ -77,8 +77,11 @@ public class DetailVehicule extends HttpServlet {
 		        if(affections.size()>0) {
 		            aff = affections.get( affections.size()-1 );
 		            
-		            mF.addFiltre( "affectation", "id", aff.getId());
+		            //mF.addFiltre( "affectation", "id", aff.getId());
+		            mF.addFiltre( "vehicule","matricule_interne",id);
 		            missions = miM.lister( mF.getFiltres() );
+		                  
+		                   
 		            if(missions.size()>0) {
 		                m = missions.get( missions.size()-1 );
 		                m = (m.getDateFin()!=null?null:m);
@@ -105,12 +108,6 @@ public class DetailVehicule extends HttpServlet {
 	}
 
 	
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+	
 
 }

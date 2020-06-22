@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.regions.Region;
 import beans.entities.regions.unites.Unite;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.regions.RegionManager;
 import beans.session.regions.unites.UniteFactory;
 import beans.session.regions.unites.UniteManager;
@@ -67,7 +67,7 @@ public class uniteEdit extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PageGenerator pg = new PageGenerator(FORM, "Unité", REDIRECT);
+		PageGenerator pg = new PageGenerator(FORM, "Unitï¿½", REDIRECT);
 		UniteFactory uf = new UniteFactory();
 		Unite newU = uf.create(request);
 		newU.setCodeUN(oldU.getCodeUN());

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.pieces.Piece;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.pieces.PieceManager;
 
 /**
@@ -46,7 +46,7 @@ public class DeletePiece extends HttpServlet {
         } 
         else //echec de suppression
         {
-            response.getWriter().append( "Erreur: La suppresion de la piece n�"+id+" a echoué" );
+            response.getWriter().append( "Erreur: La suppresion de la piece n�"+id+" a echoué" );
         }
         
 	}

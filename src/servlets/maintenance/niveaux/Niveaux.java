@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import beans.entities.maintenance.niveaux.Niveau;
 import beans.entities.pieces.Piece;
 import beans.entities.regions.unites.Unite;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.maintenance.niveaux.NiveauFactory;
 import beans.session.maintenance.niveaux.NiveauManager;
 

@@ -33,7 +33,7 @@ import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.BeanValidator;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.VehiculesManager;
 import beans.session.vehicules.marques.MarqueManager;
@@ -116,7 +116,9 @@ public class ListerVehicules extends HttpServlet {
         request.setAttribute( ATT_SEARCH, search );
         request.setAttribute( ATT_FIELD, field );
         request.setAttribute( ATT_FILTRE_MARQUES, marM.lister() );
-        pg.generate( getServletContext(), request, response );
+        
+        pg.clearPath( request );
+        pg.generate( getServletContext(), request, response, true);
 
     }
 

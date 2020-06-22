@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -200,7 +202,7 @@ public abstract class BeanFactory<T> {
         int length;
         byte[] buffer = new byte[1024];
 
-        if ( in != null && cheminFichier != null ) {
+        if ( in != null && cheminFichier != null && !cheminFichier.isEmpty()) {
             img = new Image();
             try {
                 while ( ( length = in.read( buffer ) ) != -1 )
@@ -219,8 +221,7 @@ public abstract class BeanFactory<T> {
     }
 
     public Date readDate( HttpServletRequest request, String PARAM_DATE ) {
-        // System.out.println( "Read date : " + request.getParameter( PARAM_DATE
-        // ) );
+         System.out.println( "Read date : " + request.getParameter( PARAM_DATE) );
         if ( request.getParameter( PARAM_DATE ).contains( "T" ) ) {
             String datetime = request.getParameter( PARAM_DATE ).replace( 'T', ' ' );
             // System.out.println( "Date transformed : " + datetime );
@@ -338,6 +339,15 @@ public abstract class BeanFactory<T> {
             }
         }
         return 0;
+    }
+    
+    public Double castDouble(String value) {
+        if ( value != null ) {
+            if ( !value.isEmpty() ) {
+                return this.round(Double.valueOf( value ),3);
+            }
+        }
+        return new Double( 0.0 );
     }
 
     public Workbook obtenirModeleExcel( HttpServletResponse response, String[] fieldsToIgnore ) {
@@ -540,6 +550,14 @@ public abstract class BeanFactory<T> {
         }
 
         return null;
+    }
+    
+    private Double round(double value, int places) {
+        if (places < 0) return 0.0;
+     
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
 }

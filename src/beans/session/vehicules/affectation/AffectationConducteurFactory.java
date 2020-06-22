@@ -80,7 +80,8 @@ public class AffectationConducteurFactory extends BeanFactory<AffectationConduct
         }
       
         if(this.validate( newAff ) && newAff.getCar().getMatricule_interne()!=null) {
-            System.out.println( "Affectation ajouter" );
+            System.out.println( "Affectation "+newAff.getCar().getMatricule_interne()+
+                    " "+newAff.getDriver().getIDdriver() +"ajouter" );
             if(affM.ajouter( newAff )) {
                 newAff = affM.trouver(newAff.getId());
             }

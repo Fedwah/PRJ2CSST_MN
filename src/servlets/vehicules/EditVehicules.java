@@ -15,7 +15,7 @@ import beans.entities.vehicules.CategorieVehicule;
 import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
 import beans.session.ImageManager;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.regions.unites.UniteManager;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.VehiculesManager;
@@ -136,7 +136,7 @@ public class EditVehicules extends HttpServlet {
 
         
         System.out.println( "IMG EDIT OLD :" + ( old_img != null ? old_img.getTitre() : "pas d'image" ) );
-
+        
         if ( vehiculeF.validate( new_v ) ) {
                 if ( old_v == null ) {
                    

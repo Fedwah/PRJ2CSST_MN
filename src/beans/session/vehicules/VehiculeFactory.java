@@ -1,5 +1,7 @@
 package beans.session.vehicules;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 
 import beans.entities.regions.unites.Unite;
@@ -65,15 +67,16 @@ public class VehiculeFactory extends BeanFactory<Vehicule> {
 
         v.setPhoto( this.readImage( request, PARAM_PHOTO ) );
         v.setUnite( new Unite( request.getParameter( PARAM_UNITE ) ) );
+        v.setKm( new Double(0.0) );
         return v;
     }
 
     @Override
     public void updateChange( Vehicule newB, Vehicule old ) {
 
-        if ( newB.getDate_achat() != old.getDate_achat() ) {
+        if ( !newB.getDate_achat().equals(old.getDate_achat())) {
 
-            old.setDate_achat( this.readDate( newB.getDate_achat() ) );
+            old.setDate_achat(newB.getDate_achat() );
         }
 
         old.setEtat( newB.getEtat() );
@@ -85,29 +88,42 @@ public class VehiculeFactory extends BeanFactory<Vehicule> {
         if ( newB.getPhoto() != null ) {
             old.setPhoto( newB.getPhoto() );
         }
+        old.setKm( newB.getKm() );
 
     }
 
     @Override
     public void validateChilds( Vehicule bean, BeanManager<Vehicule> beanM ) {
-        ModeleFactory modF = new ModeleFactory();
-        MarqueFactory marF = new MarqueFactory();
-        EtatVehiculeFactory etatF = new EtatVehiculeFactory();
-        CategorieVehiculeFactory categF = new CategorieVehiculeFactory();
-
-        marF.validate( bean.getMarque() );
-        modF.validate( bean.getModele() );
-        etatF.validate( bean.getEtat() );
-        categF.validate( bean.getCategorie() );
+       
 
         // si on veut aussi valider l'image
         // this.addErreurs( PARAM_PHOTO,new BeanValidator<Image>(
         // bean.getPhoto()).getErreurs().toString());
 
-        this.addErreurs( PARAM_MARQUE, marF.getErreurs().toString() );
-        this.addErreurs( PARAM_MODELE, modF.getErreurs().toString() );
-        this.addErreurs( PARAM_ETAT, etatF.getErreurs().toString() );
-        this.addErreurs( PARAM_CATEGORIES_VEHICULE, categF.getErreurs().toString() );
+    }
 
+    public void mettreAjourKM(Vehicule old ,Double distance_parcourue_old, Double distance_parcourue_new, VehiculesManager vehM ) {
+        double newKm = old.getKm()+distance_parcourue_new-distance_parcourue_old;
+        Vehicule new_v = new Vehicule( old.getMatricule_interne(),
+                old.getMatricule_externe(), 
+                old.getModele(), 
+                old.getMarque(), 
+                old.getEtat(), 
+                old.getDate_achat(), 
+                old.getPhoto(), 
+                old.getCategorie(), 
+                old.getUnite(),
+                new Double((newKm>=0?newKm:0.0)));
+        
+        System.out.println( "Mise a jour de KM de "+old.getKm() +" à "+new_v.getKm());
+       
+      
+        if(validate( new_v )) {
+           System.out.println( "mise a jour valide" );
+            vehM.mettreAJour( old.getMatricule_interne(),this, new_v );
+        }else {
+            System.out.println( this.getErreurs() );
+        }
+        
     }
 }

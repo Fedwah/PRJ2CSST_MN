@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.regions.unites.Unite;
-import beans.session.general.PageGenerator;
+import beans.session.general.page.PageGenerator;
 import beans.session.regions.RegionManager;
 import beans.session.regions.unites.UniteFactory;
 import beans.session.regions.unites.UniteManager;
@@ -57,7 +57,7 @@ public class uniteAdd extends HttpServlet {
 		UniteFactory uf = new UniteFactory();
 		Unite u = uf.create(request);
 		u.setRegion(em.ObtenirRefrence(u.getRegion().getCodeReg()));
-		PageGenerator pg = new PageGenerator(FORM, "Unité", REDIRECT+ u.getRegion().getCodeReg());
+		PageGenerator pg = new PageGenerator(FORM, "Unitï¿½", REDIRECT+ u.getRegion().getCodeReg());
 		if(uf.validate(u))
 		{
 			if(unManager.ajouterUnique(u, u.getCodeUN()))
@@ -66,7 +66,7 @@ public class uniteAdd extends HttpServlet {
 				pg.redirect(getServletContext(), request, response);
 			}
 			else {
-				// code dupliqué
+				// code dupliquï¿½
 				System.out.println("unite not saved");
 			}
 		}
