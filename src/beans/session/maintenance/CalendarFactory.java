@@ -207,7 +207,7 @@ public class CalendarFactory {
 		}
 		else
 		{
-			return "termine";
+			return "terminé";
 		}
 	}
 	

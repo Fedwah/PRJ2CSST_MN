@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@taglib prefix="form" tagdir="/WEB-INF/tags/form"%>
 <div class="container-fluid">
 	<form class="p-4 needs-validation " method="post" action="<c:out value=""/>">
 
@@ -15,9 +15,10 @@
 						type="text"
 						class='form-control '
 						id="mat" name="matricule"
-						value="<c:out value="${Vehicule.matricule_interne}" 
+						value="<c:out value="${maintenance.v.matricule_interne}" 
+					
 						/>"
-						
+						${disabled_matricule? 'disabled':''}
 					>
 					<c:forEach items='${erreurs["v"]}' var="errl">
 								<span class="badge badge-pill badge-danger">${errl}</span>
@@ -43,9 +44,23 @@
 						<input type="date"
 							class="form-control ${empty erreurs['startDate']?'':'is-invalid'} "
 							id="recruit" required="required" name="recruit"
-							value="<c:out value="${maintenance.startDate}"/>">
+							value="<c:out value="${maintenance.startDate}"/>"
+							${disabled_date? 'disabled':''}
+							/>
 						<div>
 							<c:forEach items='${erreurs["startDate"]}' var="errD">
+								<span class="badge badge-pill badge-danger">${errD}</span>
+							</c:forEach>
+						</div>
+						<label for="recruit">Date de fin</label> 
+						<input type="date"
+							class="form-control ${empty erreurs['endDate']?'':'is-invalid'} "
+						    required" name="dateFin"
+							value="<c:out value="${endDate}"/>"
+						
+						/>
+						<div>
+							<c:forEach items='${erreurs["endDate"]}' var="errD">
 								<span class="badge badge-pill badge-danger">${errD}</span>
 							</c:forEach>
 						</div>
@@ -68,26 +83,24 @@
 							<c:forEach items='${erreurs["piece"]}' var="errD">
 								<span class="badge badge-pill badge-danger">${errD}</span>
 							</c:forEach>
-						</div>
-						<c:forEach var = "i" begin = "1" end = "${maintenance.nbP}">
+							</div>
+						<c:forEach var = "i" begin = "0" end = "${maintenance.nbP-1}">
          					<label for="marque">Nom de la piece</label>
 						<div class="input-group mb-3">
 							<select id="marque" class="form-control" required="required" name="${i}">
 								<c:forEach items="${piece}" var="p">
+									<c:choose>
+									<c:when test="${maintenance.pieces.size()>i }">
+									<option ${p.id==maintenance.pieces.get(i).id?"selected":""} value = "${p.id}"> ${p.pieceName}</option>
+									</c:when>
+									<c:otherwise>
 									<option value = "${p.id}"> ${p.pieceName}</option>
+									</c:otherwise>
+									</c:choose>
+									
 								</c:forEach>
 							</select>
-							<!-------------------------- <input
-								type="text"
-								class='form-control '
-								id="" name="i"
-								value="<c:out value="${maintenance.pieces[i]}" 
-								/>"
-						
-							>
-							<c:forEach items="${erreurs['i']}" var="errl">
-								<span class="badge badge-pill badge-danger">${errl}</span>
-							</c:forEach> ------------------>
+
 						</div>
       					</c:forEach>
 						</div>
