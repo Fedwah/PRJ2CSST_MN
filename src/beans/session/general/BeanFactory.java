@@ -48,6 +48,7 @@ public abstract class BeanFactory<T> {
 
         this.entityFields = new EntityFields<T>();
         this.filteres = new Filter<T>();
+        
         this.beanClass = beanClass;
         this.getEntityFields().generateFields( beanClass );
     }
@@ -73,7 +74,7 @@ public abstract class BeanFactory<T> {
                                                                       // standard
             System.out.println("avant validate childs");                                                          // (size,notNull,..)
             validateChilds( bean, beanM ); // Test personalisé
-            System.out.println("apr�s validate childs");   
+            System.out.println("apr�s validate childs");   
             /* Tester l'unicité en BDD */
             if ( beanM != null && id != null ) {
                 // System.out.println( "Tester l'unicité de
@@ -180,6 +181,22 @@ public abstract class BeanFactory<T> {
 
     }
 
+    public byte[] readFile(InputStream in) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        int length;
+        byte[] buffer = new byte[1024];
+        if ( in != null) {
+           
+            try {
+                while ( ( length = in.read( buffer ) ) != -1 )
+                    out.write( buffer, 0, length );
+            } catch ( IOException e ) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return out.toByteArray();
+    }
     public Image readImage( HttpServletRequest request, String PARAM_IMAGE ) {
 
         try {
@@ -202,18 +219,11 @@ public abstract class BeanFactory<T> {
         int length;
         byte[] buffer = new byte[1024];
 
-        if ( in != null && cheminFichier != null && !cheminFichier.isEmpty()) {
+        if (cheminFichier != null && !cheminFichier.isEmpty()) {
             img = new Image();
-            try {
-                while ( ( length = in.read( buffer ) ) != -1 )
-                    out.write( buffer, 0, length );
-            } catch ( IOException e ) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
+           
             img.setTitre( cheminFichier );
-            img.setBinary( out.toByteArray() );
+            img.setBinary( this.readFile( in ) );
             System.out.println( "IMG readed " + img.getTitre() );
         }
 
@@ -328,10 +338,24 @@ public abstract class BeanFactory<T> {
         this.filteres.addFiltre( field, subField, value );
     }
 
+    public void addFiltreByID(String field ,String value) {
+        if(value!=null && !value.isEmpty() && field!=null && !field.isEmpty()) {
+            if ( this.getEntityFields().fields().get( field ).isBasicClass ) {
+                this.addFiltre( field, value );
+
+            } else {
+                this.addFiltre( field,this.getEntityFields().getChildId( field ), value );
+            }
+        }
+    }
     public Map<String, String> getNamesToFilter() {
         return this.filteres.labelsToFilter( getEntityFields() );
     }
 
+    public void notFilter(String field) {
+        this.filteres.addFieldsNotFilter( field );
+    }
+    
     public int castId( String id ) {
         if ( id != null ) {
             if ( !id.isEmpty() ) {

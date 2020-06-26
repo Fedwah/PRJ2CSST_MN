@@ -33,6 +33,8 @@ import beans.session.vehicules.marques.modeles.ModeleFactory;
 @MultipartConfig( maxFileSize = 16177215 )
 public class beanImporter extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    
+    private Map<String, Class<?>> classes;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -44,7 +46,11 @@ public class beanImporter extends HttpServlet {
     
     public beanImporter() {
         super();
-        // TODO Auto-generated constructor stub
+        this.classes =  new LinkedHashMap<String, Class<?>>();
+        /*Ajouter ici les classes a importer/exporter */
+        classes.put( "Vehicules", VehiculeFactory.class );
+        classes.put( "Marques", MarqueFactory.class );
+        classes.put( "Modele", ModeleFactory.class );
     }
 
     /**
@@ -60,10 +66,7 @@ public class beanImporter extends HttpServlet {
         
         pg.setPageTitle( "Importer/Exporter : " + id  );
 
-        Map<String, Class<?>> classes = new LinkedHashMap<String, Class<?>>();
-        classes.put( "Vehicules", VehiculeFactory.class );
-        classes.put( "Marques", MarqueFactory.class );
-        classes.put( "Modele", ModeleFactory.class );
+        
 
         
         
@@ -84,10 +87,7 @@ public class beanImporter extends HttpServlet {
 
         pg.setPageTitle( "Importer/Exporter : " + id );
 
-        Map<String, Class<?>> classes = new LinkedHashMap<String, Class<?>>();
-        classes.put( "Vehicules", VehiculeFactory.class );
-        classes.put( "Marques", MarqueFactory.class );
-        classes.put( "Modele", ModeleFactory.class );
+  
 
         if ( id != null ) {
             String s = request.getParameter( "class" );

@@ -1,6 +1,7 @@
 package beans.session.general.fillter;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,7 +17,7 @@ public class Filter<T> {
     private Map<String, Object> filtres;
 
     public Filter() {
-        notFilter = Arrays.asList(fieldsToNotFilter); 
+        notFilter = new ArrayList<String>(Arrays.asList(fieldsToNotFilter)); 
         this.filtres = new LinkedHashMap<String, Object>(); 
     }
 

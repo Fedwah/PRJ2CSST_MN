@@ -83,7 +83,7 @@ public class ListerVehicules extends HttpServlet {
         request.setAttribute( ATT_FIELDS, vf.getEntityFields().labels() );
         request.setAttribute( ATT_FILTRES, vf.getNamesToFilter() );
         request.setAttribute( ATT_FILTRE_MARQUES, marM.lister() );
-        pg.generate( getServletContext(), request, response );
+        pg.generate( getServletContext(), request, response ,true);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class ListerVehicules extends HttpServlet {
         request.setAttribute( ATT_FIELD, field );
         request.setAttribute( ATT_FILTRE_MARQUES, marM.lister() );
         
-        pg.clearPath( request );
+        
         pg.generate( getServletContext(), request, response, true);
 
     }
