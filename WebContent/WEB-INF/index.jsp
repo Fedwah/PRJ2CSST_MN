@@ -26,7 +26,13 @@
 					Menu admin root
 					<c:import url="vues/menu/menuAdmin.jsp"></c:import>
 					Menu admin opérationnel
-					<c:import url="vues/menu/menuAdminOP.jsp"></c:import>
+					<c:import url="vues/menu/menuAdminOP.jsp"></c:import>					
+					Menu respo parc
+					<c:import url="vues/menu/menuRespoParc.jsp"></c:import>
+					Menu respo maintenance
+					<c:import url="vues/menu/menuRespoMaintenance.jsp"></c:import>
+					Menu respo Regional
+					<c:import url="vues/menu/menuRegional.jsp"></c:import>
 				</c:otherwise>
 			</c:choose>
 

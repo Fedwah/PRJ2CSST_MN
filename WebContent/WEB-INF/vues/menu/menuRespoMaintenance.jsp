@@ -9,7 +9,6 @@
 	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="<c:url value="/Utilisateurs"/>">Utilisateurs</a></li>
 	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light " href="<c:url value="/calendrier"/>">Calendrier</a></li>
 	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="<c:url value="/Vehicules"/>">Vehicules</a></li>
-	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="<c:url value="/drivers"/>">Conducteurs</a></li>
 	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="<c:url value="/pieces"/>">Pièces</a></li>
 	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="#">AMDEC</a></li>
 	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="#">Guide</a></li>
