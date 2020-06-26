@@ -19,10 +19,10 @@
 	</c:if>
 	
 	<div class="custom-file">
-		<input id="photo" name="${name}" type="file" value="${value}"
+		<input id="${name}" name="${name}" type="file" value="${value}"
  			class="custom-file-input"> 
 			<label class="custom-file-label"
-			for="photo" >${text!=null?text:"Importer"}</label>
+			for="${name}" >${text!=null?text:"Importer"}</label>
 	</div>
 
 	<div class="invalid-feedback">

@@ -1,18 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<%@ taglib tagdir="/WEB-INF/tags/menu" prefix="m"%>
 <div class="nav flex-column  text-center  p-4" >
 </div>
 <div>
 <ul class="nav flex-column  text-center  p-3">
-	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="<c:url value="/Utilisateurs"/>">Utilisateurs</a></li>
-	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light " href="<c:url value="/calendrier"/>">Calendrier</a></li>
-	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="<c:url value="/Vehicules"/>">Vehicules</a></li>
-	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="<c:url value="/drivers"/>">Conducteurs</a></li>
-	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="<c:url value="/pieces"/>">Pièces</a></li>
-	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="#">Directives</a></li>
-	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="#">Directives</a></li>
-	<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'><a class="nav-link text-light" href="#">Guide</a></li>
+	<m:link label="Utilisateurs" value="/Utilisateurs"/>
+	<m:link label="Calendrier" value="/calendrier"/>
+	<m:link label="Vehicules" value="/Vehicules"/>
+	<m:link label="Conducteur" value="/drivers"/>
+	<m:link label="Pièces" value="/pieces"/>
+	<m:link label="Directives" value="/Utilisateurs"/>
+	<m:link label="Guides" value="/Fichiers"/>
+	
 </ul>
 </div>

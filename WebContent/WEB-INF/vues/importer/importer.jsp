@@ -15,12 +15,13 @@
 		</div>
 
 		<div class="card p-3 m-2">
+			
 			<form:file-upload name="file" col="" text="Importer un excel"></form:file-upload>
 			<button type="submit" class="btn btn-primary col" name="importer">Valider
 				l'importation</button>
 			<c:if test="${erreurs.isEmpty()}">
 				<div >
-					Inseretion réussite
+					Insretion réussite
 				</div>
 			</c:if>
 

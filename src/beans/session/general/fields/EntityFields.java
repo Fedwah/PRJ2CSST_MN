@@ -86,8 +86,8 @@ public class EntityFields<T> {
            
             fd = new FieldDefinition( formatName( f.getName() ), formatLabel( formatField( f.getName() ) ),
                     formatClass( f.toGenericString() ), isBasicClass( f.toGenericString() ) );
-            /*System.out.println( "field add : " + formatField( f.getName() ) + " | " + fd.label + " | " + fd.class_
-                    + " | " + fd.isBasicClass );*/
+            System.out.println( "field add : " + formatField( f.getName() ) + " | " + fd.label + " | " + fd.class_
+                    + " | " + fd.isBasicClass );
             this.putField( formatField( f.getName() ), fd ,f);
             
             
@@ -132,7 +132,18 @@ public class EntityFields<T> {
     }
 
     private boolean isBasicClass( String className ) {
-        return formatClass( className ).startsWith( "java" );
+        
+        if(formatClass( className ).startsWith( "java" ))
+            return true;
+        else
+            try {
+                Class.forName( className );
+                return false;
+            } catch ( ClassNotFoundException e ) {
+                return true;
+            }
+     
+                
     }
     
    
@@ -153,6 +164,7 @@ public class EntityFields<T> {
     
     public Class<?> getClass(String name) {
         try {
+            System.out.println( "GET CLASS of "+name );
             return Class.forName( this.fields.get( name ).class_);
         } catch ( ClassNotFoundException e ) {
             // TODO Auto-generated catch block

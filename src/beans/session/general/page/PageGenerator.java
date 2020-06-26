@@ -2,11 +2,13 @@ package beans.session.general.page;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.json.JsonObject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jboss.resteasy.spi.HttpRequest;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.wildfly.common.iteration.IntIterator;
 
 public class PageGenerator {
@@ -89,6 +93,21 @@ public class PageGenerator {
         this.generate( contexte, request, response );
     }
 
+    public void generateJSON(HttpServletResponse response , List<JSONObject> objects) {
+        JSONArray arr = new JSONArray( objects );
+        System.out.println( "Generate JSON : "+arr );
+        response.reset();
+        response.setContentType("application/json;charset=utf-8");
+        try {
+            PrintWriter out = response.getWriter();
+            
+            out.print(arr);
+        } catch ( IOException e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } 
+        
+    }
     public void redirect( ServletContext contexte, HttpServletRequest request, HttpServletResponse response )
             throws IOException {
         if ( redirectURL != null ) {
@@ -108,7 +127,7 @@ public class PageGenerator {
         if ( request.getPathInfo() != null ) {
             id = request.getPathInfo().substring( 1 );
         }
-        return id;
+        return cleanText(id);
     }
 
     public String[] getPathIds( HttpServletRequest request ) {
@@ -120,6 +139,9 @@ public class PageGenerator {
 
     }
 
+    private String cleanText(String text) {
+        return text.replaceAll("^\"|\"$", "").trim();
+    }
     public void writeWorkBook( Workbook wk, String fileName, HttpServletResponse response ) {
         int DEFAULT_BUFFER_SIZE = 10240; // 10 ko
 
@@ -186,7 +208,7 @@ public class PageGenerator {
     
     private void pather(HttpServletRequest request) {
         Pather p  = getPather( request );
-        System.out.println( "GO TO :"+this.pageTitle+" = "+this.getPath( request ));
+        //System.out.println( "GO TO :"+this.pageTitle+" = "+this.getPath( request ));
         p.goTo( this.pageTitle,this.getPath( request ) );
     }
     
