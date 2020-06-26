@@ -3,6 +3,7 @@ package beans.session.maintenance;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,28 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
         m.setUn( new Unite( "un1" ) );
         return m;
     }
+    
+    public Maintenance create( HttpServletRequest request, Maintenance bean ) {
+        Maintenance m = new Maintenance();
+
+        m.setV( bean.getV() ); // vehicule
+        m.setUn(bean.getUn()); // unité
+        try {
+            m.setNbP( Integer.parseInt( request.getParameter( "nbP" ) ) ); // nombre de piece de rechange
+        } catch ( Exception e ) {
+            m.setNbP( 0 );
+        }
+
+        Niveau n = new Niveau( Integer.parseInt( request.getParameter( "niveau" ) ) );
+        m.setNiv( n ); // niveau de maintenance
+        m.setStartDate(bean.getStartDate()); // date debut
+        try {
+            m.setEndDate( new SimpleDateFormat( "yyyy-MM-dd" ).parse( request.getParameter( "dateFin" ) ) ); // date de fin 
+        } catch ( ParseException e ) {
+            e.printStackTrace();
+        }
+        return m;
+    }
 
     @Override
     public void validateChilds( Maintenance bean, BeanManager<Maintenance> beanM ) {
@@ -74,13 +97,16 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
 
     @Override
     public void updateChange( Maintenance newB, Maintenance old ) {
-        // TODO Auto-generated method stub
+        old.setEndDate(newB.getEndDate());
+        old.setNbP(newB.getNbP());
+        old.setNiv(newB.getNiv());
+        old.setPieces(newB.getPieces());
 
     }
 
     public boolean validateStartDate( MaintenanceManager em, Maintenance bean ) {
         Map<String, Object> fields = new HashMap();
-
+        boolean valide = true;
         List<Maintenance> currentM = em.findCurrentMaintenace( bean );
         if ( currentM != null ) {
             System.out.println( "liste des maintenaces de ce vehicule est non null " + currentM.size() );
@@ -88,20 +114,25 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
                 // System.out.println("liste des maintenaces de ce vehicule est
                 // non null " + currentM.size());
                 this.addErreurs( "v", "Ce vehicule a déjà une maintenance non terminé" );
-                return false;
+               valide = valide && false;
             }
 
         }
-        return true;
+        if(bean.getStartDate().compareTo(new Date())< 0)
+        {
+        	valide = valide && false;
+        	this.addErreurs( "startDate", "Vous ne pouvez pas créer des maintenaces passées" );
+        }
+        return valide;
     }
 
     public boolean validateEndDate( Maintenance m ) {
-        if ( m.getEndDate().compareTo( m.getStartDate() ) > 0 ) {
+        if ( m.getEndDate().compareTo( m.getStartDate() ) >= 0 ) {
 
             System.out.println( "end date valide" );
             return true;
         } else {
-            this.addErreurs( "startDate", "ce véhicule a déjà une maintenance non termininé" );
+            this.addErreurs( "endDate", "date de fin est inferieure à la date début" );
             return false;
         }
 
@@ -113,13 +144,21 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
         }
         return false;
     }
+    
+    public boolean validateEdit( Maintenance bean ) {
+        if ( this.validate( bean ) && this.validateEndDate( bean ) ) {
+            return true;
+        }
+        return false;
+    }
 
     public void createPieces( HttpServletRequest request, Maintenance bean ) 
     {
         List<Piece> pieces = new ArrayList();
-
+        
         for ( int i = 1; i <= bean.getNbP(); i++ ) 
         {
+        	System.out.println("valeur de " + i + " est " + request.getParameter( Integer.toString( i )));
         	if(request.getParameter( Integer.toString( i ) ) != null)
         	{
         		Piece p = new Piece( request.getParameter( Integer.toString( i ) ) );

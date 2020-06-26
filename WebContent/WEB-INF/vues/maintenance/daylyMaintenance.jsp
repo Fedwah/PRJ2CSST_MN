@@ -31,6 +31,14 @@
 						name="end" class="btn" style='background-color: #3E703D;color:white;' >
 						terminer</a>
 						</c:when>
+						<c:when test="${cal.getEtat(maintenance).equals('terminé')}">
+						<a class="btn btn-outline-primary" href='<c:url value="/maintenance/edit/${maintenance.idMaintenance}"/>'>
+						<img width="20px" height="20px" src="<c:url value='/public/img/icon/edit_green.png'/>" />
+						</a>
+						</c:when>
+						<c:otherwise>
+						
+						</c:otherwise>
 					</c:choose>	
 					
 					<btn:remove value="/maintenance/remove/${maintenance.idMaintenance}" />
@@ -68,7 +76,7 @@
 								<c:when test="${cal.getEtat(maintenance).equals('terminé')}">
 								<h5 class="d-inline">Date de fin :</h5>
 								${maintenance.endDate}
-								<btn:edit value="/maintenance/edit/${maintenance.idMaintenance}" />
+								
 								</c:when>
 							</c:choose>						
 							

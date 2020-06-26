@@ -36,13 +36,12 @@ public class Maintenance implements Serializable{
 	// date Debut
 	
 	@NotNull
-	@FutureOrPresent
 	@Temporal(TemporalType.DATE)
 	private Date startDate;
 	
 	// date Fin
 	
-	@FutureOrPresent
+
 	@Temporal(TemporalType.DATE)
 	@JoinColumn(nullable=true)
 	private Date endDate = null;
