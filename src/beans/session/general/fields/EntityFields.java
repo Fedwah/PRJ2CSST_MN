@@ -86,8 +86,8 @@ public class EntityFields<T> {
            
             fd = new FieldDefinition( formatName( f.getName() ), formatLabel( formatField( f.getName() ) ),
                     formatClass( f.toGenericString() ), isBasicClass( f.toGenericString() ) );
-            System.out.println( "field add : " + formatField( f.getName() ) + " | " + fd.label + " | " + fd.class_
-                    + " | " + fd.isBasicClass );
+            /*System.out.println( "field add : " + formatField( f.getName() ) + " | " + fd.label + " | " + fd.class_
+                    + " | " + fd.isBasicClass );*/
             this.putField( formatField( f.getName() ), fd ,f);
             
             
