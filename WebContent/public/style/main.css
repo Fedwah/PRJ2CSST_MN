@@ -30,5 +30,18 @@ Ici mettre le css de toute l'application
 	
 }
 
+.triangle-fin{
+	
+      z-index: -1;
+      display: inline;
+      position: relative;
+      left: 146px;
+      top: -20px;
+      height: 0;
+      border-top: 30px solid transparent;
+      border-right: 50px solid #69995d;
+      border-bottom: 30px solid transparent;
+      
+}
 
 

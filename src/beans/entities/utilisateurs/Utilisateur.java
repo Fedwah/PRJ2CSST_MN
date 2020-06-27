@@ -18,7 +18,8 @@ import beans.entities.regions.unites.Unite;
 
 @Entity
 public class Utilisateur implements Serializable {
-	 @Id
+	     
+        @Id
 	    @GeneratedValue( strategy = GenerationType.IDENTITY )
 	    private int    id;
 	    @Column( name = "nom_Utilisateur" )
@@ -29,9 +30,11 @@ public class Utilisateur implements Serializable {
 	    private String    prenom;
 	    private String    type;
 	    private String    role;
+	    
 	    @ManyToOne
 	    @JoinColumn(nullable=true)
 	    private Region region;
+	    
 	    @ManyToOne
 	    @JoinColumn(nullable=true)
 	    private Unite unite;
@@ -41,7 +44,6 @@ public class Utilisateur implements Serializable {
 			 
 		}
 	
-
 
 		public Utilisateur(String nomUtilisateur, String motDePasse, String nom, String prenom, String type,
 				String role) {
