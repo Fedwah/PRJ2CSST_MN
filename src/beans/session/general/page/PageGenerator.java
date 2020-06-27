@@ -32,43 +32,56 @@ public class PageGenerator {
     private static final String ATT_VUE      = "vue";
     private static final String ATT_TITLE    = "title";
     private static final String PAGE_WRAPPER = "/WEB-INF/index.jsp";
-   
+    private static final String ERROR_PAGE = "/WEB-INF/index.jsp";
+    
     private String              pageWrapperJSP;
     private String              vueJSP;
     private String              pageTitle;
     private String              redirectURL;
+    private String              errorPage;
     
     private SessionManager sessionManager;
     public PageGenerator() {
+        super();
         this.sessionManager = new SessionManager();
+        this.errorPage = ERROR_PAGE;
+        this.pageWrapperJSP = PAGE_WRAPPER;
     }
     
     public PageGenerator( String redirectURL ) {
-        super();
+        this();
         this.redirectURL = redirectURL;
     }
 
     public PageGenerator( String vueJSP, String pageTitle, String redirectURL ) {
-        super();
-        this.pageWrapperJSP = PAGE_WRAPPER;
+        this();
         this.vueJSP = vueJSP;
         this.pageTitle = pageTitle;
         this.redirectURL = redirectURL;
     }
 
     public PageGenerator( String vueJSP, String pageTitle ) {
-        super();
+        this();
         this.vueJSP = vueJSP;
         this.pageTitle = pageTitle;
-        this.pageWrapperJSP = PAGE_WRAPPER;
+       
     }
-
-    public PageGenerator( String pageWrapperJSP, String vueJSP, String pageTitle, String redirectURL ) {
-        super();
+    
+    public PageGenerator( String pageWrapperJSP, String vueJSP, String pageTitle, String redirectURL) {
+        this();
         this.pageWrapperJSP = pageWrapperJSP;
         this.vueJSP = vueJSP;
         this.pageTitle = pageTitle;
         this.redirectURL = redirectURL;
+    }
+    
+    public PageGenerator( String pageWrapperJSP, String vueJSP, String pageTitle, String redirectURL,String pageError) {
+        this();
+        this.pageWrapperJSP = pageWrapperJSP;
+        this.vueJSP = vueJSP;
+        this.pageTitle = pageTitle;
+        this.redirectURL = redirectURL;
+        this.errorPage = pageError;
     }
 
     public String getPageWrapperJSP() {
@@ -80,7 +93,7 @@ public class PageGenerator {
     }
 
     private RequestDispatcher getRequestDispatcher( ServletContext contexte, HttpServletRequest request,
-            HttpServletResponse response ) {
+            HttpServletResponse response) {
         request.setAttribute( ATT_TITLE, this.pageTitle );
         request.setAttribute( ATT_VUE, this.vueJSP );
 
@@ -89,17 +102,19 @@ public class PageGenerator {
 
     public void generate( ServletContext contexte, HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
-        this.pather( request );
-        this.getRequestDispatcher( contexte, request, response ).forward( request, response );
+        this.generate( contexte, request, response ,false);
     }
     
     public void generate( ServletContext contexte, HttpServletRequest request, HttpServletResponse response ,boolean root) throws ServletException, IOException {
         if(root) {
             this.clearPath( request );
         }
-        this.generate( contexte, request, response );
+        this.getRequestDispatcher( contexte, request, response ).forward( request, response );
     }
-
+    
+    public void generateErreur(ServletContext contexte, HttpServletRequest request, HttpServletResponse response ,String maessage) {
+        request.setAttribute( ATT_TITLE, this.pageTitle );
+    }
     public void generateJSON(HttpServletResponse response , List<JSONObject> objects) {
         JSONArray arr = new JSONArray( objects );
         System.out.println( "Generate JSON : "+arr );
