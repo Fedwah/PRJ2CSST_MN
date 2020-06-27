@@ -7,5 +7,5 @@
 
 <li class="nav-item" role="presentation">
 	<a class="nav-link ${active!=null&&active?'active':''}" id="${id}-tab" data-toggle="tab" href="#${id}"
-				role="tab" aria-controls="${id}" aria-selected="${active!=null?active:false}">${label}</a>
+	role="tab" aria-controls="${id}" aria-selected="${active!=null?active:false}">${label}</a>
 </li>
