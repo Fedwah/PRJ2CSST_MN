@@ -22,6 +22,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.wildfly.common.iteration.IntIterator;
 
+import beans.entities.utilisateurs.Utilisateur;
+import servlets.Utilisateur.Connexion;
+
 public class PageGenerator {
 
     
@@ -208,5 +211,19 @@ public class PageGenerator {
     }
     
  
-
+    public void save(HttpServletRequest request , String name , Object value) {
+        getSessionManager().save( request, name, value );
+    }
+    
+    public Object get(HttpServletRequest request , String name) {
+        return getSessionManager().get( request, name );
+    }
+    
+    public void remove(HttpServletRequest request , String name) {
+        getSessionManager().remove( request, name );
+    }
+    
+    public Utilisateur getUtilisateur(HttpServletRequest request) {
+        return  (Utilisateur) get( request, Connexion.ATT_SESSION_USER );
+    }
 }
