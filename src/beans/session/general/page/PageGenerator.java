@@ -28,11 +28,12 @@ import servlets.Utilisateur.Connexion;
 public class PageGenerator {
 
     
+    private static final String ATT_MESSAGE = "message";
     private static final String ATT_REQUEST  = "request";
     private static final String ATT_VUE      = "vue";
     private static final String ATT_TITLE    = "title";
     private static final String PAGE_WRAPPER = "/WEB-INF/index.jsp";
-    private static final String ERROR_PAGE = "/WEB-INF/index.jsp";
+    private static final String ERROR_PAGE = "/WEB-INF/error.jsp";
     
     private String              pageWrapperJSP;
     private String              vueJSP;
@@ -93,11 +94,13 @@ public class PageGenerator {
     }
 
     private RequestDispatcher getRequestDispatcher( ServletContext contexte, HttpServletRequest request,
-            HttpServletResponse response) {
+            HttpServletResponse response , Boolean error) {
         request.setAttribute( ATT_TITLE, this.pageTitle );
         request.setAttribute( ATT_VUE, this.vueJSP );
-
-        return contexte.getRequestDispatcher( this.pageWrapperJSP );
+        if(error) {
+            return contexte.getRequestDispatcher( this.errorPage );
+        }else
+            return contexte.getRequestDispatcher( this.pageWrapperJSP );
     }
 
     public void generate( ServletContext contexte, HttpServletRequest request, HttpServletResponse response )
@@ -109,12 +112,14 @@ public class PageGenerator {
         if(root) {
             this.clearPath( request );
         }
-        this.getRequestDispatcher( contexte, request, response ).forward( request, response );
+        this.getRequestDispatcher( contexte, request, response,false).forward( request, response );
     }
     
-    public void generateErreur(ServletContext contexte, HttpServletRequest request, HttpServletResponse response ,String maessage) {
-        request.setAttribute( ATT_TITLE, this.pageTitle );
+    public void generateErreur(ServletContext contexte, HttpServletRequest request, HttpServletResponse response ,String message) throws ServletException, IOException {
+        request.setAttribute( ATT_MESSAGE, message);
+        this.getRequestDispatcher( contexte, request, response,true).forward( request, response );
     }
+    
     public void generateJSON(HttpServletResponse response , List<JSONObject> objects) {
         JSONArray arr = new JSONArray( objects );
         System.out.println( "Generate JSON : "+arr );
