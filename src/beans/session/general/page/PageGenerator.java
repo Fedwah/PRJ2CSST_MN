@@ -22,22 +22,25 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.wildfly.common.iteration.IntIterator;
 
+import beans.entities.utilisateurs.Utilisateur;
+import servlets.Utilisateur.Connexion;
+
 public class PageGenerator {
 
-    private static final String ATT_PATH = "path";
+    
     private static final String ATT_REQUEST  = "request";
     private static final String ATT_VUE      = "vue";
     private static final String ATT_TITLE    = "title";
     private static final String PAGE_WRAPPER = "/WEB-INF/index.jsp";
-    private static final String DEFAUTL_ROOT = "/";
+   
     private String              pageWrapperJSP;
     private String              vueJSP;
     private String              pageTitle;
     private String              redirectURL;
     
-
+    private SessionManager sessionManager;
     public PageGenerator() {
-        // TODO Auto-generated constructor stub
+        this.sessionManager = new SessionManager();
     }
     
     public PageGenerator( String redirectURL ) {
@@ -70,6 +73,10 @@ public class PageGenerator {
 
     public String getPageWrapperJSP() {
         return pageWrapperJSP;
+    }
+    
+    public SessionManager getSessionManager() {
+        return sessionManager;
     }
 
     private RequestDispatcher getRequestDispatcher( ServletContext contexte, HttpServletRequest request,
@@ -117,7 +124,7 @@ public class PageGenerator {
     
     public void redirectBack( ServletContext contexte, HttpServletRequest request, HttpServletResponse response )
             throws IOException {
-        Page page  = this.getPather( request ).goBack();
+        Page page  = Pather.getPather( request ).goBack();
         response.sendRedirect( contexte.getContextPath() + page.getLink() );
     }
     
@@ -172,50 +179,51 @@ public class PageGenerator {
     }
 
     public void saveRequest( HttpServletRequest request ) {
-        HttpSession s = request.getSession();
-        s.setAttribute( ATT_REQUEST, request );
+        this.sessionManager.save( request, ATT_REQUEST, request );
     }
 
-    public HttpServletRequest getSavedReuest( HttpSession session ) {
-        HttpServletRequest r = (HttpServletRequest) session.getAttribute( ATT_REQUEST );
-        session.removeAttribute( ATT_REQUEST );
-
+    public HttpServletRequest getSavedReuest( HttpServletRequest request ) {
+        HttpServletRequest r = (HttpServletRequest) this.sessionManager.get(request,ATT_REQUEST );
+        this.sessionManager.remove(request,ATT_REQUEST);
         return r;
 
     }
 
-    private Pather initPath( HttpSession s , String root) {
-        Pather path = new Pather( root );
-        s.setAttribute( ATT_PATH, path );
-        return path;
-    }
+  
     
     
     public void clearPath( HttpServletRequest request) {
-        getPather( request ).clear();
+        Pather.getPather( request ).clear();
         //s.removeAttribute(ATT_PATH );
     }
     
-    private Pather getPather(HttpServletRequest request) {
-        HttpSession session = request.getSession( false );
-        if (session != null) {
-            return (Pather) session.getAttribute( ATT_PATH );
-        } else {
-            // no session
-            return initPath( request.getSession(), DEFAUTL_ROOT );
-        }
-    }
+   
     
     private void pather(HttpServletRequest request) {
-        Pather p  = getPather( request );
+        Pather p  = Pather.getPather( request );
         //System.out.println( "GO TO :"+this.pageTitle+" = "+this.getPath( request ));
-        p.goTo( this.pageTitle,this.getPath( request ) );
+        p.goTo( this.pageTitle,this.getURL( request ) );
     }
     
     
-    public String getPath(HttpServletRequest request) {
+    public String getURL(HttpServletRequest request) {
         return  request.getRequestURI().substring(request.getContextPath().length());
     }
     
-
+ 
+    public void save(HttpServletRequest request , String name , Object value) {
+        getSessionManager().save( request, name, value );
+    }
+    
+    public Object get(HttpServletRequest request , String name) {
+        return getSessionManager().get( request, name );
+    }
+    
+    public void remove(HttpServletRequest request , String name) {
+        getSessionManager().remove( request, name );
+    }
+    
+    public Utilisateur getUtilisateur(HttpServletRequest request) {
+        return  (Utilisateur) get( request, Connexion.ATT_SESSION_USER );
+    }
 }
