@@ -86,8 +86,8 @@ public class EntityFields<T> {
            
             fd = new FieldDefinition( formatName( f.getName() ), formatLabel( formatField( f.getName() ) ),
                     formatClass( f.toGenericString() ), isBasicClass( f.toGenericString() ) );
-            /*System.out.println( "field add : " + formatField( f.getName() ) + " | " + fd.label + " | " + fd.class_
-                    + " | " + fd.isBasicClass );*/
+            System.out.println( "field add : " + formatField( f.getName() ) + " | " + fd.label + " | " + fd.class_
+                    + " | " + fd.isBasicClass );
             this.putField( formatField( f.getName() ), fd ,f);
             
             
@@ -132,14 +132,17 @@ public class EntityFields<T> {
     }
 
     private boolean isBasicClass( String className ) {
-        
-        if(formatClass( className ).startsWith( "java" ))
+        String class_ = formatClass( className );
+        if(class_.startsWith( "java" ))
             return true;
         else
             try {
-                Class.forName( className );
+             
+                Class.forName( class_ );
+                
                 return false;
             } catch ( ClassNotFoundException e ) {
+                System.out.println( "NOT EXIST" );
                 return true;
             }
      
