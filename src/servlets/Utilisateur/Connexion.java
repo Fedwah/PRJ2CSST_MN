@@ -69,8 +69,8 @@ public class Connexion extends HttpServlet {
 	        utilisateur= User.connecter(nomUtilisateur,motdepasse) ;
 	        		  
 		            if (utilisateur != null) {
-						PageGenerator pg1 = new PageGenerator("/WEB-INF/indexLogin.jsp", "/WEB-INF/vues/menu/menuAdmin.jsp", "Menu", "");
-		              
+		               System.out.println("utilisateur trouvé");
+		               PageGenerator pg1 = new PageGenerator("/WEB-INF/indexLogin.jsp", "/WEB-INF/vues/menu/menuAdmin.jsp", "Menu", "");		              
 		               session.setAttribute( ATT_SESSION_USER, utilisateur );
 		        	   resultat = "Vous etes connecté ! .";
 		        	   pg1.generate( getServletContext(), request, response);

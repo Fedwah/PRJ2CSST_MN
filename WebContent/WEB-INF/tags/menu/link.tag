@@ -7,7 +7,7 @@
 <%@attribute name="size" required="true"%>
 <%@attribute name="img" required="true"%>
 
-<li class="nav-item d-flex  align-items-center  w-100  ml-1" >
+<li class="nav-item d-flex  align-items-center  w-100  ml-2" >
 	<div class=" row  no-gutters rounded-pill flex-fill  align-items-center" style='background-color: #3E703D;'>
 		<div class="img-fluid col-4"
 			style=" max-height: ${size}; max-width:${size}">
