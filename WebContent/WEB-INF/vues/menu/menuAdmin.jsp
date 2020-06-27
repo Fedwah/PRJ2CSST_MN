@@ -6,7 +6,10 @@
 <div>
 
 <ul class="nav flex-column  text-center  p-3">
-	
+	<c:if test="${!empty sessionScope.sessionUtilisateur}">
+                    <%-- Si l'utilisateur existe en session, alors on affiche son adresse email. --%>
+                    <p class="succes">Bonjour ${sessionScope.sessionUtilisateur.nom} !</p>
+     </c:if>
 	<menu:link label="Regions" value="/regions"></menu:link>
 	<menu:link label="Utilisateurs" value="/Utilisateurs"></menu:link>
 	<menu:link label="Pièces" value="/pieces"></menu:link>

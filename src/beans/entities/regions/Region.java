@@ -29,8 +29,8 @@ public class Region implements Serializable {
 		@Size(min=3,max=25)
 		private String adress;
 		// responsable
-		@OneToMany
-		private List<Utilisateur> users;
+		/*@OneToMany
+		private List<Utilisateur> users;*/
 		@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE,mappedBy = "region")
 	    private List<Unite> unites;
 		
@@ -78,13 +78,7 @@ public class Region implements Serializable {
 		public void setUnites(List<Unite> unites) {
 			this.unites = unites;
 		}
-		public List<Utilisateur> getUsers() {
-			return users;
-		}
-		public void setUsers(List<Utilisateur> users) {
-			this.users = users;
-		}
-
+	 
 		
 		
 		

@@ -8,5 +8,9 @@
 		src='<c:url value="/public/img/logos/mn_greenBackground.png" />' width="60"
 		height="60" alt="" loading="lazy">
 		<h3 style='display: inline-block;position: relative; top: 10px; left: 10px;'>Maintenance nationale</h3>
+		   <div style="float:right; width:150px; height:auto;">
+		<a class="btn btn-outline-success"
+			 href='<c:url value="/Deconnexion"/>'>Deconnexion</a>
+			 </div>
 	</a>
 </nav>
