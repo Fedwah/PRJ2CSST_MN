@@ -12,7 +12,7 @@
 	<menu:link label="Pièces" value="/pieces"></menu:link>
 	<menu:link label="Marques" value="/Marques"></menu:link>
 	<menu:link label="Catégorie" value="/Vehicules/Categories"></menu:link>
-	<menu:link label="Catégorie" value="/maintenance/niveaux"></menu:link>
+	<menu:link label="Niveaux" value="/maintenance/niveaux"></menu:link>
 	<menu:link label="Vehicules" value="/Vehicules"></menu:link>
 	<menu:link label="Importer/Exporter" value="/Importer/Vehicules"></menu:link>
 </ul>
