@@ -68,8 +68,7 @@ public class Connexion extends HttpServlet {
 	        	
 	        utilisateur= User.connecter(nomUtilisateur,motdepasse) ;
 	        		  
-		              
-					if (utilisateur != null) {
+		            if (utilisateur != null) {
 						PageGenerator pg1 = new PageGenerator("/WEB-INF/indexLogin.jsp", "/WEB-INF/vues/menu/menuAdmin.jsp", "Menu", "");
 		              
 		               session.setAttribute( ATT_SESSION_USER, utilisateur );
@@ -77,15 +76,18 @@ public class Connexion extends HttpServlet {
 		        	   pg1.generate( getServletContext(), request, response);
 		        	  
 		    	  
-		                                  }else {
-		        PageGenerator pg2 = new PageGenerator("/WEB-INF/indexLogin.jsp", "/WEB-INF/vues/Utilisateur/login.jsp","Se connecter", "/Connexion");
+		             } 
+					else {
+					  PageGenerator pg2 = new PageGenerator("/WEB-INF/indexLogin.jsp", "/WEB-INF/vues/Utilisateur/login.jsp","Se connecter", "/Connexion");
 		              resultat = "Nom d'utilisateur ou mot de passe erronés.";   
 		              request.setAttribute( ATT_ERREURS, erreurs );
 			          request.setAttribute( ATT_RESULTAT, resultat );
 			          pg2.generate( getServletContext(), request, response);
 
-	        }   }
-	        else {
+	        }   
+		    }
+	        else 
+	        {
 	        	PageGenerator pg = new PageGenerator("/WEB-INF/indexLogin.jsp", "/WEB-INF/vues/Utilisateur/login.jsp","Se connecter", "/Connexion");
 	            resultat = "Échec à cause des erreurs de saisie.";
 	            request.setAttribute( ATT_ERREURS, erreurs );

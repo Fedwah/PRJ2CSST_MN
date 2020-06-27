@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.entities.vehicules.EtatVehicule;
 import beans.session.general.page.PageGenerator;
@@ -42,15 +43,21 @@ public class SuppressionCategorieVehicule extends HttpServlet {
 	   
 	    PageGenerator pg = new PageGenerator( CategorieVehiculeFactory.DEFAULT_REDIRECT_URL );
 	    String id = pg.getPathId( request );
-		
-	    if(id!="") {
-	        if(categM.trouverSupprimer( id )) {
-	            pg.redirect( getServletContext(), request, response );
-	        } 
-	    }
-	 
-	    response.getWriter().append( "Erreur: la supression a echoué" );
-	   
+		try
+		{
+			if(id!="") {
+		        categM.trouverSupprimer( id );
+		    }
+		}
+		catch(Exception e)
+		{
+			System.out.println("inside catch");
+        	HttpSession session = request.getSession();
+        	boolean exemple = true ;
+        	session.setAttribute( "exception", exemple );
+		}
+		pg.redirect( getServletContext(), request, response );
+	    
 	}
 
 	/**

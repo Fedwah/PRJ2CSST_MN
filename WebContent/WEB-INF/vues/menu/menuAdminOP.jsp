@@ -3,6 +3,9 @@
 
 <%@ taglib tagdir="/WEB-INF/tags/menu" prefix="m"%>
 
+<div class="nav flex-column  text-center  p-4" >
+</div>
+
 <div class=" overflow-hidden mt-5 border-right border-light">
 <ul class="nav flex-column pl-3">
 
@@ -16,6 +19,5 @@
 	<m:link label="Guides" value="/Fichiers" img="" size="30px"/>
 	<m:link label="Directives" value="#" img="/public/img/menu/directive.png" size="30px"/>
 
-	
 </ul>
 </div>

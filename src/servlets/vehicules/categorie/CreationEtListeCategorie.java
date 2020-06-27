@@ -46,7 +46,7 @@ public class CreationEtListeCategorie extends HttpServlet {
      */
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
-        // TODO Auto-generated method stub
+       
         PageGenerator pg = new PageGenerator( CategorieVehiculeFactory.VUE_LIST_FORM, TITRE_VUE );
         request.setAttribute( ATT_CATEGORIES, categM.lister( ) );
         pg.generate( getServletContext(), request, response );

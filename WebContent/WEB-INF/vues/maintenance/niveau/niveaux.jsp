@@ -18,7 +18,7 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th scope="col">Niveau</th>
+						<th scope="col" style='color: #3E703D;'>Niveau</th>
 						<th scope="col"></th>
 					</tr>
 				</thead>
@@ -36,5 +36,22 @@
 			</table>
 
 		</div>
+		<c:if test="${sessionScope.exception }">
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+		<script>
+		$(document).ready(function (){
+    	swal({
+  		title: "Ce niveau est lié à des maintenances",
+  		text: "vous ne pouvez pas le supprimer",
+  		icon: "warning",
+  		dangerMode: true,
+		})
+		});
+		</script>
+		<%session.removeAttribute("exception"); %>
+		</c:if>
 	</div>
 </div>

@@ -1,6 +1,7 @@
 package servlets.maintenance.niveaux;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -8,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.session.general.page.PageGenerator;
 import beans.session.maintenance.niveaux.NiveauManager;
@@ -36,10 +38,24 @@ public class NiveauDelete extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator(NIVEAUX);
         String id = request.getPathInfo().substring( 1 );// id of element
-        if ( nm.trouverSupprimer( Integer.parseInt(id) ) ) // chercher l'element et le supprimer
+        try
         {
-            pg.redirect( getServletContext(), request, response );
-        } 
+        	/*HttpSession session = request.getSession();
+        	boolean exemple = false ;
+        	session.setAttribute( "exception", exemple ); */      	
+        	nm.trouverSupprimer( Integer.parseInt(id) );
+        }
+        catch(Exception e)
+        {
+        	System.out.println("inside catch");
+        	HttpSession session = request.getSession();
+        	boolean exemple = true ;
+        	session.setAttribute( "exception", exemple );
+        	
+        }
+  
+        pg.redirect( getServletContext(), request, response );
+         
 
 	}
 
