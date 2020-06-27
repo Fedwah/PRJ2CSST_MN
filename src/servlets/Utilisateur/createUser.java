@@ -20,7 +20,8 @@ import beans.session.general.page.PageGenerator;
 @WebServlet("/createUser")
 public class createUser extends HttpServlet {
 	   private static final long serialVersionUID = 1L;
-	   
+	    @EJB
+	   private MethodeUtilisateur User;
 	    public static final String ATT_USER = "utilisateur";
 	    public static final String VUE          = "/WEB-INF/vues/Utilisateur/createUser.jsp";
 	    public static final String CHAMP_USER  = "nomUtilisateur";
@@ -31,18 +32,21 @@ public class createUser extends HttpServlet {
 	    public static final String CHAMP_TYPE    ="type";
 	    public static final String CHAMP_ROLE    ="role";
 	    public static final String CHAMP_UNITE    ="unite";
+	    public static final String CHAMP_REG    ="codereg";
+	    public static final String CHAMP_UN    ="codeun";
 	    public static final String ATT_ERREURS  = "erreurs";
 	    public static final String ATT_TYPE = "type";
 	    public static final String ATT_ROLE = "role";
 	    public static final String ATT_RESULTAT = "resultat";
 	    private ArrayList<String> type1 = new ArrayList<String>();
 	    private ArrayList<String> role1 = new ArrayList<String>();
+	    private ArrayList<String> reg = new ArrayList<String>();
+	    private ArrayList<String> un = new ArrayList<String>();
 	    
 	  
-	    @EJB
-	   private MethodeUtilisateur User;
+
 	   
-	   
+	    
 	   
 
     public createUser() {
@@ -52,21 +56,26 @@ public class createUser extends HttpServlet {
         type1.add("Central");
         role1.add("Admin");
         role1.add("Utilisateur");
+        
        
     }
 
    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	 PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/createUser.jsp", "Cr�er un utilisateur");
-	 
-	  request.setAttribute( ATT_TYPE, type1 );
-	  request.setAttribute( ATT_ROLE, role1 );
-	 pg.generate( getServletContext(), request, response );
+		reg=(ArrayList<String>) User.recupererCodereg();
+        un=(ArrayList<String>) User.recupererCodeun();
+	    PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/createUser.jsp", "Cr�er un utilisateur");
+	    request.setAttribute( "un", un );
+	    request.setAttribute( "reg", reg );
+	    request.setAttribute( ATT_TYPE, type1 );
+	    request.setAttribute( ATT_ROLE, role1 );
+	    pg.generate( getServletContext(), request, response );
 	}
 
 	 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		   
+		    reg=(ArrayList<String>) User.recupererCodereg();
+            un=(ArrayList<String>) User.recupererCodeun();
 		    String resultat;  
 		    Map<String, String> erreurs = new HashMap<String, String>();
 	        String nomUtilisateur = request.getParameter( CHAMP_USER );
@@ -76,6 +85,9 @@ public class createUser extends HttpServlet {
 	        String prenom = request.getParameter( CHAMP_PRENOM );
 	        String type = request.getParameter(CHAMP_TYPE);
 	        String role = request.getParameter( CHAMP_ROLE );
+	        String codereg = request.getParameter( CHAMP_REG );
+	        String codeun = request.getParameter( CHAMP_UN );
+	        
 	     
 	       
 	   
@@ -89,12 +101,14 @@ public class createUser extends HttpServlet {
 	        if ( erreurs.isEmpty() ) {
 	        	PageGenerator pg1 = new PageGenerator("/WEB-INF/vues/Utilisateur/createUser.jsp", "", "/Utilisateurs");
 	            resultat = "Succ�s de l'inscription.";
-	            Utilisateur utilisateur = new Utilisateur(nomUtilisateur, motDePasse, nom, prenom, type, role);
+	            Utilisateur utilisateur = new Utilisateur(nomUtilisateur, motDePasse, nom, prenom, type, role, codereg,codeun);
 		        User.creer(utilisateur) ;
 		        request.setAttribute( ATT_ERREURS, erreurs );
 		        request.setAttribute( ATT_RESULTAT, resultat );
 		        request.setAttribute( ATT_TYPE, type1 );
 		  	    request.setAttribute( ATT_ROLE, role1 );
+		  	    request.setAttribute( "reg", reg );
+		  	    request.setAttribute( "un", un );
 		        pg1.generate( getServletContext(), request, response);
 		        
 		        
@@ -106,6 +120,8 @@ public class createUser extends HttpServlet {
 		        request.setAttribute( ATT_RESULTAT, resultat );
 		        request.setAttribute( ATT_TYPE, type1 );
 		  	    request.setAttribute( ATT_ROLE, role1 );
+		  	    request.setAttribute( "reg", reg );
+		  	    request.setAttribute( "un", un );
 	            pg.generate( getServletContext(), request, response ); 
 	        }     
 	}

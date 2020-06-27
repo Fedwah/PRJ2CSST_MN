@@ -132,14 +132,17 @@ public class EntityFields<T> {
     }
 
     private boolean isBasicClass( String className ) {
-        
-        if(formatClass( className ).startsWith( "java" ))
+        String class_ = formatClass( className );
+        if(class_.startsWith( "java" ))
             return true;
         else
             try {
-                Class.forName( className );
+             
+                Class.forName( class_ );
+                
                 return false;
             } catch ( ClassNotFoundException e ) {
+                System.out.println( "NOT EXIST" );
                 return true;
             }
      

@@ -4,7 +4,24 @@
 <%@attribute name="value" required="true"%>
 <%@attribute name="label" required="true"%>
 
-<li class="nav-item rounded-pill mb-1" style='background-color: #3E703D;'>
-	<a class="nav-link text-light" href="<c:url value="${value}"/>">${label}</a>
+<%@attribute name="size" required="true"%>
+<%@attribute name="img" required="true"%>
+
+<li class="nav-item d-flex  align-items-center  w-100  ml-1" >
+	<div class=" row  no-gutters rounded-pill flex-fill  align-items-center" style='background-color: #3E703D;'>
+		<div class="img-fluid col-4"
+			style=" max-height: ${size}; max-width:${size}">
+			<img
+				src='<c:url value="${img}"/>'
+				width="${size}" height="${size}" class="mx-2"/>
+		</div>
+		<div class="col-7">
+			<a class="nav-link text-light" href="<c:url value="${value}"/>">${label}</a>
+		</div>
+		
+	</div>
+	<div class="triangle-fin mr-n5" >
+	</div>
+
 </li>
 

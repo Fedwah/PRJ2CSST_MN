@@ -39,7 +39,7 @@ public class SupressionVehicules extends HttpServlet {
         // TODO Auto-generated method stub
         PageGenerator pg = new PageGenerator( "/Vehicules" );
         String id = request.getPathInfo().substring( 1 );
-           
+        
         if ( vm.trouverSupprimer( id ) ) {
             pg.redirect( getServletContext(), request, response );
         } else {

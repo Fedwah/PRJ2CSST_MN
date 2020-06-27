@@ -1,24 +1,16 @@
 package beans.entities.utilisateurs;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-
-import beans.entities.regions.Region;
-import beans.entities.regions.unites.Unite;
 
 @Entity
 public class Utilisateur implements Serializable {
-	 @Id
+	     
+        @Id
 	    @GeneratedValue( strategy = GenerationType.IDENTITY )
 	    private int    id;
 	    @Column( name = "nom_Utilisateur" )
@@ -29,12 +21,10 @@ public class Utilisateur implements Serializable {
 	    private String    prenom;
 	    private String    type;
 	    private String    role;
-	    @ManyToOne
-	    @JoinColumn(nullable=true)
-	    private Region region;
-	    @ManyToOne
-	    @JoinColumn(nullable=true)
-	    private Unite unite;
+
+	    private String   codereg;
+        private String codeun;
+
 	    
 		public Utilisateur() {
 			super();
@@ -42,9 +32,8 @@ public class Utilisateur implements Serializable {
 		}
 	
 
-
 		public Utilisateur(String nomUtilisateur, String motDePasse, String nom, String prenom, String type,
-				String role) {
+				String role, String codereg, String codeun) {
 			super();
 			this.nomUtilisateur = nomUtilisateur;
 			this.motDePasse = motDePasse;
@@ -52,24 +41,9 @@ public class Utilisateur implements Serializable {
 			this.prenom = prenom;
 			this.type = type;
 			this.role = role;
+			this.codereg = codereg;
+			this.codeun = codeun;
 		}
-
-
-		
-		public Utilisateur(int id, String nomUtilisateur, String motDePasse, String nom, String prenom, String type,
-				String role, Region region, Unite unite) {
-			super();
-			this.id = id;
-			this.nomUtilisateur = nomUtilisateur;
-			this.motDePasse = motDePasse;
-			this.nom = nom;
-			this.prenom = prenom;
-			this.type = type;
-			this.role = role;
-			this.region = region;
-			this.unite = unite;
-		}
-
 
 
 		public String getType() {
@@ -140,27 +114,31 @@ public class Utilisateur implements Serializable {
 
 
 
-		public Region getRegion() {
-			return region;
+		public String getCodereg() {
+			return codereg;
 		}
 
 
 
-		public void setRegion(Region region) {
-			this.region = region;
+		public void setCodereg(String codereg) {
+			this.codereg = codereg;
 		}
 
 
 
-		public Unite getUnite() {
-			return unite;
+		public String getCodeun() {
+			return codeun;
 		}
 
 
 
-		public void setUnite(Unite unite) {
-			this.unite = unite;
+		public void setCodeun(String codeun) {
+			this.codeun = codeun;
 		}
+
+
+
+		 
 		
 	    
 
