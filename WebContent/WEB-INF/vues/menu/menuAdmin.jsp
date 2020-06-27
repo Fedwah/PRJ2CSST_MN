@@ -5,17 +5,26 @@
 
 <div  class="overflow-hidden mt-5">
 
+
 <ul class="nav flex-column p-1 mr-n5" >	
 
 
 
+
+	<c:if test="${!empty sessionScope.sessionUtilisateur}">
+                    <%-- Si l'utilisateur existe en session, alors on affiche son adresse email. --%>
+                    <p class="succes">Bonjour ${sessionScope.sessionUtilisateur.nom} !</p>
+     </c:if>
+     
 	<menu:link label="Regions" value="/regions" img="/public/img/menu/localisation_white_nobackground.png" size="30px"/>
 	<menu:link label="Utilisateurs" value="/Utilisateurs" img="/public/img/menu/profile_nobackground.png" size="30px"/>
 	<menu:link label="Pièces" value="/pieces" img="/public/img/menu/white settings.png" size="30px"/>
 	<menu:link label="Marques" value="/Marques" img="" size="30px"/>
+	<menu:link label="Catégorie" value="/Vehicules/Categories" img="" size="30px"/>
+	<menu:link label="Catégorie" value="/maintenance/niveaux" img="" size="30px"/>
 	<menu:link label="Vehicules" value="/Vehicules" img="/public/img/menu/car.png" size="30px" />
-	<menu:link label="Importer/Exporter" value="/Importer/Vehicules"  img="/public/img/menu/doc icon.png" size="30px"/>
-
+	<menu:link label="Importer/Exporter" value="/Importer/"  img="/public/img/menu/doc icon.png" size="30px"/>
+     
 </ul>
 </div>
 

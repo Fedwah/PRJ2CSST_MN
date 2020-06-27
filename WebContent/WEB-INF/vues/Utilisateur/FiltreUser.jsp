@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
  <%@taglib prefix="btn" tagdir="/WEB-INF/tags/btn"%>
@@ -12,44 +12,21 @@
 			 href='<c:url value="/createUser"/>'>Ajouter un utilisateur</a>
 			 	   
 		</nav>	
-		          <div class="form-row">
-		  	     <div style="float:left; width:350px; height:auto;">
 			     <form class="" method ="post" action="Utilisateurs">
-			    
-				
+			     <div class="form-row">
+				 <div class="form-group mt-3 col-md-4">
 					<input type="text" class="form-control" id="search" name="search"
 					placeholder="Rechercher par nom"  value="<c:out value="${param.search}"/>">
-				
-			  
+				</div>
+			    </div>
 		        </form>  
 	            </div>
-	             
-		 	     	    <form class="" method ="post" action="Utilisateurs">   
-	           	      
-		 	       <div style="float:left; width:200px; height:auto;">		
-                   <select id="filtreVal" class="form-control" required="required"name="filtreVal" onchange="show()" >
-                 
-                     <option >Operationnel</option>
-					 <option>Regional</option>
-					 <option>Central</option>
-                      <option>Admin</option>
-                      <option>Utilisateur</option> 
-                  
-					 <c:out value="${param.filtreVal}" />
-		            </select>
-		              </div>	 
-		             <div style="float:right; width:100px; height:auto;">	
-		               <button type="submit" class="btn btn-primary">Filtrer</button>
-		 	      	</div>	
-		 	      	
-		 	             
-	              
-          
-              
-                
-				  </form>  	     
-	           
-	              </div>
+	            
+	           	    
+	           	    
+	            
+	          
+	            
 	            
 	            
 	      
@@ -63,7 +40,6 @@
 				<th scope="col">Nom d'utilisateur</th>
 				<th scope="col">Type</th>
 			    <th scope="col">Role</th>
-			    <th scope="col">Unite</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -75,7 +51,6 @@
 					<td>${usr.nomUtilisateur}</td>
 					<td>${usr.type}</td>
 					<td>${usr.role}</td>
-					<td>${usr.codeun}</td>
 					 
 					<td>
 					<btn:edit value="/EditUser/${usr.id}" /> 
@@ -85,7 +60,5 @@
 			</c:forEach>
 		</tbody>
 	</table>
- 
-</div>
-</div>
 
+</div>

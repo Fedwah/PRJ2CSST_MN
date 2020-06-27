@@ -26,15 +26,19 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
 	    		+ "u.motDePasse=:motdepasse,"
 	    		+ "u.role=:role  "
 	    		+ "WHERE u.id=:id";
-	    private static final String JPQL_SELECT_PAR_EMAIL_PASS = "SELECT u FROM Utilisateur u WHERE u.nomUser =:nomUser and mot_de_passe=:motdepasse ";
+	    private static final String JPQL_SELECT_PAR_EMAIL_PASS = "SELECT u FROM Utilisateur u WHERE u.nomUtilisateur =:nomUtilisateur and u.motDePasse=:motdepasse";
 	    private static final String PARAM_NOM   = "nom";
 	    private static final String PARAM_PRENOM= "prenom";
 	    public static final String PARAM_ROLE   = "role";  
 	    public static final String PARAM_PASS   = "motdepasse";  
-	    public static final String PARAM_USER   ="nomUser";
+	    public static final String PARAM_USER   ="nomUtilisateur";
 	    public static final String PARAM_USER2 ="nomUtilisateur";
 	    public static final String PARAM_ID     ="id";
 	    public static String result    ="id";
+	    private static final String JPQL_FILTRE_TYPE= "SELECT u FROM Utilisateur u WHERE u.type =:type ";
+	    private static final String JPQL_FILTRE_ROLE= "SELECT u FROM Utilisateur u WHERE u.role =:role ";
+	    public static final String PARAM_TYPE    ="type";
+ 
 	    
     public MethodeUtilisateur() {
        super(Utilisateur.class);
@@ -123,6 +127,61 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
 
 }
 
+ //Appliquer le filtre type sur les users    
+    public List<Utilisateur> FiltrerparType(String type) {
+ 	   
+		return em.createQuery(JPQL_FILTRE_TYPE).setParameter(PARAM_TYPE, type).getResultList();
+			 
+	}  
+    
+    
+    //Appliquer le filtre type sur les users    
+    public List<Utilisateur> FiltrerparRole(String role) {
+ 	   
+		return em.createQuery(JPQL_FILTRE_ROLE).setParameter(PARAM_ROLE, role).getResultList();
+			 
+	}  
+    
+    
+    //Récupérer tous les coderegs
+    public List<String> recupererCodereg() {
+	   
+		return em.createQuery("SELECT r FROM Region r").getResultList();
+	}
+    
+    
+    //Récupérer tous les coderuns
+    public List<String> recupererCodeun() {
+	   
+		return em.createQuery("SELECT u FROM Unite u").getResultList();
+	}
+    
+    
+    // login du user
+    public Utilisateur connecter( String nomUtilisateur, String motdepasse )   {
+    	Utilisateur utilisateur = null;
+    	Query requete =em.createQuery( JPQL_SELECT_PAR_EMAIL_PASS );
+        requete.setParameter( PARAM_USER,nomUtilisateur  );
+        requete.setParameter( PARAM_PASS, motdepasse );
+        try{ 
+        	 utilisateur = (Utilisateur) requete.getSingleResult();
+        	 
+        }catch(javax.persistence.NoResultException e)
+        {   
+        }
+        if(utilisateur == null){
+            return null;
+           }else{
+               return utilisateur;
+           }
+          
+        	}
+       
+
+    
+    
+    
+    
 
 	@Override
 	public EntityManager getEntityManger() {

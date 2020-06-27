@@ -15,29 +15,6 @@
 <body>
 	
 	<c:import url="vues/header/header.jsp"></c:import>
-	<div class="row">
-		<div class="col-md-2">
-			<c:choose>
-				<c:when test="${param.role == 'admin'}">
-					<c:import url="vues/menu/menuAdmin.jsp"></c:import>
-					
-				</c:when>
-				<c:otherwise>
-					Menu admin root
-					<c:import url="vues/menu/menuAdmin.jsp"></c:import>
-					Menu admin opérationnel
-					<c:import url="vues/menu/menuAdminOP.jsp"></c:import>					
-					Menu respo parc
-					<c:import url="vues/menu/menuRespoParc.jsp"></c:import>
-					Menu respo maintenance
-					<c:import url="vues/menu/menuRespoMaintenance.jsp"></c:import>
-					Menu respo Regional
-					<c:import url="vues/menu/menuRegional.jsp"></c:import>
-				</c:otherwise>
-			</c:choose>
-
-		</div>
-
 		<div class="col-md">
 		
 			<c:if test="${path!=null && !empty path}">
@@ -52,9 +29,6 @@
 			
 			<c:import url="${vue}"></c:import>
 		</div>
-	</div>
-
-
-
+		
 </body>
 </html>
