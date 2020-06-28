@@ -34,7 +34,7 @@ public class MissionFactory extends BeanFactory<Mission> {
         Mission m = new Mission();
         AffectationConducteur aff = new AffectationConducteur();
         
-        aff.setId(this.castId(request.getParameter( PARAM_AFFECTATION)));
+        aff.setId(this.castInt(request.getParameter( PARAM_AFFECTATION)));
         m.setDescription( request.getParameter( PARAM_DECRIPTION ) );
         m.setDateDebut( this.readDate( request, PARAM_DATE_DEBUT ));
         m.setDateFin( this.readDate( request, PARAM_DATE_FIN ) );

@@ -4,7 +4,7 @@
 <%@taglib prefix="form" tagdir="/WEB-INF/tags/form"%>
 
 <div class="container-fluid p-5">
-	${erreurs }
+
 	<form method="post" action="" enctype="multipart/form-data" id="form">
 
 		<form:file-upload name="file" col="" text="Importer un fichier"  />

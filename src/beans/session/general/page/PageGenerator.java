@@ -97,6 +97,8 @@ public class PageGenerator {
             HttpServletResponse response , Boolean error) {
         request.setAttribute( ATT_TITLE, this.pageTitle );
         request.setAttribute( ATT_VUE, this.vueJSP );
+        
+        this.pather( request );
         if(error) {
             return contexte.getRequestDispatcher( this.errorPage );
         }else

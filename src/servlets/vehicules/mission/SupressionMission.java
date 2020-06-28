@@ -46,7 +46,7 @@ public class SupressionMission extends HttpServlet {
         String id = pg.getPathId( request );
         MissionFactory mF = new MissionFactory();
         VehiculeFactory vehF = new VehiculeFactory();
-        Mission m = mM.trouver(mF.castId(id ));
+        Mission m = mM.trouver(mF.castInt(id ));
        
         if(m!=null) {
             

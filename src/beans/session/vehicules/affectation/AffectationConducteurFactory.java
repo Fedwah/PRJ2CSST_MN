@@ -31,7 +31,7 @@ public class AffectationConducteurFactory extends BeanFactory<AffectationConduct
       
         v.setMatricule_interne( request.getParameter( "vehicule" ) );
         aff.setCar(v);
-        d.setIDdriver( this.castId(request.getParameter("driver") ));
+        d.setIDdriver( this.castInt(request.getParameter("driver") ));
         aff.setDriver(d);
         
         aff.setStartDate( new Date());
