@@ -10,7 +10,10 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 public class Effet implements Serializable {
     
-	@Id	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	
 	@NotEmpty
 	private String effet;
 
@@ -20,7 +23,20 @@ public class Effet implements Serializable {
 	}
 
 	
-	public Effet(String effet) {
+	public Effet( int id ) {
+        super();
+        this.id = id;
+    }
+
+
+    public Effet( int id, String effet ) {
+        super();
+        this.id = id;
+        this.effet = effet;
+    }
+
+
+    public Effet(String effet) {
 		super();
 		this.effet = effet;
 	}
@@ -36,6 +52,16 @@ public class Effet implements Serializable {
 	public void setEffet(String effet) {
 		this.effet = effet;
 	}
+
+
+    public int getId() {
+        return id;
+    }
+
+
+    public void setId( int id ) {
+        this.id = id;
+    }
 	
 	
 	

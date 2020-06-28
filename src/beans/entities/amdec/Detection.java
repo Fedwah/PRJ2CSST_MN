@@ -18,7 +18,7 @@ import beans.entities.vehicules.Vehicule;
 @Entity
 public class Detection implements Serializable {
 	
-	// attributes
+	//attributes
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
@@ -33,7 +33,7 @@ public class Detection implements Serializable {
 	
 	@ManyToOne
 	@NotNull
-	private Defaillance defai;
+	private Defaillance defaillance;
 	
 	@ManyToOne
 	@NotNull
@@ -41,7 +41,7 @@ public class Detection implements Serializable {
 	
 	@ManyToOne
 	@NotNull
-	private Effet eff;
+	private Effet effet;
 	
 	@NotNull
 	@Temporal(TemporalType.DATE)
@@ -63,15 +63,14 @@ public class Detection implements Serializable {
 	}
 	
 	
-
 	public Detection(Vehicule v, Piece p, Defaillance defai, Cause cause, Effet eff, int gravite, int freq,
 			int detection) {
 		super();
 		this.vehicule = v;
 		this.piece = p;
-		this.defai = defai;
+		this.defaillance = defai;
 		this.cause = cause;
-		this.eff = eff;
+		this.effet = eff;
 		this.gravite = gravite;
 		this.frequence = freq;
 		this.detection = detection;
@@ -85,18 +84,18 @@ public class Detection implements Serializable {
 		this.id = id;
 		this.vehicule = v;
 		this.piece = p;
-		this.defai = defai;
+		this.defaillance = defai;
 		this.cause = cause;
-		this.eff = eff;
+		this.effet = eff;
 	}
 
 	public Detection(Vehicule v, Piece p, Defaillance defai, Cause cause, Effet eff) {
 		super();
 		this.vehicule = v;
 		this.piece = p;
-		this.defai = defai;
+		this.defaillance = defai;
 		this.cause = cause;
-		this.eff = eff;
+		this.effet = eff;
 	}
 
 	public Detection(int id) {
@@ -111,9 +110,9 @@ public class Detection implements Serializable {
 		super();
 		this.vehicule = v;
 		this.piece = p;
-		this.defai = defai;
+		this.defaillance = defai;
 		this.cause = cause;
-		this.eff = eff;
+		this.effet = eff;
 		this.date = date;
 		this.gravite = gravite;
 		this.frequence = freq;
@@ -121,13 +120,10 @@ public class Detection implements Serializable {
 	}
 
 	
-
 	// Getters and setters
-
     public int getId() {
         return id;
     }
-
 
 
     public void setId( int id ) {
@@ -135,11 +131,9 @@ public class Detection implements Serializable {
     }
 
 
-
     public Vehicule getVehicule() {
         return vehicule;
     }
-
 
 
     public void setVehicule( Vehicule vehicule ) {
@@ -147,11 +141,9 @@ public class Detection implements Serializable {
     }
 
 
-
     public Piece getPiece() {
         return piece;
     }
-
 
 
     public void setPiece( Piece piece ) {
@@ -159,17 +151,14 @@ public class Detection implements Serializable {
     }
 
 
-
-    public Defaillance getDefai() {
-        return defai;
+    public Defaillance getDefaillance() {
+        return defaillance;
     }
 
 
-
-    public void setDefai( Defaillance defai ) {
-        this.defai = defai;
+    public void setDefaillance( Defaillance defaillance ) {
+        this.defaillance = defaillance;
     }
-
 
 
     public Cause getCause() {
@@ -177,23 +166,19 @@ public class Detection implements Serializable {
     }
 
 
-
     public void setCause( Cause cause ) {
         this.cause = cause;
     }
 
 
-
-    public Effet getEff() {
-        return eff;
+    public Effet getEffet() {
+        return effet;
     }
 
 
-
-    public void setEff( Effet eff ) {
-        this.eff = eff;
+    public void setEffet( Effet effet ) {
+        this.effet = effet;
     }
-
 
 
     public Date getDate() {
@@ -201,11 +186,9 @@ public class Detection implements Serializable {
     }
 
 
-
     public void setDate( Date date ) {
         this.date = date;
     }
-
 
 
     public int getGravite() {
@@ -213,11 +196,9 @@ public class Detection implements Serializable {
     }
 
 
-
     public void setGravite( int gravite ) {
         this.gravite = gravite;
     }
-
 
 
     public int getFrequence() {
@@ -225,11 +206,9 @@ public class Detection implements Serializable {
     }
 
 
-
     public void setFrequence( int frequence ) {
         this.frequence = frequence;
     }
-
 
 
     public int getDetection() {
@@ -237,11 +216,9 @@ public class Detection implements Serializable {
     }
 
 
-
     public void setDetection( int detection ) {
         this.detection = detection;
     }
-
 
 
     public int getCriticite() {
@@ -249,14 +226,14 @@ public class Detection implements Serializable {
     }
 
 
-
     public void setCriticite( int criticite ) {
         this.criticite = criticite;
     }
 
-
-
 	
+
+
+    
 
 	
 	

@@ -14,7 +14,10 @@ public class Defaillance implements Serializable {
     
 
     @Id
-	@NotEmpty
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private int id;
+	
+    @NotEmpty
 	private String defaillance;
 	
 	// constructors
@@ -29,7 +32,26 @@ public class Defaillance implements Serializable {
 	
 	
 	
-	public Defaillance(String defaillance) {
+	public Defaillance( int id ) {
+        super();
+        this.id = id;
+    }
+
+
+
+
+
+    public Defaillance( int id, String defaillance ) {
+        super();
+        this.id = id;
+        this.defaillance = defaillance;
+    }
+
+
+
+
+
+    public Defaillance(String defaillance) {
 		super();
 		this.defaillance = defaillance;
 	}
@@ -43,6 +65,22 @@ public class Defaillance implements Serializable {
 	public void setDefaillance(String defaillance) {
 		this.defaillance = defaillance;
 	}
+
+
+
+
+
+    public int getId() {
+        return id;
+    }
+
+
+
+
+
+    public void setId( int id ) {
+        this.id = id;
+    }
 	
 	
 	

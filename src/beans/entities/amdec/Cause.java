@@ -11,7 +11,11 @@ import javax.validation.constraints.NotEmpty;
 public class Cause implements Serializable{
     
 	
+	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+	
 	@NotEmpty
 	private String cause;
 
@@ -21,10 +25,29 @@ public class Cause implements Serializable{
 	}
 
 	
+	
+
+
+	public Cause( int id ) {
+        super();
+        this.id = id;
+    }
 
 
 
-	public Cause(String cause) {
+
+
+    public Cause( int id, String cause ) {
+        super();
+        this.id = id;
+        this.cause = cause;
+    }
+
+
+
+
+
+    public Cause(String cause) {
 		super();
 		this.cause = cause;
 	}
@@ -39,6 +62,22 @@ public class Cause implements Serializable{
 	public void setCause(String cause) {
 		this.cause = cause;
 	}
+
+
+
+
+
+    public int getId() {
+        return id;
+    }
+
+
+
+
+
+    public void setId( int id ) {
+        this.id = id;
+    }
 	
 	
 	
