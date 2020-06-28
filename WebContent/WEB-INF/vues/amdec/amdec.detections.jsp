@@ -6,6 +6,6 @@
 <%@taglib prefix="form" tagdir="/WEB-INF/tags/form"%>
 <div id="detection"
 	class="tab-pane fade 
-				${empty active || active=='detection'?'show active':''}"
+				${active=='detection'?'show active':''}"
 	role="tabpanel" aria-labelledby="detection-tab">
 </div>
