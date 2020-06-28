@@ -135,6 +135,24 @@ public class PageGenerator {
         } 
         
     }
+    
+    public void generateJSON(HttpServletResponse response ,Boolean success,String message) {
+        
+        JSONObject obj = new JSONObject();
+        obj.put( "success", success );
+        obj.put( "message", message );
+        response.reset();
+        response.setContentType("application/json;charset=utf-8");
+        try {
+            PrintWriter out = response.getWriter();
+            
+            out.print(obj);
+        } catch ( IOException e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } 
+        
+    }
     public void redirect( ServletContext contexte, HttpServletRequest request, HttpServletResponse response )
             throws IOException {
         if ( redirectURL != null ) {
@@ -158,8 +176,13 @@ public class PageGenerator {
     }
 
     public String[] getPathIds( HttpServletRequest request ) {
+        String[] out = null;
         if ( request.getPathInfo() != null ) {
-            return request.getPathInfo().substring( 1 ).split( "/" );
+           out  = request.getPathInfo().substring( 1 ).split( "/" );
+           for ( int i = 0; i < out.length; i++ ) {
+               out[i] = cleanText( out[i] );
+           }
+           return out;
         } else {
             return null;
         }

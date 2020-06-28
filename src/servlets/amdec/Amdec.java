@@ -26,17 +26,15 @@ import beans.session.general.page.PageGenerator;
 @WebServlet( "/amdec" )
 public class Amdec extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
-	private static final String AMDEC = "/WEB-INF/vues/amdec/amdec.jsp";  
-	
-	@EJB
-	private CausesManager causeManager;
-	@EJB
-	private DefaillanceManager defaiManager;
-	@EJB
-	private EffetManager effManager;
-    
+    private static final long   serialVersionUID = 1L;
+    private static final String AMDEC            = "/WEB-INF/vues/amdec/amdec.jsp";
 
+    @EJB
+    private CausesManager       causeManager;
+    @EJB
+    private DefaillanceManager  defaiManager;
+    @EJB
+    private EffetManager        effManager;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -45,8 +43,6 @@ public class Amdec extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
-
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -61,8 +57,6 @@ public class Amdec extends HttpServlet {
         pg.generate( getServletContext(), request, response );
     }
 
-
-
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
      *      response)
@@ -70,54 +64,30 @@ public class Amdec extends HttpServlet {
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
         PageGenerator pg = new PageGenerator( AMDEC, "Analyse AMDEC" );
-        String active = ""; //Pour garder le dernier tab selectionner
-        
+        String active = ""; // Pour garder le dernier tab selectionner
+
         // volet cause
         if ( request.getParameter( "cause" ) != null ) {
             System.out.println( "post from cause" );
-            active="cause";
+            active = "cause";
             CauseFactory cf = new CauseFactory();
-            Cause c = cf.create( request );
-
-            // j'ai depalacer le uniqueField au validateChilds
-            if ( cf.validate( c, causeManager ) ) {
-                causeManager.ajouter( c );
-
-            } else {
-                request.setAttribute( "erreurs", cf.getErreurs() );
-
-            }
+            // j'ai deplacer le uniqueField au validateChilds
+            cf.createValidateAjouter( request, causeManager );
         }
         // volet effet
         if ( request.getParameter( "eff" ) != null ) {
             System.out.println( "post from effet" );
-            active="effet";
+            active = "effet";
             EffetFactory ef = new EffetFactory();
-            Effet e = ef.create( request );
-            
-            if ( ef.validate( e, effManager ) ) {
-                effManager.ajouter( e );
-
-            } else {
-                System.out.println( "not valide effets" );
-                System.out.println( "errors "+ef.getErreurs() );
-                request.setAttribute( "erreurs", ef.getErreurs() );
-
-            }
+            ef.createValidateAjouter( request, effManager );
         }
         // volet defaillance
         if ( request.getParameter( "def" ) != null ) {
             System.out.println( "post from defaillance" );
-            active="defaillance";    
+            active = "defaillance";
             DefaillanceFactory df = new DefaillanceFactory();
-            Defaillance d = df.create( request );
-            if ( df.validate( d,defaiManager ) ) {
-                defaiManager.ajouter( d );
+            df.createValidateAjouter( request, defaiManager );
 
-            } else {
-                request.setAttribute( "erreurs", df.getErreurs() );
-
-            }
         }
 
         request.setAttribute( "active", active );

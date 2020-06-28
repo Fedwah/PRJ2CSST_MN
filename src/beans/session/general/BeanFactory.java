@@ -67,6 +67,23 @@ public abstract class BeanFactory<T> {
 
     public abstract T create( HttpServletRequest request );
 
+    public T createValidateAjouter(HttpServletRequest request,T obj,BeanManager<T> beanM) {
+        
+        if(obj==null) {
+            obj = create( request );
+        }
+        if(validate( obj ,beanM)) {
+            beanM.ajouter( obj );
+            return obj;
+        }else {
+            request.setAttribute( "erreurs", this.getErreurs() );
+            return null;
+        }
+    }
+    public T createValidateAjouter(HttpServletRequest request,BeanManager<T> beanM) {
+       
+        return this.createValidateAjouter( request, null, beanM );
+    }
     public boolean validate(T bean, BeanManager<T> beanM) {
         return this.validate( bean, beanM ,null);
     }
