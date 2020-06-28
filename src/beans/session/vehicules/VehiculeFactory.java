@@ -46,7 +46,7 @@ public class VehiculeFactory extends BeanFactory<Vehicule> {
     @Override
     public Vehicule create( HttpServletRequest request ) {
 
-        Modele modele = new Modele( this.castId( ( request.getParameter( PARAM_MODELE ) ) ) );
+        Modele modele = new Modele( this.castInt( ( request.getParameter( PARAM_MODELE ) ) ) );
 
         Marque marque = new Marque( request.getParameter( PARAM_MARQUE ) );
 

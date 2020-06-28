@@ -9,16 +9,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import beans.entities.amdec.Cause;
-import beans.entities.amdec.Defaillance;
-import beans.entities.amdec.Effet;
+import beans.entities.vehicules.Modele;
 import beans.session.amdec.cause.CauseFactory;
 import beans.session.amdec.cause.CausesManager;
 import beans.session.amdec.defaillance.DefaillanceFactory;
 import beans.session.amdec.defaillance.DefaillanceManager;
 import beans.session.amdec.effet.EffetFactory;
 import beans.session.amdec.effet.EffetManager;
+import beans.session.amdec.instruction.InstructionFactory;
+import beans.session.amdec.instruction.InstructionManager;
 import beans.session.general.page.PageGenerator;
+import beans.session.pieces.PieceManager;
+import beans.session.vehicules.marques.modeles.ModeleManager;
 
 /**
  * Servlet implementation class Amdec
@@ -35,7 +37,16 @@ public class Amdec extends HttpServlet {
     private DefaillanceManager  defaiManager;
     @EJB
     private EffetManager        effManager;
-
+    
+    @EJB
+    private InstructionManager   instManager;
+    
+    @EJB 
+    private ModeleManager modM;
+    
+    @EJB
+    private PieceManager pM;
+    
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -54,6 +65,9 @@ public class Amdec extends HttpServlet {
         request.setAttribute( "causes", causeManager.lister() );
         request.setAttribute( "effets", effManager.lister() );
         request.setAttribute( "defai", defaiManager.lister() );
+        request.setAttribute( "instructions", instManager.lister() );
+        request.setAttribute( "modeles", modM.lister() );
+        request.setAttribute( "pieces", pM.lister() );
         pg.generate( getServletContext(), request, response );
     }
 
@@ -89,12 +103,18 @@ public class Amdec extends HttpServlet {
             df.createValidateAjouter( request, defaiManager );
 
         }
+        
+        //volet instruction
+        if(request.getParameter( "instruction") !=null) {
+            
+            active = "instruction";
+            InstructionFactory iF = new InstructionFactory();
+            
+            iF.createValidateAjouter( request, instManager );
+            
+        }
 
-        request.setAttribute( "active", active );
-        request.setAttribute( "causes", causeManager.lister() );
-        request.setAttribute( "effets", effManager.lister() );
-        request.setAttribute( "defai", defaiManager.lister() );
-        pg.generate( getServletContext(), request, response );
+        doGet( request, response );
 
     }
 

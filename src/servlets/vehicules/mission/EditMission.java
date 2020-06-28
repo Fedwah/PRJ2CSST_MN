@@ -63,17 +63,17 @@ public class EditMission extends HttpServlet {
 
         if ( ids != null ) {
             if ( ids.length >= 1 ) {
-                aff = affM.trouver( mF.castId( ids[0] ) );
+                aff = affM.trouver( mF.castInt( ids[0] ) );
                 if ( aff != null ) {
 
                     if ( ids.length == 2 && aff.getEndDate()==null) {
                         // Affichage
-                        System.out.println( "Recherche de la mission "+mF.castId( ids[1] ) );
-                        m = miM.trouver( mF.castId( ids[1] ) );
+                        System.out.println( "Recherche de la mission "+mF.castInt( ids[1] ) );
+                        m = miM.trouver( mF.castInt( ids[1] ) );
                         if ( m != null ) {
                             System.out.println( "Mission trouver" );
                             trouver = true;
-                            if ( m.getAffectation().getId() == mF.castId( ids[0] ) ) {
+                            if ( m.getAffectation().getId() == mF.castInt( ids[0] ) ) {
                                 pg.setPageTitle( MissionFactory.TITRE_VUE_FORM + ids[1] );
                                 if(m.getDateFin() == null) {
                                     m.setDateFin( new Date() );
@@ -123,7 +123,7 @@ public class EditMission extends HttpServlet {
         
         MissionFactory mF = new MissionFactory();
         VehiculeFactory vehF = new VehiculeFactory();
-        AffectationConducteur aff = affM.trouver(mF.castId( ids[0] ));
+        AffectationConducteur aff = affM.trouver(mF.castInt( ids[0] ));
         
         pg.setPageTitle( MissionFactory.TITRE_VUE_FORM+aff.getCar().getMatricule_interne());
         pg.setRedirectURL( MissionFactory.REDIRECT_URL+aff.getCar().getMatricule_interne());
@@ -139,7 +139,7 @@ public class EditMission extends HttpServlet {
                      
                  }
              }else {
-                 oldM=miM.trouver( mF.castId( ids[1] ) );
+                 oldM=miM.trouver( mF.castInt( ids[1] ) );
                  vehF.mettreAjourKM(aff.getCar(),oldM.getDistance_parcourue(),newM.getDistance_parcourue(),vehM);
                  miM.mettreAJour( oldM.getId(), mF, newM );
              }

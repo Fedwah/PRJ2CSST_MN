@@ -22,38 +22,15 @@ public class Detection implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	
-	@ManyToOne
-	@NotNull
-	private Vehicule vehicule;
-	
-	@ManyToOne
-	@NotNull
-	private Piece piece;
-	
-	@ManyToOne
-	@NotNull
-	private Defaillance defaillance;
-	
-	@ManyToOne
-	@NotNull
-	private Cause cause;
-	
-	@ManyToOne
-	@NotNull
-	private Effet effet;
+
 	
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date date ;
 	
-	private int gravite;
+	@ManyToOne
+	private Instruction instruction;
 	
-	private int frequence;
-	
-	private int detection; 
-	
-	private int criticite;
 	
 	
 	// Constructors
@@ -62,65 +39,19 @@ public class Detection implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
-	public Detection(Vehicule v, Piece p, Defaillance defai, Cause cause, Effet eff, int gravite, int freq,
-			int detection) {
-		super();
-		this.vehicule = v;
-		this.piece = p;
-		this.defaillance = defai;
-		this.cause = cause;
-		this.effet = eff;
-		this.gravite = gravite;
-		this.frequence = freq;
-		this.detection = detection;
-		this.criticite = this.frequence * this.gravite * this.detection ;
-	}
+    public Detection( int id ) {
+        super();
+        this.id = id;
+    }
 
+    
 
+    public Detection( Date date, Instruction instruction ) {
+        super();
+        this.date = date;
+        this.instruction = instruction;
+    }
 
-	public Detection(int id, Vehicule v, Piece p, Defaillance defai, Cause cause, Effet eff) {
-		super();
-		this.id = id;
-		this.vehicule = v;
-		this.piece = p;
-		this.defaillance = defai;
-		this.cause = cause;
-		this.effet = eff;
-	}
-
-	public Detection(Vehicule v, Piece p, Defaillance defai, Cause cause, Effet eff) {
-		super();
-		this.vehicule = v;
-		this.piece = p;
-		this.defaillance = defai;
-		this.cause = cause;
-		this.effet = eff;
-	}
-
-	public Detection(int id) {
-		super();
-		this.id = id;
-	}
-	
-	
-
-	public Detection(Vehicule v, Piece p, Defaillance defai, Cause cause, Effet eff, Date date, int gravite, int freq,
-			int detection) {
-		super();
-		this.vehicule = v;
-		this.piece = p;
-		this.defaillance = defai;
-		this.cause = cause;
-		this.effet = eff;
-		this.date = date;
-		this.gravite = gravite;
-		this.frequence = freq;
-		this.detection = detection;
-	}
-
-	
-	// Getters and setters
     public int getId() {
         return id;
     }
@@ -131,56 +62,7 @@ public class Detection implements Serializable {
     }
 
 
-    public Vehicule getVehicule() {
-        return vehicule;
-    }
-
-
-    public void setVehicule( Vehicule vehicule ) {
-        this.vehicule = vehicule;
-    }
-
-
-    public Piece getPiece() {
-        return piece;
-    }
-
-
-    public void setPiece( Piece piece ) {
-        this.piece = piece;
-    }
-
-
-    public Defaillance getDefaillance() {
-        return defaillance;
-    }
-
-
-    public void setDefaillance( Defaillance defaillance ) {
-        this.defaillance = defaillance;
-    }
-
-
-    public Cause getCause() {
-        return cause;
-    }
-
-
-    public void setCause( Cause cause ) {
-        this.cause = cause;
-    }
-
-
-    public Effet getEffet() {
-        return effet;
-    }
-
-
-    public void setEffet( Effet effet ) {
-        this.effet = effet;
-    }
-
-
+   
     public Date getDate() {
         return date;
     }
@@ -191,50 +73,16 @@ public class Detection implements Serializable {
     }
 
 
-    public int getGravite() {
-        return gravite;
+    public Instruction getInstruction() {
+        return instruction;
     }
 
 
-    public void setGravite( int gravite ) {
-        this.gravite = gravite;
+    public void setInstruction( Instruction instruction ) {
+        this.instruction = instruction;
     }
 
 
-    public int getFrequence() {
-        return frequence;
-    }
-
-
-    public void setFrequence( int frequence ) {
-        this.frequence = frequence;
-    }
-
-
-    public int getDetection() {
-        return detection;
-    }
-
-
-    public void setDetection( int detection ) {
-        this.detection = detection;
-    }
-
-
-    public int getCriticite() {
-        return criticite;
-    }
-
-
-    public void setCriticite( int criticite ) {
-        this.criticite = criticite;
-    }
-
-	
-
-
-    
-
-	
+  
 	
 }

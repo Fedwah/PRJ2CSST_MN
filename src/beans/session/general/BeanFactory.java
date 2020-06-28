@@ -377,10 +377,10 @@ public abstract class BeanFactory<T> {
         this.filteres.addFieldsNotFilter( field );
     }
     
-    public int castId( String id ) {
-        if ( id != null ) {
-            if ( !id.isEmpty() ) {
-                return Integer.decode( id );
+    public int castInt( String string ) {
+        if ( string != null ) {
+            if ( !string.isEmpty() ) {
+                return Integer.decode( string );
             }
         }
         return 0;
