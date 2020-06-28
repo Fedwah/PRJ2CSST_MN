@@ -20,7 +20,7 @@ public class DefaillanceFactory extends BeanFactory<Defaillance> {
 	@Override
 	public Defaillance create(HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		return null;
+		return new Defaillance( request.getParameter("def"));
 	}
 
 	@Override

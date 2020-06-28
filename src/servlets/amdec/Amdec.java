@@ -27,13 +27,15 @@ import beans.session.general.page.PageGenerator;
 public class Amdec extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String AMDEC = "/WEB-INF/vues/amdec/amdec.jsp";  
+	
 	@EJB
 	private CausesManager causeManager;
 	@EJB
 	private DefaillanceManager defaiManager;
 	@EJB
 	private EffetManager effManager;
-    /**
+    
+	/**
      * @see HttpServlet#HttpServlet()
      */
     public Amdec() {
@@ -46,6 +48,7 @@ public class Amdec extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator(AMDEC , "Analyse AMDEC");	
+		
 		request.setAttribute("causes", causeManager.lister());
 		request.setAttribute("effets", effManager.lister());
 		request.setAttribute("defai", defaiManager.lister());
@@ -57,13 +60,15 @@ public class Amdec extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator(AMDEC , "Analyse AMDEC");	
+		
 		// volet cause
 		if(request.getParameter("cause") != null)
 		{
 			System.out.println("post from cause");
-			Cause c = new Cause( request.getParameter("cause"));
 			CauseFactory cf = new CauseFactory();
-			if(cf.validate(c) && cf.uniqueField(causeManager, "cause", c.getCause()))
+			Cause c = cf.create( request );
+			
+			if(cf.validate(c,causeManager,c.getCause()) /*&& cf.uniqueField(causeManager, "cause", c.getCause())*/)
 			{
 				causeManager.ajouter(c);
 				doGet(request,response);
@@ -75,13 +80,16 @@ public class Amdec extends HttpServlet {
 				pg.generate(getServletContext(), request, response);
 			}
 		}
+		
 		// volet effet
 		if(request.getParameter("eff") != null)
 		{
 			System.out.println("post from effet");
-			Effet e = new Effet( request.getParameter("eff"));
+			
 			EffetFactory ef = new EffetFactory();
-			if(ef.validate(e) && ef.uniqueField(effManager, "effet", e.getEffet()))
+			Effet e = ef.create( request );
+			
+			if(ef.validate(e,effManager,e.getEffet()) /*&& ef.uniqueField(effManager, "effet", e.getEffet())*/)
 			{
 				effManager.ajouter(e);
 				doGet(request,response);
@@ -93,13 +101,16 @@ public class Amdec extends HttpServlet {
 				pg.generate(getServletContext(), request, response);
 			}
 		}
+		
 		// volet defaillance
 		if(request.getParameter("def") != null)
 		{
 			System.out.println("post from defaillance");
-			Defaillance d = new Defaillance( request.getParameter("def"));
+			
 			DefaillanceFactory df = new DefaillanceFactory();
-			if(df.validate(d) && df.uniqueField(defaiManager, "defaillance", d.getDefaillance()))
+			Defaillance d = df.create( request );
+			
+			if(df.validate(d,defaiManager,d.getDefaillance()) /*&& df.uniqueField(, "defaillance", d.getDefaillance())*/)
 			{
 				defaiManager.ajouter(d);
 				doGet(request,response);

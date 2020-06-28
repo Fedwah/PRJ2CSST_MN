@@ -55,8 +55,8 @@ public class Detection implements Serializable {
 	
 	private int criticite;
 	
+	
 	// Constructors
-
 	public Detection() {
 		super();
 		// TODO Auto-generated constructor stub

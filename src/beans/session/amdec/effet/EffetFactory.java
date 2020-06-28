@@ -22,7 +22,7 @@ public class EffetFactory extends BeanFactory<Effet>{
 	@Override
 	public Effet create(HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		return null;
+		return new Effet( request.getParameter("eff"));
 	}
 
 	@Override

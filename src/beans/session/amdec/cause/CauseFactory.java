@@ -20,7 +20,7 @@ public class CauseFactory extends BeanFactory<Cause> {
 	@Override
 	public Cause create(HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		return null;
+		return new Cause( request.getParameter("cause"));
 	}
 
 	@Override
