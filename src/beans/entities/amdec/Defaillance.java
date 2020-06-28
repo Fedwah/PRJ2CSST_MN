@@ -10,6 +10,8 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Defaillance implements Serializable {
+    
+    
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;

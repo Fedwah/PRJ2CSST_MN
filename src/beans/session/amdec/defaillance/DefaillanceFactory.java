@@ -11,14 +11,11 @@ public class DefaillanceFactory extends BeanFactory<Defaillance> {
 	
 
 	public DefaillanceFactory() {
-		super();
+		super(Defaillance.class);
 		// TODO Auto-generated constructor stub
 	}
 
-	public DefaillanceFactory(Class<Defaillance> beanClass) {
-		super(beanClass);
-		// TODO Auto-generated constructor stub
-	}
+	
 
 	@Override
 	public Defaillance create(HttpServletRequest request) {

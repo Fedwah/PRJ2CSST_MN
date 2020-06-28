@@ -25,11 +25,11 @@ public class Detection implements Serializable {
 	
 	@ManyToOne
 	@NotNull
-	private Vehicule v;
+	private Vehicule vehicule;
 	
 	@ManyToOne
 	@NotNull
-	private Piece p;
+	private Piece piece;
 	
 	@ManyToOne
 	@NotNull
@@ -49,11 +49,11 @@ public class Detection implements Serializable {
 	
 	private int gravite;
 	
-	private int freq;
+	private int frequence;
 	
 	private int detection; 
 	
-	private int creticite;
+	private int criticite;
 	
 	// Constructors
 
@@ -67,15 +67,15 @@ public class Detection implements Serializable {
 	public Detection(Vehicule v, Piece p, Defaillance defai, Cause cause, Effet eff, int gravite, int freq,
 			int detection) {
 		super();
-		this.v = v;
-		this.p = p;
+		this.vehicule = v;
+		this.piece = p;
 		this.defai = defai;
 		this.cause = cause;
 		this.eff = eff;
 		this.gravite = gravite;
-		this.freq = freq;
+		this.frequence = freq;
 		this.detection = detection;
-		this.creticite = this.freq * this.gravite * this.detection ;
+		this.criticite = this.frequence * this.gravite * this.detection ;
 	}
 
 
@@ -83,8 +83,8 @@ public class Detection implements Serializable {
 	public Detection(int id, Vehicule v, Piece p, Defaillance defai, Cause cause, Effet eff) {
 		super();
 		this.id = id;
-		this.v = v;
-		this.p = p;
+		this.vehicule = v;
+		this.piece = p;
 		this.defai = defai;
 		this.cause = cause;
 		this.eff = eff;
@@ -92,8 +92,8 @@ public class Detection implements Serializable {
 
 	public Detection(Vehicule v, Piece p, Defaillance defai, Cause cause, Effet eff) {
 		super();
-		this.v = v;
-		this.p = p;
+		this.vehicule = v;
+		this.piece = p;
 		this.defai = defai;
 		this.cause = cause;
 		this.eff = eff;
@@ -109,128 +109,155 @@ public class Detection implements Serializable {
 	public Detection(Vehicule v, Piece p, Defaillance defai, Cause cause, Effet eff, Date date, int gravite, int freq,
 			int detection) {
 		super();
-		this.v = v;
-		this.p = p;
+		this.vehicule = v;
+		this.piece = p;
 		this.defai = defai;
 		this.cause = cause;
 		this.eff = eff;
 		this.date = date;
 		this.gravite = gravite;
-		this.freq = freq;
+		this.frequence = freq;
 		this.detection = detection;
 	}
 
-
+	
 
 	// Getters and setters
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Vehicule getV() {
-		return v;
-	}
-
-	public void setV(Vehicule v) {
-		this.v = v;
-	}
-
-	public Piece getP() {
-		return p;
-	}
-
-	public void setP(Piece p) {
-		this.p = p;
-	}
-
-	public Defaillance getDefai() {
-		return defai;
-	}
-
-	public void setDefai(Defaillance defai) {
-		this.defai = defai;
-	}
-
-	public Cause getCause() {
-		return cause;
-	}
-
-	public void setCause(Cause cause) {
-		this.cause = cause;
-	}
-
-	public Effet getEff() {
-		return eff;
-	}
-
-	public void setEff(Effet eff) {
-		this.eff = eff;
-	}
+    public int getId() {
+        return id;
+    }
 
 
 
-	public int getGravite() {
-		return gravite;
-	}
+    public void setId( int id ) {
+        this.id = id;
+    }
 
 
 
-	public void setGravite(int gravite) {
-		this.gravite = gravite;
-	}
+    public Vehicule getVehicule() {
+        return vehicule;
+    }
 
 
 
-	public int getFreq() {
-		return freq;
-	}
+    public void setVehicule( Vehicule vehicule ) {
+        this.vehicule = vehicule;
+    }
 
 
 
-	public void setFreq(int freq) {
-		this.freq = freq;
-	}
+    public Piece getPiece() {
+        return piece;
+    }
 
 
 
-	public int getDetection() {
-		return detection;
-	}
+    public void setPiece( Piece piece ) {
+        this.piece = piece;
+    }
 
 
 
-	public void setDetection(int detection) {
-		this.detection = detection;
-	}
+    public Defaillance getDefai() {
+        return defai;
+    }
 
 
 
-	public int getCreticite() {
-		return creticite;
-	}
+    public void setDefai( Defaillance defai ) {
+        this.defai = defai;
+    }
 
 
 
-	public void setCreticite(int creticite) {
-		this.creticite = creticite;
-	}
+    public Cause getCause() {
+        return cause;
+    }
 
 
 
-	public Date getDate() {
-		return date;
-	}
+    public void setCause( Cause cause ) {
+        this.cause = cause;
+    }
 
 
 
-	public void setDate(Date date) {
-		this.date = date;
-	}	
+    public Effet getEff() {
+        return eff;
+    }
+
+
+
+    public void setEff( Effet eff ) {
+        this.eff = eff;
+    }
+
+
+
+    public Date getDate() {
+        return date;
+    }
+
+
+
+    public void setDate( Date date ) {
+        this.date = date;
+    }
+
+
+
+    public int getGravite() {
+        return gravite;
+    }
+
+
+
+    public void setGravite( int gravite ) {
+        this.gravite = gravite;
+    }
+
+
+
+    public int getFrequence() {
+        return frequence;
+    }
+
+
+
+    public void setFrequence( int frequence ) {
+        this.frequence = frequence;
+    }
+
+
+
+    public int getDetection() {
+        return detection;
+    }
+
+
+
+    public void setDetection( int detection ) {
+        this.detection = detection;
+    }
+
+
+
+    public int getCriticite() {
+        return criticite;
+    }
+
+
+
+    public void setCriticite( int criticite ) {
+        this.criticite = criticite;
+    }
+
+
+
 	
+
 	
 	
 }

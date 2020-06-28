@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 @Entity
 public class Cause implements Serializable{
+    
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;

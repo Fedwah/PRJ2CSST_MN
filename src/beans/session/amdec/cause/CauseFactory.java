@@ -11,14 +11,11 @@ public class CauseFactory extends BeanFactory<Cause> {
 	
 
 	public CauseFactory() {
-		super();
+		super(Cause.class);
 	
 	}
 
-	public CauseFactory(Class<Cause> beanClass) {
-		super(beanClass);
 	
-	}
 
 	@Override
 	public Cause create(HttpServletRequest request) {
