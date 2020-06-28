@@ -26,7 +26,7 @@ public class CauseFactory extends BeanFactory<Cause> {
 	@Override
 	public void validateChilds(Cause bean, BeanManager<Cause> beanM) {
 		// TODO Auto-generated method stub
-		
+	    this.uniqueField(beanM, "cause", bean.getCause());
 	}
 
 	@Override

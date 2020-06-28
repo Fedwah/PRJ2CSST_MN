@@ -22,12 +22,14 @@ public class EffetFactory extends BeanFactory<Effet>{
 	@Override
 	public Effet create(HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		return new Effet( request.getParameter("eff"));
+
+		return new Effet( request.getParameter( "eff" ) );
+
 	}
 
 	@Override
 	public void validateChilds(Effet bean, BeanManager<Effet> beanM) {
-		// TODO Auto-generated method stub
+	    uniqueField(beanM, "effet", bean.getEffet());
 		
 	}
 

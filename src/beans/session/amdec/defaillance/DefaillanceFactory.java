@@ -25,8 +25,7 @@ public class DefaillanceFactory extends BeanFactory<Defaillance> {
 
 	@Override
 	public void validateChilds(Defaillance bean, BeanManager<Defaillance> beanM) {
-		// TODO Auto-generated method stub
-		
+	    uniqueField(beanM, "defaillance", bean.getDefaillance());
 	}
 
 	@Override

@@ -142,7 +142,9 @@ public class EntityFields<T> {
                 
                 return false;
             } catch ( ClassNotFoundException e ) {
+
                 //System.out.println( "NOT EXIST" );
+
                 return true;
             }
      
