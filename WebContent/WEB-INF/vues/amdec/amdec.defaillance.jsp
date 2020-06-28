@@ -7,12 +7,15 @@
 
 <div id="defaillance"
 	class="tab-pane fade
-			${active=='defaillance'?'show active':''}"
+			${active=='defaillance' || sessionScope.defaillance ?'show active':''}"
 	role="tabpanel" aria-labelledby="defaillance-tab">
 	<div class="container-fluid p-2">
 		<div class="">
 
 			<div>
+				<%
+				    session.removeAttribute( "defaillance" );
+				%>
 				<form action="" method="post" class="needs-validation" novalidate>
 					<form:input-button name="def" col="" type="texte" value=""
 						placeHolder="Defaillance" erreurs_="${erreurs['defaillance']}">
@@ -31,7 +34,7 @@
 							<tr>
 								<td>${d.defaillance}</td>
 								<td align="right"><btn:remove
-										value="/amdec/defaillance/remove/"></btn:remove></td>
+										value="/amdec/defaillance/remove/${d.id}"></btn:remove></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -39,11 +42,6 @@
 
 			</div>
 			<c:if test="${sessionScope.exception}">
-				<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-				<script
-					src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-
 				<script>
 					$(document)
 							.ready(

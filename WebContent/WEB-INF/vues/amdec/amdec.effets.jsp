@@ -7,12 +7,15 @@
 
 <div id="effet"
 	class="tab-pane fade
-		${active=='effet'?'show active':''}"
+		${active=='effet' || sessionScope.effet ?'show active':''}"
 	role="tabpanel" aria-labelledby="effet-tab">
 	<div class="container-fluid p-2">
 		<div class="">
 
 			<div>
+				<%
+				    session.removeAttribute( "effet" );
+				%>
 				<form action="" method="post" class="needs-validation" novalidate>
 					<form:input-button name="eff" col="" type="texte" value=""
 						placeHolder="Effet" erreurs_="${erreurs['effet']}">
@@ -31,7 +34,7 @@
 							<tr>
 								<td>${e.effet}</td>
 								<td align="right"><btn:remove
-										value="/amdec/defaillance/remove/"></btn:remove></td>
+										value="/amdec/effet/remove/${e.id}"></btn:remove></td>
 
 							</tr>
 						</c:forEach>
@@ -40,11 +43,6 @@
 
 			</div>
 			<c:if test="${sessionScope.exception }">
-				<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-				<script
-					src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-
 				<script>
 					$(document).ready(function() {
 						swal({
