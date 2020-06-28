@@ -19,22 +19,21 @@
 	<div class="row">
 		<div class="col-md-2">
 			<c:choose>
-				<c:when test="${param.role == 'admin'}">
-					<c:import url="vues/menu/menuAdmin.jsp"></c:import>
-					
+				<c:when test= "${sessionScope.sessionUtilisateur.type.equals('Regional') ||sessionScope.sessionUtilisateur.type.equals('Central') }">
+					<c:import url="vues/menu/menuDecideur.jsp"></c:import>					
 				</c:when>
-				<c:otherwise>
-					Menu admin root
+				<c:when test="${sessionScope.sessionUtilisateur.type.equals('Operationnel')} ">
+					<c:import url="vues/menu/menuAdminOP.jsp"></c:import>
+				</c:when>
+				<c:when test="${sessionScope.sessionUtilisateur.type.equals('root')}">
 					<c:import url="vues/menu/menuAdmin.jsp"></c:import>
-					Menu admin opérationnel
-					<c:import url="vues/menu/menuAdminOP.jsp"></c:import>					
-					Menu respo parc
+				</c:when>
+				<c:when test="${sessionScope.sessionUtilisateur.type.equals('Operationnel') && sessionScope.sessionUtilisateur.role.equals('parc')}">
 					<c:import url="vues/menu/menuRespoParc.jsp"></c:import>
-					Menu respo maintenance
+				</c:when>
+				<c:when test="${sessionScope.sessionUtilisateur.type.equals('Operationnel') && sessionScope.sessionUtilisateur.role.equals('maintenance')}">
 					<c:import url="vues/menu/menuRespoMaintenance.jsp"></c:import>
-					Menu respo Regional
-					<c:import url="vues/menu/menuRegional.jsp"></c:import>
-				</c:otherwise>
+				</c:when>
 			</c:choose>
 
 		</div>

@@ -41,7 +41,6 @@ public class regionsLists extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator(vueReg, title);
 		request.setAttribute( "region", em.lister());
-		request.setAttribute( "fields", Region.class.getDeclaredFields());
 		pg.generate( getServletContext(), request, response );
 	}
 

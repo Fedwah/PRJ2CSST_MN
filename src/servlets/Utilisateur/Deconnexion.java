@@ -26,7 +26,8 @@ public class Deconnexion extends HttpServlet {
 		PageGenerator pg = new PageGenerator("/WEB-INF/indexLogin.jsp", "/WEB-INF/vues/Utilisateur/logout.jsp", "", "/Connexion");
 		 HttpSession session = request.getSession();
 	     session.invalidate();
-      	pg.generate( getServletContext(), request, response);
+	     request.setAttribute("connected", false);
+      	 pg.generate( getServletContext(), request, response);
 
       
         
