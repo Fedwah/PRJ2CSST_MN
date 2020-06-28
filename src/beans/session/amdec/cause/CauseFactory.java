@@ -20,13 +20,13 @@ public class CauseFactory extends BeanFactory<Cause> {
 	@Override
 	public Cause create(HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		return null;
+		return new Cause( request.getParameter("cause"));
 	}
 
 	@Override
 	public void validateChilds(Cause bean, BeanManager<Cause> beanM) {
 		// TODO Auto-generated method stub
-		
+	    this.uniqueField(beanM, "cause", bean.getCause());
 	}
 
 	@Override

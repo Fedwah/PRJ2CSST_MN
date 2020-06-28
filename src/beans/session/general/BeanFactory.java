@@ -67,6 +67,10 @@ public abstract class BeanFactory<T> {
 
     public abstract T create( HttpServletRequest request );
 
+    public boolean validate(T bean, BeanManager<T> beanM) {
+        return this.validate( bean, beanM ,null);
+    }
+    
     public boolean validate( T bean, BeanManager<T> beanM, Object id ) {
         boolean result = true;
         if ( bean != null ) {

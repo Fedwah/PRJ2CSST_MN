@@ -23,16 +23,18 @@ import beans.session.general.page.PageGenerator;
 /**
  * Servlet implementation class Amdec
  */
-@WebServlet("/amdec")
+@WebServlet( "/amdec" )
 public class Amdec extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static final String AMDEC = "/WEB-INF/vues/amdec/amdec.jsp";  
-	@EJB
-	private CausesManager causeManager;
-	@EJB
-	private DefaillanceManager defaiManager;
-	@EJB
-	private EffetManager effManager;
+    private static final long   serialVersionUID = 1L;
+    private static final String AMDEC            = "/WEB-INF/vues/amdec/amdec.jsp";
+
+    @EJB
+    private CausesManager       causeManager;
+    @EJB
+    private DefaillanceManager  defaiManager;
+    @EJB
+    private EffetManager        effManager;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -41,79 +43,82 @@ public class Amdec extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PageGenerator pg = new PageGenerator(AMDEC , "Analyse AMDEC");	
-		request.setAttribute("causes", causeManager.lister());
-		request.setAttribute("effets", effManager.lister());
-		request.setAttribute("defai", defaiManager.lister());
-		pg.generate( getServletContext(), request, response );
-	}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doGet( HttpServletRequest request, HttpServletResponse response )
+            throws ServletException, IOException {
+        PageGenerator pg = new PageGenerator( AMDEC, "Analyse AMDEC" );
+        request.setAttribute( "causes", causeManager.lister() );
+        request.setAttribute( "effets", effManager.lister() );
+        request.setAttribute( "defai", defaiManager.lister() );
+        pg.generate( getServletContext(), request, response );
+    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PageGenerator pg = new PageGenerator(AMDEC , "Analyse AMDEC");	
-		// volet cause
-		if(request.getParameter("cause") != null)
-		{
-			System.out.println("post from cause");
-			Cause c = new Cause( request.getParameter("cause"));
-			CauseFactory cf = new CauseFactory();
-			if(cf.validate(c) && cf.uniqueField(causeManager, "cause", c.getCause()))
-			{
-				causeManager.ajouter(c);
-				doGet(request,response);
-			}
-			else
-			{
-				request.setAttribute("erreurs", cf.getErreurs());
-				request.setAttribute("causes", causeManager.lister());
-				pg.generate(getServletContext(), request, response);
-			}
-		}
-		// volet effet
-		if(request.getParameter("eff") != null)
-		{
-			System.out.println("post from effet");
-			Effet e = new Effet( request.getParameter("eff"));
-			EffetFactory ef = new EffetFactory();
-			if(ef.validate(e) && ef.uniqueField(effManager, "effet", e.getEffet()))
-			{
-				effManager.ajouter(e);
-				doGet(request,response);
-			}
-			else
-			{
-				request.setAttribute("erreurs", ef.getErreurs());
-				request.setAttribute("effets", effManager.lister());
-				pg.generate(getServletContext(), request, response);
-			}
-		}
-		// volet defaillance
-		if(request.getParameter("def") != null)
-		{
-			System.out.println("post from defaillance");
-			Defaillance d = new Defaillance( request.getParameter("def"));
-			DefaillanceFactory df = new DefaillanceFactory();
-			if(df.validate(d) && df.uniqueField(defaiManager, "defaillance", d.getDefaillance()))
-			{
-				defaiManager.ajouter(d);
-				doGet(request,response);
-			}
-			else
-			{
-				request.setAttribute("erreurs", df.getErreurs());
-				request.setAttribute("defaillances", defaiManager.lister());
-				pg.generate(getServletContext(), request, response);
-			}
-		}
-		
-		
-		
-	}
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doPost( HttpServletRequest request, HttpServletResponse response )
+            throws ServletException, IOException {
+        PageGenerator pg = new PageGenerator( AMDEC, "Analyse AMDEC" );
+        String active = ""; //Pour garder le dernier tab selectionner
+        
+        // volet cause
+        if ( request.getParameter( "cause" ) != null ) {
+            System.out.println( "post from cause" );
+            active="cause";
+            CauseFactory cf = new CauseFactory();
+            Cause c = cf.create( request );
+
+            // j'ai depalacer le uniqueField au validateChilds
+            if ( cf.validate( c, causeManager ) ) {
+                causeManager.ajouter( c );
+
+            } else {
+                request.setAttribute( "erreurs", cf.getErreurs() );
+
+            }
+        }
+        // volet effet
+        if ( request.getParameter( "eff" ) != null ) {
+            System.out.println( "post from effet" );
+            active="effet";
+            EffetFactory ef = new EffetFactory();
+            Effet e = ef.create( request );
+            
+            if ( ef.validate( e, effManager ) ) {
+                effManager.ajouter( e );
+
+            } else {
+                System.out.println( "not valide effets" );
+                System.out.println( "errors "+ef.getErreurs() );
+                request.setAttribute( "erreurs", ef.getErreurs() );
+
+            }
+        }
+        // volet defaillance
+        if ( request.getParameter( "def" ) != null ) {
+            System.out.println( "post from defaillance" );
+            active="defaillance";    
+            DefaillanceFactory df = new DefaillanceFactory();
+            Defaillance d = df.create( request );
+            if ( df.validate( d,defaiManager ) ) {
+                defaiManager.ajouter( d );
+
+            } else {
+                request.setAttribute( "erreurs", df.getErreurs() );
+
+            }
+        }
+
+        request.setAttribute( "active", active );
+        request.setAttribute( "causes", causeManager.lister() );
+        request.setAttribute( "effets", effManager.lister() );
+        request.setAttribute( "defai", defaiManager.lister() );
+        pg.generate( getServletContext(), request, response );
+
+    }
 
 }
