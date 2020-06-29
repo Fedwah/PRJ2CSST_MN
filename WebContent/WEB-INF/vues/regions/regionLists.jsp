@@ -19,7 +19,6 @@
 		<select class="form-control col-md-3" name="type" style='display: inline-block;'>
 				<option value="codeReg"  ${by=='id'?"selected":""}  >Code</option>
 				<option value="adress"  ${by=='reference'?"selected":""}  >Adresse</option>
-				<option value="user"  ${by=='user'?"selected":""}  >Responsable</option>
 		</select>
 		<button type="submit" class="btn btn-light rounded-circle" name="search"
 		style='display: inline-block;height:40px; width:40px;position: relative; top: -3px; left: 0px;'>

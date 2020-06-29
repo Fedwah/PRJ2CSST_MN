@@ -10,6 +10,18 @@ import beans.session.general.BeanManager;
 
 
 public class UniteFactory extends BeanFactory<Unite>{
+	
+	
+
+	public UniteFactory() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public UniteFactory(Class<Unite> beanClass) {
+		super(beanClass);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public Unite create(HttpServletRequest request) {

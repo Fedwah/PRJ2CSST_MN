@@ -16,6 +16,18 @@ import beans.session.general.BeanFactory;
 import beans.session.general.BeanManager;
 
 public class RegionFactory extends BeanFactory<Region> {
+	
+	
+
+	public RegionFactory() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public RegionFactory(Class<Region> beanClass) {
+		super(beanClass);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public Region create(HttpServletRequest request) {

@@ -313,7 +313,7 @@ public abstract class BeanFactory<T> {
         } 
         else 
         {
-            this.addErreurs( fieldName, "Ce parametre doit ï¿½tre unique" );
+            this.addErreurs( fieldName, "Ce parametre doit être unique" );
         }
 
         return false;

@@ -70,42 +70,46 @@ public class regionEdit extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator(FORM, "Piece", REDIRECT);
 		String code = request.getParameter("code");
-		RegionFactory rf = new RegionFactory();
+		RegionFactory rf = new RegionFactory(Region.class);
 		Region reg = rf.create(request,userManager);
 		if (edit)
 		{
 			request.setAttribute( "disabled_id", true );
 			reg.setCodeReg(oldReg.getCodeReg());
-			
-		}
-		if(rf.validate(reg))
-		{
-			if(edit)
+			if(rf.validate(reg))
 			{
 				em.mettreAJour(oldReg.getCodeReg(), rf, reg);
 				pg.redirect(getServletContext(), request, response);
 			}
-			else 
+			else
+			{
+				
+				request.setAttribute("region", reg);
+				request.setAttribute( "erreurs", rf.getErreurs() );
+		        pg.generate( getServletContext(), request, response );
+			}
+			
+		}
+		else 
+		{
+			if(rf.validate(reg, em, reg.getCodeReg()))
 			{
 				if(em.ajouterUnique(reg,code))
 				{
 					pg.redirect(getServletContext(), request, response);
 				}
-				else
-				{
-					// code dupliqu�
-				}
-				
+
+			}
+			else
+			{
+				request.setAttribute("region", reg);
+				request.setAttribute( "erreurs", rf.getErreurs() );
+		        pg.generate( getServletContext(), request, response );
 			}
 			
 		}
-		else
-		{
-			
-			request.setAttribute("region", reg);
-			request.setAttribute( "erreurs", rf.getErreurs() );
-	        pg.generate( getServletContext(), request, response );
-		}
-	}
 
+
+}
+	
 }
