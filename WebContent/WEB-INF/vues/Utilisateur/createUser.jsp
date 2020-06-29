@@ -41,20 +41,20 @@
                 <div style="clear:both"></div>
                 <br />
               
-                  <div style="float:left; width:350px; height:auto;">  
+                  
                <label for="type">Type de l'utilisateur <span class=></span></label>
 			   <div class="input-group mb-3">			
                 <select id="type" class="form-control" required="required"name="type" onchange="show()" >
-                    <option value="">Veuillez choisir le type</option> 
+                    
 					<option value="Operationnel">Operationnel</option> 
 					<option value="Regional">Regional</option> 
 					<option value="Central">Central</option> 
 					<c:out value="${param.type}" />
 		 
 			   </select>
+			  
 			   </div>	
-			   </div>	
-                  <div style="float:right; width:350px; height:auto;">
+                  
                <label id="rolelabel">Role de l'utilisateur  </label> 
 			   <div class="input-group mb-3"  >			
                 <select id="role" class="form-control"  name="role"   onchange="show()" >
@@ -63,10 +63,10 @@
 			    <c:out value="${param.role}" />
 		        </c:forEach>
 			   </select>
-		 	</div>	
+		  
 		 	</div>	
 		 	
-		    <div style="float:left; width:350px; height:auto;">  
+		   
 		 	<label id="codereglabel">Region  de l'utilisateur </label> 
 			<div class="input-group mb-3"  >			
                 <select id="codereg" class="form-control"  name="codereg"  onchange="show()" >
@@ -75,11 +75,11 @@
 			    <c:out value="${param.codereg}" />
 		        </c:forEach>
 			   </select>
-		 	</div>	
+		 	 
 		 	</div>	
 		  
 		 	
-		 	   <div style="float:right; width:350px; height:auto;">
+		 	 
 		    	<label id="codeunlabel">Unite  de l'utilisateur  </label>
 			   <div class="input-group mb-3">			
                 <select id="codeun" class="form-control"  name="codeun"   onchange="show()" >
@@ -89,7 +89,7 @@
 				<c:out value="${param.codeun}" />
 		        </c:forEach>
 			   </select>
-		 	</div>	
+		 	 
 		 	 </div>	
 		 	
 		 	
@@ -133,13 +133,12 @@
     	  $("#poste").val ()==""
     	  $("#postelabel").hide () 
     	  $("#codeun").hide ()
-    	  $("#codeun").val ()==""
+    
     	  $("#codeunlabel").hide () 
     	  $("#codereg").hide ()
-    	  $("#codereg").val ()==""
+    	 
     	  $("#codereglabel").hide () 
     	  $("#role").hide ()
-    	  $("#role").val ()==""
           $("#rolelabel").hide ()
      
      }
@@ -151,6 +150,8 @@
     	 $("#codeunlabel").hide () 
     	 $("#codereg").show ()
     	 $("#codereglabel").show () 
+    	 $("#role").hide ()
+         $("#rolelabel").hide ()
      
     	  
     	 
