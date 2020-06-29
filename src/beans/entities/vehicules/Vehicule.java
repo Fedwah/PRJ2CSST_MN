@@ -206,5 +206,8 @@ public class Vehicule implements Serializable {
     }
 
     
+    public String getMatricule() {
+        return this.matricule_interne+" / "+this.matricule_externe;
+    }
 
 }

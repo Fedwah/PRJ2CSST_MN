@@ -17,7 +17,7 @@ import org.json.JSONObject;
 
 import beans.entities.amdec.Cause;
 import beans.entities.amdec.Defaillance;
-
+import beans.entities.amdec.Detection;
 import beans.entities.amdec.Effet;
 import beans.entities.amdec.Instruction;
 import beans.entities.vehicules.Vehicule;
@@ -25,6 +25,8 @@ import beans.session.amdec.cause.CauseFactory;
 import beans.session.amdec.cause.CausesManager;
 import beans.session.amdec.defaillance.DefaillanceFactory;
 import beans.session.amdec.defaillance.DefaillanceManager;
+import beans.session.amdec.detection.DetectionFactory;
+import beans.session.amdec.detection.DetectionManager;
 import beans.session.amdec.effet.EffetFactory;
 import beans.session.amdec.effet.EffetManager;
 import beans.session.amdec.instruction.InstructionFactory;
@@ -51,6 +53,9 @@ public class AmdecAPI extends HttpServlet {
     
     @EJB
     private VehiculesManager vehM;
+    
+    @EJB
+    private DetectionManager detM;
     
     private static final String MSG_ERR = "Operation non existente , "
             + "essayé avec : api/amdec/causes,api/amdec/effets,api/amdec/defaillances ou api/amdec/intructions pour les lister"
@@ -84,7 +89,8 @@ public class AmdecAPI extends HttpServlet {
         Cause c = null;
         Effet e = null;
         Defaillance d = null;
-        
+        Detection detection = null;
+        Instruction i =null;
         List<?> out = null;
         Boolean OpNotFound = false;
         
@@ -131,6 +137,7 @@ public class AmdecAPI extends HttpServlet {
             case "detecter":
                 if(ids.length== 6) {
                     InstructionFactory iF = new InstructionFactory();
+                    DetectionFactory detF = new DetectionFactory();
                     Vehicule v = vehM.trouver( ids[1] );
                     if(v!=null){
                         iF.filtreIntruction(v.getModele().getId(),
@@ -141,8 +148,12 @@ public class AmdecAPI extends HttpServlet {
                       
                         System.out.println( "Filtre intruction "+ iF.getFiltres() );
                 
-                        Instruction i = instM.trouver( iF.getFiltres() );
-                        System.out.println( "Trouver : "+(i!=null) );
+                        i = instM.trouver( iF.getFiltres() );
+                      
+                        if(i!=null) {
+                            detection= new Detection(i,v); 
+                            detM.ajouter( detection );
+                        }
                     }
                     
                 }
@@ -162,8 +173,10 @@ public class AmdecAPI extends HttpServlet {
                 objects.add( new JSONObject( o ) );
             }
             pg.generateJSON( response, objects );
-        }else if(e!=null || d!=null || c!=null) {   
+        }else if(e!=null || d!=null || c!=null  || detection!=null) {   
            pg.generateJSON( response, true, "Ajout reussie" );
+        }else if (i==null){
+            pg.generateJSON( response, false, ids+" instruction inexistence " ); 
         }else  if(!OpNotFound) {
             pg.generateJSON( response, false, "Echec de l'operation" ); 
         }else {

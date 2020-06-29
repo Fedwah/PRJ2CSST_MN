@@ -14,6 +14,7 @@ import beans.session.amdec.cause.CauseFactory;
 import beans.session.amdec.cause.CausesManager;
 import beans.session.amdec.defaillance.DefaillanceFactory;
 import beans.session.amdec.defaillance.DefaillanceManager;
+import beans.session.amdec.detection.DetectionManager;
 import beans.session.amdec.effet.EffetFactory;
 import beans.session.amdec.effet.EffetManager;
 import beans.session.amdec.instruction.InstructionFactory;
@@ -47,6 +48,9 @@ public class Amdec extends HttpServlet {
     @EJB
     private PieceManager pM;
     
+    @EJB
+    private DetectionManager detM;
+    
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -68,6 +72,8 @@ public class Amdec extends HttpServlet {
         request.setAttribute( "instructions", instManager.lister() );
         request.setAttribute( "modeles", modM.lister() );
         request.setAttribute( "pieces", pM.lister() );
+        request.setAttribute( "detections", detM.lister() );
+        
         pg.generate( getServletContext(), request, response );
     }
 
@@ -113,7 +119,7 @@ public class Amdec extends HttpServlet {
             iF.createValidateAjouter( request, instManager );
             
         }
-
+        
         doGet( request, response );
 
     }

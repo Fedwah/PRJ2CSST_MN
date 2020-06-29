@@ -8,7 +8,7 @@
 <div id="instructions"
 	class="tab-pane fade
 		${active=='instruction'?'show active':''}"
-	role="tabpanel" aria-labelledby="effet-tab">
+	role="tabpanel" aria-labelledby="intruction-tab">
 	<div class="container-fluid p-2">
 		<div class="">
 
@@ -59,7 +59,7 @@
 
 				</form>
 
-				<table class="table table-sm">
+				<table class="table ">
 					<thead>
 						<tr class="text-color">
 							<th scope="col">#</th>
@@ -102,9 +102,6 @@
 
 		</div>
 	</div>
-</div>
-
-
 <script>
 
 	//pour afficher le form d'instruction ou envoie le formulaire
@@ -161,6 +158,11 @@
 
 	}
 </script>
+
+</div>
+
+
+
 
 
 
