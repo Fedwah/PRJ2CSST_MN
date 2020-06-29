@@ -14,6 +14,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.json.JSONPropertyIgnore;
+
 import beans.entities.general.Image;
 
 @Entity
@@ -56,6 +58,7 @@ public class Marque implements Serializable {
         this.image = image;
     }
     
+    @JSONPropertyIgnore
     public List<Modele> getModeles() {
         return modeles;
     }
