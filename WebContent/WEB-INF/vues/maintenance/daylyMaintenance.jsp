@@ -27,7 +27,7 @@
 					<div class="col-md-6 " align="right">
 					<c:choose>
 						<c:when test="${cal.getEtat(maintenance).equals('en cours')}">
-						<a href='<c:url value="/maintenace/edit/${maintenance.idMaintenance}"/>' 
+						<a href='<c:url value="/maintenance/edit/${maintenance.idMaintenance}"/>' 
 						name="end" class="btn" style='background-color: #3E703D;color:white;' >
 						terminer</a>
 						</c:when>
@@ -118,3 +118,4 @@
 	</div>
 	
 </c:forEach>
+</div>

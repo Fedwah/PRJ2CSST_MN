@@ -11,11 +11,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import beans.entities.maintenance.Maintenance;
 import beans.entities.vehicules.AffectationConducteur;
 import beans.entities.vehicules.Mission;
 import beans.entities.vehicules.Vehicule;
 import beans.session.drivers.DriverManager;
 import beans.session.general.page.PageGenerator;
+import beans.session.maintenance.CalendarFactory;
+import beans.session.maintenance.MaintenanceFactory;
+import beans.session.maintenance.MaintenanceManager;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.VehiculesManager;
 import beans.session.vehicules.affectation.AffectationConducteurFactory;
@@ -43,7 +47,10 @@ public class DetailVehicule extends HttpServlet {
     MissionManager miM;
 
     @EJB
-    DriverManager                conM;
+    DriverManager conM;
+    
+    @EJB
+    private MaintenanceManager mainM;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -64,9 +71,11 @@ public class DetailVehicule extends HttpServlet {
 		Mission m = null;
 		List<AffectationConducteur> affections= null;
 		List<Mission> missions =null;
+		List<Maintenance> maintenances = null;
 		
 		AffectationConducteurFactory affF = new AffectationConducteurFactory();
 		MissionFactory mF = new MissionFactory();
+		MaintenanceFactory mainF = new MaintenanceFactory(Maintenance.class);
 		
 		if(id!=null) {
 		    pg.setPageTitle( "Detail du vehicule "+id );
@@ -91,6 +100,10 @@ public class DetailVehicule extends HttpServlet {
 		            aff = (aff.getEndDate()!=null?null:aff);    
 		            Collections.reverse( affections );
 		            
+		            // trouver l'historique des maintenances 
+		            mainF.addFiltre( "v","matricule_interne",id);
+		            maintenances = mainM.lister( mainF.getFiltres() );
+		            
 		       }
 		        
 		        
@@ -104,6 +117,11 @@ public class DetailVehicule extends HttpServlet {
 		request.setAttribute( "affectations", affections );
 		request.setAttribute( "mission", m );
 		request.setAttribute( "affectation", aff );
+		/********* pour le volet de maintenace ******/
+        CalendarFactory cf = new CalendarFactory();
+        request.setAttribute( "cal", cf);
+		request.setAttribute("main",maintenances );
+		/**************************************/
 		pg.generate( getServletContext(), request, response );
 	}
 
