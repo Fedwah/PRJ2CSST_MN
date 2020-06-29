@@ -6,14 +6,23 @@
 	<a style='color: white;display: inline-block;' href="#"> <!-- mettre logo ici --> 
 		<img style='display: inline-block;'
 		src='<c:url value="/public/img/logos/mn_greenBackground.png" />' width="60"
-		height="60" alt="" loading="lazy">
+		height="60" alt="" loading="lazy"/>
 		<h3 style='display: inline-block;position: relative; top: 10px; left: 10px;'>Maintenance nationale</h3>
 
 	</a>
 	<c:if test="${sessionScope.sessionUtilisateur != null}">
 	<div style="float:right; width:150px; height:auto;">
-	<a style='color:  #FFFFFF ; font-size:18px; position: relative; top: 25px; left: 10px;'
-	href='<c:url value="/Deconnexion"/>'>Deconnexion</a>
+	<a style='color:white;display: inline-block;'
+	href='<c:url value="#"/>'>
+	<c:out value="Bonjour ${sessionScope.sessionUtilisateur.nom}"></c:out>
+	</a>
+	<a style='position:relative; top: 15px; left: -5px;'
+	href='<c:url value="/Deconnexion"/>'>
+	<img style='display: inline-block;'
+		src='<c:url value="/public/img/icon/logout.png" />' width="40"
+		height="40" alt="" loading="lazy"/>
+	</a>
+	
 	</div>
 	</c:if>
 	
