@@ -63,24 +63,32 @@ public class Connexion extends HttpServlet {
 	            erreurs.put( CHAMP_PASS, e.getMessage() );
 	                                    }
 	        
-	        /* Initialisation du résultat global de la validation. */
+	        /* Initialisation du rï¿½sultat global de la validation. */
 	        if ( erreurs.isEmpty() ) {
 	        	
 	        utilisateur= User.connecter(nomUtilisateur,motdepasse) ;
 	        		  
 		            if (utilisateur != null) {
-		               System.out.println("utilisateur trouvé");
-		               PageGenerator pg1 = new PageGenerator("/WEB-INF/index.jsp", "/pieces", "Menu", "");		              
-		               session.setAttribute( ATT_SESSION_USER, utilisateur );
-		        	   resultat = "Vous etes connecté ! .";
+		               
+		                /* Code avant changement pas @Syphax
+		                 * 
+		               System.out.println("utilisateur trouvï¿½");
+		               PageGenerator pg1 = new PageGenerator("/WEB-INF/index.jsp", "/pieces", "Menu",);		              
+		               
+		        	   resultat = "Vous etes connectï¿½ ! .";
 		        	   request.setAttribute("connected", true);
 		        	   pg1.generate( getServletContext(), request, response);
 		        	  
-		    	  
+		    	      */
+		                
+		                session.setAttribute( ATT_SESSION_USER, utilisateur );
+		                PageGenerator pg1 = new PageGenerator( "/pieces" );
+		                pg1.redirect( getServletContext(), request, response );
+		                
 		             } 
 					else {
 					  PageGenerator pg2 = new PageGenerator("/WEB-INF/indexLogin.jsp", "/WEB-INF/vues/Utilisateur/login.jsp","Se connecter", "/Connexion");
-		              resultat = "Nom d'utilisateur ou mot de passe erronés.";   
+		              resultat = "Nom d'utilisateur ou mot de passe erronï¿½s.";   
 		              request.setAttribute( ATT_ERREURS, erreurs );
 			          request.setAttribute( ATT_RESULTAT, resultat );
 			          pg2.generate( getServletContext(), request, response);
@@ -90,7 +98,7 @@ public class Connexion extends HttpServlet {
 	        else 
 	        {
 	        	PageGenerator pg = new PageGenerator("/WEB-INF/indexLogin.jsp", "/WEB-INF/vues/Utilisateur/login.jsp","Se connecter", "/Connexion");
-	            resultat = "Échec à cause des erreurs de saisie.";
+	            resultat = "ï¿½chec ï¿½ cause des erreurs de saisie.";
 	            request.setAttribute( ATT_ERREURS, erreurs );
 		        request.setAttribute( ATT_RESULTAT, resultat );
 		        pg.generate( getServletContext(), request, response);
@@ -111,7 +119,7 @@ public class Connexion extends HttpServlet {
 	private void validationMotsDePasse( String motDePasse ) throws Exception{
 	    
 	        if (motDePasse.trim().length() < 5) {
-	          throw new Exception("Le mot de passe est court, merci de le saisir à nouveau.");
+	          throw new Exception("Le mot de passe est court, merci de le saisir ï¿½ nouveau.");
 	                                             }
 	    }
 	

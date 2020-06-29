@@ -18,7 +18,7 @@
 	<c:otherwise>
 		<div class="card-img img-fluid" style=" max-height: ${size}; max-width:${size}">
 			<img class=""
-				src='<c:url value="${empty default_img|| defautl_img==null?'/public/img/notfound.png':default_img}"/>'
+				src='<c:url value="${empty default_img|| default_img==null?'/public/img/notfound.png':default_img}"/>'
 				width="${size}" height="${size}"/>
 		</div>
 
