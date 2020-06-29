@@ -38,6 +38,7 @@ public class createUser extends HttpServlet {
 	    public static final String ATT_TYPE = "type";
 	    public static final String ATT_ROLE = "role";
 	    public static final String ATT_RESULTAT = "resultat";
+	    public static final String CHAMP_POSTE ="poste";
 	    private ArrayList<String> type1 = new ArrayList<String>();
 	    private ArrayList<String> role1 = new ArrayList<String>();
 	    private ArrayList<String> reg = new ArrayList<String>();
@@ -87,6 +88,7 @@ public class createUser extends HttpServlet {
 	        String role = request.getParameter( CHAMP_ROLE );
 	        String codereg = request.getParameter( CHAMP_REG );
 	        String codeun = request.getParameter( CHAMP_UN );
+	        String poste = request.getParameter( CHAMP_POSTE );
 	        
 	     
 	       
@@ -101,7 +103,21 @@ public class createUser extends HttpServlet {
 	        if ( erreurs.isEmpty() ) {
 	        	PageGenerator pg1 = new PageGenerator("/WEB-INF/vues/Utilisateur/createUser.jsp", "", "/Utilisateurs");
 	            resultat = "Succ�s de l'inscription.";
-	            Utilisateur utilisateur = new Utilisateur(nomUtilisateur, motDePasse, nom, prenom, type, role, codereg,codeun);
+	            if (type.contentEquals("Central"))
+	            {
+	            	poste=null;
+	            	codereg=null;
+	            	codeun=null;
+	            	role="Utilisateur";
+	            			
+	            }
+	            if (type.contentEquals("Regional"))
+	            {
+	            	poste=null;
+	            	codeun=null;
+	            	role="Utilisateur";
+	            }
+	            Utilisateur utilisateur = new Utilisateur(nomUtilisateur, motDePasse, nom, prenom, type, role, codereg,codeun, poste);
 		        User.creer(utilisateur) ;
 		        request.setAttribute( ATT_ERREURS, erreurs );
 		        request.setAttribute( ATT_RESULTAT, resultat );

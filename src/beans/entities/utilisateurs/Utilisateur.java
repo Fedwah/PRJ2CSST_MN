@@ -1,16 +1,24 @@
 package beans.entities.utilisateurs;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import beans.entities.regions.Region;
+import beans.entities.regions.unites.Unite;
 
 @Entity
 public class Utilisateur implements Serializable {
-	     
-        @Id
+	 @Id
 	    @GeneratedValue( strategy = GenerationType.IDENTITY )
 	    private int    id;
 	    @Column( name = "nom_Utilisateur" )
@@ -21,10 +29,9 @@ public class Utilisateur implements Serializable {
 	    private String    prenom;
 	    private String    type;
 	    private String    role;
-
 	    private String   codereg;
         private String codeun;
-
+        private String poste ;
 	    
 		public Utilisateur() {
 			super();
@@ -32,8 +39,12 @@ public class Utilisateur implements Serializable {
 		}
 	
 
+
+		 
+
+
 		public Utilisateur(String nomUtilisateur, String motDePasse, String nom, String prenom, String type,
-				String role, String codereg, String codeun) {
+				String role, String codereg, String codeun, String poste) {
 			super();
 			this.nomUtilisateur = nomUtilisateur;
 			this.motDePasse = motDePasse;
@@ -43,7 +54,24 @@ public class Utilisateur implements Serializable {
 			this.role = role;
 			this.codereg = codereg;
 			this.codeun = codeun;
+			this.poste = poste;
 		}
+
+
+
+
+
+
+		public String getPoste() {
+			return poste;
+		}
+
+
+
+		public void setPoste(String poste) {
+			this.poste = poste;
+		}
+
 
 
 		public String getType() {
