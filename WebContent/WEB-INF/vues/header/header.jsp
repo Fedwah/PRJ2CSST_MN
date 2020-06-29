@@ -13,7 +13,7 @@
 	</a>
 	<c:if test="${sessionScope.sessionUtilisateur != null}">
 
-	<div style="float:right; width:350px; height:auto;">
+	<div style="width:450px; height:auto;" align="right">
 	<a style='color:white;display: inline-block;position:relative; top: 16px; left: 0px;'
 	href='<c:url value="#"/>'>
 	<c:out value="Bonjour ${sessionScope.sessionUtilisateur.nom}"></c:out>

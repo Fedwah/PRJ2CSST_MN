@@ -22,18 +22,25 @@
 				<c:when test= "${sessionScope.sessionUtilisateur.type.equals('Regional') ||sessionScope.sessionUtilisateur.type.equals('Central') }">
 					<c:import url="vues/menu/menuDecideur.jsp"></c:import>					
 				</c:when>
-				<c:when test="${sessionScope.sessionUtilisateur.type.equals('Operationnel') && sessionScope.sessionUtilisateur.role.equals('admin')} ">
-					<c:import url="vues/menu/menuAdminOP.jsp"></c:import>
-				</c:when>
+				
 				<c:when test="${sessionScope.sessionUtilisateur.type.equals('root')}">
 					<c:import url="vues/menu/menuAdmin.jsp"></c:import>
 				</c:when>
-				<c:when test="${sessionScope.sessionUtilisateur.type.equals('Operationnel') && sessionScope.sessionUtilisateur.role.equals('parc')}">
-					<c:import url="vues/menu/menuRespoParc.jsp"></c:import>
-				</c:when>
-				<c:when test="${sessionScope.sessionUtilisateur.type.equals('Operationnel') && sessionScope.sessionUtilisateur.role.equals('maintenance')}">
-					<c:import url="vues/menu/menuRespoMaintenance.jsp"></c:import>
-				</c:when>
+				
+				<c:when test="${sessionScope.sessionUtilisateur.type.equals('Operationnel')}">
+				<c:choose>
+					<c:when test="${sessionScope.sessionUtilisateur.role.equals('parc')}">
+						<c:import url="vues/menu/menuRespoParc.jsp"></c:import>
+					</c:when>
+					<c:when test="${sessionScope.sessionUtilisateur.role.equals('maintenance')}">
+						<c:import url="vues/menu/menuRespoMaintenance.jsp"></c:import>
+					</c:when>
+					<c:otherwise>
+						
+						<c:import url="vues/menu/menuAdminOP.jsp"></c:import>
+					</c:otherwise>
+				</c:choose> 
+				</c:when> 
 			</c:choose>
 
 		</div>
