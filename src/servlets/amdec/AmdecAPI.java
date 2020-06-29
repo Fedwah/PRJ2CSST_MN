@@ -17,7 +17,7 @@ import org.json.JSONObject;
 
 import beans.entities.amdec.Cause;
 import beans.entities.amdec.Defaillance;
-
+import beans.entities.amdec.Detection;
 import beans.entities.amdec.Effet;
 import beans.entities.amdec.Instruction;
 import beans.entities.vehicules.Vehicule;
@@ -25,6 +25,8 @@ import beans.session.amdec.cause.CauseFactory;
 import beans.session.amdec.cause.CausesManager;
 import beans.session.amdec.defaillance.DefaillanceFactory;
 import beans.session.amdec.defaillance.DefaillanceManager;
+import beans.session.amdec.detection.DetectionFactory;
+import beans.session.amdec.detection.DetectionManager;
 import beans.session.amdec.effet.EffetFactory;
 import beans.session.amdec.effet.EffetManager;
 import beans.session.amdec.instruction.InstructionFactory;
@@ -51,11 +53,22 @@ public class AmdecAPI extends HttpServlet {
     
     @EJB
     private VehiculesManager vehM;
+    
+    @EJB
+    private DetectionManager detM;
+    
+    private static final String MSG_ERR = "Operation non existente , "
+            + "essayé avec : api/amdec/causes,api/amdec/effets,api/amdec/defaillances ou api/amdec/intructions pour les lister"
+            + " et api/amdec/causes/{titre} ,api/amdec/effets/{titre},api/amdec/defaillances/{titre} pour ajouter"
+            + " pour ajouter une detections faite :"
+            + "api/amdec/detecter/{matricule_interne}/{id piece}/{id defaillance}/{id cause}/{id effet}";
 
     /**
      * @see HttpServlet#HttpServlet()
      */
     public AmdecAPI() {
+        
+       
         super();
         // TODO Auto-generated constructor stub
     }
@@ -76,9 +89,10 @@ public class AmdecAPI extends HttpServlet {
         Cause c = null;
         Effet e = null;
         Defaillance d = null;
-        
+        Detection detection = null;
+        Instruction i =null;
         List<?> out = null;
-        
+        Boolean OpNotFound = false;
         
         if ( ids != null && ids.length >= 1 ) {
             switch ( ids[0] ) {
@@ -119,48 +133,55 @@ public class AmdecAPI extends HttpServlet {
                 break;
             case "instructions":
                 out = instM.lister();
-                System.out.println( out.get( 0 ));
                 break;
             case "detecter":
                 if(ids.length== 6) {
                     InstructionFactory iF = new InstructionFactory();
+                    DetectionFactory detF = new DetectionFactory();
                     Vehicule v = vehM.trouver( ids[1] );
                     if(v!=null){
-                        iF.filtreIntruction( v.getModele().getTitre(),
+                        iF.filtreIntruction(v.getModele().getId(),
                                 ids[2],
                                 ids[3],
                                 ids[4],
                                 ids[5]);
+                      
                         System.out.println( "Filtre intruction "+ iF.getFiltres() );
-                        Instruction i = instM.trouver( iF.getFiltres() );
-                        System.out.println( "Trouver : "+(i!=null) );
+                
+                        i = instM.trouver( iF.getFiltres() );
+                      
+                        if(i!=null) {
+                            detection= new Detection(i,v); 
+                            detM.ajouter( detection );
+                        }
                     }
                     
                 }
+                break;
                 
             default:
-                
+               OpNotFound = true;
             }
             
-            if(out!=null) {
-                List<JSONObject> objects = new ArrayList<JSONObject>();
-                for ( Object o : out ) {
-                    objects.add( new JSONObject( o ) );
-                }
-                pg.generateJSON( response, objects );
-            }else if(e!=null || d!=null || c!=null) {   
-               pg.generateJSON( response, true, "Ajout reussie" );
-            }
+          
 
-        }else {
-           pg.generateJSON( response, false, "Operation non existente , "
-                   + "essayé avec : api/amdec/causes,api/amdec/effets,api/amdec/defaillances ou api/amdec/intructions pour les lister"
-                   + " et api/amdec/causes/{titre} ,api/amdec/effets/{titre},api/amdec/defaillances/{titre} pour ajouter"
-                   + " pour ajouter une detections faite :"
-                   + "api/amdec/detecter/{matricule_interne}/{id piece}/{id defaillance}/{id cause}/{id effet}"); 
         }
         
-    
+        if(out!=null) {
+            List<JSONObject> objects = new ArrayList<JSONObject>();
+            for ( Object o : out ) {
+                objects.add( new JSONObject( o ) );
+            }
+            pg.generateJSON( response, objects );
+        }else if(e!=null || d!=null || c!=null  || detection!=null) {   
+           pg.generateJSON( response, true, "Ajout reussie" );
+        }else if (i==null){
+            pg.generateJSON( response, false, ids+" instruction inexistence " ); 
+        }else  if(!OpNotFound) {
+            pg.generateJSON( response, false, "Echec de l'operation" ); 
+        }else {
+            pg.generateJSON( response, false,MSG_ERR);  
+        }
 
     }
 

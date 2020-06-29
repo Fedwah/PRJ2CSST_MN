@@ -25,13 +25,14 @@ public class Detection implements Serializable {
 
 	
 	@NotNull
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date ;
 	
 	@ManyToOne
 	private Instruction instruction;
 	
-	
+	@ManyToOne
+    private Vehicule vehicule;
 	
 	// Constructors
 	public Detection() {
@@ -46,10 +47,15 @@ public class Detection implements Serializable {
 
     
 
-    public Detection( Date date, Instruction instruction ) {
+    public Detection( Date date, Instruction instruction , Vehicule vehicule) {
         super();
         this.date = date;
         this.instruction = instruction;
+        this.vehicule = vehicule;
+    }
+    
+    public Detection( Instruction instruction,Vehicule vehicule) {
+        this( new Date(), instruction, vehicule );
     }
 
     public int getId() {
@@ -82,7 +88,11 @@ public class Detection implements Serializable {
         this.instruction = instruction;
     }
 
-
+    
+    public Vehicule getVehicule() {
+        return vehicule;
+    }
   
+    
 	
 }

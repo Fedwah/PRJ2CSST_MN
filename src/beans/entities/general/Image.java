@@ -11,6 +11,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.json.JSONPropertyIgnore;
+
 @Entity
 public class Image implements Serializable {
 
@@ -61,7 +63,8 @@ public class Image implements Serializable {
         }
        
     }
-
+    
+    @JSONPropertyIgnore
     public byte[] getBin() {
         return this.bin;
     }

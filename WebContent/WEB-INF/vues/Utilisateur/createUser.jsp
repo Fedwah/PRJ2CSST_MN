@@ -11,18 +11,18 @@
 		           	 href='<c:url value="/ImporterUsers"/>'>Importer un fichier </a>
                     	</nav>
                 <div class="col-md-9">
-                <label for="nomUtilisateur">Nom d'utilisateur <span class=>*</span></label>
+                <label for="nomUtilisateur">Nom d'utilisateur <span class=></span></label>
                 <input type="text"  class='form-control' id="nomUtilisateur" name="nomUtilisateur" value="<c:out value="${param.nomUser}"/>" size="20" maxlength="60" required />
                 <br />
                 
                 
                 <div style="float:left; width:350px; height:auto;">
-                <label for="motdepasse">Mot de passe <span class=>*</span></label>
+                <label for="motdepasse">Mot de passe <span class=></span></label>
                 <input type="password"  class='form-control' id="motdepasse" name="motdepasse" value="" size="20" maxlength="20" required />
                 <span class="badge badge-pill badge-danger"  >${erreurs['motdepasse']}</span>
                 </div>
                 <div style="float:right; width:350px; height:auto;">
-                <label for="confirmation">Confirmation du mot de passe <span class=>*</span></label>
+                <label for="confirmation">Confirmation du mot de passe <span class=></span></label>
                 <input type="password" class='form-control' id="confirmation" name="confirmation" value="" size="20" maxlength="20" required />
                 <span class="badge badge-pill badge-danger"   >${erreurs['confirmation']}</span>
                 </div>
@@ -31,64 +31,79 @@
                 
                 
                 <div style="float:left; width:350px; height:auto;">
-                <label for="nom">Nom <span class=>*</span></label>
+                <label for="nom">Nom <span class=></span></label>
                 <input type="text" class='form-control'  id="nom" name="nom" value="<c:out value="${param.nom}"/>" size="20" maxlength="20" required/>
                 </div>
                 <div style="float:right; width:350px; height:auto;">
-                <label for="prenom">Prenom <span class=>*</span></label>
+                <label for="prenom">Prenom <span class=></span></label>
                 <input type="text" class='form-control' id="prenom" name="prenom" value="<c:out value="${param.prenom}"/>" size="20" maxlength="20" required />
                 </div>
                 <div style="clear:both"></div>
                 <br />
               
-                  <div style="float:left; width:350px; height:auto;">  
-               <label for="type">Type de l'utilisateur <span class=>*</span></label>
+                  
+               <label for="type">Type de l'utilisateur <span class=></span></label>
 			   <div class="input-group mb-3">			
                 <select id="type" class="form-control" required="required"name="type" onchange="show()" >
-                <c:forEach items="${type}" var="type">
-					<option>${type}</option> 
-					  <c:out value="${param.type}" />
-		        </c:forEach>
+                    
+					<option value="Operationnel">Operationnel</option> 
+					<option value="Regional">Regional</option> 
+					<option value="Central">Central</option> 
+					<c:out value="${param.type}" />
+		 
 			   </select>
+			  
 			   </div>	
-			   </div>	
-                  <div style="float:right; width:350px; height:auto;">
-                <label for="role">Role de l'utilisateur <span class=>*</span></label>
-			   <div class="input-group mb-3">			
-                <select id="role" class="form-control" required="required"name="role" onchange="show()" >
+                  
+               <label id="rolelabel">Role de l'utilisateur  </label> 
+			   <div class="input-group mb-3"  >			
+                <select id="role" class="form-control"  name="role"   onchange="show()" >
                 <c:forEach items="${role}" var="role">
-					<option>${role}</option> 
-					  <c:out value="${param.role}" />
+			    <option>${role}</option> 
+			    <c:out value="${param.role}" />
 		        </c:forEach>
 			   </select>
-		 	</div>	
+		  
 		 	</div>	
 		 	
-		 	  <div style="float:left; width:350px; height:auto;">  
-		 	  <label for="codereg">Region  de l'utilisateur <span class=>*</span></label>
-			   <div class="input-group mb-3">			
-                <select id="codereg" class="form-control" required="required"name="codereg" onchange="show()" >
+		   
+		 	<label id="codereglabel">Region  de l'utilisateur </label> 
+			<div class="input-group mb-3"  >			
+                <select id="codereg" class="form-control"  name="codereg"  onchange="show()" >
                 <c:forEach items="${reg}" var="reg1">
-					<option  >${reg1.codeReg} </option> 
-					  <c:out value="${param.codereg}" />
+			    <option>${reg1.codeReg} </option> 
+			    <c:out value="${param.codereg}" />
 		        </c:forEach>
 			   </select>
-		 	</div>	
+		 	 
 		 	</div>	
 		  
 		 	
-		 	   <div style="float:right; width:350px; height:auto;">
-		 	 <label for="un">Unite  de l'utilisateur <span class=>*</span></label>
+		 	 
+		    	<label id="codeunlabel">Unite  de l'utilisateur  </label>
 			   <div class="input-group mb-3">			
-                <select id="codeun" class="form-control" required="required"name="codeun" onchange="show()" >
+                <select id="codeun" class="form-control"  name="codeun"   onchange="show()" >
                 <c:forEach items="${un}" var="un1">
-                 <option > ${un1.codeUN}</option>
+                
+                <option> ${un1.codeUN} </option>
 				<c:out value="${param.codeun}" />
 		        </c:forEach>
 			   </select>
+		 	 
+		 	 </div>	
+		 	
+		 	
+		      <label id="postelabel">Poste de l'utilisateur au sein de l'unité operationnelle  </label> 
+			   <div class="input-group mb-3" >			
+                <select id="poste" class="form-control"  name="poste" onchange="show()" >
+                 
+                 <option value="Responsable de maintenance"> Responsable de maintenance </option>
+                 <option value="Responsable du parc" > Responsable du parc </option>
+				 <c:out value="${param.poste}" />  
+			   </select>
 		 	</div>	
 		 	 </div>	
-		 	</div>	
+		  
 		 		 
 		
                	<button type="submit" class="btn btn-primary">Valider</button>
@@ -106,6 +121,54 @@
          
         </form>
   
+ <script>
+ var select = document.getElementById("type");
  
+ select.onchange=function()
+ {   
+     
+
+     if ( $("#type").val() === "Central")
+     {    $("#poste").hide ()
+    	  $("#poste").val ()==""
+    	  $("#postelabel").hide () 
+    	  $("#codeun").hide ()
+    
+    	  $("#codeunlabel").hide () 
+    	  $("#codereg").hide ()
+    	 
+    	  $("#codereglabel").hide () 
+    	  $("#role").hide ()
+          $("#rolelabel").hide ()
+     
+     }
+     if (  $("#type").val() ==="Regional")
+     {
+    	 $("#poste").hide ()
+    	 $("#postelabel").hide () 
+    	 $("#codeun").hide ()
+    	 $("#codeunlabel").hide () 
+    	 $("#codereg").show ()
+    	 $("#codereglabel").show () 
+    	 $("#role").hide ()
+         $("#rolelabel").hide ()
+     
+    	  
+    	 
+     }
+     if ($("#type").val() == "Operationnel"){
+     $("#poste").show ()
+     $("#postelabel").show ()
+     $("#codeun").show ()
+     $("#codeunlabel").show () 
+     $("#role").show ()
+     $("#rolelabel").show ()
+	 $("#codereg").show ()
+	 $("#codereglabel").show ()
+	  
+     }
+ }
+</script>
+
 
 

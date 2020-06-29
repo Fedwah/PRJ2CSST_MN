@@ -359,8 +359,8 @@ public abstract class BeanFactory<T> {
         this.filteres.addFiltre( field, subField, value );
     }
 
-    public void addFiltreByID(String field ,String value) {
-        if(value!=null && !value.isEmpty() && field!=null && !field.isEmpty()) {
+    public void addFiltreByID(String field ,Object value) {
+        if(value!=null && field!=null && !field.isEmpty()) {
             if ( this.getEntityFields().fields().get( field ).isBasicClass ) {
                 this.addFiltre( field, value );
 

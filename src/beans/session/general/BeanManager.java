@@ -141,6 +141,7 @@ public abstract class BeanManager<T> {
     	}
     	catch(Exception e)
     	{
+    		e.printStackTrace();
     		return null;
     	}
        }
@@ -212,15 +213,17 @@ public abstract class BeanManager<T> {
         
        
         
-       
+        System.out.println( "Query genrated: "+ q );
         
         Query query = this.getEntityManger().createQuery(q);
         
-        System.out.println( "Query Build: "+ q );
+        System.out.println( "Query Builded " );
         
         for ( Map.Entry<String, Object> mapentry : values.entrySet() ) {
+            //System.out.println( "Bounded :"+fields.getValidName(( mapentry.getKey()))+" "+ mapentry.getValue());
             query.setParameter( (String) fields.getValidName(( mapentry.getKey())), mapentry.getValue() );
         }
+       
         
         return query;
     }
@@ -272,7 +275,7 @@ private Query QuerryBuilderSearch(Map<String, Object> values,boolean and,String 
             if(!map.get(fields.getValidName( f.getKey())).isBasicClass) {
                 j = j+"b."+f.getKey().substring( 0, f.getKey().indexOf( '.' ) )+" "+fields.getValidName(f.getKey());
                 if(it.hasNext()) {
-                    j = j+" , ";
+                    j = j+" JOIN ";
                 }
             }
            

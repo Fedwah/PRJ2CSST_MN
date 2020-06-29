@@ -44,12 +44,12 @@ public class InstructionFactory  extends BeanFactory<Instruction>{
         
     }
     
-    public void filtreIntruction(String modele,String piece,String defaillance,String cause,String effet) {
+    public void filtreIntruction(Integer modele,String piece,String defaillance,String cause,String effet) {
         this.addFiltreByID( "modele_vehicule", modele );
         this.addFiltreByID( "piece",  piece);
-        this.addFiltreByID( "defaillance",defaillance);
-        this.addFiltreByID( "cause",  cause);
-        this.addFiltreByID( "effet",  effet);
+        this.addFiltreByID( "defaillance",this.castInt(defaillance));
+        this.addFiltreByID( "cause",  this.castInt(cause));
+        this.addFiltreByID( "effet",  this.castInt(effet));
     }
 
 }
