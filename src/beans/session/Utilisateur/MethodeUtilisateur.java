@@ -23,8 +23,7 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
 	    private static final String JPQL_SELECT_PAR_ID = "DELETE FROM Utilisateur u WHERE u.id=:id";
 	    private static final String JPQL_MODIF_PAR_ID = "UPDATE Utilisateur u SET "
 	    		+ "u.nomUtilisateur=:nomUtilisateur,"
-	    		+ "u.motDePasse=:motdepasse,"
-	    		+ "u.role=:role  "
+	    		+ "u.motDePasse=:motdepasse "
 	    		+ "WHERE u.id=:id";
 	    private static final String JPQL_SELECT_PAR_EMAIL_PASS = "SELECT u FROM Utilisateur u WHERE u.nomUtilisateur =:nomUtilisateur and u.motDePasse=:motdepasse";
 	    private static final String PARAM_NOM   = "nom";
@@ -112,11 +111,10 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
 }
     
   // Modfier un utilisateur 
-    public String modifierUser (int id,String nomUtilisateur,String motdepasse, String role )
+    public String modifierUser (int id,String nomUtilisateur,String motdepasse )
     {
     	 
-          int modif = em.createQuery(JPQL_MODIF_PAR_ID).setParameter(PARAM_ID, id).setParameter(PARAM_USER2,nomUtilisateur).setParameter(PARAM_PASS, motdepasse).setParameter(PARAM_ROLE, role)
-        		  .executeUpdate();
+          int modif = em.createQuery(JPQL_MODIF_PAR_ID).setParameter(PARAM_ID, id).setParameter(PARAM_USER2,nomUtilisateur).setParameter(PARAM_PASS, motdepasse).executeUpdate();
           if (modif == 0) {
               result = "Impossible de modifier l'utilisateur";	
     }else
