@@ -2,12 +2,17 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags/form" prefix="form"%>
-
-<form class="p-4 needs-validation " method="post"
+<script>
+function goTo()
+{
+  document.frm.submit()
+}
+</script>
+<form class="p-4 needs-validation " name="frm" method="post"
 		action="<c:out value=""/>" >
-<div class="container-fluid p-3">
+<div class="container-fluid ">
 	<div class="">
-		<h3 class="display-4" style='color: #3E703D;font-size:40px;font-style:gras;'>Liste des conducteurs</h3>
+		<h3 class="display" style='color: #3E703D;font-size:40px;font-style:gras;'>Liste des conducteurs</h3>
 		<nav class="nav justify-content-end mb-2">
 		<div class="col-md-6" style='position: relative; top: 0px; left: -15px;'>
 		<input
@@ -35,13 +40,13 @@
 				<option>Date croissante</option>
 				<option>Date décroissante</option>
 		</select>
-		<select class="form-control col-md-4" style='display: inline-block;' name="reg">
+		<select class="form-control col-md-4" style='display: inline-block;' name="reg" onchange="goTo()">
 				<option>Tous les regions</option>
 				<c:forEach items="${region}" var="r">
 					<option ${selectedR==r.codeReg?"selected":""}> ${r.codeReg}</option>
 				</c:forEach>
 		</select>
-		<button type="submit" class="form-control col-md-2 btn-outline-success" style='display: inline-block;' name="filter" >filtrer</button>
+<!--  		<button type="submit" class="form-control col-md-2 btn-outline-success" style='display: inline-block;' name="filter" >filtrer</button> -->
 		<a class="btn btn-light rounded-circle" style='display: inline-block;height:40px; width:40px;'
 				href='<c:url value="/drivers/edit/"/>'>
 				<img width="50px" height="50px" style='position: relative; top: -10px; left: -17px;' src="<c:url value='/public/img/icon/add_green_nobackground.png'/>" />
@@ -113,6 +118,19 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<c:if test="${sessionScope.exception }">
 
+		<script>
+		$(document).ready(function (){
+    	swal({
+  		title: "Ce conducteur est lié à d'autres éléments",
+  		text: "vous ne pouvez pas le supprimer",
+  		icon: "warning",
+  		dangerMode: true,
+		})
+		});
+		</script>
+		<%session.removeAttribute("exception"); %>
+	</c:if>
 </div>
 </form>

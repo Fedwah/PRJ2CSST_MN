@@ -54,20 +54,16 @@ public class uniteAdd extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		UniteFactory uf = new UniteFactory();
+		UniteFactory uf = new UniteFactory(Unite.class);
 		Unite u = uf.create(request);
 		u.setRegion(em.ObtenirRefrence(u.getRegion().getCodeReg()));
-		PageGenerator pg = new PageGenerator(FORM, "Unitï¿½", REDIRECT+ u.getRegion().getCodeReg());
-		if(uf.validate(u))
+		PageGenerator pg = new PageGenerator(FORM, "Unité", REDIRECT+ u.getRegion().getCodeReg());
+		if(uf.validate(u,unManager,u.getCodeUN()))
 		{
 			if(unManager.ajouterUnique(u, u.getCodeUN()))
 			{
 				System.out.println("unite saved");
 				pg.redirect(getServletContext(), request, response);
-			}
-			else {
-				// code dupliquï¿½
-				System.out.println("unite not saved");
 			}
 		}
 		else
