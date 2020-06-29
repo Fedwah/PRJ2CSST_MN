@@ -1,3 +1,4 @@
+<%@page import="beans.entities.amdec.enums.Gravite"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -42,15 +43,62 @@
 							
 							
 						</div>
-
-						<form:range max="5" name="gravite" min="1"
-							value="${instruction.gravite }" label="Gravité" />
-						<form:range max="365" name="frequence" min="1"
-							value="${instruction.gravite }" label="Frequence" steps="10"
-							unite="Jours" />
-						<form:range max="5" name="niveau_detection" min="1"
+						
+						<div class="form-row align-items-center" style="height: 90px;">
+							<form:range max="5" name="gravite" min="1"
+								value="${instruction.gravite }" label="Gravité" col="col-md-9"/>
+							
+							<div class="col-md-3">
+								<c:forEach items="${gravites}" var="g" varStatus="s">
+									<div id="gravite-${s.index}" style="display:none;" class="media">
+										<div class="media-body" style="font-size: small;">
+											<h6>${g.label}</h6>
+											${g.message}
+										</div>
+									</div>
+								</c:forEach>
+							</div>
+							
+						</div>
+						
+						
+						<div class="form-row align-items-center" style="height: 90px;">
+							<form:range max="365" name="frequence" min="1"
+							value="${instruction.frequence}" label="Frequence" steps="10"
+							unite="Jours" col="col-md-9" />
+							
+							<div class="col-md-3">
+								<c:forEach items="${frequences}" var="g" varStatus="s">
+									<div id="frequence-${s.index}" style="display:none;" class="media">
+										<div class="media-body" style="font-size: small;">
+											<h6>${g.label}</h6>
+											${g.message}
+										</div>
+									</div>
+								</c:forEach>
+						
+							</div>
+						</div>
+						
+						
+						
+						<div class="form-row align-items-center" style="height: 90px;">
+							<form:range max="4" name="niveau_detection" min="1"
 							value="${instruction.niveau_detection }"
-							label="Niveau de detection" />
+							label="Niveau de detection" col="col-md-9" />
+							<div class="col-md-3" >
+								<c:forEach items="${niveaux}" var="g" varStatus="s">
+									<div id="niveau_detection-${s.index}" style="display:none;" class="media">
+										<div class="media-body" style="font-size: small;">
+											<h6>${g.label}</h6>
+											${g.message}
+										</div>
+										  
+									</div>
+								</c:forEach>
+							</div>
+						</div>
+						
 							
 						<form:textarea name="demarche_resolution" col="" rows="4" label="Demarche de resolution"/>
 					</div>
@@ -117,45 +165,83 @@
 		
 	})
 	
-	//pour sycnhronisez le range avec la value
-	$("#gravite-range-value").val($("#gravite-range").val())
-	$("#frequence-range-value").val($("#frequence-range").val())
-	$("#niveau_detection-range-value").val($("#niveau_detection-range").val())
+	
+	//pour sycnhronisez le range avec la value au debut
+	update("gravite",$("#gravite-range").val())
+	update("frequence",$("#frequence-range").val())
+	update("niveau_detection",$("#niveau_detection-range").val())
+	
 
-	$("#gravite-range").change(function(e) {
-		console.log(e)
-		update($("#gravite-range-value"), e.target.value)
+	$("#gravite-range").change(function() {
+		update("gravite",$(this).val())
 	});
 
-	$("#frequence-range-value").change(function(e) {
-		update($("#frequence-range"), e.target.value)
+	$('#gravite-range-value').on('input', function() {
+	
+		update("gravite", $(this).val())
+		
 	});
+	
+	
 
-	$("#frequence-range-value").val($("#frequence-range").val())
 	$("#frequence-range").change(function(e) {
-		console.log(e)
-		update($("#frequence-range-value"), e.target.value)
+		update("frequence", e.target.value)
 	});
 
-	$("#frequence-range-value").change(function(e) {
-		update($("#frequence-range"), e.target.value)
-	});
-
-	$("#niveau_detection-range-value").val($("#niveau_detection-range").val())
+	
+	
 	$("#niveau_detection-range").change(function(e) {
-		console.log(e)
-		update($("#niveau_detection-range-value"), e.target.value)
+		update("niveau_detection", e.target.value)
 	});
 
-	$("#niveau_detection-range-value").change(function(e) {
-		update($("#niveau_detection-range"), e.target.value)
+	
+	$("#frequence-range-value").on('input',function(e) {
+		update("frequence", e.target.value)
 	});
-	function update(input, val) {
-		console.log(input, val)
+	
+	$("#niveau_detection-range-value").on('input',function(e) {
+		update("niveau_detection", e.target.value)
+	});
+	
+	function update(id, val) {
+		var input = $("#"+id+"-range")
+		var value = $("#"+id+"-range-value")
+		
+		
+		
 		if (input.val() != val) {
+			
+			$("#"+id+"-"+(convertFreq(id,input.val())-1)).hide()
 			input.val(val)
+			
+			
 		}
+		
+		if (value.val() != val) {
+			
+			$("#"+id+"-"+((convertFreq(id,value.val())-1))).hide()
+			value.val(val)
+			
+			
+		}
+		
+		
+		$("#"+id+"-"+((convertFreq(id,val)-1))).show()
+		
 
+	}
+	
+	function convertFreq(id,freq){
+		if(id=="frequence"){
+			if(freq>0){
+				console.log("converted :"+(Math.round((freq/365)*3)+1))
+				return (Math.round((freq/365)*3)+1)
+			}else
+				return 1
+		}else
+			return freq
+		
+		
 	}
 </script>
 

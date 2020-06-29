@@ -161,7 +161,7 @@ public class Instruction implements Serializable{
 
 
     public int getCriticite() {
-        return gravite * frequence * niveau_detection;
+        return gravite * (Math.round((frequence/365) *3)+1) * niveau_detection;
     }
 
 
