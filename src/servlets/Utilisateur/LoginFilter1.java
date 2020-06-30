@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.session.general.page.PageGenerator;
+
 /**
  * Servlet Filter implementation class LoginFilter1
  */
@@ -33,12 +35,16 @@ public class LoginFilter1 implements Filter {
 	        HttpServletResponse response = (HttpServletResponse) res;
 	        HttpSession session = request.getSession(false);
 	        String loginURI = request.getContextPath() + "/Connexion";
-
+	        
 	        boolean loggedIn = session != null && session.getAttribute("sessionUtilisateur") != null;
 	        boolean loginRequest = request.getRequestURI().equals(loginURI);
 
 	        if (loggedIn || loginRequest) {
+	           /*Ajouter par @Syphax */
+	            PageGenerator pg = new PageGenerator();
+	            pg.getUtilisateur( request ); // Permet d'initialiser l'utilisateur dans PageGenerator
 	            chain.doFilter(request, response);
+	           
 	        } else {
 	            response.sendRedirect(loginURI);
 	        }

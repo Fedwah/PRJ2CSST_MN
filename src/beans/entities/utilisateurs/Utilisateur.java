@@ -18,7 +18,8 @@ import beans.entities.regions.unites.Unite;
 
 @Entity
 public class Utilisateur implements Serializable {
-	 @Id
+    
+        @Id
 	    @GeneratedValue( strategy = GenerationType.IDENTITY )
 	    private int    id;
 	    @Column( name = "nom_Utilisateur" )

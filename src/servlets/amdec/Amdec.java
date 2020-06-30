@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import beans.entities.amdec.Detection;
 import beans.entities.amdec.enums.Frequence;
 import beans.entities.amdec.enums.Gravite;
 import beans.entities.amdec.enums.NoDetection;
@@ -113,7 +114,7 @@ public class Amdec extends HttpServlet {
             active = "defaillance";
             DefaillanceFactory df = new DefaillanceFactory();
             df.createValidateAjouter( request, defaiManager );
-
+            
         }
         
         //volet instruction
@@ -129,6 +130,8 @@ public class Amdec extends HttpServlet {
         request.setAttribute( "active", active);
         doGet( request, response );
 
+        
+       
     }
 
 }

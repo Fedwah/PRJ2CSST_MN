@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -168,12 +169,15 @@ public class EntityFields<T> {
     }
     
     public Class<?> getClass(String name) {
+        String class_ = this.fields.get( name ).class_;
         try {
-            System.out.println( "GET CLASS of "+name );
-            return Class.forName( this.fields.get( name ).class_);
+           
+            System.out.println( "GET CLASS of "+class_ );
+          
+            return Class.forName(class_);
         } catch ( ClassNotFoundException e ) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println( "Can't get class of :"+ class_);
         }
         return null;
     }
@@ -202,6 +206,8 @@ public class EntityFields<T> {
        
         return null;
     }
+    
+    
 
     public Field getFields_java(String name) {
         return fields_java.get( name );
@@ -250,5 +256,17 @@ public class EntityFields<T> {
         }
         
     }
+    
+    public FieldDefinition getFieldByClass(Class<?> class_) {
+        Class<?> c = null;
+        for (FieldDefinition f: this.fields.values()) {
+            if((c=this.getClass(f.name))!=null && c.equals( class_ ))
+                return f;
+        }
+        
+        return null;
+    }
+    
+    
     
 }
