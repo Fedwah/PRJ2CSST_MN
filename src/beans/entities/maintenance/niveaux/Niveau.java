@@ -25,29 +25,14 @@ public class Niveau implements Serializable {
 	@Size(min=3,max=20)
 	private String niveau;
 	
-	// unite
+	// criticité max 
+	private int maxC;
 	
-	@NotNull
-	private Unite un;
+	// criticité min 
+	private int minC;
 
 
 	// constructors
-	
-	public Niveau(int idNiv, String niveau, Unite un) {
-		super();
-		this.idNiv = idNiv;
-		this.niveau = niveau;
-		this.un = un;
-	}
-
-
-	public Niveau(String niveau, Unite un) {
-		super();
-		this.niveau = niveau;
-		this.un = un;
-	}
-
-
 	public Niveau() {
 
 	}
@@ -59,6 +44,21 @@ public class Niveau implements Serializable {
 	
 	
 
+
+	public Niveau(int idNiv, String niveau, int maxC, int minC) {
+		super();
+		this.idNiv = idNiv;
+		this.niveau = niveau;
+		this.maxC = maxC;
+		this.minC = minC;
+	}
+
+	public Niveau(String niveau, int maxC, int minC) {
+		super();
+		this.niveau = niveau;
+		this.maxC = maxC;
+		this.minC = minC;
+	}
 
 	// getters and setters 
 	
@@ -84,21 +84,19 @@ public class Niveau implements Serializable {
 		this.niveau = niveau;
 	}
 
-
-	public Unite getUn() {
-		return un;
+	public int getMaxC() {
+		return maxC;
 	}
 
-
-	public void setUn(Unite un) {
-		this.un = un;
+	public void setMaxC(int maxC) {
+		this.maxC = maxC;
 	}
 
+	public int getMinC() {
+		return minC;
+	}
 
-
-	
-	
-	
-	
-
+	public void setMinC(int minC) {
+		this.minC = minC;
+	}
 }

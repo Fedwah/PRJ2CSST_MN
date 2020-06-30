@@ -152,7 +152,7 @@ public class AmdecAPI extends HttpServlet {
                       
                         if(i!=null) {
                             detection= new Detection(i,v); 
-                            detM.ajouter( detection );
+                            if(detM.ajouter( detection ) && detection.getC
                         }
                     }
                     

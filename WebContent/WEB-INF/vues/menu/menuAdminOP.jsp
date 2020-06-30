@@ -3,7 +3,7 @@
 
 <%@ taglib tagdir="/WEB-INF/tags/menu" prefix="m"%>
 
-<div class="nav flex-column  text-center  p-4" >
+<div class="nav flex-column  text-center " >
 </div>
 
 <div class=" overflow-hidden mt-1 border-right border-light">
