@@ -21,7 +21,7 @@
 	<c:otherwise>
 		<div class="img-fluid ">
 			<img class="${class_}"
-				src='<c:url value="${empty default_img|| defautl_img==null?'/public/img/notfound.png':default_img}"/>'
+				src='<c:url value="${empty default_img|| default_img==null?'/public/img/notfound.png':default_img}"/>'
 				width="${size}" />
 		</div>
 
