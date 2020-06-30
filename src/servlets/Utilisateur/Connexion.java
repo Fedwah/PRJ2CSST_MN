@@ -69,6 +69,8 @@ public class Connexion extends HttpServlet {
 	        utilisateur= User.connecter(nomUtilisateur,motdepasse) ;
 	        		  
 		            if (utilisateur != null) {
+
+                       
 		               
 		                /* Code avant changement pas @Syphax
 		                 * 
@@ -76,12 +78,19 @@ public class Connexion extends HttpServlet {
 		               PageGenerator pg1 = new PageGenerator("/WEB-INF/index.jsp", "/pieces", "Menu",);		              
 		               
 		        	   resultat = "Vous etes connect� ! .";
+
 		        	   request.setAttribute("connected", true);
 		        	   pg1.generate( getServletContext(), request, response);
 		        	  
 		    	      */
 		                
 		                session.setAttribute( ATT_SESSION_USER, utilisateur );
+		                int id =utilisateur.getId();
+		                String role =utilisateur.getRole();
+		                String type =utilisateur.getType();
+		                session.setAttribute( "role", role );
+		                session.setAttribute( "type", type );
+		                session.setAttribute("id", id );
 		                PageGenerator pg1 = new PageGenerator( "/pieces" );
 		                pg1.redirect( getServletContext(), request, response );
 		                

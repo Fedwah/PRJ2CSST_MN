@@ -1,31 +1,26 @@
 package beans.session.general;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import javax.persistence.CascadeType;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Query;
 
-import beans.entities.vehicules.Modele;
+import beans.entities.regions.unites.Unite;
+import beans.entities.utilisateurs.Utilisateur;
 import beans.session.general.fields.EntityFields;
 import beans.session.general.fields.FieldDefinition;
+import beans.session.general.page.PageGenerator;
 
 public abstract class BeanManager<T> {
 
-    private Class<T> beanClass;
-    private EntityFields<T> fields ;
+    private Class<T>        beanClass;
+    private EntityFields<T> fields;
+
     public BeanManager() {
         // TODO Auto-generated constructor stub
     }
@@ -73,6 +68,7 @@ public abstract class BeanManager<T> {
             return false;
         }
     }
+
     public boolean trouverSupprimer( Object id ) {
         T bean;
         if ( id != null ) {
@@ -92,23 +88,24 @@ public abstract class BeanManager<T> {
     }
 
     public List<T> lister() {
-        return this.getEntityManger().createQuery( "SELECT b from " + beanClass.getName() + " b" ).getResultList();
+        
+        return lister(new HashMap<String, Object>());
+
     }
 
     public List<T> lister( Map<String, Object> fields ) {
 
-        return this.QuerryBuilder( fields, true,"").getResultList();
+        return this.QuerryBuilder( fields, true, "" ).getResultList();
 
     }
-    
+
     public List<T> searchby( Map<String, Object> fields ) {
-        return this.QuerryBuilderSearch( fields, true,"").getResultList();
+        return this.QuerryBuilderSearch( fields, true, "" ).getResultList();
     }
-    
-    
-    public List<T> lister( Map<String, Object> fields, String orderBy) {
 
-        return this.QuerryBuilder( fields, true ,orderBy).getResultList();
+    public List<T> lister( Map<String, Object> fields, String orderBy ) {
+
+        return this.QuerryBuilder( fields, true, orderBy ).getResultList();
 
     }
 
@@ -136,17 +133,13 @@ public abstract class BeanManager<T> {
     }
 
     public T trouver( Map<String, Object> fields ) {
-    	try {
-    		return (T) this.QuerryBuilder( fields, true ,"").getSingleResult();
-    	}
-    	catch(Exception e)
-    	{
-    		e.printStackTrace();
-    		return null;
-    	}
-       }
-
-   
+        try {
+            return (T) this.QuerryBuilder( fields, true, "" ).getSingleResult();
+        } catch ( Exception e ) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     /**
      * // mise � jour dans la base de donn�e
@@ -166,7 +159,8 @@ public abstract class BeanManager<T> {
             beanF.updateChange( newBean, bean );
             return true;
         }
-        System.out.println( "Change in "+this.beanClass.getName()+"updated "+ (this.getEntityManger().contains( bean )) );
+        System.out.println(
+                "Change in " + this.beanClass.getName() + "updated " + ( this.getEntityManger().contains( bean ) ) );
         return false;
 
     }
@@ -192,178 +186,193 @@ public abstract class BeanManager<T> {
 
     }
 
-    private Query QuerryBuilder(Map<String, Object> values,boolean and,String orderBy) {
-        
+    private Query QuerryBuilder( Map<String, Object> values, boolean and, String orderBy ) {
+
         EntityFields<T> fields = new EntityFields<T>();
         String where = "";
         String join = "";
         String q = null;
+
+        values.putAll( getUserRoleFiltre() );
         
-        System.out.println(this.beanClass);
+        System.out.println( this.beanClass );
         fields.generateFields( this.beanClass );
         System.out.println( "fields : " + fields.fields().toString() );
-        join = joinBuilder(fields,values);
-        System.out.println("join est "+ join);
-        where = whereBuilder(fields,values, and );
-        System.out.println("where est "+ where);
+        join = joinBuilder( fields, values );
+        System.out.println( "join est " + join );
+        where = whereBuilder( fields, values, and );
+        System.out.println( "where est " + where );
         q = "SELECT b FROM " + beanClass.getName() + " b" +
-                (join!=""?" JOIN "+ join:"")+ 
-                (where != "" ? " WHERE " + where : "" )+
-                (orderBy!=""?" ORDER BY b."+orderBy:"");
-        
-       
-        
-        System.out.println( "Query genrated: "+ q );
-        
-        Query query = this.getEntityManger().createQuery(q);
-        
+                ( join != "" ? " JOIN " + join : "" ) +
+                ( where != "" ? " WHERE " + where : "" ) +
+                ( orderBy != "" ? " ORDER BY b." + orderBy : "" );
+
+        System.out.println( "Query genrated: " + q );
+
+        Query query = this.getEntityManger().createQuery( q );
+
         System.out.println( "Query Builded " );
-        
+
         for ( Map.Entry<String, Object> mapentry : values.entrySet() ) {
-            //System.out.println( "Bounded :"+fields.getValidName(( mapentry.getKey()))+" "+ mapentry.getValue());
-            query.setParameter( (String) fields.getValidName(( mapentry.getKey())), mapentry.getValue() );
+            // System.out.println( "Bounded :"+fields.getValidName((
+            // mapentry.getKey()))+" "+ mapentry.getValue());
+            query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ), mapentry.getValue() );
         }
-       
-        
+
         return query;
     }
-    
 
-private Query QuerryBuilderSearch(Map<String, Object> values,boolean and,String orderBy) {
-        
-        
+    private Query QuerryBuilderSearch( Map<String, Object> values, boolean and, String orderBy ) {
+
         String where = "";
         String join = "";
         String q = null;
-        
+
+        values.putAll( getUserRoleFiltre() );
         
         fields.generateFields( this.beanClass );
         System.out.println( "fields : " + fields.fields().toString() );
-        join = joinBuilder(fields,values);
-        
-        where = whereBuilderSearch(fields,values, and );
-        
+        join = joinBuilder( fields, values );
+
+        where = whereBuilderSearch( fields, values, and );
+
         q = "SELECT b FROM " + beanClass.getName() + " b" +
-                (join!=""?" JOIN "+ join:"")+ 
-                (where != "" ? " WHERE " + where : "" )+
-                (orderBy!=""?" ORDER BY b."+orderBy:"");
-        
-       
-        
-       
-        
-        Query query = this.getEntityManger().createQuery(q);
-        
-        System.out.println( "Query Build: "+ q );
-        
+                ( join != "" ? " JOIN " + join : "" ) +
+                ( where != "" ? " WHERE " + where : "" ) +
+                ( orderBy != "" ? " ORDER BY b." + orderBy : "" );
+
+        Query query = this.getEntityManger().createQuery( q );
+
+        System.out.println( "Query Build: " + q );
+
         for ( Map.Entry<String, Object> mapentry : values.entrySet() ) {
-            query.setParameter( (String) fields.getValidName(( mapentry.getKey())), "%"+mapentry.getValue()+"%" );
+            query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ),
+                    "%" + mapentry.getValue() + "%" );
         }
-        
+
         return query;
     }
-    
-    private String joinBuilder( EntityFields<T> fields, Map<String,Object> values ) {
+
+    private String joinBuilder( EntityFields<T> fields, Map<String, Object> values ) {
         String j = "";
         Iterator<Map.Entry<String, Object>> it = values.entrySet().iterator();
-        Map<String,FieldDefinition> map = fields.fields();
-        
-        
+        Map<String, FieldDefinition> map = fields.fields();
+
         while ( it.hasNext() ) {
             Map.Entry<String, Object> f = it.next();
-           
-            if(!map.get(fields.getValidName( f.getKey())).isBasicClass) {
-                j = j+"b."+f.getKey().substring( 0, f.getKey().indexOf( '.' ) )+" "+fields.getValidName(f.getKey());
-                if(it.hasNext()) {
-                    j = j+" JOIN ";
+
+            if ( !map.get( fields.getValidName( f.getKey() ) ).isBasicClass ) {
+                j = j + "b." + f.getKey().substring( 0, f.getKey().indexOf( '.' ) ) + " "
+                        + fields.getValidName( f.getKey() );
+                if ( it.hasNext() ) {
+                    j = j + " JOIN ";
                 }
             }
-           
+
         }
-      
+
         return j;
     }
 
-    private String whereBuilder(EntityFields<T> fields,Map<String, Object> values, boolean and) {
+    private String whereBuilder( EntityFields<T> fields, Map<String, Object> values, boolean and ) {
         String qr = "";
-       
+
         Iterator<Map.Entry<String, Object>> iterator = values.entrySet().iterator();
-        Map<String,FieldDefinition> map = fields.fields();
-        
-        
+        Map<String, FieldDefinition> map = fields.fields();
+
         while ( iterator.hasNext() ) {
             Map.Entry<String, Object> f = iterator.next();
-            
-            
-            if(map.get(fields.getValidName(f.getKey())).isBasicClass){
+
+            if ( map.get( fields.getValidName( f.getKey() ) ).isBasicClass ) {
                 qr = qr + " b." + f.getKey() + " = :" + f.getKey();
-            }else {
-                qr = qr +f.getKey()+ " = :" + fields.getValidName(f.getKey());
+            } else {
+                qr = qr + f.getKey() + " = :" + fields.getValidName( f.getKey() );
             }
-            
-            
+
             if ( iterator.hasNext() ) {
                 qr = qr + ( and ? " and " : " or " );
             }
         }
-        
-        
-        
+
         return qr;
     }
-    
-   
-    private String whereBuilderSearch(EntityFields<T> fields,Map<String, Object> values, boolean and) {
+
+    private String whereBuilderSearch( EntityFields<T> fields, Map<String, Object> values, boolean and ) {
         String qr = "";
-       
+
         Iterator<Map.Entry<String, Object>> iterator = values.entrySet().iterator();
-        Map<String,FieldDefinition> map = fields.fields();
-        
-        
+        Map<String, FieldDefinition> map = fields.fields();
+
         while ( iterator.hasNext() ) {
             Map.Entry<String, Object> f = iterator.next();
-            
-            
-            if(map.get(fields.getValidName(f.getKey())).isBasicClass){
-                qr = qr + " b." + f.getKey() + " like :" + f.getKey() ;
-            }else {
-                qr = qr +f.getKey()+ " like :" + fields.getValidName(f.getKey());
+
+            if ( map.get( fields.getValidName( f.getKey() ) ).isBasicClass ) {
+                qr = qr + " b." + f.getKey() + " like :" + f.getKey();
+            } else {
+                qr = qr + f.getKey() + " like :" + fields.getValidName( f.getKey() );
             }
-            
-            
+
             if ( iterator.hasNext() ) {
                 qr = qr + ( and ? " and " : " or " );
             }
         }
-        
-        
-        
+
         return qr;
     }
-   
-    
+
     public T ObtenirDernier() {
-        List<?> l  = this.getEntityManger()
-                .createQuery( "SELECT b from "+this.beanClass.getName()+" b ORDER by "+this.fields.getIdField().name+" DESC")
+        List<?> l = this.getEntityManger()
+                .createQuery( "SELECT b from " + this.beanClass.getName() + " b ORDER by "
+                        + this.fields.getIdField().name + " DESC" )
                 .setMaxResults( 1 )
                 .getResultList();
-        
-        if(l.size()>0) {
-           return (T)l.get( 0 );
-        }else
+
+        if ( l.size() > 0 ) {
+            return (T) l.get( 0 );
+        } else
             return null;
-                
+
     }
-    
-    public T ObtenirDernier(Map<String,Object> filtre) {
-        List<?> l  = this.QuerryBuilder( filtre, true, this.fields.getIdField().name+" DESC")
+
+    public T ObtenirDernier( Map<String, Object> filtre ) {
+        List<?> l = this.QuerryBuilder( filtre, true, this.fields.getIdField().name + " DESC" )
                 .setMaxResults( 1 ).getResultList();
-        if(l.size()>0) {
-            return (T)l.get( 0 );
-         }else
-             return null;
-                 
-        
+        if ( l.size() > 0 ) {
+            return (T) l.get( 0 );
+        } else
+            return null;
+
     }
-   
+
+    private Map<String, Object> getUserRoleFiltre() {
+
+        Map<String, Object> filtre = new LinkedHashMap<String, Object>();
+
+        FieldDefinition f = null;
+        String idName = "";
+        Object value = null;
+        try {
+            Utilisateur u = PageGenerator.getUtilisateur();
+            if ( u != null ) {
+
+                f = this.fields.getFieldByClass( Unite.class );
+               
+                if ( f != null ) {
+                    System.out.println( "call get method : " + f.name );
+                    value =  u.getCodeun();
+                    idName = this.fields.getChildId( f.name );
+                    if(value!=null) 
+                        filtre.put(f.name+"."+idName,value);
+                }
+
+            }
+        } catch ( Exception e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        }
+        System.out.println( "Role filter : " + filtre);
+        return filtre;
+    }
+
 }

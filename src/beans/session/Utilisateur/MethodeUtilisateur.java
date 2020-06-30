@@ -23,8 +23,7 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
 	    private static final String JPQL_SELECT_PAR_ID = "DELETE FROM Utilisateur u WHERE u.id=:id";
 	    private static final String JPQL_MODIF_PAR_ID = "UPDATE Utilisateur u SET "
 	    		+ "u.nomUtilisateur=:nomUtilisateur,"
-	    		+ "u.motDePasse=:motdepasse,"
-	    		+ "u.role=:role  "
+	    		+ "u.motDePasse=:motdepasse "
 	    		+ "WHERE u.id=:id";
 	    private static final String JPQL_SELECT_PAR_EMAIL_PASS = "SELECT u FROM Utilisateur u WHERE u.nomUtilisateur =:nomUtilisateur and u.motDePasse=:motdepasse";
 	    private static final String PARAM_NOM   = "nom";
@@ -50,7 +49,7 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
             em.persist( utilisateur );
                                                    }
     
- // Recherche d'un utilisateur à partir de son nom 
+ // Recherche d'un utilisateur ï¿½ partir de son nom 
     public List<Utilisateur> trouverNOM( String nom )   {
       /*  Utilisateur utilisateur = null;*/
         List<Utilisateur> list = null ;
@@ -70,7 +69,7 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
     }
     
     
- // Recherche d'un utilisateur à partir de son Prenom 
+ // Recherche d'un utilisateur ï¿½ partir de son Prenom 
     public Utilisateur trouverPRENOM( String prenom )   {
         Utilisateur utilisateur = null;
     	
@@ -89,7 +88,7 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
       
     }
     
-    //Récupérer tous les utilisateurs
+    //Rï¿½cupï¿½rer tous les utilisateurs
     public List<Utilisateur> recupererTOUTUtilisateur() {
 	   
 		return em.createQuery("SELECT u FROM Utilisateur u").getResultList();
@@ -104,7 +103,7 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
         	  result = "Impossible de supprimer l'utilisateur";	
     }
           else {
-        	  result = "Utilisateur supprimé !";	
+        	  result = "Utilisateur supprimï¿½ !";	
           }
           return result;
           
@@ -112,16 +111,15 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
 }
     
   // Modfier un utilisateur 
-    public String modifierUser (int id,String nomUtilisateur,String motdepasse, String role )
+    public String modifierUser (int id,String nomUtilisateur,String motdepasse )
     {
     	 
-          int modif = em.createQuery(JPQL_MODIF_PAR_ID).setParameter(PARAM_ID, id).setParameter(PARAM_USER2,nomUtilisateur).setParameter(PARAM_PASS, motdepasse).setParameter(PARAM_ROLE, role)
-        		  .executeUpdate();
+          int modif = em.createQuery(JPQL_MODIF_PAR_ID).setParameter(PARAM_ID, id).setParameter(PARAM_USER2,nomUtilisateur).setParameter(PARAM_PASS, motdepasse).executeUpdate();
           if (modif == 0) {
               result = "Impossible de modifier l'utilisateur";	
     }else
     {
-    	      result = "Utilisateur modifié !";	
+    	      result = "Utilisateur modifiï¿½ !";	
     }
               return result;
 
@@ -143,14 +141,14 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
 	}  
     
     
-    //Récupérer tous les coderegs
+    //Rï¿½cupï¿½rer tous les coderegs
     public List<String> recupererCodereg() {
 	   
 		return em.createQuery("SELECT r FROM Region r").getResultList();
 	}
     
     
-    //Récupérer tous les coderuns
+    //Rï¿½cupï¿½rer tous les coderuns
     public List<String> recupererCodeun() {
 	   
 		return em.createQuery("SELECT u FROM Unite u").getResultList();
@@ -178,9 +176,6 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
         	}
        
 
-    
-    
-    
     
 
 	@Override

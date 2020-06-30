@@ -28,11 +28,9 @@
 					
 				</div>
 				
+				<form:input name="${names.unite}" type="texte" 
+					value="${empty vehicule.unite ? unite.codeUN :vehicule.unite.codeUN}" isDisabled="${true }"/>
 			
-				<form:select name="${names.unite}" fieldToTest="codeUN" col="" fieldToPrint="adress" 
-					selectedValue="${vehicule.unite.codeUN}" fieldID="codeUN"
-					items="${unites}" label="Structure de ratachement" addLink="/regions">
-				</form:select>
 				
 				<div class="form-row">
 					<form:select fieldID="titre" fieldToTest="titre"

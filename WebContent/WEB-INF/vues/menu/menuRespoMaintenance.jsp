@@ -6,6 +6,7 @@
 <div class="overflow-hidden mt-1 border-right border-light">
 <ul class="nav flex-column pl-1">
 
+
 	<m:link label="Utilisateurs" value="/Utilisateurs" img="/public/img/menu/profile_nobackground.png" 
 	size="38px" top="0px" left="10px" topI="0px" leftI="5px"
 	/>
@@ -23,9 +24,6 @@
 	/>
 	<m:link label="Guides" value="/Fichiers" img="/public/img/menu/i.png" 
 	size="22px" top="0px" left="27px" topI="-3px" leftI="15px"
-	/>
-	<m:link label="Directives" value="#" img="/public/img/menu/directive.png" 
-	size="25px" top="0px" left="27px" topI="-2px" leftI="15px"
 	/>
 	
 </ul>

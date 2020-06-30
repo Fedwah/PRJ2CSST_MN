@@ -1,102 +1,23 @@
 package beans.entities.maintenance.niveaux;
 
-import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import beans.entities.regions.unites.Unite;
-
-@Entity
-public class Niveau implements Serializable {
+public enum Niveau {
+	niv1("Niveau 1", "Actions simples nécessaires à l’exploitation et réalisées sur des éléments facilement accessibles en toute sécurité" + 
+			"à l’aide d’équipements de soutien intégrés au bien."),
+	niv2("Niveau 2","Actions qui nécessitent des procédures simples et/ou des équipements de soutien (intégrés au bien ou extérieurs)" + 
+			"d’utilisation ou de mise en œuvre simple."),
+	niv3("Niveau 3","Opérations qui nécessitent des procédures complexes et/ou des équipements de soutien portatifs, d’utilisation ou" + 
+			"de mise en œuvre complexes"),
+	niv4("Niveau 4","Opérations dont les procédures impliquent la maîtrise d’une technique ou technologie particulière et/ou la mise en" + 
+			"œuvre d’équipements de soutien spécialisés."),
+	niv5("Niveau 5","Opérations dont les procédures impliquent un savoir-faire, faisant appel à des techniques ou technologies particulières,"
+			+ " des processus et/ou des équipements de soutien industriels.");
 	
-	// id
-	@Id 
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int idNiv;
-	
-	// nom 	
-	@NotEmpty
-	@Size(min=3,max=20)
-	private String niveau;
-	
-	// criticité max 
-	private int maxC;
-	
-	// criticité min 
-	private int minC;
+	public final String label; // niveau
+	public final String desc; // description
 
-
-	// constructors
-	public Niveau() {
-
-	}
-
-	public Niveau(int idNiv) {
-		super();
-		this.idNiv = idNiv;
+	private Niveau(String label,String desc) {
+		this.label = label;
+		this.desc = desc;
 	}
 	
-	
-
-
-	public Niveau(int idNiv, String niveau, int maxC, int minC) {
-		super();
-		this.idNiv = idNiv;
-		this.niveau = niveau;
-		this.maxC = maxC;
-		this.minC = minC;
-	}
-
-	public Niveau(String niveau, int maxC, int minC) {
-		super();
-		this.niveau = niveau;
-		this.maxC = maxC;
-		this.minC = minC;
-	}
-
-	// getters and setters 
-	
-
-
-
-	public int getIdNiv() {
-		return idNiv;
-	}
-
-
-	public void setIdNiv(int idNiv) {
-		this.idNiv = idNiv;
-	}
-
-
-	public String getNiveau() {
-		return niveau;
-	}
-
-
-	public void setNiveau(String niveau) {
-		this.niveau = niveau;
-	}
-
-	public int getMaxC() {
-		return maxC;
-	}
-
-	public void setMaxC(int maxC) {
-		this.maxC = maxC;
-	}
-
-	public int getMinC() {
-		return minC;
-	}
-
-	public void setMinC(int minC) {
-		this.minC = minC;
-	}
 }

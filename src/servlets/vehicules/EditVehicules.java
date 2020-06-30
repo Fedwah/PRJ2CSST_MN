@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.general.Image;
+import beans.entities.utilisateurs.Utilisateur;
 import beans.entities.vehicules.CategorieVehicule;
 import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
@@ -32,7 +33,7 @@ import beans.session.vehicules.marques.modeles.ModeleManager;
 @WebServlet( "/Vehicules/edit/*" )
 @MultipartConfig( maxFileSize = 16177215 ) // upload file's size up to 16MB
 public class EditVehicules extends HttpServlet {
-    private static final String ATT_UNITES = "unites";
+    private static final String ATT_UNITE = "unite";
     private static final String ATT_NAMES = "names";
     private static final String ATT_LABELS = "labels";
     private static final String ATT_CATEGORIES_VEHICULE = "categories";
@@ -89,6 +90,8 @@ public class EditVehicules extends HttpServlet {
         
         id = pg.getPathId( request );
 
+        Utilisateur u = pg.getUtilisateur( request );
+        
         if ( id != "" ) {
             v = vehM.trouver( id );
             trouver = ( v != null );
@@ -99,15 +102,16 @@ public class EditVehicules extends HttpServlet {
         }
         
        
+        request.setAttribute( ATT_LABELS,vehiculeF.getEntityFields().labels());
+        request.setAttribute( ATT_NAMES,vehiculeF.getEntityFields().names());
         request.setAttribute( ATT_VEHICULE, v );
-        request.setAttribute( ATT_NAMES, vehiculeF.getEntityFields().names());
-        request.setAttribute( ATT_MARQUES, marM.lister());
-        request.setAttribute( ATT_MODELES, modM.lister());
-        request.setAttribute( ATT_UNITES, uM.lister() );
-        request.setAttribute( ATT_CATEGORIES_VEHICULE,categM.lister());
+        request.setAttribute( ATT_MARQUES, marM.lister() );
+        request.setAttribute( ATT_MODELES, modM.lister() );
+        request.setAttribute( ATT_UNITE, (u!=null?u.getCodeun():"Pas d'unité") );
+        request.setAttribute( ATT_CATEGORIES_VEHICULE, categM.lister() );
         request.setAttribute( ATT_ETATS, etaM.lister() );
-        request.setAttribute( ATT_DISABLE_ID, ( !trouver ? false : true ) );
-
+        request.setAttribute( ATT_ERREURS, vehiculeF.getErreurs() );
+        request.setAttribute( ATT_DISABLE_ID, v!=null );
         pg.generate( getServletContext(), request, response );
 
     }
@@ -125,6 +129,7 @@ public class EditVehicules extends HttpServlet {
 
         VehiculeFactory vehiculeF = new VehiculeFactory(Vehicule.class);
         
+        Utilisateur u = pg.getUtilisateur( request );
        
         
         Vehicule old_v = vehM.trouver( id );
@@ -164,10 +169,11 @@ public class EditVehicules extends HttpServlet {
         request.setAttribute( ATT_VEHICULE, new_v );
         request.setAttribute( ATT_MARQUES, marM.lister() );
         request.setAttribute( ATT_MODELES, modM.lister() );
-        request.setAttribute( ATT_UNITES, uM.lister() );
+        request.setAttribute( ATT_UNITE, (u!=null?u.getCodeun():"Pas d'unité") );
         request.setAttribute( ATT_CATEGORIES_VEHICULE, categM.lister() );
         request.setAttribute( ATT_ETATS, etaM.lister() );
         request.setAttribute( ATT_ERREURS, vehiculeF.getErreurs() );
+        request.setAttribute( ATT_DISABLE_ID,new_v!=null );
         pg.generate( getServletContext(), request, response );
 
     }

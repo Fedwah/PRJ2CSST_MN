@@ -117,6 +117,10 @@ public class createUser extends HttpServlet {
 	            	codeun=null;
 	            	role="Utilisateur";
 	            }
+	            if (type.contentEquals("Operationnel") && role.contentEquals("Admin"))
+	            {
+	            	poste=null;
+	            }
 	            Utilisateur utilisateur = new Utilisateur(nomUtilisateur, motDePasse, nom, prenom, type, role, codereg,codeun, poste);
 		        User.creer(utilisateur) ;
 		        request.setAttribute( ATT_ERREURS, erreurs );

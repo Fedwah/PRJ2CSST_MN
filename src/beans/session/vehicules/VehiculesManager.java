@@ -59,7 +59,7 @@ public class VehiculesManager  extends BeanManager<Vehicule>{
         Vehicule v = super.trouver( id );
         if(v!=null) {
             v.getUnite();
-            //System.out.println("unite init "+v.getUnite());
+            System.out.println("unite init "+v.getUnite());
         }
         return v;
     }

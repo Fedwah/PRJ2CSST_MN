@@ -42,6 +42,8 @@ public class PageGenerator {
     private String              errorPage;
     
     private SessionManager sessionManager;
+    public static Utilisateur pageUser;
+    
     public PageGenerator() {
         super();
         this.sessionManager = new SessionManager();
@@ -268,7 +270,22 @@ public class PageGenerator {
         getSessionManager().remove( request, name );
     }
     
-    public Utilisateur getUtilisateur(HttpServletRequest request) {
-        return  (Utilisateur) get( request, Connexion.ATT_SESSION_USER );
+    public  Utilisateur getUtilisateur(HttpServletRequest request) {
+        
+        pageUser = (Utilisateur) get( request, Connexion.ATT_SESSION_USER );
+        return pageUser;
+    
     }
+    
+    
+    public static Utilisateur getUtilisateur() throws Exception {
+        if(pageUser==null) {
+            
+            throw new Exception( "Page user not initialized , with pg.getUtilisateur" );
+        }
+        System.out.println( "getUtilisateur appelé" );
+        return pageUser;
+    }
+    
+    
 }
