@@ -57,9 +57,9 @@ public class AmdecAPI extends HttpServlet {
     @EJB
     private DetectionManager detM;
     
-    private static final String MSG_ERR = "Operation non existente , "
-            + "essayé avec : api/amdec/causes,api/amdec/effets,api/amdec/defaillances ou api/amdec/intructions pour les lister"
-            + " et api/amdec/causes/{titre} ,api/amdec/effets/{titre},api/amdec/defaillances/{titre} pour ajouter"
+    private static final String MSG_ERR = "Operation non existente ,  "
+            + "essayé avec :  api/amdec/causes , api/amdec/effets, api/amdec/defaillances ou api/amdec/intructions pour les lister "
+            + " et api/amdec/causes/{titre} ,api/amdec/effets/{titre},api/amdec/defaillances/{titre} pour ajouter "
             + " pour ajouter une detections faite :"
             + "api/amdec/detecter/{matricule_interne}/{id piece}/{id defaillance}/{id cause}/{id effet}";
 
@@ -92,16 +92,18 @@ public class AmdecAPI extends HttpServlet {
         Detection detection = null;
         Instruction i =null;
         List<?> out = null;
-        Boolean OpNotFound = false;
         
-        if ( ids != null && ids.length >= 1 ) {
+        Boolean success = true;
+        String message =MSG_ERR;
+        
+        if(success=( ids != null && ids.length >= 1 )) {
             switch ( ids[0] ) {
             case "causes":
                 if(ids.length==2) { //ajouter
                     c = cF.createValidateAjouter( request,new Cause( ids[1] ),causeManager );
                     if(c == null) {
-                        
-                       pg.generateJSON( response, false, "Echec de l'operation "+cF.getErreurs());
+                        success = false;
+                        message  = "Echec de l'operation "+cF.getErreurs();
                          
                     }
                 }else { //lister
@@ -113,7 +115,8 @@ public class AmdecAPI extends HttpServlet {
                 if(ids.length==2) { //ajouter
                     e = eF.createValidateAjouter( request,new Effet( ids[1] ),effManager );
                     if(e==null) {
-                        pg.generateJSON( response, false, "Echec de l'operation"+eF.getErreurs());
+                        success = false;
+                        message  = "Echec de l'operation "+eF.getErreurs();
                      }
                 }else { //lister
                     out = effManager.lister();
@@ -124,7 +127,10 @@ public class AmdecAPI extends HttpServlet {
                 if(ids.length==2) { //ajouter
                     d = dF.createValidateAjouter( request, new Defaillance( ids[1] ),defaiManager );
                     if(d==null) {
-                        pg.generateJSON( response, false, "Echec de l'operation"+dF.getErreurs());
+                        
+                        success = false;
+                        message  = "Echec de l'operation"+dF.getErreurs();
+                        
                      }
                 }else { //lister
                     out = defaiManager.lister();
@@ -137,7 +143,7 @@ public class AmdecAPI extends HttpServlet {
             case "detecter":
                 if(ids.length== 6) {
                     InstructionFactory iF = new InstructionFactory();
-                    DetectionFactory detF = new DetectionFactory();
+                 
                     Vehicule v = vehM.trouver( ids[1] );
                     if(v!=null){
                         iF.filtreIntruction(v.getModele().getId(),
@@ -153,6 +159,9 @@ public class AmdecAPI extends HttpServlet {
                         if(i!=null) {
                             detection= new Detection(i,v); 
                             detM.ajouter( detection );
+                        }else {
+                            success  = false;
+                            message  = "Instruction "+ iF.getFiltres() + "inexistente ";
                         }
                     }
                     
@@ -160,7 +169,8 @@ public class AmdecAPI extends HttpServlet {
                 break;
                 
             default:
-               OpNotFound = true;
+               success  = false;
+              
             }
             
           
@@ -168,19 +178,19 @@ public class AmdecAPI extends HttpServlet {
         }
         
         if(out!=null) {
+            
             List<JSONObject> objects = new ArrayList<JSONObject>();
             for ( Object o : out ) {
                 objects.add( new JSONObject( o ) );
             }
             pg.generateJSON( response, objects );
-        }else if(e!=null || d!=null || c!=null  || detection!=null) {   
-           pg.generateJSON( response, true, "Ajout reussie" );
-        }else if (i==null){
-            pg.generateJSON( response, false, ids+" instruction inexistence " ); 
-        }else  if(!OpNotFound) {
-            pg.generateJSON( response, false, "Echec de l'operation" ); 
+            
+        }else if (success) {
+        
+            pg.generateJSON( response, true,"Ajout reussie");  
+        
         }else {
-            pg.generateJSON( response, false,MSG_ERR);  
+            pg.generateJSON( response, false,message); 
         }
 
     }

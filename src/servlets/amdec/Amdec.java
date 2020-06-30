@@ -89,7 +89,7 @@ public class Amdec extends HttpServlet {
      */
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
-        PageGenerator pg = new PageGenerator( AMDEC, "Analyse AMDEC" );
+       
         String active = ""; // Pour garder le dernier tab selectionner
 
         // volet cause
@@ -126,6 +126,7 @@ public class Amdec extends HttpServlet {
             
         }
         
+        request.setAttribute( "active", active);
         doGet( request, response );
 
     }
