@@ -96,7 +96,7 @@
 		      <label id="postelabel">Poste de l'utilisateur au sein de l'unité operationnelle  </label> 
 			   <div class="input-group mb-3" >			
                 <select id="poste" class="form-control"  name="poste" onchange="show()" >
-                 
+                 <option value="">  </option>
                  <option value="Responsable de maintenance"> Responsable de maintenance </option>
                  <option value="Responsable du parc" > Responsable du parc </option>
 				 <c:out value="${param.poste}" />  
@@ -167,6 +167,7 @@
 	 $("#codereglabel").show ()
 	  
      }
+   
  }
 </script>
 

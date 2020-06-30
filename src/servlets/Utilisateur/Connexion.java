@@ -72,6 +72,12 @@ public class Connexion extends HttpServlet {
 		               System.out.println("utilisateur trouvé");
 		               PageGenerator pg1 = new PageGenerator("/WEB-INF/index.jsp", "/pieces", "Menu", "");		              
 		               session.setAttribute( ATT_SESSION_USER, utilisateur );
+		               String role = utilisateur.getRole();
+		               session.setAttribute( "role", role );
+		               String type=utilisateur.getType();
+		               session.setAttribute( "type", type );
+		               int id = utilisateur.getId();
+		               session.setAttribute( "id", id );
 		        	   resultat = "Vous etes connecté ! .";
 		        	   request.setAttribute("connected", true);
 		        	   pg1.generate( getServletContext(), request, response);

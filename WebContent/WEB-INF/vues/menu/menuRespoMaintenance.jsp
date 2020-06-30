@@ -12,7 +12,7 @@
 	<m:link label="Pièces" value="/pieces" img="/public/img/menu/white settings.png" size="30px"/>
 	<m:link label="AMDEC" value="#" img="" size="30px"/>
 	<m:link label="Guides" value="/Fichiers" img="" size="30px"/>
-	<m:link label="Directives" value="#" img="/public/img/menu/directive.png" size="30px"/>
+	<m:link label="Directives" value="/listerDirective" img="/public/img/menu/directive.png" size="30px"/>
 	
 </ul>
 </div>

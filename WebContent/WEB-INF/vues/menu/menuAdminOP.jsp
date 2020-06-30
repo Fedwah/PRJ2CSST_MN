@@ -24,7 +24,7 @@
 	<div></div>
 	<m:link label="Guides" value="/Fichiers" img="" size="30px"/>
 	<div></div>
-	<m:link label="Directives" value="#" img="/public/img/menu/directive.png" size="30px"/>
+	<m:link label="Directives" value="/listerDirective" img="/public/img/menu/directive.png" size="30px"/>
 
 </ul>
 </div>
