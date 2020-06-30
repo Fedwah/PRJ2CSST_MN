@@ -69,18 +69,8 @@ public class Connexion extends HttpServlet {
 	        utilisateur= User.connecter(nomUtilisateur,motdepasse) ;
 	        		  
 		            if (utilisateur != null) {
-<<<<<<< HEAD
-		               System.out.println("utilisateur trouvé");
-		               PageGenerator pg1 = new PageGenerator("/WEB-INF/index.jsp", "/pieces", "Menu", "");		              
-		               session.setAttribute( ATT_SESSION_USER, utilisateur );
-		               String role = utilisateur.getRole();
-		               session.setAttribute( "role", role );
-		               String type=utilisateur.getType();
-		               session.setAttribute( "type", type );
-		               int id = utilisateur.getId();
-		               session.setAttribute( "id", id );
-		        	   resultat = "Vous etes connecté ! .";
-=======
+
+
 		               
 		                /* Code avant changement pas @Syphax
 		                 * 
@@ -88,7 +78,7 @@ public class Connexion extends HttpServlet {
 		               PageGenerator pg1 = new PageGenerator("/WEB-INF/index.jsp", "/pieces", "Menu",);		              
 		               
 		        	   resultat = "Vous etes connectï¿½ ! .";
->>>>>>> branch 'master' of https://github.com/Fedwah/PRJ2CSST_MN.git
+
 		        	   request.setAttribute("connected", true);
 		        	   pg1.generate( getServletContext(), request, response);
 		        	  

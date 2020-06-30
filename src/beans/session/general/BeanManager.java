@@ -228,6 +228,8 @@ public abstract class BeanManager<T> {
         String join = "";
         String q = null;
 
+        values.putAll( getUserRoleFiltre() );
+        
         fields.generateFields( this.beanClass );
         System.out.println( "fields : " + fields.fields().toString() );
         join = joinBuilder( fields, values );
