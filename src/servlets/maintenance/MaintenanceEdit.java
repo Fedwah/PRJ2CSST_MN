@@ -22,7 +22,7 @@ import beans.entities.vehicules.Vehicule;
 import beans.session.general.page.PageGenerator;
 import beans.session.maintenance.MaintenanceFactory;
 import beans.session.maintenance.MaintenanceManager;
-import beans.session.maintenance.niveaux.NiveauManager;
+
 import beans.session.pieces.PieceManager;
 
 /**
@@ -36,8 +36,7 @@ public class MaintenanceEdit extends HttpServlet {
 	private static final String TITLE = "Maintenance";
 	@EJB
 	private MaintenanceManager mManager;
-	@EJB
-	private NiveauManager nManager;
+
 	@EJB
 	private PieceManager pManager;
 	private Maintenance m = null;
@@ -71,7 +70,7 @@ public class MaintenanceEdit extends HttpServlet {
 				request.setAttribute("maintenance", m);
 				request.setAttribute("disabled_matricule", true);
 				request.setAttribute("disabled_date", true);
-				request.setAttribute("niveaux", nManager.lister());
+				//request.setAttribute("niveaux", nManager.lister());
 				if(m.getNbP()>0)
 				{
 					Map<String,Object> fields = new HashMap();
@@ -114,7 +113,7 @@ public class MaintenanceEdit extends HttpServlet {
 				request.setAttribute("maintenance", newM);
 				request.setAttribute("disabled_matricule", true);
 				request.setAttribute("disabled_date", true);
-				request.setAttribute("niveaux",nManager.lister());
+				//request.setAttribute("niveaux",nManager.lister());
 				
 				if(newM.getNbP()>0)
 				{
@@ -135,7 +134,7 @@ public class MaintenanceEdit extends HttpServlet {
 			request.setAttribute("maintenance", newM);
 			request.setAttribute("disabled_matricule", true);
 			request.setAttribute("disabled_date", true);
-			request.setAttribute("niveaux",nManager.lister());
+			//request.setAttribute("niveaux",nManager.lister());
 			Map<String,Object> fields = new HashMap();
 			fields.put("modal.id",newM.getV().getModele().getId());	
 			request.setAttribute("piece", pManager.lister(fields));

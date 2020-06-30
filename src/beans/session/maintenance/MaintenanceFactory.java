@@ -19,7 +19,7 @@ import beans.entities.regions.unites.Unite;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.BeanFactory;
 import beans.session.general.BeanManager;
-import beans.session.maintenance.niveaux.NiveauManager;
+
 import beans.session.pieces.PieceManager;
 import beans.session.vehicules.VehiculesManager;
 

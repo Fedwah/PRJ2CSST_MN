@@ -19,5 +19,15 @@ public enum Niveau {
 		this.label = label;
 		this.desc = desc;
 	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+	
+	
 	
 }

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="container-fluid">
-	<form class="p-4 needs-validation " method="post" action="<c:out value=""/>">
+	
 
 		<!-- ${ erreurs } <!-- pour tester -->
 
@@ -27,73 +27,58 @@
 
 						<label for="marque">Niveaux de maintenance</label>
 						<div class="input-group mb-3">
-							<select id="marque" class="form-control" required="required" name="niveau">
+							<select id="marque" class="form-control" name="niveau" >
 								<c:forEach items="${niveaux}" var="n">
-									<option ${maintenance.niv.idNiv==n.idNiv?"selected":""} value = "${n.idNiv}"> ${n.niveau}</option>
+									<option value = "${n}" >								
+  										<div >${n.label }</div>
+  										<div>${n.desc}</div>											
+									 </option>
 								</c:forEach>
 							</select>
-							<div class="input-group-append">
-								<a class="btn btn-outline-success"
-									href='<c:url value="/maintenance/niveaux"/>'>+</a>
-							</div>
 						</div>
 						
 
 						<label for="recruit">Date de début</label> 
 						<input type="date"
 							class="form-control ${empty erreurs['startDate']?'':'is-invalid'} "
-							id="recruit" required="required" name="recruit"
+							id="recruit" name="recruit"
 							value="<c:out value="${maintenance.startDate}"/>">
 						<div>
 							<c:forEach items='${erreurs["startDate"]}' var="errD">
 								<span class="badge badge-pill badge-danger">${errD}</span>
 							</c:forEach>
 						</div>
-						
-							<label for="nb">Nombre de piece de rechange</label>
-						<div class="input-group mb-3">
-							<input
-								type="text"
-								class='form-control '
-								id="nb" name="nbP"
-								value="<c:out value="${maintenance.nbP}" 
-								/>">
-							
-							<div class="input-group-append">
-								<button type="submit" class="btn btn-outline-success" name="addPiece">+</button>
-							</div>
-							
-						</div>
-						<div>
-							<c:forEach items='${erreurs["piece"]}' var="errD">
-								<span class="badge badge-pill badge-danger">${errD}</span>
-							</c:forEach>
-						</div>
-						<c:forEach var = "i" begin = "1" end = "${maintenance.nbP}">
-         					<label for="marque">Nom de la piece</label>
-						<div class="input-group mb-3">
-							<select id="marque" class="form-control" required="required" name="${i}">
+						<div class="mt-2">
+						<label >Pieces de rechanges</label> 
+						<ol id="olP">
+  						<li>
+  						<div class=" mt-1 col-md-16">
+  							<c:set var="i" value="1"></c:set>
+							<select id="marque" class="form-control" name="${i}">
 								<c:forEach items="${piece}" var="p">
 									<option value = "${p.id}"> ${p.pieceName}</option>
 								</c:forEach>
 							</select>
-							<!-------------------------- <input
-								type="text"
-								class='form-control '
-								id="" name="i"
-								value="<c:out value="${maintenance.pieces[i]}" 
-								/>"
-						
-							>
-							<c:forEach items="${erreurs['i']}" var="errl">
-								<span class="badge badge-pill badge-danger">${errl}</span>
-							</c:forEach> ------------------>
 						</div>
-      					</c:forEach>
+						</li>
+						</ol>
+						</div>
+						<div class=" mt-1 col-md-16" >
+						<button class="btn btn-success" id="btn2" style='width:829px'>Ajouter une autre piece</button>
+						</div>
 						</div>
 					</div>
-
+	<form class="p-4 needs-validation " method="post" action="<c:out value=""/>">
 		<button type="submit" class="btn btn-primary" name="save">Valider</button>
 		<a type="reset" class="btn btn-danger" href='<c:url value="/calendar"/>'>Annuler</a>
 	</form>
 </div>
+<script>
+$(document).ready(function(){
+ 
+
+  $("#btn2").click(function(){
+    $("#olP").append("<div class='mt-1 col-md-16'><li><c:set var='i' value='${i + 1}'></c:set><select id='marque' class='form-control' name='${i}''><c:forEach items='${piece}' var='p'><option value = '${p.id}'> ${p.pieceName}</option></c:forEach></select></li></div>");
+  });
+});
+</script>
