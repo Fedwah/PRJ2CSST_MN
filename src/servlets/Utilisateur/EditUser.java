@@ -31,7 +31,7 @@ public class EditUser extends HttpServlet {
 	    public static final String ATT_RES = "result";
 	    public static final String ATT_ERREURS  = "erreurs";
 	    public static final String CHAMP_CONF   = "confirmation";
-	    public static final String ATT_ROLE = "role";
+ 
 	    private ArrayList<String> role1 = new ArrayList<String>();
 	    int id = 0;
 	    int id1 = 0;
@@ -50,7 +50,7 @@ public class EditUser extends HttpServlet {
 	 PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/EditUsers.jsp","Modifier un utilisateur");
 	 id = Integer.parseInt(request.getPathInfo().substring( 1 ));
 	 request.setAttribute( ATT_ID,id );
-	 request.setAttribute( ATT_ROLE, role1 );
+	 
 	 pg.generate( getServletContext(), request, response );
 	}
 
@@ -63,7 +63,7 @@ public class EditUser extends HttpServlet {
       String motDePasse = request.getParameter( CHAMP_PASS );
       String nom = request.getParameter( CHAMP_NOM );
       String prenom = request.getParameter( CHAMP_PRENOM );
-      String role = request.getParameter( CHAMP_ROLE );
+  
       String confirmation = request.getParameter( CHAMP_CONF );
       String  result;
       
@@ -79,11 +79,10 @@ public class EditUser extends HttpServlet {
     	   /* PageGenerator pg1 = new PageGenerator("/WEB-INF/vues/Utilisateur/createUser.jsp", "", "/Utilisateurs");*/
     	    PageGenerator pg1 = new PageGenerator("/WEB-INF/vues/Utilisateur/EditUsers.jsp",  "", "/EditUser/");
     	    id1 = Integer.parseInt(request.getPathInfo().substring( 1 ));
-    	    result = User.modifierUser(id, nomUtilisateur,motDePasse,role);  
+    	    result = User.modifierUser(id, nomUtilisateur,motDePasse);  
             request.setAttribute( ATT_RES,result);
             request.setAttribute( ATT_ID1,id1 );
             request.setAttribute( ATT_ERREURS, erreurs );
-            request.setAttribute( ATT_ROLE, role1 );
             pg1.generate( getServletContext(), request, response);
 	       
 
@@ -91,9 +90,8 @@ public class EditUser extends HttpServlet {
     	  PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/EditUsers.jsp",  "", "/EditUser/");
           result = "�chec lors de la saisie des champs.";
           request.setAttribute( ATT_RES,result);
-          request.setAttribute( ATT_ID1,id );
+          request.setAttribute( ATT_ID1,id1 );
           request.setAttribute( ATT_ERREURS, erreurs );
-          request.setAttribute( ATT_ROLE, role1 );
           pg.generate( getServletContext(), request, response ); 
       }
 	  

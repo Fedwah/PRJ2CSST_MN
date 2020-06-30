@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,8 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
+import beans.entities.directive.directive;
+ 
 import beans.entities.regions.Region;
 import beans.entities.regions.unites.Unite;
 
@@ -33,6 +36,7 @@ public class Utilisateur implements Serializable {
 	    private String   codereg;
         private String codeun;
         private String poste ;
+    
 	    
 		public Utilisateur() {
 			super();
@@ -57,9 +61,6 @@ public class Utilisateur implements Serializable {
 			this.codeun = codeun;
 			this.poste = poste;
 		}
-
-
-
 
 
 
@@ -95,6 +96,12 @@ public class Utilisateur implements Serializable {
 		public void setId(int id) {
 			this.id = id;
 		}
+
+
+ 
+
+
+
 
 
 		public String getNomUtilisateur() {
