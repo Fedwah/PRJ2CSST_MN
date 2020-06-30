@@ -70,7 +70,7 @@ public class Connexion extends HttpServlet {
 	        		  
 		            if (utilisateur != null) {
 
-
+                       
 		               
 		                /* Code avant changement pas @Syphax
 		                 * 
@@ -85,6 +85,12 @@ public class Connexion extends HttpServlet {
 		    	      */
 		                
 		                session.setAttribute( ATT_SESSION_USER, utilisateur );
+		                int id =utilisateur.getId();
+		                String role =utilisateur.getRole();
+		                String type =utilisateur.getType();
+		                session.setAttribute( "role", role );
+		                session.setAttribute( "type", type );
+		                session.setAttribute("id", id );
 		                PageGenerator pg1 = new PageGenerator( "/pieces" );
 		                pg1.redirect( getServletContext(), request, response );
 		                
