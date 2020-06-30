@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<div class="container-fluid p-3">
+<div class="container-fluid">
 	<form class=" " method="post" action="<c:out value=""/>" >
-		<h3 class="display-4" style='color: #3E703D;font-size:40px;font-style:gras;'>Liste des pieces</h3>
+		<h3 class="display" style='color: #3E703D;font-size:40px;font-style:gras;'>Liste des pieces</h3>
 		<nav class="nav justify-content-end mb-2" width="500px">
 		<div class="col-md-6" style='position: relative; top: 0px; left: -15px;'>
 		<input

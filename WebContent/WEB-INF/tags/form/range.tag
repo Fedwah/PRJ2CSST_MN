@@ -14,7 +14,7 @@
 
 
 <div class="form-row  ${col} align-items-end">
-	<div class="form-group col-md-10">
+	<div class="form-group col-md-9">
 
 		<c:if test="${label!=null}">
 			<label for="${name}">${label}</label>
@@ -23,8 +23,9 @@
 		<input id="${name}-range" class="custom-range range-update" type="range" value="${value}" max="${max}"
 			min="${min}" step="${steps!=null?steps:'1'}">
 	</div>  
-	<div class="form-group col-md-1">
-		<input id="${name}-range-value" name="${name}" class="form-control" type="text" value="${value}"/>
+	<div class="form-group col-md-2">
+		<input id="${name}-range-value" name="${name}" class="form-control" type="number" 
+		value="${value}" max="${max }" min="${min }" step="${steps!=null?steps:'1'}"/>
 	</div>
 	<c:if test="${!empty unite}">
 		<div class="form-group col-md my-auto">

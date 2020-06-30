@@ -16,24 +16,31 @@
 <body>
 	
 	<c:import url="vues/header/header.jsp"></c:import>
-	<div class="row">
+	<div class="row no-gutters">
 		<div class="col-md-2">
 			<c:choose>
 				<c:when test= "${sessionScope.sessionUtilisateur.type.equals('Regional') ||sessionScope.sessionUtilisateur.type.equals('Central') }">
 					<c:import url="vues/menu/menuDecideur.jsp"></c:import>					
 				</c:when>
-				<c:when test="${sessionScope.sessionUtilisateur.type.equals('Operationnel')} ">
-					<c:import url="vues/menu/menuAdminOP.jsp"></c:import>
-				</c:when>
+				
 				<c:when test="${sessionScope.sessionUtilisateur.type.equals('root')}">
 					<c:import url="vues/menu/menuAdmin.jsp"></c:import>
 				</c:when>
-				<c:when test="${sessionScope.sessionUtilisateur.type.equals('Operationnel') && sessionScope.sessionUtilisateur.role.equals('parc')}">
-					<c:import url="vues/menu/menuRespoParc.jsp"></c:import>
-				</c:when>
-				<c:when test="${sessionScope.sessionUtilisateur.type.equals('Operationnel') && sessionScope.sessionUtilisateur.role.equals('maintenance')}">
-					<c:import url="vues/menu/menuRespoMaintenance.jsp"></c:import>
-				</c:when>
+				
+				<c:when test="${sessionScope.sessionUtilisateur.type.equals('Operationnel')}">
+				<c:choose>
+					<c:when test="${sessionScope.sessionUtilisateur.role.equals('parc')}">
+						<c:import url="vues/menu/menuRespoParc.jsp"></c:import>
+					</c:when>
+					<c:when test="${sessionScope.sessionUtilisateur.role.equals('maintenance')}">
+						<c:import url="vues/menu/menuRespoMaintenance.jsp"></c:import>
+					</c:when>
+					<c:otherwise>
+						
+						<c:import url="vues/menu/menuAdminOP.jsp"></c:import>
+					</c:otherwise>
+				</c:choose> 
+				</c:when> 
 			</c:choose>
 
 		</div>
@@ -41,13 +48,18 @@
 		<div class="col-md">
 		
 			<c:if test="${path!=null && !empty path}">
-				<div class="border-bottom p-2  rounded-0 mt-1">
-					<c:if test="${path.tooLong}"> ... </c:if>
-					<c:forEach items="${path.pages}" var="p">
-						/<a href='<c:url value="${p.link}" />' > ${p.path}</a>
-					</c:forEach>
-					
-				</div>
+				<nav aria-label="breadcrumb" class="m-1 bg-light">
+					<ol class="breadcrumb bg-light">
+						<c:forEach items="${path.pages}" var="p" varStatus="s">
+							<li class="breadcrumb-item ${s.isLast()?'active':''}" 
+								<c:if test="${s.isLast()}">aria-current="${p}"</c:if>>
+								<a href='<c:url value="${p.link}" />' > ${p.path}</a>
+							</li>
+						</c:forEach>
+						
+					</ol>
+				</nav>
+			
 			</c:if>
 			
 			<c:import url="${vue}"></c:import>

@@ -51,7 +51,8 @@ function goTo()
         </select>
         </td>
       </tr>
-    </table></td>
+    </table>
+    </td>
   </tr>
   <tr>
     <td><table  class="table" align="center"  cellpadding="3" cellspacing="0" width="100%">

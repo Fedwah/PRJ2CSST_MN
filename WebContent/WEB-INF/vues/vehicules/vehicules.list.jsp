@@ -7,7 +7,7 @@
 <%@taglib prefix="form" tagdir="/WEB-INF/tags/form"%>
 
 
-<div class="container-fluid p-3">
+<div class="container-fluid ">
 	<div class="">
 		<h1 class="page-title">${title}</h1>
 
@@ -48,7 +48,7 @@
 				<th scope="col">Code</th>
 				<th scope="col">Date d'achat</th>
 				<th scope="col">Etat</th>
-				<th scope="col">Operations</th>
+				<th scope="col"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -63,7 +63,7 @@
 						${vehicule.matricule_externe}</td>
 					<td>${vehicule.date_achat}</td>
 					<td>${vehicule.etat.titre}</td>
-					<td>
+					<td align="right">
 						<btn:btn type="primary" value="/Vehicules/${vehicule.matricule_interne}" text="Détail"/>
 						<btn:edit value="/Vehicules/edit/${vehicule.matricule_interne}" /> 
 						<btn:remove value="/Vehicules/remove/${vehicule.matricule_interne}" />

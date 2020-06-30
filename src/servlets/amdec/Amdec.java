@@ -9,11 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import beans.entities.amdec.enums.Frequence;
+import beans.entities.amdec.enums.Gravite;
+import beans.entities.amdec.enums.NoDetection;
 import beans.entities.vehicules.Modele;
 import beans.session.amdec.cause.CauseFactory;
 import beans.session.amdec.cause.CausesManager;
 import beans.session.amdec.defaillance.DefaillanceFactory;
 import beans.session.amdec.defaillance.DefaillanceManager;
+import beans.session.amdec.detection.DetectionManager;
 import beans.session.amdec.effet.EffetFactory;
 import beans.session.amdec.effet.EffetManager;
 import beans.session.amdec.instruction.InstructionFactory;
@@ -47,6 +51,9 @@ public class Amdec extends HttpServlet {
     @EJB
     private PieceManager pM;
     
+    @EJB
+    private DetectionManager detM;
+    
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -68,6 +75,11 @@ public class Amdec extends HttpServlet {
         request.setAttribute( "instructions", instManager.lister() );
         request.setAttribute( "modeles", modM.lister() );
         request.setAttribute( "pieces", pM.lister() );
+        request.setAttribute( "detections", detM.lister() );
+        
+        request.setAttribute( "gravites", Gravite.values() );
+        request.setAttribute( "frequences", Frequence.values() );
+        request.setAttribute( "niveaux", NoDetection.values() );
         pg.generate( getServletContext(), request, response );
     }
 
@@ -77,7 +89,7 @@ public class Amdec extends HttpServlet {
      */
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
-        PageGenerator pg = new PageGenerator( AMDEC, "Analyse AMDEC" );
+       
         String active = ""; // Pour garder le dernier tab selectionner
 
         // volet cause
@@ -113,7 +125,8 @@ public class Amdec extends HttpServlet {
             iF.createValidateAjouter( request, instManager );
             
         }
-
+        
+        request.setAttribute( "active", active);
         doGet( request, response );
 
     }

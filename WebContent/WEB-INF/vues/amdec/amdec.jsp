@@ -11,7 +11,7 @@
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
 
-	<m:tab-link label="Detections" id="detection"
+	<m:tab-link label="Detections de pannes" id="detection"
 		active="${active == 'detection' || empty active}" />
 	<m:tab-link label="Instructions" id="instructions"
 		active="${active == 'instruction'}" />

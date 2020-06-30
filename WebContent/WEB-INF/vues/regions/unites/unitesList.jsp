@@ -39,7 +39,7 @@
 			<tr style='color: #3E703D;'>
 				<th scope="col">Code</th>
 				<th scope="col">Adresse</th>
-				<th scope="col">Responsable</th>	
+					
 				<th></th>		
 			</tr>
 		</thead>
@@ -48,7 +48,7 @@
 				<tr>
 				    <td>${unite.codeUN}</td>
 					<td>${unite.adress}</td>
-					<td></td>
+				
 					<td align="right">
 						<a class="btn btn-outline-primary" href='<c:url value="/regions/unites/edit/${unite.codeUN}"/>'>
 							<img width="20px" height="20px" src="<c:url value='/public/img/icon/edit_green.png'/>" />

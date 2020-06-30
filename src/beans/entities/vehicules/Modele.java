@@ -11,6 +11,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.json.JSONPropertyIgnore;
+
 @Entity
 public class Modele implements Serializable {
     
@@ -56,6 +58,7 @@ public class Modele implements Serializable {
         return titre;
     }
     
+  
     public Marque getMarque() {
         return marque;
     }

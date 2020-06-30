@@ -3,8 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags/menu" prefix="menu"%>
 
-<div  class="overflow-hidden mt-5 border-right border-light">  
-<ul  class="nav flex-column pl-3">
+<div  class="overflow-hidden mt-1 border-right border-light">  
+<ul  class="nav flex-column pl-1">
   
 	<menu:link label="Regions" value="/regions" img="/public/img/menu/localisation_white_nobackground.png" 
 	size="28px" top="0px" left="20px" topI="-2px" leftI="10px"

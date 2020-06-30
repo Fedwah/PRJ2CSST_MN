@@ -4,10 +4,10 @@
 <%@taglib prefix="form" tagdir="/WEB-INF/tags/form"%>
 <%@taglib prefix="btn" tagdir="/WEB-INF/tags/btn"%>
 
-<div class="container-fluid p-5">
+<div class="container-fluid ">
 	<div class="">
 		
-		<h3 class="display-4" style='color: #3E703D;font-size:40px;font-style:gras;'>${title}</h3>
+		<h3 class="display" style='color: #3E703D;font-size:40px;font-style:gras;'>${title}</h3>
 		<div>
 			<form action="" method="post" class="needs-validation" novalidate>
 				<form:input-button name="new_categorie" col="" type="texte" value="" label="Inserer un nouvelle categorie ?" 

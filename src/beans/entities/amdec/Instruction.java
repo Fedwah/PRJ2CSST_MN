@@ -161,7 +161,7 @@ public class Instruction implements Serializable{
 
 
     public int getCriticite() {
-        return gravite * frequence * niveau_detection;
+        return gravite * (Math.round((frequence/365) *3)+1) * niveau_detection;
     }
 
 
@@ -176,7 +176,7 @@ public class Instruction implements Serializable{
 
 
     
-    @JSONPropertyIgnore
+  
     public Modele getModele_vehicule() {
         return modele_vehicule;
     }
@@ -187,7 +187,7 @@ public class Instruction implements Serializable{
     }
 
 
-   
+  
     public Piece getPiece() {
         return piece;
     }
@@ -195,6 +195,14 @@ public class Instruction implements Serializable{
 
     public void setPiece( Piece piece ) {
         this.piece = piece;
+    }
+
+
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return this.id +" "+this.demarche_resolution+" "+this.getCause().getCause()+" "+this.getEffet().getEffet()
+                +" "+this.getDefaillance().getDefaillance();
     }
     
     
