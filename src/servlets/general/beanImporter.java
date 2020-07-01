@@ -19,12 +19,24 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Workbook;
 
+import beans.entities.amdec.Instruction;
+import beans.entities.regions.unites.Unite;
+import beans.session.amdec.cause.CauseFactory;
+import beans.session.amdec.defaillance.DefaillanceFactory;
+import beans.session.amdec.effet.EffetFactory;
+import beans.session.amdec.instruction.InstructionFactory;
+import beans.session.drivers.DriverFactory;
 import beans.session.general.BeanFactory;
 import beans.session.general.GeneralManager;
 import beans.session.general.page.PageGenerator;
+import beans.session.maintenance.MaintenanceFactory;
+import beans.session.pieces.PieceFactory;
+import beans.session.regions.RegionFactory;
+import beans.session.regions.unites.UniteFactory;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.marques.MarqueFactory;
 import beans.session.vehicules.marques.modeles.ModeleFactory;
+import servlets.regions.regionsLists;
 
 /**
  * Servlet implementation class beanImporter
@@ -50,7 +62,16 @@ public class beanImporter extends HttpServlet {
         /*Ajouter ici les classes a importer/exporter */
         classes.put( "Vehicules", VehiculeFactory.class );
         classes.put( "Marques", MarqueFactory.class );
-        classes.put( "Modele", ModeleFactory.class );
+        classes.put( "Modeles", ModeleFactory.class );
+        classes.put( "Pieces", PieceFactory.class );
+        classes.put( "Regions", RegionFactory.class );
+        classes.put( "Untiés", UniteFactory.class  );
+        classes.put("Conducteurs",DriverFactory.class);
+        classes.put( "Causes", CauseFactory.class );
+        classes.put("Défaillance" , DefaillanceFactory.class);
+        classes.put( "Effets",EffetFactory.class );
+        classes.put("Instrcution",InstructionFactory.class);
+        classes.put( "Maintenaces", MaintenanceFactory.class );
     }
 
     /**
