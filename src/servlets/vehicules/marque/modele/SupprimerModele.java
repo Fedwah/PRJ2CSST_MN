@@ -18,12 +18,13 @@ import beans.session.vehicules.marques.modeles.ModeleManager;
 /**
  * Servlet implementation class SupprimerModele
  */
-@WebServlet("/Marques/Modeles/remove/*")
+@WebServlet( "/Marques/Modeles/remove/*" )
 public class SupprimerModele extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-	@EJB
-	ModeleManager modM;
+    private static final long serialVersionUID = 1L;
+
+    @EJB
+    ModeleManager             modM;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -32,26 +33,24 @@ public class SupprimerModele extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PageGenerator pg = new PageGenerator(ModeleFactory.DEFAULT_REDIRECT_URL);
-		Modele modele = null;
-		String id = pg.getPathId( request );
-		
-		if(id!="") {
-		   modele = modM.trouver( Integer.decode(id ));
-		   
-		   pg.setRedirectURL( "/Marques/Modeles/"+modele.getMarque().getTitre() );
-		   
-		   modM.supprimer( modele ); 
-		 
-		}
-		
-		pg.redirect( getServletContext(), request, response );
-	}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doGet( HttpServletRequest request, HttpServletResponse response )
+            throws ServletException, IOException {
+        PageGenerator pg = new PageGenerator( ModeleFactory.DEFAULT_REDIRECT_URL );
+        
+        if ( modM.trouverSupprimer( pg.getPathId( request ) ) ) {
 
-	
+            pg.redirectBackSuccess( getServletContext(), request, response,
+                    "Suppression de "+pg.getPathId( request ),"Reussie");
+        } else {
+            pg.redirectBackErreur( getServletContext(), request, response,
+                    "Ce modele est liée à certains véhicules",
+                    "Vous ne pouvez pas la supprimer" );
+        }
+
+    }
 
 }

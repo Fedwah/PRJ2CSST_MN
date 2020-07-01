@@ -2,10 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib prefix="form" tagdir="/WEB-INF/tags/form"%>
+<%@taglib prefix="btn" tagdir="/WEB-INF/tags/btn"%>
 
-<div class="container-fluid ">
+<div class="container-fluid">
 	
-	<form class="p-5 needs-validation p-2" method="post"
+	<form class="needs-validation mx-5" method="post"
 		action="<c:out value="add"/>" novalidate enctype="multipart/form-data">
 		
 		<form:input name="titre" col="" type="text" value="${marque.titre}" 
@@ -16,9 +17,13 @@
 			col="" image="${marque.image}" erreurs_="${erreurs['image']}"  >
 		</form:img-upload>
 	
+	
+	
+	
+	
 		<div class="form-group">
 			<button type="submit" class="btn btn-primary btn-block">Valider</button>
-			<button type="reset" class="btn btn-danger btn-block">Annuler</button>
+			<btn:btn type="danger" value="/Marques" text="Annuler" outline="${false}" class_="w-100 mt-1" />
 		</div>
 
 

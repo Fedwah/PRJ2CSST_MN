@@ -68,7 +68,7 @@ public class beanImporter extends HttpServlet {
         classes.put( "Untiés", UniteFactory.class  );
         classes.put("Conducteurs",DriverFactory.class);
         classes.put( "Causes", CauseFactory.class );
-        classes.put("Défaillance" , DefaillanceFactory.class);
+        classes.put("Défaillances" , DefaillanceFactory.class);
         classes.put( "Effets",EffetFactory.class );
         classes.put("Instrcution",InstructionFactory.class);
         classes.put( "Maintenaces", MaintenanceFactory.class );
@@ -82,7 +82,7 @@ public class beanImporter extends HttpServlet {
             throws ServletException, IOException {
 
         PageGenerator pg = new PageGenerator( "/WEB-INF/vues/importer/importer.jsp", "" );
-        String id = pg.getPathId( request );
+        String id = (String) pg.getPathId( request );
 
         
         pg.setPageTitle( "Importer/Exporter : " + id  );
@@ -104,7 +104,7 @@ public class beanImporter extends HttpServlet {
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
         PageGenerator pg = new PageGenerator( "/WEB-INF/vues/importer/importer.jsp", "" );
-        String id = pg.getPathId( request );
+        String id = (String) pg.getPathId( request );
 
         pg.setPageTitle( "Importer/Exporter : " + id );
 

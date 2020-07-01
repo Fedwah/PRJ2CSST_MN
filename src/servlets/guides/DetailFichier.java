@@ -37,7 +37,7 @@ public class DetailFichier extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator( FichierFactory.VUE_DETAIL, "" );
-		String id = pg.getPathId( request );
+		String id = (String) pg.getPathId( request );
 		Fichier f = null;
 		FichierFactory fichF = new FichierFactory();
 		if(id!=null) {

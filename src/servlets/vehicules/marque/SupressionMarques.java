@@ -15,12 +15,13 @@ import beans.session.vehicules.marques.MarqueManager;
 /**
  * Servlet implementation class Supression
  */
-@WebServlet("/Marques/remove/*")
+@WebServlet( "/Marques/remove/*" )
 public class SupressionMarques extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-    
-	@EJB
-	MarqueManager m;
+    private static final long serialVersionUID = 1L;
+
+    @EJB
+    MarqueManager             m;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -29,25 +30,25 @@ public class SupressionMarques extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PageGenerator pg =  new PageGenerator( "/Marques" );
-		
-		try {
-		    m.trouverSupprimer( pg.getPathId( request ) );
-		    pg.redirect( getServletContext(),request, response );
-		    
-		}catch (Exception e) {
-		    response.getWriter().append( "Erreur: La suppresion  a echoué "+e.getCause().getMessage() );
-        }
-		
-		
-		
-		
-	}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doGet( HttpServletRequest request, HttpServletResponse response )
+            throws ServletException, IOException {
+        PageGenerator pg = new PageGenerator( "/Marques" );
 
-	
+        if ( m.trouverSupprimer( pg.getPathId( request ) ) ) {
+
+            pg.redirectBackSuccess( getServletContext(), request, response,
+                    "Suppression de " + pg.getPathId( request ),
+                    "Réussie" );
+
+        } else {
+            pg.redirectBackErreur( getServletContext(), request, response,
+                    "Suppression de " + pg.getPathId( request ),
+                    "Le Marque ne peut pas etre supprimer car elle est utlisé." );
+        }
+    }
 
 }

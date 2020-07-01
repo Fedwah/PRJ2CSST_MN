@@ -88,7 +88,7 @@ public class EditVehicules extends HttpServlet {
         Boolean trouver = false;
         VehiculeFactory vehiculeF = new VehiculeFactory(Vehicule.class);
         
-        id = pg.getPathId( request );
+        id = (String)pg.getPathId( request );
 
         Utilisateur u = pg.getUtilisateur( request );
         

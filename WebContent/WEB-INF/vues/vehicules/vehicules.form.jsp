@@ -88,6 +88,7 @@
 	function readURL(input) {
 		if (input.files && input.files[0]) {
 			var reader = new FileReader();
+			
 
 			reader.onload = function(e) {
 				$('#preview').attr('src', e.target.result);
@@ -97,6 +98,7 @@
 		}
 	}
 
+	
 	//pour la preview de l'image
 	$("#photo").change(function() {
 		readURL(this);
@@ -108,6 +110,7 @@
 		$("#marque").change()
 	})*/
 
+	
 	$("#marque").change(function() {
 		var marque = this.value
 		$("#modele").val(" ")

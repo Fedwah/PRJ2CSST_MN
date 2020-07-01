@@ -34,18 +34,28 @@ public class SupressionAffectationVehicule extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    String id = "";
+	    Integer id = null;
         String idVeh="";
         PageGenerator pg = new PageGenerator("");
         AffectationConducteur aff=null;
         
-        id = pg.getPathId( request );
-        aff = affM.trouver( Integer.decode(id ));
+        id = (Integer) pg.getPathId( request );
+        aff = affM.trouver( id);
         idVeh = aff.getCar().getMatricule_interne();
-        affM.trouverSupprimer( Integer.decode(id ));
-        System.out.println( "Allez vers "+"/Vehicules/Affectations/"+idVeh );
-        pg.setRedirectURL("/Vehicules/"+idVeh );
-        pg.redirect( getServletContext(), request, response );
+        
+        if(affM.trouverSupprimer( id)) {
+            pg.setRedirectURL("/Vehicules/"+idVeh );
+            pg.redirectBackSuccess( getServletContext(), request, response,
+                    "Suppresion de l'affectation du vehicule "+idVeh
+                    ,"Réussie");
+        }else {
+            pg.redirectBackErreur( getServletContext(), request, response,
+                    "L'affection a des missions en cour",
+                    "Suppression immposible");
+        }
+        
+       
+       
 	}
 
 }
