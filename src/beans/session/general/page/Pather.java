@@ -115,7 +115,7 @@ public class Pather {
     }
     
     public void upadateLastPage(Page page) {
-        this.pages.pop();
+        if(!this.pages.isEmpty())this.pages.pop();
         this.pages.push( page );
     }
     

@@ -38,10 +38,12 @@ public class SupressionVehicules extends HttpServlet {
             throws ServletException, IOException {
         // TODO Auto-generated method stub
         PageGenerator pg = new PageGenerator( "/Vehicules" );
+        
         if (vm.trouverSupprimer( pg.getPathId( request ) ) ) {
 
             pg.redirectBackSuccess( getServletContext(), request, response,
-                    "Suppression de "+pg.getPathId( request ),"Reussie");
+                    "Suppression de "+pg.getPathId( request ),
+                    "Reussie");
         } else {
             pg.redirectBackErreur( getServletContext(), request, response,
                     "Ce Vehicule  est utlisé",
