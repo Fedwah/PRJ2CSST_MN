@@ -12,11 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.maintenance.Maintenance;
+import beans.entities.maintenance.niveaux.Niveau;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.page.PageGenerator;
 import beans.session.maintenance.MaintenanceFactory;
 import beans.session.maintenance.MaintenanceManager;
-import beans.session.maintenance.niveaux.NiveauManager;
+
 import beans.session.pieces.PieceManager;
 import beans.session.vehicules.VehiculesManager;
 
@@ -36,8 +37,6 @@ public class maintenanceAdd extends HttpServlet {
 	private MaintenanceManager mm;
 	@EJB
 	private PieceManager pm;
-	@EJB
-	private NiveauManager nManager;
 	private String id ="";
     /**
      * @see HttpServlet#HttpServlet()
@@ -66,7 +65,7 @@ public class maintenanceAdd extends HttpServlet {
 								
 			}
 		}
-		request.setAttribute("niveaux", nManager.lister());
+		request.setAttribute("niveaux",Niveau.values());
 		pg.generate( getServletContext(), request, response );
 	}
 
@@ -98,7 +97,7 @@ public class maintenanceAdd extends HttpServlet {
 				{
 					request.setAttribute("Vehicule", newM.getV());
 					request.setAttribute("maintenance", newM);
-					request.setAttribute("niveaux",nManager.lister());
+					//request.setAttribute("niveaux",nManager.lister());
 					Map<String,Object> fields = new HashMap();
 					fields.put("modal.id",newM.getV().getModele().getId());	
 					request.setAttribute("piece", pm.lister(fields));
@@ -114,7 +113,7 @@ public class maintenanceAdd extends HttpServlet {
 			System.out.println(" ajout de piece de rechange");
 			request.setAttribute("Vehicule", newM.getV());
 			request.setAttribute("maintenance", newM);
-			request.setAttribute("niveaux",nManager.lister());
+			//request.setAttribute("niveaux",nManager.lister());
 			Map<String,Object> fields = new HashMap();
 			fields.put("modal.id",newM.getV().getModele().getId());	
 			request.setAttribute("piece", pm.lister(fields));

@@ -19,7 +19,7 @@ import beans.entities.regions.unites.Unite;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.BeanFactory;
 import beans.session.general.BeanManager;
-import beans.session.maintenance.niveaux.NiveauManager;
+
 import beans.session.pieces.PieceManager;
 import beans.session.vehicules.VehiculesManager;
 
@@ -49,8 +49,8 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
             m.setNbP( 0 );
         }
 
-        Niveau n = new Niveau( Integer.parseInt( request.getParameter( "niveau" ) ) );
-        m.setNiv( n );
+       // Niveau n = new Niveau( Integer.parseInt( request.getParameter( "niveau" ) ) );
+        //m.setNiv( n );
         try {
             m.setStartDate( new SimpleDateFormat( "yyyy-MM-dd" ).parse( request.getParameter( "recruit" ) ) );
         } catch ( ParseException e ) {
@@ -71,8 +71,8 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
             m.setNbP( 0 );
         }
 
-        Niveau n = new Niveau( Integer.parseInt( request.getParameter( "niveau" ) ) );
-        m.setNiv( n ); // niveau de maintenance
+       // Niveau n = new Niveau( Integer.parseInt( request.getParameter( "niveau" ) ) );
+       // m.setNiv( n ); // niveau de maintenance
         m.setStartDate(bean.getStartDate()); // date debut
         try {
             m.setEndDate( new SimpleDateFormat( "yyyy-MM-dd" ).parse( request.getParameter( "dateFin" ) ) ); // date de fin 

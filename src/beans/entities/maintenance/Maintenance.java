@@ -65,8 +65,6 @@ public class Maintenance implements Serializable{
 
 	
 	// Niveau de maintenance
-	@NotNull
-	@ManyToOne
 	private Niveau niv;
 	
 	@NotNull

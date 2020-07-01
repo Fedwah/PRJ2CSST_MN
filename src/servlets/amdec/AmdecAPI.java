@@ -158,10 +158,13 @@ public class AmdecAPI extends HttpServlet {
                       
                         if(i!=null) {
                             detection= new Detection(i,v); 
+
+                          
                             detM.ajouter( detection );
                         }else {
                             success  = false;
                             message  = "Instruction "+ iF.getFiltres() + "inexistente ";
+
                         }
                     }
                     
