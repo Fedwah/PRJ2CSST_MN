@@ -11,6 +11,7 @@ public class Pather {
    
     private static final int NB_LINK_SHOW = 5;
     private Stack<Page> pages;
+    private Page currentPage;
     private Boolean tooLong;
     private String root;
     private static final String ATT_PATH = "path";
@@ -21,12 +22,14 @@ public class Pather {
        this.pages = new Stack<Page>();
        this.tooLong = false;
        this.root = root;
+       this.currentPage = null;
     }
     
     public Pather() {
         this.pages = new Stack<Page>();
         this.tooLong = false;
         this.root = DEFAUTL_ROOT;
+        this.currentPage = null;
      }
     
     public Boolean getTooLong() {
@@ -56,16 +59,21 @@ public class Pather {
                
             } while ( !p.getPath().equals(name) );
             
+           
+            
             
             this.pages.add( p );
             
             
-            return p;
+           
             
         }else {
-           
-            return forward( name, link );
+            p  = forward( name, link );
+        
         }
+        
+        this.currentPage = p;
+        return p;
        
     }
     
@@ -102,7 +110,15 @@ public class Pather {
         }
     }
    
+    public Page getCurrentPage() {
+        return currentPage;
+    }
+    
+    public void upadateLastPage(Page page) {
+        if(!this.pages.isEmpty())this.pages.pop();
+        this.pages.push( page );
+    }
     
     
-
+    
 }

@@ -38,24 +38,18 @@ public class SupressionVehicules extends HttpServlet {
             throws ServletException, IOException {
         // TODO Auto-generated method stub
         PageGenerator pg = new PageGenerator( "/Vehicules" );
-        String id = request.getPathInfo().substring( 1 );
         
-        if ( vm.trouverSupprimer( id ) ) {
-            pg.redirect( getServletContext(), request, response );
+        if (vm.trouverSupprimer( pg.getPathId( request ) ) ) {
+
+            pg.redirectBackSuccess( getServletContext(), request, response,
+                    "Suppression de "+pg.getPathId( request ),
+                    "Reussie");
         } else {
-            response.getWriter().append( "Erreur: La suppresion de "+id+" a echoué" );
+            pg.redirectBackErreur( getServletContext(), request, response,
+                    "Ce Vehicule  est utlisé",
+                    "Vous ne pouvez pas la supprimer" );
         }
-        ;
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-     *      response)
-     */
-    protected void doPost( HttpServletRequest request, HttpServletResponse response )
-            throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        doGet( request, response );
-    }
-
+   
 }

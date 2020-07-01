@@ -40,7 +40,7 @@ public class FichierGenerator extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator();
-		String id = pg.getPathId( request );
+		String id = (String) pg.getPathId( request );
 		Fichier f = null;
 		FichierFactory fichF = new FichierFactory();
 		System.out.println( "test : '"+id+"'");

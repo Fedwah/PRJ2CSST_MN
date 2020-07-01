@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib prefix="form" tagdir="/WEB-INF/tags/form"%>
+<%@taglib prefix="img" tagdir="/WEB-INF/tags/img"%>
 
 <%@attribute name="col" required="true"%>
 <%@attribute name="name" required="true"%>
@@ -13,16 +14,11 @@
 <div class="form-group ${col}">
 	<label for="${name}">${label}</label>
 
-	<c:choose>
-		<c:when test="${image!=null}">
-			<img id="preview" class="img-fluid rounded shadow-sm mx-auto d-block"
-				src='<c:url value="/Images/${image.titre}"/>' />
-		</c:when>
-		<c:otherwise>
-			<img id="preview" class="img-fluid rounded shadow-sm mx-auto d-block"
-				src='<c:url value="/public/img/notfound.png" />' />
-		</c:otherwise>
-	</c:choose>
+	<img:img  id="preview" size="200px" value="${image.titre}" default_img="/public/img/notfound.png"/>
+
+
+
+	
 	<div class="custom-file">
 		<input id="photo" name="${name}" type="file"
 			class="custom-file-input"> <label class="custom-file-label"

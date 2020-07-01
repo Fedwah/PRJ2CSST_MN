@@ -47,7 +47,7 @@ public class CreationAffectationConducteur extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    PageGenerator pg = new PageGenerator( AffectationConducteurFactory.DEFAULT_REDIRECT ) ;
-	    String  id = pg.getPathId( request );
+	    String  id = (String) pg.getPathId( request );
 	    if(id!=null) {
 	        
 	        pg.setRedirectURL( AffectationConducteurFactory.DEFAULT_REDIRECT+id );

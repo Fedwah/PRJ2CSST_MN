@@ -6,9 +6,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.transaction.RollbackException;
 
 import beans.entities.regions.unites.Unite;
 import beans.entities.utilisateurs.Utilisateur;
@@ -62,18 +65,22 @@ public abstract class BeanManager<T> {
         try {
             this.getEntityManger().remove(
                     ( this.getEntityManger().contains( bean ) ? bean : this.getEntityManger().merge( bean ) ) );
+            this.getEntityManger().flush();
             return true;
         } catch ( Exception e ) {
-            e.printStackTrace();
+            System.out.println( "Suppprimer impossible " + e.getMessage() );
             return false;
         }
+
     }
 
     public boolean trouverSupprimer( Object id ) {
         T bean;
         if ( id != null ) {
             if ( ( bean = this.trouver( id ) ) != null ) {
+
                 return this.supprimer( bean );
+
             }
         }
 
@@ -88,8 +95,8 @@ public abstract class BeanManager<T> {
     }
 
     public List<T> lister() {
-        
-        return lister(new HashMap<String, Object>());
+
+        return lister( new HashMap<String, Object>() );
 
     }
 
@@ -117,7 +124,7 @@ public abstract class BeanManager<T> {
             return bean;
         } catch ( ClassNotFoundException e ) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println( "erreur trouver " + e.getMessage() );
             return null;
         }
 
@@ -194,7 +201,7 @@ public abstract class BeanManager<T> {
         String q = null;
 
         values.putAll( getUserRoleFiltre() );
-        
+
         System.out.println( this.beanClass );
         fields.generateFields( this.beanClass );
         System.out.println( "fields : " + fields.fields().toString() );
@@ -216,7 +223,8 @@ public abstract class BeanManager<T> {
         for ( Map.Entry<String, Object> mapentry : values.entrySet() ) {
             // System.out.println( "Bounded :"+fields.getValidName((
             // mapentry.getKey()))+" "+ mapentry.getValue());
-            query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ), mapentry.getValue() );
+            query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ), 
+                    fields.cast(fields.getValidName(( mapentry.getKey())),mapentry.getValue()) );
         }
 
         return query;
@@ -229,7 +237,7 @@ public abstract class BeanManager<T> {
         String q = null;
 
         values.putAll( getUserRoleFiltre() );
-        
+
         fields.generateFields( this.beanClass );
         System.out.println( "fields : " + fields.fields().toString() );
         join = joinBuilder( fields, values );
@@ -246,8 +254,17 @@ public abstract class BeanManager<T> {
         System.out.println( "Query Build: " + q );
 
         for ( Map.Entry<String, Object> mapentry : values.entrySet() ) {
-            query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ),
-                    "%" + mapentry.getValue() + "%" );
+            if(fields.fields().
+                    get( fields.getValidName( 
+                            ( mapentry.getKey() ) )).class_.equals( "java.lang.String" )) {
+                query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ),
+                        "%" + mapentry.getValue() + "%" );
+                System.out.println( "set param String" );
+            }else {
+                query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ),
+                       fields.cast(fields.getValidName(( mapentry.getKey())),mapentry.getValue()));
+            }
+            
         }
 
         return query;
@@ -307,7 +324,13 @@ public abstract class BeanManager<T> {
             Map.Entry<String, Object> f = iterator.next();
 
             if ( map.get( fields.getValidName( f.getKey() ) ).isBasicClass ) {
-                qr = qr + " b." + f.getKey() + " like :" + f.getKey();
+                if(map.get( fields.getValidName( f.getKey() ) ).class_.contains( "java.lang.String" )) {
+                    qr = qr + " b." + f.getKey() + " like :" + f.getKey();
+                }else {
+                    // le  like marche que sur les String
+                    qr = qr + " b." + f.getKey() + " = :" + f.getKey();
+                }
+                
             } else {
                 qr = qr + f.getKey() + " like :" + fields.getValidName( f.getKey() );
             }
@@ -356,13 +379,13 @@ public abstract class BeanManager<T> {
             if ( u != null ) {
 
                 f = this.fields.getFieldByClass( Unite.class );
-               
+
                 if ( f != null ) {
                     System.out.println( "call get method : " + f.name );
-                    value =  u.getCodeun();
+                    value = u.getCodeun();
                     idName = this.fields.getChildId( f.name );
-                    if(value!=null) 
-                        filtre.put(f.name+"."+idName,value);
+                    if ( value != null )
+                        filtre.put( f.name + "." + idName, value );
                 }
 
             }
@@ -371,7 +394,7 @@ public abstract class BeanManager<T> {
             e.printStackTrace();
 
         }
-        System.out.println( "Role filter : " + filtre);
+        System.out.println( "Role filter : " + filtre );
         return filtre;
     }
 

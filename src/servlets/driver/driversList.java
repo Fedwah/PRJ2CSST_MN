@@ -107,7 +107,7 @@ public class driversList extends HttpServlet {
 		}else if (request.getParameter( "affecter" )!=null){
 		    //AJouter par @Syphax pour faire l'affectation
 		    AffectationConducteurFactory affF = new AffectationConducteurFactory();
-		    String id = pg.getPathId( request );
+		    String id = (String) pg.getPathId( request );
 		    AffectationConducteur oldAff = null;
 		    
 		    

@@ -48,8 +48,8 @@ public class Vehicule implements Serializable {
     private Marque marque;
     
     @NotNull
-    @ManyToOne
-    private EtatVehicule etat;
+    
+    private EtatsVehicule etat;
     
     
     
@@ -91,7 +91,7 @@ public class Vehicule implements Serializable {
 
 
     public Vehicule( String matricule_interne, String matricule_externe, Modele modele, Marque marque,
-            EtatVehicule etat, Date date_achat, Image photo, CategorieVehicule categorie, Unite unite ,Double km ) {
+            EtatsVehicule etat, Date date_achat, Image photo, CategorieVehicule categorie, Unite unite ,Double km ) {
         super();
         this.matricule_interne = matricule_interne;
         this.matricule_externe = matricule_externe;
@@ -151,13 +151,19 @@ public class Vehicule implements Serializable {
         this.marque = marque;
     }
 
-    public EtatVehicule getEtat() {
+   
+
+    public EtatsVehicule getEtat() {
         return etat;
     }
 
-    public void setEtat( EtatVehicule etat ) {
+
+
+    public void setEtat( EtatsVehicule etat ) {
         this.etat = etat;
     }
+
+
 
     public Date getDate_achat() {
        return this.date_achat;

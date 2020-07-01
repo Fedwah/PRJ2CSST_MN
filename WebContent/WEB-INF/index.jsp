@@ -63,6 +63,18 @@
 			</c:if>
 			
 			<c:import url="${vue}"></c:import>
+			<c:if test="${path.currentPage.hasAlertAndNotSeen()}">
+				<script>
+					$(document).ready(function() {
+						swal({
+							title : "${path.currentPage.pageState.title}",
+							text : "${path.currentPage.pageState.message}",
+							icon : "${path.currentPage.pageState.icon}",
+							dangerMode : ${!path.currentPage.pageState.success},
+						})
+					});
+				</script>
+			</c:if>
 		</div>
 	</div>
 

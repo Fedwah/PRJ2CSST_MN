@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib prefix="form" tagdir="/WEB-INF/tags/form"%>
+<%@taglib prefix="btn" tagdir="/WEB-INF/tags/btn"%>
+
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
@@ -41,6 +43,6 @@
 		</div>
 		
 		<button type="submit" class="btn btn-primary">Valider</button>
-		<button type="reset" class="btn btn-danger">Annuler</button>
+		<btn:btn type="danger" value="/Vehicules/${mission.vehicule.matricule_interne}" text="Annuler" outline="${false}" />
 	</form>
 </div>

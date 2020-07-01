@@ -42,30 +42,22 @@ public class SuppressionCategorieVehicule extends HttpServlet {
 	    
 	   
 	    PageGenerator pg = new PageGenerator( CategorieVehiculeFactory.DEFAULT_REDIRECT_URL );
-	    String id = pg.getPathId( request );
-		try
-		{
-			if(id!="") {
-		        categM.trouverSupprimer( id );
-		    }
-		}
-		catch(Exception e)
-		{
-			System.out.println("inside catch");
-        	HttpSession session = request.getSession();
-        	boolean exemple = true ;
-        	session.setAttribute( "exception", exemple );
-		}
-		pg.redirect( getServletContext(), request, response );
+	   
 	    
+	
+            if(categM.trouverSupprimer( pg.getPathId( request ))) {
+                
+                pg.redirect( getServletContext(), request, response );
+            }else {
+                pg.redirectBackErreur( getServletContext(), request, response,
+                        "Cette catégorie est liée à certains véhicules" ,
+                        "Vous ne pouvez pas la supprimer");
+            }
+            
+      
+		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+
 
 }

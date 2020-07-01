@@ -39,13 +39,19 @@ public class SuppressionEtatVehicule extends HttpServlet {
 	    
 	   
 	    PageGenerator pg = new PageGenerator( REDIRECT_URL );
-	    String id = request.getPathInfo().substring(1);
-		
-	    if(etatM.trouverSupprimer( id )) {
-	        pg.redirect( getServletContext(), request, response );
-	    }else{
-	        response.getWriter().append( "Erreur: la supression a echoué" );
-	    };
+	  
+	    if ( etatM.trouverSupprimer( pg.getPathId( request ) ) ) {
+
+            pg.redirectBackSuccess( getServletContext(), request, response,
+                    "Suppression de " + pg.getPathId( request ),
+                    "Réussie" );
+
+        } else {
+            pg.redirectBackErreur( getServletContext(), request, response,
+                    "Suppression de " + pg.getPathId( request ),
+                    "L'etat ne peut pas etre supprimer car il est utlisé." );
+        }
+	    
 	    
 	}
 

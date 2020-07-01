@@ -10,14 +10,9 @@
 <div class="container-fluid ">
 	<div class="">
 		<h1 class="page-title">${title}</h1>
-
-		<nav class="nav justify-content-end mb-2">
-			<l:link label="Categories de vehicule" value="/Vehicules/Categories"></l:link>
-			<l:link label="Etats des vehicules" value="/Vehicules/Etats"></l:link>
-		</nav>
 	</div>
 	<div class="row p-1">
-		<form class="col-md-9" method="post" action="">
+		<form class="col-md-8" method="post" action="">
 			<div class="form-row">
 
 				<form:input name="search" col="col-md-3" type="text"
@@ -27,18 +22,24 @@
 					fieldToPrint="value" selectedValue="${field}" map="${filtres}"
 					fieldID="key"></form:select>
 
-				
+
 
 				<btn:search name="search" />
 			</div>
+
 		</form>
-		
-		<form:select name="filtre_regions" fieldToTest="titre" col="col-md-2" fieldToPrint="titre" selectedValue="" fieldID="titre" items="${filtre_regions}"></form:select>
-		
-		<div class="col-md-1 " >
+		<div class="col-md-3">
+
+			<nav class="nav justify-content-end mb-2">
+				<l:link label="Les Categories de vehicule"
+					value="/Vehicules/Categories"></l:link>
+			</nav>
+		</div>
+
+		<div class="col-md-1 ">
 			<btn:add value="/Vehicules/edit/"></btn:add>
 		</div>
-		
+
 	</div>
 	<table class="table">
 		<thead>
@@ -58,17 +59,15 @@
 						src='<c:url value="/Images/${vehicule.marque.image.titre}" />'
 						width="75" height="75" /></th>
 					<td>${vehicule.modele.titre}</td>
-					<td>${vehicule.matricule_interne}
-						${empty vehicule.matricule_externe?"":"/"}
+					<td>${vehicule.matricule_interne}${empty vehicule.matricule_externe?"":"/"}
 						${vehicule.matricule_externe}</td>
 					<td>${vehicule.date_achat}</td>
-					<td>${vehicule.etat.titre}</td>
-					<td align="right">
-						<btn:btn type="primary" value="/Vehicules/${vehicule.matricule_interne}" text="Détail"/>
-						<btn:edit value="/Vehicules/edit/${vehicule.matricule_interne}" /> 
-						<btn:remove value="/Vehicules/remove/${vehicule.matricule_interne}" />
-					   
-					</td>
+					<td>${vehicule.etat.label}</td>
+					<td align="right"><btn:btn type="primary"
+							value="/Vehicules/${vehicule.matricule_interne}" text="Détail" />
+						<btn:edit value="/Vehicules/edit/${vehicule.matricule_interne}" />
+						<btn:remove
+							value="/Vehicules/remove/${vehicule.matricule_interne}" /></td>
 				</tr>
 			</c:forEach>
 		</tbody>

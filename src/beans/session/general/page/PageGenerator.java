@@ -27,30 +27,28 @@ import servlets.Utilisateur.Connexion;
 
 public class PageGenerator {
 
-    
-    private static final String ATT_MESSAGE = "message";
-    private static final String ATT_REQUEST  = "request";
-    private static final String ATT_VUE      = "vue";
-    private static final String ATT_TITLE    = "title";
-    private static final String PAGE_WRAPPER = "/WEB-INF/index.jsp";
-    private static final String ERROR_PAGE = "/WEB-INF/error.jsp";
-    
+    private static final String SESSION_EXCEPTION = "exception";
+
+    private static final String SESSION_REQUEST   = "request";
+    private static final String ATT_VUE           = "vue";
+    private static final String ATT_TITLE         = "title";
+    private static final String PAGE_WRAPPER      = "/WEB-INF/index.jsp";
+
     private String              pageWrapperJSP;
     private String              vueJSP;
     private String              pageTitle;
     private String              redirectURL;
-    private String              errorPage;
-    
-    private SessionManager sessionManager;
-    public static Utilisateur pageUser;
-    
+
+    private SessionManager      sessionManager;
+    public static Utilisateur   pageUser;
+
     public PageGenerator() {
         super();
         this.sessionManager = new SessionManager();
-        this.errorPage = ERROR_PAGE;
+
         this.pageWrapperJSP = PAGE_WRAPPER;
     }
-    
+
     public PageGenerator( String redirectURL ) {
         this();
         this.redirectURL = redirectURL;
@@ -67,135 +65,169 @@ public class PageGenerator {
         this();
         this.vueJSP = vueJSP;
         this.pageTitle = pageTitle;
-       
+
     }
-    
-    public PageGenerator( String pageWrapperJSP, String vueJSP, String pageTitle, String redirectURL) {
+
+    public PageGenerator( String pageWrapperJSP, String vueJSP, String pageTitle, String redirectURL ) {
         this();
         this.pageWrapperJSP = pageWrapperJSP;
         this.vueJSP = vueJSP;
         this.pageTitle = pageTitle;
         this.redirectURL = redirectURL;
     }
-    
-    public PageGenerator( String pageWrapperJSP, String vueJSP, String pageTitle, String redirectURL,String pageError) {
+
+    public PageGenerator( String pageWrapperJSP, String vueJSP, String pageTitle, String redirectURL,
+            String pageError ) {
         this();
         this.pageWrapperJSP = pageWrapperJSP;
         this.vueJSP = vueJSP;
         this.pageTitle = pageTitle;
         this.redirectURL = redirectURL;
-        this.errorPage = pageError;
+
     }
 
     public String getPageWrapperJSP() {
         return pageWrapperJSP;
     }
-    
+
     public SessionManager getSessionManager() {
         return sessionManager;
     }
 
     private RequestDispatcher getRequestDispatcher( ServletContext contexte, HttpServletRequest request,
-            HttpServletResponse response , Boolean error) {
+            HttpServletResponse response ) {
+
+        this.pather( request );
+
         request.setAttribute( ATT_TITLE, this.pageTitle );
         request.setAttribute( ATT_VUE, this.vueJSP );
-        
-        this.pather( request );
-        if(error) {
-            return contexte.getRequestDispatcher( this.errorPage );
-        }else
-            return contexte.getRequestDispatcher( this.pageWrapperJSP );
+        return contexte.getRequestDispatcher( this.pageWrapperJSP );
+
     }
 
     public void generate( ServletContext contexte, HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
-        this.generate( contexte, request, response ,false);
+        this.generate( contexte, request, response, false );
     }
-    
-    public void generate( ServletContext contexte, HttpServletRequest request, HttpServletResponse response ,boolean root) throws ServletException, IOException {
-        if(root) {
+
+    public void generate( ServletContext contexte, HttpServletRequest request, HttpServletResponse response,
+            boolean root ) throws ServletException, IOException {
+        if ( root ) {
             this.clearPath( request );
         }
-        this.getRequestDispatcher( contexte, request, response,false).forward( request, response );
+        this.getRequestDispatcher( contexte, request, response ).forward( request, response );
     }
-    
-    public void generateErreur(ServletContext contexte, HttpServletRequest request, HttpServletResponse response ,String message) throws ServletException, IOException {
-        request.setAttribute( ATT_MESSAGE, message);
-        this.getRequestDispatcher( contexte, request, response,true).forward( request, response );
-    }
-    
-    public void generateJSON(HttpServletResponse response , List<JSONObject> objects) {
+
+    public void generateJSON( HttpServletResponse response, List<JSONObject> objects ) {
         JSONArray arr = new JSONArray( objects );
-        System.out.println( "Generate JSON : "+arr );
+        System.out.println( "Generate JSON : " + arr );
         response.reset();
-        response.setContentType("application/json;charset=utf-8");
+        response.setContentType( "application/json;charset=utf-8" );
         try {
             PrintWriter out = response.getWriter();
-            
-            out.print(arr);
+
+            out.print( arr );
         } catch ( IOException e ) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
-        } 
-        
+            System.out.println( "Erreur generate JSON " + e.getMessage() );
+        }
+
     }
-    
-    public void generateJSON(HttpServletResponse response ,Boolean success,String message) {
-        
+
+    public void generateJSON( HttpServletResponse response, Boolean success, String message ) {
+
         JSONObject obj = new JSONObject();
         obj.put( "success", success );
         obj.put( "message", message );
         response.reset();
-        response.setContentType("application/json;charset=utf-8");
+        response.setContentType( "application/json;charset=utf-8" );
         try {
             PrintWriter out = response.getWriter();
-            
-            out.print(obj);
+
+            out.print( obj );
         } catch ( IOException e ) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } 
-        
+        }
+
     }
+
     public void redirect( ServletContext contexte, HttpServletRequest request, HttpServletResponse response )
             throws IOException {
         if ( redirectURL != null ) {
             response.sendRedirect( contexte.getContextPath() + redirectURL );
-        } 
+        }
     }
-    
-    public void redirectBack( ServletContext contexte, HttpServletRequest request, HttpServletResponse response )
+
+    public void redirectBack( ServletContext contexte, HttpServletRequest request, HttpServletResponse response ) throws IOException {
+        this.redirectBack( contexte, request, response ,null);
+    }
+    public void redirectBack( ServletContext contexte, HttpServletRequest request, HttpServletResponse response ,PageState ps)
             throws IOException {
-        Page page  = Pather.getPather( request ).goBack();
+        Page page = Pather.getPather( request ).goBack();
+
+        if(ps!=null) {
+            page.setPageState( ps );
+            Pather.getPather( request ).upadateLastPage( page );
+        }
+        
         response.sendRedirect( contexte.getContextPath() + page.getLink() );
     }
     
+    public void redirectBackSuccess(ServletContext contexte, HttpServletRequest request, HttpServletResponse response,
+    String title,String message ) throws ServletException, IOException {
+       
+        this.redirectBack( contexte, request, response, PageState.succes( title, message ) );
+    
+    }
+    public void redirectBackErreur( ServletContext contexte, HttpServletRequest request, HttpServletResponse response,
+            String title,String message ) throws ServletException, IOException {
 
-    public String getPathId( HttpServletRequest request ) {
+       this.redirectBack( contexte, request, response ,PageState.error( title, message ));
+        
+    }
+
+    
+    
+    public Object getPathId( HttpServletRequest request ) {
         String id = "";
         if ( request.getPathInfo() != null ) {
             id = request.getPathInfo().substring( 1 );
+            id = cleanText( id );
+            
+            try {
+                Integer i = Integer.valueOf( id );
+                return i;
+            }catch (Exception e) {
+                return id;
+            }
         }
-        return cleanText(id);
+        
+        return null;
+     
     }
+    
+    
+    
 
     public String[] getPathIds( HttpServletRequest request ) {
         String[] out = null;
         if ( request.getPathInfo() != null ) {
-           out  = request.getPathInfo().substring( 1 ).split( "/" );
-           for ( int i = 0; i < out.length; i++ ) {
-               out[i] = cleanText( out[i] );
-           }
-           return out;
+            out = request.getPathInfo().substring( 1 ).split( "/" );
+            for ( int i = 0; i < out.length; i++ ) {
+                out[i] = cleanText( out[i] );
+            }
+            return out;
         } else {
             return null;
         }
 
     }
 
-    private String cleanText(String text) {
-        return text.replaceAll("^\"|\"$", "").trim();
+    private String cleanText( String text ) {
+        return text.replaceAll( "^\"|\"$", "" ).trim();
     }
+
     public void writeWorkBook( Workbook wk, String fileName, HttpServletResponse response ) {
         int DEFAULT_BUFFER_SIZE = 10240; // 10 ko
 
@@ -211,7 +243,8 @@ public class PageGenerator {
             wk.write( response.getOutputStream() );
         } catch ( IOException e1 ) {
             // TODO Auto-generated catch block
-            e1.printStackTrace();
+            System.out.println( "Exportation erreur dans PG :" + e1.getMessage() );
+            ;
         }
         ;
 
@@ -226,66 +259,58 @@ public class PageGenerator {
     }
 
     public void saveRequest( HttpServletRequest request ) {
-        this.sessionManager.save( request, ATT_REQUEST, request );
+        this.sessionManager.save( request, SESSION_REQUEST, request );
     }
 
     public HttpServletRequest getSavedReuest( HttpServletRequest request ) {
-        HttpServletRequest r = (HttpServletRequest) this.sessionManager.get(request,ATT_REQUEST );
-        this.sessionManager.remove(request,ATT_REQUEST);
+        HttpServletRequest r = (HttpServletRequest) this.sessionManager.get( request, SESSION_REQUEST );
+        this.sessionManager.remove( request, SESSION_REQUEST );
         return r;
 
     }
 
-  
-    
-    
-    public void clearPath( HttpServletRequest request) {
+    public void clearPath( HttpServletRequest request ) {
         Pather.getPather( request ).clear();
-        //s.removeAttribute(ATT_PATH );
+        // s.removeAttribute(ATT_PATH );
     }
-    
-   
-    
-    private void pather(HttpServletRequest request) {
-        Pather p  = Pather.getPather( request );
-        //System.out.println( "GO TO :"+this.pageTitle+" = "+this.getPath( request ));
-        p.goTo( this.pageTitle,this.getURL( request ) );
+
+    private Page pather( HttpServletRequest request ) {
+        Pather p = Pather.getPather( request );
+        System.out.println( "GO TO :" + this.pageTitle + " = " + this.getURL( request ) );
+        return p.goTo( this.pageTitle, this.getURL( request ) );
+
     }
-    
-    
-    public String getURL(HttpServletRequest request) {
-        return  request.getRequestURI().substring(request.getContextPath().length());
+
+    public String getURL( HttpServletRequest request ) {
+        return request.getRequestURI().substring( request.getContextPath().length() );
     }
-    
- 
-    public void save(HttpServletRequest request , String name , Object value) {
+
+    public void save( HttpServletRequest request, String name, Object value ) {
         getSessionManager().save( request, name, value );
     }
-    
-    public Object get(HttpServletRequest request , String name) {
+
+    public Object get( HttpServletRequest request, String name ) {
         return getSessionManager().get( request, name );
     }
-    
-    public void remove(HttpServletRequest request , String name) {
+
+    public void remove( HttpServletRequest request, String name ) {
         getSessionManager().remove( request, name );
     }
-    
-    public  Utilisateur getUtilisateur(HttpServletRequest request) {
-        
+
+    public Utilisateur getUtilisateur( HttpServletRequest request ) {
+
         pageUser = (Utilisateur) get( request, Connexion.ATT_SESSION_USER );
         return pageUser;
-    
+
     }
-    
-    
+
     public static Utilisateur getUtilisateur() throws Exception {
-        if(pageUser==null) {
-            
+        if ( pageUser == null ) {
+
             throw new Exception( "Page user not initialized , with pg.getUtilisateur" );
         }
         System.out.println( "getUtilisateur appelé" );
         return pageUser;
     }
-    
-    
+
 }

@@ -89,7 +89,7 @@ public class CreationEtListeModele extends HttpServlet {
         
         
 	    pg = new PageGenerator( ModeleFactory.VUE_LIST_FORM, TITRE_VUE+id);
-        id = pg.getPathId( request );
+        id = (String) pg.getPathId( request );
         pg.setPageTitle( TITRE_VUE+id );
         
     

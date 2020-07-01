@@ -4,7 +4,7 @@
 <%@attribute name="col" required="true"%>
 <%@attribute name="name" required="true"%>
 <%@attribute name="label" required="true"%>
-<%@attribute name="addLink" required="true"%>
+<%@attribute name="addLink" required="false"%>
 
 <%@attribute name="erreurs_" required="false" type="java.util.List"%>
 <%@attribute name="isDisabled" required="false" type="java.lang.Boolean"  %>
@@ -29,6 +29,9 @@
 				<!--${empty erreurs_ ?'':'is-invalid'}" a faire apres-->
 		</div>
 	</c:forEach>
-	<a class="btn btn-sm btn-outline-success"
+	<c:if test="${!empty addLink}">
+		<a class="btn btn-sm btn-outline-success"
 		href='<c:url value="${addLink }"/>'>+</a>
+	</c:if>
+	
 </div>

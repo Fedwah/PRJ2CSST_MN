@@ -19,12 +19,24 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Workbook;
 
+import beans.entities.amdec.Instruction;
+import beans.entities.regions.unites.Unite;
+import beans.session.amdec.cause.CauseFactory;
+import beans.session.amdec.defaillance.DefaillanceFactory;
+import beans.session.amdec.effet.EffetFactory;
+import beans.session.amdec.instruction.InstructionFactory;
+import beans.session.drivers.DriverFactory;
 import beans.session.general.BeanFactory;
 import beans.session.general.GeneralManager;
 import beans.session.general.page.PageGenerator;
+import beans.session.maintenance.MaintenanceFactory;
+import beans.session.pieces.PieceFactory;
+import beans.session.regions.RegionFactory;
+import beans.session.regions.unites.UniteFactory;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.marques.MarqueFactory;
 import beans.session.vehicules.marques.modeles.ModeleFactory;
+import servlets.regions.regionsLists;
 
 /**
  * Servlet implementation class beanImporter
@@ -50,7 +62,16 @@ public class beanImporter extends HttpServlet {
         /*Ajouter ici les classes a importer/exporter */
         classes.put( "Vehicules", VehiculeFactory.class );
         classes.put( "Marques", MarqueFactory.class );
-        classes.put( "Modele", ModeleFactory.class );
+        classes.put( "Modeles", ModeleFactory.class );
+        classes.put( "Pieces", PieceFactory.class );
+        classes.put( "Regions", RegionFactory.class );
+        classes.put( "Untiés", UniteFactory.class  );
+        classes.put("Conducteurs",DriverFactory.class);
+        classes.put( "Causes", CauseFactory.class );
+        classes.put("Défaillances" , DefaillanceFactory.class);
+        classes.put( "Effets",EffetFactory.class );
+        classes.put("Instrcution",InstructionFactory.class);
+        classes.put( "Maintenaces", MaintenanceFactory.class );
     }
 
     /**
@@ -61,7 +82,7 @@ public class beanImporter extends HttpServlet {
             throws ServletException, IOException {
 
         PageGenerator pg = new PageGenerator( "/WEB-INF/vues/importer/importer.jsp", "" );
-        String id = pg.getPathId( request );
+        String id = (String) pg.getPathId( request );
 
         
         pg.setPageTitle( "Importer/Exporter : " + id  );
@@ -83,7 +104,7 @@ public class beanImporter extends HttpServlet {
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
         PageGenerator pg = new PageGenerator( "/WEB-INF/vues/importer/importer.jsp", "" );
-        String id = pg.getPathId( request );
+        String id = (String) pg.getPathId( request );
 
         pg.setPageTitle( "Importer/Exporter : " + id );
 
@@ -115,9 +136,19 @@ public class beanImporter extends HttpServlet {
                 System.out.println( "File readed : "+  request.getPart( "file" ).getSubmittedFileName());
                 System.out.println( "File type : "+  request.getPart( "file" ).getContentType());
                 System.out.println( "File size :"+request.getPart( "file" ).getSize());
-                List<?> beans  = beanF.importExcel((BufferedInputStream) request.getPart( "file" ).getInputStream());
+                String  name = request.getPart( "file" ).getSubmittedFileName();
+                List<Map<String,ArrayList<String>>> errs = null;
                 
-                List<Map<String,ArrayList<String>>> errs = beanF.insertAll(  beans, generalM );
+                if(!name.isEmpty()) {
+                   
+                    List<?> beans  = beanF.importExcel((BufferedInputStream) request.getPart( "file" ).getInputStream());
+                    
+                    errs = beanF.insertAll(  beans, generalM );
+                    
+                }else {
+                    request.setAttribute( "message", "Le fichier est vide");
+                }
+                
                 
                 request.setAttribute( "classes", classes );
                 request.setAttribute( "erreurs",  errs);

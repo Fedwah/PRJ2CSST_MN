@@ -34,14 +34,20 @@ public class SupressionFichier extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator("/Fichiers" );
-		String id = pg.getPathId( request );
+		String id = (String) pg.getPathId( request );
 		
 		if(id!=null && !id.isEmpty()) {
-		    fm.trouverSupprimer( id );
-		    pg.redirect( getServletContext(), request, response );
-		}else {
-		    response.getWriter().write( "Impossible de supprimer" );
+		    if(fm.trouverSupprimer( id )) {
+		      pg.redirectBackSuccess( getServletContext(), request, response, 
+		              "Suppression de "+id, 
+		              "Réussie" );  
+		    }
+		    
 		}
+		pg.redirectBackSuccess( getServletContext(), request, response, 
+		        "Suppression de "+ id+ " impossible",
+		        "Le fichiers est utlisé "  );
+		
 		
 	}
 
