@@ -74,4 +74,17 @@ public class PieceFactory extends BeanFactory<Piece> {
 	
 	}
 
+	public List<Piece> filterByModalId(List<Piece> pieces, int idMod)
+	{
+		List<Piece> filtrer = new ArrayList();
+		for(Piece p : pieces)
+		{
+			List<Modele> modals = p.getModals();
+			for(Modele m : modals)
+			{
+				if(m.getId() == idMod) filtrer.add(p);
+			}
+		}
+		return filtrer;
+	}
 }

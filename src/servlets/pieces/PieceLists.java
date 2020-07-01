@@ -2,6 +2,7 @@ package servlets.pieces;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.pieces.Piece;
 import beans.session.general.page.PageGenerator;
+import beans.session.pieces.PieceFactory;
 import beans.session.pieces.PieceManager;
 import beans.session.vehicules.marques.MarqueManager;
 
@@ -41,10 +43,9 @@ public class PieceLists extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PageGenerator pg = new PageGenerator(LIST , "Liste des pieces");
-		
+		String id = request.getParameter("modele");
 		request.setAttribute( "pieces", em.lister());
 		request.setAttribute( "marques", markManager.lister());
-		request.setAttribute( "fields", Piece.class.getDeclaredFields());
 		pg.generate( getServletContext(), request, response );
 	}
 
@@ -52,30 +53,28 @@ public class PieceLists extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String filter = request.getParameter("mark");
 		PageGenerator pg = new PageGenerator(LIST , "Liste des pieces");
 		Map<String,Object> fields = new HashMap();
-		if(request.getParameter("filter")!= null)
+		String id = request.getParameter("modele");
+		List<Piece> pieces = em.lister();
+		if(id!= null )
 		{
-			System.out.println("cas de filtrer");
-			if(!filter.contentEquals("Tous les marques"))
+			if(! id.contentEquals("all"))
 			{
-			fields.put("mark.titre", filter);	
-			System.out.println(filter);
-			request.setAttribute( "pieces", em.lister(fields));
-			request.setAttribute( "marques", markManager.lister());
-			request.setAttribute( "selectedMark", filter);
-			//request.setAttribute( "fields", Piece.class.getDeclaredFields());
+				PieceFactory pf = new PieceFactory();
+				List<Piece> filter = pf.filterByModalId(pieces, Integer.parseInt(id));
+				request.setAttribute("modal",id);
+				request.setAttribute( "pieces", filter);
 			}
 			else
 			{
-			request.setAttribute( "pieces", em.lister());
-			
+				request.setAttribute( "pieces", pieces);
+				request.setAttribute("modal",-1);
 			}
-		
 			
 		}
-		else if (request.getParameter("search")!= null)
+		
+		if (request.getParameter("search")!= null)
 		{
 			System.out.println("cas de recherche");
 			String search = request.getParameter("word");
@@ -87,6 +86,10 @@ public class PieceLists extends HttpServlet {
 		}
 		request.setAttribute( "marques", markManager.lister());
 		pg.generate( getServletContext(), request, response );
+		
+		
+			
 		}
+
 
 }

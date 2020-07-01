@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="container-fluid">
-	<form class=" " method="post" action="<c:out value=""/>">
+	<form class=" " method="post" name="frm" action="<c:out value=""/>">
 		<h3 class="display"
 			style='color: #3E703D; font-size: 40px; font-style: gras;'>Liste
 			des pieces</h3>
@@ -14,8 +14,7 @@
 					style='display: inline-block;' /> <select
 					class="form-control col-md-3" name="type"
 					style='display: inline-block;'>
-					<option value="id" ${by=='id'?"selected":""}>Code</option>
-					<option value="reference" ${by=='reference'?"selected":""}>Reference</option>
+					<option value="refrence" ${by=='reference'?"selected":""}>Reference</option>
 					<option value="pieceName" ${by=='pieceName'?"selected":""}>Nom</option>
 				</select>
 				<button type="submit" class="btn btn-light rounded-circle"
@@ -28,18 +27,20 @@
 			</div>
 			<div class="col-md-6" align="right">
 				<select class="form-control col-md-4" style='display: inline-block;'
-					name="mark">
-					<option>Tous les marques</option>
-					<c:forEach items="${marques}" var="m">
-						<option ${selectedMark==m.titre?"selected":""}>
-							${m.titre}</option>
+			name="modele" onchange="goTo()">
+					<option ${modal==-1?'selected':""} value="all">Tous les modeles</option>
+					<c:forEach items='${marques}' var='marq'>
+					<optgroup label='${marq.titre}'>
+					<c:forEach items='${marq.modeles}' var='m'>
+					<option ${modal==m.id?'selected':""}
+					value='${m.id}'>${m.titre}</option>
 					</c:forEach>
+					</optgroup>
+					</c:forEach>
+										
 				</select>
-				<button type="submit"
-					class="form-control col-md-2 btn-outline-success"
-					style='display: inline-block;' name="filter">filtrer</button>
 				<a class="btn btn-light rounded-circle"
-					style='display: inline-block; height: 40px; width: 40px;'
+					style='display: inline-block; height: 40px; width: 40px;position:relative; top:-3px; left:0px'
 					href='<c:url value="/pieces/edit/"/>'> <img width="50px"
 					height="50px" style='position: relative; top: -10px; left: -17px;'
 					src="<c:url value='/public/img/icon/add_green_nobackground.png'/>" />
@@ -73,10 +74,11 @@
 						<h3 class="card-title text-color h3-adjust">Modèles associés</h3>
 						<c:forEach items="${p.modals}" var="modal">
 
-							<span class="paragraph"><c:out value="${modal.marque.titre }"></c:out></span>
+							<span class="paragraph"><c:out
+									value="${modal.marque.titre }"></c:out></span>
 							-
 							<span class="paragraph"><c:out value="${modal.titre }"></c:out></span>
-							<br/>
+							<br />
 						</c:forEach>
 					</div>
 
@@ -87,3 +89,8 @@
 		</c:forEach>
 	</form>
 </div>
+<script>
+	function goTo() {
+		document.frm.submit()
+	}
+</script>
