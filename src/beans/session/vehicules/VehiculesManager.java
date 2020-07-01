@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 
 import beans.entities.regions.unites.Unite;
 import beans.entities.vehicules.EtatVehicule;
+import beans.entities.vehicules.EtatsVehicule;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
@@ -37,7 +38,7 @@ public class VehiculesManager  extends BeanManager<Vehicule>{
        
         if(v!=null) {
             
-            newBean.setEtat( (EtatVehicule)ObtenirRefence( EtatVehicule.class, newBean.getEtat().getTitre() ) );
+            newBean.setEtat( newBean.getEtat() );
             newBean.setMarque( (Marque)ObtenirRefence( Marque.class, newBean.getMarque().getTitre() ) );    
             newBean.setModele((Modele)ObtenirRefence( Modele.class, newBean.getModele().getId()));
             

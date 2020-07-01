@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import beans.entities.regions.unites.Unite;
 import beans.entities.vehicules.CategorieVehicule;
 import beans.entities.vehicules.EtatVehicule;
+import beans.entities.vehicules.EtatsVehicule;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
@@ -50,7 +51,7 @@ public class VehiculeFactory extends BeanFactory<Vehicule> {
 
         Marque marque = new Marque( request.getParameter( PARAM_MARQUE ) );
 
-        EtatVehicule etat = new EtatVehicule( request.getParameter( PARAM_ETAT ) );
+        EtatsVehicule etat = EtatsVehicule.get( request.getParameter( PARAM_ETAT ));
 
         CategorieVehicule categ = new CategorieVehicule( request.getParameter( PARAM_CATEGORIES_VEHICULE ) );
 
@@ -124,6 +125,22 @@ public class VehiculeFactory extends BeanFactory<Vehicule> {
         }else {
             System.out.println( this.getErreurs() );
         }
+        
+    }
+    
+    public void mettreAjourEtat(Vehicule old ,EtatsVehicule newEtat,VehiculesManager vehM ) {
+        Vehicule new_v = new Vehicule( old.getMatricule_interne(),
+                old.getMatricule_externe(), 
+                old.getModele(), 
+                old.getMarque(), 
+                newEtat, 
+                old.getDate_achat(), 
+                old.getPhoto(), 
+                old.getCategorie(), 
+                old.getUnite(),
+                old.getKm());
+        
+        vehM.mettreAJour( old.getMatricule_interne(),this, new_v );
         
     }
 }

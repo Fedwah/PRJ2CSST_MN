@@ -30,7 +30,7 @@
 				</div>
 
 				<form:input name="${names.unite}" type="texte"
-					value="${empty vehicule.unite ? unite.codeUN :vehicule.unite.codeUN}"
+					value="${empty vehicule.unite ? unite :vehicule.unite.codeUN}"
 					isDisabled="${true }" />
 
 
@@ -65,11 +65,12 @@
 						erreurs_="${erreurs[names.date_achat]}" label="Date d'achat">
 					</form:date>
 
-					<form:radio name="${names.etat}" fieldToTest="titre" col="col-md-4"
-						fieldToPrint="titre" selectedValue="${vehicule.etat.titre }"
-						items="${etats}" addLink="/Vehicules/Etats" label="Etat"
-						fieldID="titre" erreurs_="${erreurs[names.etat]}">
+					<form:radio name="${names.etat}" fieldToTest="label" col="col-md-4"
+						fieldToPrint="label" selectedValue="${vehicule.etat.label}"
+						items="${etats}" label="Etat"
+						fieldID="label" erreurs_="${erreurs[names.etat]}">
 					</form:radio>
+					
 				</div>
 			</div>
 			<!-- Probleme lors de la creation perte de l'image en cas d'erreur -->

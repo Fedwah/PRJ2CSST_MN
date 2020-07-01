@@ -1,6 +1,7 @@
 package servlets.vehicules;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -12,19 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.general.Image;
 import beans.entities.utilisateurs.Utilisateur;
-import beans.entities.vehicules.CategorieVehicule;
-import beans.entities.vehicules.Modele;
+import beans.entities.vehicules.EtatsVehicule;
 import beans.entities.vehicules.Vehicule;
 import beans.session.ImageManager;
 import beans.session.general.page.PageGenerator;
 import beans.session.regions.unites.UniteManager;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.VehiculesManager;
-import beans.session.vehicules.categorie.CategorieVehiculeFactory;
 import beans.session.vehicules.categorie.CategorieVehiculeManager;
 import beans.session.vehicules.etats.EtatVehiculeManager;
 import beans.session.vehicules.marques.MarqueManager;
-import beans.session.vehicules.marques.modeles.ModeleFactory;
 import beans.session.vehicules.marques.modeles.ModeleManager;
 
 /**
@@ -82,8 +80,9 @@ public class EditVehicules extends HttpServlet {
      */
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
-        String id = "";
-        PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_FORM, "Vehicule " + id );
+     
+        PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_FORM,"Vehicule");
+        String id = (String) pg.getPathId( request );
         Vehicule v = null;
         Boolean trouver = false;
         VehiculeFactory vehiculeF = new VehiculeFactory(Vehicule.class);
@@ -98,6 +97,8 @@ public class EditVehicules extends HttpServlet {
             if ( !trouver ) {
                 v = new Vehicule();
                 v.setMatricule_interne( id );
+            }else {
+                pg.setPageTitle( "Vehicule " + id  );
             }
         }
         
@@ -109,9 +110,9 @@ public class EditVehicules extends HttpServlet {
         request.setAttribute( ATT_MODELES, modM.lister() );
         request.setAttribute( ATT_UNITE, (u!=null?u.getCodeun():"Pas d'unité") );
         request.setAttribute( ATT_CATEGORIES_VEHICULE, categM.lister() );
-        request.setAttribute( ATT_ETATS, etaM.lister() );
+        request.setAttribute( ATT_ETATS, Arrays.asList(EtatsVehicule.values()));
         request.setAttribute( ATT_ERREURS, vehiculeF.getErreurs() );
-        request.setAttribute( ATT_DISABLE_ID, v!=null );
+        request.setAttribute( ATT_DISABLE_ID,trouver );
         pg.generate( getServletContext(), request, response );
 
     }
@@ -123,10 +124,12 @@ public class EditVehicules extends HttpServlet {
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
 
             throws ServletException, IOException {
-        String id = request.getPathInfo().substring( 1 );
-        PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_FORM, "Vehicule " + id,
+      
+        PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_FORM,"",
                 VehiculeFactory.DEFAULT_REDIRECT_URL );
 
+        String id = (String)pg.getPathId( request );
+        
         VehiculeFactory vehiculeF = new VehiculeFactory(Vehicule.class);
         
         Utilisateur u = pg.getUtilisateur( request );
@@ -136,8 +139,18 @@ public class EditVehicules extends HttpServlet {
         Vehicule new_v = vehiculeF.create( request );
 
       
+
+
         
-        Image old_img = ( old_v != null ? old_v.getPhoto() : null );
+        Image old_img = null;
+        
+        
+        if( old_v != null){
+           
+            old_img = old_v.getPhoto() ;
+            pg.setPageTitle( "Vehicule "+id );
+        }
+              
 
         
         System.out.println( "IMG EDIT OLD :" + ( old_img != null ? old_img.getTitre() : "pas d'image" ) );
@@ -171,7 +184,7 @@ public class EditVehicules extends HttpServlet {
         request.setAttribute( ATT_MODELES, modM.lister() );
         request.setAttribute( ATT_UNITE, (u!=null?u.getCodeun():"Pas d'unité") );
         request.setAttribute( ATT_CATEGORIES_VEHICULE, categM.lister() );
-        request.setAttribute( ATT_ETATS, etaM.lister() );
+        request.setAttribute( ATT_ETATS, Arrays.asList(EtatsVehicule.values()) );
         request.setAttribute( ATT_ERREURS, vehiculeF.getErreurs() );
         request.setAttribute( ATT_DISABLE_ID,new_v!=null );
         pg.generate( getServletContext(), request, response );
