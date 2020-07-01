@@ -223,7 +223,8 @@ public abstract class BeanManager<T> {
         for ( Map.Entry<String, Object> mapentry : values.entrySet() ) {
             // System.out.println( "Bounded :"+fields.getValidName((
             // mapentry.getKey()))+" "+ mapentry.getValue());
-            query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ), mapentry.getValue() );
+            query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ), 
+                    fields.cast(fields.getValidName(( mapentry.getKey())),mapentry.getValue()) );
         }
 
         return query;
@@ -253,8 +254,17 @@ public abstract class BeanManager<T> {
         System.out.println( "Query Build: " + q );
 
         for ( Map.Entry<String, Object> mapentry : values.entrySet() ) {
-            query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ),
-                    "%" + mapentry.getValue() + "%" );
+            if(fields.fields().
+                    get( fields.getValidName( 
+                            ( mapentry.getKey() ) )).class_.equals( "java.lang.String" )) {
+                query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ),
+                        "%" + mapentry.getValue() + "%" );
+                System.out.println( "set param String" );
+            }else {
+                query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ),
+                       fields.cast(fields.getValidName(( mapentry.getKey())),mapentry.getValue()));
+            }
+            
         }
 
         return query;
@@ -314,7 +324,13 @@ public abstract class BeanManager<T> {
             Map.Entry<String, Object> f = iterator.next();
 
             if ( map.get( fields.getValidName( f.getKey() ) ).isBasicClass ) {
-                qr = qr + " b." + f.getKey() + " like :" + f.getKey();
+                if(map.get( fields.getValidName( f.getKey() ) ).class_.contains( "java.lang.String" )) {
+                    qr = qr + " b." + f.getKey() + " like :" + f.getKey();
+                }else {
+                    // le  like marche que sur les String
+                    qr = qr + " b." + f.getKey() + " = :" + f.getKey();
+                }
+                
             } else {
                 qr = qr + f.getKey() + " like :" + fields.getValidName( f.getKey() );
             }

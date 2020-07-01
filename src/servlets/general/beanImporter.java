@@ -136,9 +136,19 @@ public class beanImporter extends HttpServlet {
                 System.out.println( "File readed : "+  request.getPart( "file" ).getSubmittedFileName());
                 System.out.println( "File type : "+  request.getPart( "file" ).getContentType());
                 System.out.println( "File size :"+request.getPart( "file" ).getSize());
-                List<?> beans  = beanF.importExcel((BufferedInputStream) request.getPart( "file" ).getInputStream());
+                String  name = request.getPart( "file" ).getSubmittedFileName();
+                List<Map<String,ArrayList<String>>> errs = null;
                 
-                List<Map<String,ArrayList<String>>> errs = beanF.insertAll(  beans, generalM );
+                if(!name.isEmpty()) {
+                   
+                    List<?> beans  = beanF.importExcel((BufferedInputStream) request.getPart( "file" ).getInputStream());
+                    
+                    errs = beanF.insertAll(  beans, generalM );
+                    
+                }else {
+                    request.setAttribute( "message", "Le fichier est vide");
+                }
+                
                 
                 request.setAttribute( "classes", classes );
                 request.setAttribute( "erreurs",  errs);

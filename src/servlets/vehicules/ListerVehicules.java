@@ -110,7 +110,7 @@ public class ListerVehicules extends HttpServlet {
 
         System.out.println( "Les filtres : " + vf.getFiltres().toString() );
 
-        request.setAttribute( ATT_VEHICULES, vm.lister( vf.getFiltres() ) );
+        request.setAttribute( ATT_VEHICULES, vm.searchby( vf.getFiltres() ) );
         request.setAttribute( ATT_FIELDS, vf.getEntityFields().labels() );
         request.setAttribute( ATT_FILTRES, vf.getNamesToFilter() );
         request.setAttribute( ATT_SEARCH, search );

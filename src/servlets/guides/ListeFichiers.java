@@ -61,7 +61,8 @@ public class ListeFichiers extends HttpServlet {
         String field = request.getParameter( ATT_FIELD );
         
         fichF.notFilter( "data" );
-        fichF.addFiltreByID( field, search );
+        if(search!=null && !search.isEmpty())
+            fichF.addFiltre( field, search );
         
        
         request.setAttribute( ATT_FIELDS, fichF.getEntityFields().labels() );

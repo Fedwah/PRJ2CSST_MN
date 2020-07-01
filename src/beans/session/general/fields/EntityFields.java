@@ -3,11 +3,14 @@ package beans.session.general.fields;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
@@ -267,6 +270,22 @@ public class EntityFields<T> {
         return null;
     }
     
-    
+    public Object cast(String name, Object value) {
+        //System.out.println( "Cast "+value+" of "+value.getClass()+" to "+ getClass( name ) );
+
+        
+        try {
+            String num  = ((String)value).replace( '.', ',' );
+            
+            return NumberFormat.getInstance(Locale.FRANCE).parse(num);
+        } catch ( ParseException e ) {
+          
+                System.out.println( "Not Number or double" );
+                return value;    
+        }
+       
+     
+   
+    }
     
 }

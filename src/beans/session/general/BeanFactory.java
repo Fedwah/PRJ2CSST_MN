@@ -313,7 +313,7 @@ public abstract class BeanFactory<T> {
         } 
         else 
         {
-            this.addErreurs( fieldName, "Ce parametre doit être unique" );
+            this.addErreurs( fieldName, "Ce parametre doit ï¿½tre unique" );
         }
 
         return false;
@@ -354,7 +354,7 @@ public abstract class BeanFactory<T> {
         }
 
     }
-
+    
     public void addFiltre( String field, String subField, Object value ) {
         this.filteres.addFiltre( field, subField, value );
     }

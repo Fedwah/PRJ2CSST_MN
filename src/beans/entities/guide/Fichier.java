@@ -17,7 +17,7 @@ public class Fichier {
     @Size(min=3)
     private String type;
     
-    private long taille;
+    private Long taille;
     
     private String description;
     
