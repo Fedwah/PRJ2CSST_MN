@@ -55,32 +55,9 @@ public class PieceServelet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		PageGenerator pg = new PageGenerator( FORM, "  ");
-		String id = "";
-		PieceFactory pf = new PieceFactory(Piece.class);
-		if ( request.getPathInfo() != null ) {
-            id = request.getPathInfo().substring( 1 );
-        }
-		if(id != "")
-		{
-			p = (Piece) em.trouver(id);
-			
-			if(p != null) // cas d'edition
-			{
-				request.setAttribute( "piece", p );
-				request.setAttribute( "disabled_id", true );
-				edit = true;
-			
-			}
-			else {
-				System.out.println("p est null");
-				request.setAttribute( "disabled_id", false );
-				edit = false ;
-				
-			}
-		}
+		PageGenerator pg = new PageGenerator( FORM, "Piece");
 		request.setAttribute( "marques", mManager.lister() );
-        request.setAttribute( "modeles", modManager.lister() );		
+        request.setAttribute( "modeles", modManager.lister() );	 
 		pg.generate( getServletContext(), request, response );
 	
 	}
@@ -92,71 +69,19 @@ public class PieceServelet extends HttpServlet {
 		
 		PageGenerator pg = new PageGenerator(FORM, "Piece", REDIRECT);
 		PieceFactory pf = new PieceFactory(Piece.class);
-		String code = request.getParameter("codepiece");
-		if (edit) // si on est entrain d'editer
+		Piece p =  pf.create(request);
+		if(pf.validate(p, em, p.getRefrence()))
 		{
-			Piece newP = pf.create(request);
-			newP.setId(p.getId());
-			if(pf.validate(newP))
-			{
-				
-				
-				if(em.mettreAJour(p.getId(),pf, newP)) 
-				{
-					pg.redirect(getServletContext(), request, response);
-				}
-
-			}
-			else
-			{
-				
-				// champs incorects
-				request.setAttribute("piece", newP);
-				request.setAttribute( "erreurs", pf.getErreurs() );
-				request.setAttribute( "disabled_id", true );
-				request.setAttribute( "marques", mManager.lister() );
-		        request.setAttribute( "modeles", modManager.lister() );	
-		        pg.generate( getServletContext(), request, response );
-			}
-			
+			em.ajouter(p);
+			pg.redirect(getServletContext(), request, response);
 		}
-		else // cas d'addition
+		else
 		{
-		
-			p = pf.create(request,mManager,modManager);
-			if(pf.validate(p))
-			{
-				// insertion dans la bdd
-				System.out.println("valide");
-				
-				if(em.ajouterUnique(p,code)) 
-				{
-					pg.redirect( getServletContext(), request, response );
-				}
-				else 
-				{
-					//code dupliqu�
-					System.out.println("non ins�r�e");
-					System.out.println("code est " + code);
-					PrintWriter out = response.getWriter();// je vais l'afficher apres en dessous de code piece
-					out.println("<script>alert(\"Ce code de piece existe d�j�\");</script>");
-				}
-			}
-			else {
-				// champs incorects
-				
-				request.setAttribute("piece", p);
-				request.setAttribute( "erreurs", pf.getErreurs() );
-				request.setAttribute( "marques", mManager.lister() );
-				request.setAttribute( "names", pf.getEntityFields().names());
-		        request.setAttribute( "modeles", modManager.lister() );	
-		        pg.generate( getServletContext(), request, response );
-
-			}
-			
+			request.setAttribute( "marques", mManager.lister() );
+	        request.setAttribute( "modeles", modManager.lister() );
+	        request.setAttribute("erreurs", pf.getErreurs());
+			pg.generate( getServletContext(), request, response );
 		}
-
-		
 	}
 
 }

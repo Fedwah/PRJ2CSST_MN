@@ -29,8 +29,9 @@ public class Marque implements Serializable {
     @JoinColumn(nullable = true)
     private Image image;
    
-    
+
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE,mappedBy = "marque")
+   
     private List<Modele> modeles;
    
     public Marque() {

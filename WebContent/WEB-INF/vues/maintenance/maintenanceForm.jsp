@@ -51,16 +51,7 @@
 						<div class="mt-2">
 						<label >Pieces de rechanges</label> 
 						<ol id="olP">
-  						<li>
-  						<div class=" mt-1 col-md-16">
-  							<c:set var="i" value="1"></c:set>
-							<select id="marque" class="form-control" name="${i}">
-								<c:forEach items="${piece}" var="p">
-									<option value = "${p.id}"> ${p.pieceName}</option>
-								</c:forEach>
-							</select>
-						</div>
-						</li>
+
 						</ol>
 						</div>
 						<div class=" mt-1 col-md-16" >

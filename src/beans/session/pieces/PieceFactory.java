@@ -1,18 +1,20 @@
 package beans.session.pieces;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
 import beans.entities.pieces.Piece;
-import beans.entities.vehicules.Marque;
+
 import beans.entities.vehicules.Modele;
 import beans.session.general.BeanFactory;
 import beans.session.general.BeanManager;
-import beans.session.vehicules.marques.MarqueFactory;
+
 import beans.session.vehicules.marques.MarqueManager;
-import beans.session.vehicules.marques.modeles.ModeleManager;
+
 
 public class PieceFactory extends BeanFactory<Piece> {
 	@EJB
@@ -28,50 +30,48 @@ public class PieceFactory extends BeanFactory<Piece> {
 
 	@Override
 	public Piece create(HttpServletRequest request) {
-		String code = (String) request.getParameter("codepiece");
-		String nom = (String) request.getParameter("nom");
-		String ref = (String) request.getParameter("ref");
-		String mark = request.getParameter("marque");	
-		Marque m = em.trouver(mark);
-		if(m!=null) System.out.println("marque existe");
-		else System.out.println("marque est null");
-		System.out.println("le modele est " + request.getParameter("modele"));
-		Modele mod = new Modele(Integer.decode(request.getParameter("modele")));
-		System.out.println("le modele est " + mod.getTitre());
-		Piece p = new Piece(code,ref,nom,m,mod);
+
+		String nom = request.getParameter("nom");
+		String ref = request.getParameter("ref");
+		List<Modele> modals = createModalsList(request);
+		Piece p  = new Piece(ref,nom,modals);
 		return p;
 	}	
-	public Piece create(HttpServletRequest request, MarqueManager markManager, ModeleManager modManager) {
-		String code = (String) request.getParameter("codepiece");
-		String nom = (String) request.getParameter("nom");
-		String ref = (String) request.getParameter("ref");
-		String mark = request.getParameter("marque");	
-		Marque m = markManager.trouver(mark);
-		if(m!=null) System.out.println("marque existe");
-		else System.out.println("marque est null");
-		System.out.println("le modele est " + request.getParameter("modele"));
-		Modele mod = modManager.trouver((Integer.decode(request.getParameter("modele"))));
-		System.out.println("le modele est " + mod.getTitre());
-		Piece p = new Piece(code,ref,nom,m,mod);
-		return p;
+
+	private List<Modele> createModalsList(HttpServletRequest request) {
+		int cpt = Integer.parseInt(request.getParameter("cpt"));
+		System.out.println("valeur cpt est " + cpt);
+		List<Modele> modals = new ArrayList();
+		for(int i=1;i<=cpt;i++)
+		{
+			String ch = Integer.toString(i);
+			System.out.println("caine est " + ch);
+			System.out.println("identifiant est " + request.getParameter(ch));
+			modals.add(new Modele(Integer.parseInt(request.getParameter(Integer.toString(i)))));
+			
+		}
+		return modals;
 	}
-	
+
 	@Override
 	public void validateChilds(Piece bean , BeanManager<Piece> beanM) {
-		MarqueFactory mf = new MarqueFactory();
-		if (!mf.findModal(bean.getMark(), bean.getModal()))
+		List<Modele> modals = bean.getModals();
+		for(Modele mod : modals)
 		{
-			this.addErreurs( "modal", "ce modele n'appartient pas ï¿½ la marque sï¿½lectionnï¿½e");
+			int cpt = 0 ;
+			int idMod = mod.getId();
+			for(int i = 0; i<modals.size();i++)
+			{
+				if(modals.get(i).getId() == idMod) cpt ++;
+			}
+			if(cpt>1) this.addErreurs("modals", "un modele est déjà inséré, vous ne pouvez pas l'inserer deux fois");
 		}
 		
 	}
 	// mise ï¿½ jour dans la base de donnï¿½es
 	@Override
 	public void updateChange(Piece newB, Piece old) {
-		old.setPieceName(newB.getPieceName());
-		old.setMark(newB.getMark());
-		old.setModal(newB.getModal());
-		old.setReference(newB.getReference());		
+	
 	}
 
 }

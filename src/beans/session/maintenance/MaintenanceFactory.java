@@ -161,12 +161,12 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
         	System.out.println("valeur de " + i + " est " + request.getParameter( Integer.toString( i )));
         	if(request.getParameter( Integer.toString( i ) ) != null)
         	{
-        		Piece p = new Piece( request.getParameter( Integer.toString( i ) ) );
-                pieces.add( p );
+        		//Piece p = new Piece( request.getParameter( Integer.toString( i ) ) );
+                //pieces.add( p );
         	}
         }
 
-        bean.setPieces( pieces );
+        //bean.setPieces( pieces );
 
     }
 

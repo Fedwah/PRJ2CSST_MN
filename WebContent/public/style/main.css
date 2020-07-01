@@ -26,9 +26,6 @@ Ici mettre le css de toute l'application
 	color:#3E703D;
 }
 
-.btn-add{
-	
-}
 
 .triangle-fin{
 	z-index: -1;
@@ -42,4 +39,13 @@ Ici mettre le css de toute l'application
     border-radius: 0px 80px 80px 72px;
 }
 
+.h3-adjust{
+	font-weight: bold;
+	font-size: 18px;
+	
+}
+.paragraph{
+	font-weight: bold;
+	font-size: 16px;
+}
 

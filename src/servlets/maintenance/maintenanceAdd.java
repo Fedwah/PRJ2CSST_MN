@@ -66,6 +66,7 @@ public class maintenanceAdd extends HttpServlet {
 			}
 		}
 		request.setAttribute("niveaux",Niveau.values());
+		request.setAttribute("piece", pm.lister());
 		pg.generate( getServletContext(), request, response );
 	}
 

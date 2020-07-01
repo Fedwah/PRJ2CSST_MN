@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -60,7 +61,7 @@ public class Maintenance implements Serializable{
 	
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Piece> pieces;
+	private Set<Piece> pieces;
 	
 
 	
@@ -88,7 +89,7 @@ public class Maintenance implements Serializable{
 
 	
 
-	public Maintenance(Date startDate, Vehicule v, List<Piece> pieces, Niveau niv, Unite un) {
+	public Maintenance(Date startDate, Vehicule v, Set<Piece> pieces, Niveau niv, Unite un) {
 		super();
 		this.startDate = startDate;
 		this.v = v;
@@ -102,7 +103,7 @@ public class Maintenance implements Serializable{
 
 
 
-	public Maintenance(int idMaintenance, Date startDate, Date endDate, Vehicule v, List<Piece> pieces, Niveau niv,
+	public Maintenance(int idMaintenance, Date startDate, Date endDate, Vehicule v, Set<Piece> pieces, Niveau niv,
 			Unite un) {
 		super();
 		this.idMaintenance = idMaintenance;
@@ -172,12 +173,12 @@ public class Maintenance implements Serializable{
 	}
 
 
-	public List<Piece> getPieces() {
+	public Set<Piece> getPieces() {
 		return pieces;
 	}
 
 
-	public void setPieces(List<Piece> pieces) {
+	public void setPieces(Set<Piece> pieces) {
 		this.pieces = pieces;
 	}
 

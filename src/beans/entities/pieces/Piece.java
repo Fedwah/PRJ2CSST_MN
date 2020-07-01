@@ -3,7 +3,9 @@ package beans.entities.pieces;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -21,23 +23,16 @@ import beans.entities.vehicules.Modele;
 public class Piece implements Serializable {
     @Id
     @NotEmpty
-    @Size( min = 1, max = 10 )
-    private String            id;
-
-    @NotEmpty
-    @Size( min = 1, max = 10 )
-    private String            reference;
+    @Size( min = 1, max = 20 )
+    private String   refrence;
 
     @NotEmpty
     @Size( min = 3, max = 20 )
-    private String            pieceName;
+    private String   pieceName;
 
-    @ManyToOne
-    private Marque            mark;
-
-    @ManyToOne
+    @ManyToMany (fetch = FetchType.EAGER)
     @NotNull
-    private Modele            modal;
+    private List<Modele>   modals;
 
     @ManyToMany( mappedBy = "pieces" )
     private List<Maintenance> maintenances;
@@ -45,78 +40,59 @@ public class Piece implements Serializable {
     public Piece() {
     }
 
-    public Piece( String id, String reference, String pieceName, Marque mark, Modele modal,
-            List<Maintenance> maintenances ) {
-        super();
-        this.id = id;
-        this.reference = reference;
-        this.pieceName = pieceName;
-        this.mark = mark;
-        this.modal = modal;
-        this.maintenances = maintenances;
-    }
+    
 
-    public Piece( String id, String pieceName, Marque mark, Modele modal ) {
-        super();
-        this.id = id;
-        this.pieceName = pieceName;
-        this.mark = mark;
-        this.modal = modal;
-    }
+    public Piece(String refrence, String pieceName, List<Modele> modal) {
+		super();
+		this.refrence = refrence;
+		this.pieceName = pieceName;
+		this.modals = modal;
+	}
 
-    public Piece( String id, String reference, String pieceName, Marque mark, Modele modal ) {
-        super();
-        this.id = id;
-        this.reference = reference;
-        this.pieceName = pieceName;
-        this.mark = mark;
-        this.modal = modal;
-    }
 
-    public Piece( String id ) {
-        super();
-        this.id = id;
-    }
 
-    public String getId() {
-        return id;
-    }
+	public Piece(String refrence, String pieceName, List<Modele> modal, List<Maintenance> maintenances) {
+		super();
+		this.refrence = refrence;
+		this.pieceName = pieceName;
+		this.modals = modal;
+		this.maintenances = maintenances;
+	}
 
-    public void setId( String id ) {
-        this.id = id;
-    }
+// getters and setters 
+	
+	
 
-    public String getPieceName() {
+	public String getPieceName() {
         return pieceName;
     }
 
-    public void setPieceName( String pieceName ) {
+    public String getRefrence() {
+		return refrence;
+	}
+
+
+
+	public void setRefrence(String refrence) {
+		this.refrence = refrence;
+	}
+
+
+	 @JSONPropertyIgnore
+	public List<Modele> getModals() {
+		return modals;
+	}
+
+
+
+	public void setModals(List<Modele> modals) {
+		this.modals = modals;
+	}
+
+
+
+	public void setPieceName( String pieceName ) {
         this.pieceName = pieceName;
-    }
-
-    public Marque getMark() {
-        return mark;
-    }
-
-    public void setMark( Marque mark ) {
-        this.mark = mark;
-    }
-
-    @JSONPropertyIgnore
-    public Modele getModal() {
-        return modal;
-    }
-
-    public void setModal( Modele modal ) {
-        this.modal = modal;
-    }
-
-    public String getReference() {
-        return reference;
-    }
-
-    public void setReference( String reference ) {
-        this.reference = reference;
     }
 
     @JSONPropertyIgnore
