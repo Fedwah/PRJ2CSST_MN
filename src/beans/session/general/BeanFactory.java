@@ -590,7 +590,7 @@ public abstract class BeanFactory<T> {
             return (BeanFactory<?>) factoryC.newInstance();
 
         } catch ( Exception e ) {
-           
+            
             e.printStackTrace();
         }
 
