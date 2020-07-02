@@ -10,7 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import beans.entities.general.Image;
 import beans.entities.utilisateurs.Utilisateur;
 import beans.entities.vehicules.EtatsVehicule;
@@ -21,7 +20,6 @@ import beans.session.regions.unites.UniteManager;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.VehiculesManager;
 import beans.session.vehicules.categorie.CategorieVehiculeManager;
-import beans.session.vehicules.etats.EtatVehiculeManager;
 import beans.session.vehicules.marques.MarqueManager;
 import beans.session.vehicules.marques.modeles.ModeleManager;
 
@@ -54,8 +52,7 @@ public class EditVehicules extends HttpServlet {
     @EJB
     private ModeleManager       modM;
 
-    @EJB
-    private EtatVehiculeManager etaM;
+ 
     
     @EJB
     private CategorieVehiculeManager categM;

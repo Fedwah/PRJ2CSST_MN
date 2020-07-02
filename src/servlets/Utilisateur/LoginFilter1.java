@@ -1,6 +1,8 @@
 package servlets.Utilisateur;
 
 import java.io.IOException;
+
+import javax.ejb.EJB;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.entities.utilisateurs.Utilisateur;
+import beans.session.Utilisateur.MethodeUtilisateur;
 import beans.session.general.page.PageGenerator;
 
 /**
@@ -20,6 +24,9 @@ import beans.session.general.page.PageGenerator;
 @WebFilter("/*")
 public class LoginFilter1 implements Filter {
  
+    @EJB
+    private MethodeUtilisateur mU;
+    
     public LoginFilter1() {
        
     }
@@ -46,6 +53,12 @@ public class LoginFilter1 implements Filter {
 	            chain.doFilter(request, response);
 	           
 	        } else {
+	           
+	            if(mU.count()==0) {
+	                //if no users create a default one
+	                Utilisateur u = new Utilisateur( "root", "12345", "root", "root", "root","root","", "", "" );
+	                mU.ajouter( u );
+	            }
 	            response.sendRedirect(loginURI);
 	        }
 	}

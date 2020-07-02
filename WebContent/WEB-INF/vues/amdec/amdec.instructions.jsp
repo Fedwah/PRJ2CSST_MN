@@ -22,8 +22,8 @@
 								items="${modeles}">
 							</form:list>
 							
-							<form:list name="piece" fieldToTest="id" col="" fieldToPrint="reference" 
-								selectedValue="" fieldID="id" label="Piece"
+							<form:list name="piece" fieldToTest="refrence" col="" fieldToPrint="refrence" 
+								selectedValue="" fieldID="refrence" label="Piece"
 								items="${pieces}">
 							</form:list>
 							

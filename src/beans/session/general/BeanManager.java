@@ -224,7 +224,7 @@ public abstract class BeanManager<T> {
             // System.out.println( "Bounded :"+fields.getValidName((
             // mapentry.getKey()))+" "+ mapentry.getValue());
             query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ), 
-                    fields.cast(fields.getValidName(( mapentry.getKey())),mapentry.getValue()) );
+                    fields.cast(mapentry.getKey(),mapentry.getValue()) );
         }
 
         return query;
@@ -262,7 +262,7 @@ public abstract class BeanManager<T> {
                 System.out.println( "set param String" );
             }else {
                 query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ),
-                       fields.cast(fields.getValidName(( mapentry.getKey())),mapentry.getValue()));
+                       fields.cast(mapentry.getKey(),mapentry.getValue()));
             }
             
         }
@@ -383,7 +383,7 @@ public abstract class BeanManager<T> {
                 if ( f != null ) {
                     System.out.println( "call get method : " + f.name );
                     value = u.getCodeun();
-                    idName = this.fields.getChildId( f.name );
+                    idName = this.fields.getChildIdName( f.name );
                     if ( value != null )
                         filtre.put( f.name + "." + idName, value );
                 }
@@ -398,4 +398,9 @@ public abstract class BeanManager<T> {
         return filtre;
     }
 
+    public Integer count() {
+        return ((Number)getEntityManger().
+                createQuery( "SELECT COUNT(b) from " + beanClass.getName() + " b")
+                .getSingleResult()).intValue();
+    }
 }

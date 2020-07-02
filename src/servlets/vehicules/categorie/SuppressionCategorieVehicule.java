@@ -8,13 +8,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import beans.entities.vehicules.EtatVehicule;
 import beans.session.general.page.PageGenerator;
 import beans.session.vehicules.categorie.CategorieVehiculeFactory;
 import beans.session.vehicules.categorie.CategorieVehiculeManager;
-import beans.session.vehicules.etats.EtatVehiculeManager;
+
 
 /**
  * Servlet implementation class SuppressionEtatVehicule

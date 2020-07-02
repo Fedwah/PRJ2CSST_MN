@@ -21,15 +21,15 @@ public class InstructionFactory  extends BeanFactory<Instruction>{
     public Instruction create( HttpServletRequest request ) {
         // TODO Auto-generated method stub
         return new Instruction( 
-               /* new Modele( this.castInt( request.getParameter( "modele" ) ) ),
-                //new Piece( request.getParameter( "piece" ) ),
+               new Modele( this.castInt( request.getParameter( "modele" ) ) ),
+                new Piece( request.getParameter( "piece" ) ),
                 new Defaillance( this.castInt(request.getParameter( "defaillance-instruction" ))),
                 new Cause( this.castInt(request.getParameter( "cause-instruction" )) ), 
                 new Effet(this.castInt(request.getParameter( "effet-instruction" ) )), 
                 this.castInt( request.getParameter( "gravite" ) ), 
                 this.castInt(request.getParameter( "frequence" )),
                 this.castInt( request.getParameter( "niveau_detection" ) ), 
-                request.getParameter( "demarche_resolution" )*/);
+                request.getParameter( "demarche_resolution" ));
     }
     
     @Override
