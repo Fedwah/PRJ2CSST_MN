@@ -33,17 +33,13 @@
 						<div class="mt-2" id="modalsList">
 							<div class="row">
 								<label class="col-11">Modele</label>
-								<div class="input-group-append" align="right">
-									<button class="btn btn-outline-success" id="zap"
-										style='width: 40px; position: relative; top: 0px; left: 14px;'>-</button>
-								</div>
 							</div>
 							<input id="cptLi" name="cpt" value="1" type="hidden" />
 							<c:set var="i" value="0"></c:set>
 							<div class='mt-1 col-md-16' id="newModele">
-
-										<select id='1' class='form-control' required='required'
-											name='1'>
+								<ol id="olP">
+									<li id='liM'><select id='1' class='form-control'
+										required='required' name='1'>
 											<c:forEach items='${marques}' var='marq'>
 												<optgroup label='${marq.titre}'>
 													<c:forEach items='${marq.modeles}' var='m'>
@@ -52,7 +48,8 @@
 													</c:forEach>
 												</optgroup>
 											</c:forEach>
-										</select>
+									</select></li>
+								</ol>
 							</div>
 						</div>
 						<div class=" mt-1 col-md-16">
@@ -67,26 +64,18 @@
 
 
 		<button type="submit" class="btn btn-primary" id="send">Valider</button>
+		
+		<a tyepe="reset" class="btn btn-outline-success" href='<c:url value="/pieces/edit/"/>'>Réinitialiser</a>
 		<a type="reset" class="btn btn-danger" href='<c:url value="/pieces"/>'>Annuler</a>
 	</form>
 </div>
 <script>
+	document.querySelector("#btn2").addEventListener("click",function(event) {
+	$("#cptLi").val(parseInt($("#cptLi").val()) + 1);
+	var nom = $("#cptLi").val();
 
-$( document ).ready(function(){
-	   $("#zap").on("click", function(){
-		    $("#liM").first().remove();
-	   });
-	});
-
-document.querySelector("#btn2").addEventListener("click", function(event) {
-	var element = document.getElementById($("#cptLi").val());
-	$("#cptLi").val(parseInt($("#cptLi").val()) + 1);	
-	$( "#newModele" ).clone().appendTo( "#modalsList" );
-	
-	element.id = $("#cptLi").val();
-	element.name = $("#cptLi").val();
-   // $("#olP").append("<li ><div class='mt-1 col-md-16'><select id='modele' class='form-control' required='required' name='${i}'><c:forEach items='${marques}' var='marq'><optgroup label='${marq.titre}'><c:forEach items='${marq.modeles}' var='m'><option ${piece.modal.titre==m.titre?'selected':""} value='${m.id}'>${m.titre}</option></c:forEach></optgroup></c:forEach></select></div></li>");
-    
-     event.preventDefault();
-}, false);
+	var element = "<li id='liM'><select class='form-control' required='required'name="+nom+"><c:forEach items='${marques}' var='marq'>optgroup label='${marq.titre}'><c:forEach items='${marq.modeles}' var='m'><option ${piece.modal.titre==m.titre?'selected':""}value='${m.id}'>${m.titre}</option></c:forEach></optgroup></c:forEach></select></li>";
+	$("#olP").append(element);
+	event.preventDefault();
+	}, false);
 </script>

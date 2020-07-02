@@ -60,11 +60,11 @@
 						</div>
 						<div class="col-md-4 " align="right">
 							<a class="btn btn-outline-primary"
-								href='<c:url value="/pieces/edit/${piece.refrence}"/>'> <img
+								href='<c:url value="/pieces/edit/${p.refrence}"/>'> <img
 								width="20px" height="20px"
 								src="<c:url value='/public/img/icon/edit_green.png'/>" />
 							</a> <a class="btn btn-outline-danger" width="30px"
-								href='<c:url value="/pieces/remove/${piece.refrence}"/>'> <img
+								href='<c:url value="/pieces/remove/${p.refrence}"/>'> <img
 								width="20px" height="20px"
 								src="<c:url value='/public/img/icon/delete_green.png'/>" />
 							</a>

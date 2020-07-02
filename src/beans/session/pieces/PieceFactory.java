@@ -40,7 +40,7 @@ public class PieceFactory extends BeanFactory<Piece> {
 
 	private List<Modele> createModalsList(HttpServletRequest request) {
 		int cpt = Integer.parseInt(request.getParameter("cpt"));
-		System.out.println("valeur cpt est " + cpt);
+		System.out.println("valeur cpt est " + request.getParameter("cpt"));
 		List<Modele> modals = new ArrayList();
 		for(int i=1;i<=cpt;i++)
 		{
