@@ -398,4 +398,9 @@ public abstract class BeanManager<T> {
         return filtre;
     }
 
+    public Integer count() {
+        return ((Number)getEntityManger().
+                createQuery( "SELECT COUNT(b) from " + beanClass.getName() + " b")
+                .getSingleResult()).intValue();
+    }
 }
