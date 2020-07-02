@@ -365,7 +365,7 @@ public abstract class BeanFactory<T> {
                 this.addFiltre( field, value );
 
             } else {
-                this.addFiltre( field,this.getEntityFields().getChildId( field ), value );
+                this.addFiltre( field,this.getEntityFields().getChildIdName( field ), value );
             }
         }
     }
@@ -554,7 +554,7 @@ public abstract class BeanFactory<T> {
 
         Method m = this.entityFields.getGetter( this.beanClass, childname );
         Object child = null;
-        String childId = this.getEntityFields().getChildId( childname );
+        String childId = this.getEntityFields().getChildIdName( childname );
 
         try {
             if ( m != null )

@@ -165,6 +165,7 @@ public class EntityFields<T> {
     }
 
     public Class<?> getClass( String name ) {
+     
         String class_ = this.fields.get( name ).class_;
         try {
 
@@ -178,11 +179,22 @@ public class EntityFields<T> {
         return null;
     }
 
-    public String getChildId( String childName ) {
+    public String getChildIdName( String childName ) {
         Class<?> class_ = this.getClass( childName );
         for ( Field f : class_.getDeclaredFields() ) {
             if ( f.getAnnotation( Id.class ) != null ) {
-                return f.getName();
+                return f.getName(); 
+            }
+        }
+        return null;
+    }
+    
+    public FieldDefinition getChildField( String childName ,String childField) {
+        Class<?> class_ = this.getClass( childName );
+        for ( Field f : class_.getDeclaredFields() ) {
+            if ( formatName( f.getName() ).equals( childField ) ) {
+                return new FieldDefinition( formatName( f.getName() ), formatLabel( formatField( f.getName() ) ),
+                        formatClass( f.toGenericString() ), isBasicClass( f.toGenericString() ) ); 
             }
         }
         return null;
@@ -257,10 +269,25 @@ public class EntityFields<T> {
     }
 
     public Object cast( String name, Object value ) {
-        // System.out.println( "Cast "+value+" of "+value.getClass()+" to "+
-        // getClass( name ) );
-        Class<?> c = this.getClass( name );
-
+         
+         String[] names = name.split( "\\." );
+         Class<?> c = null;
+         System.out.println( "names are "+ names );
+         if(names.length==1) {
+             c = this.getClass( names[0] );
+         }else if (names.length ==2) {
+             try {
+                c = Class.forName(this.getChildField( names[0], names[1] ).class_);
+            } catch ( ClassNotFoundException e ) {
+                c= null;
+            }
+         }else {
+             System.err.println( "not suported the depth of 3 or more in cast" );
+         }
+         
+         System.out.println( "Cast "+value+" of "+value.getClass()+" to "+
+                 c);
+         
         if ( ( c != null && !c.equals( String.class ) ) || c == null ) {
             try {
                 String num = ( (String) value ).replace( '.', ',' );
@@ -272,7 +299,7 @@ public class EntityFields<T> {
 
             }
 
-            return value;
+            
         }
         
         return value;
