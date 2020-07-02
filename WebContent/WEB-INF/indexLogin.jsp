@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>${title}</title>
+<link rel="icon" href="<c:url value="/public/img/logos/mn_greenBackground.png"/>">
 <link type="text/css" rel="stylesheet" href="<c:url value="/public/bootstrap/css/bootstrap.min.css"/>" />
 <script src="<c:url value="/public/js/jquery-3.5.1.min.js"/>"></script>
 <script src="<c:url value="/public/bootstrap/js/bootstrap.min.js"/>"></script>
