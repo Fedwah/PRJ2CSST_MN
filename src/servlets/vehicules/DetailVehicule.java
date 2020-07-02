@@ -64,8 +64,8 @@ public class DetailVehicule extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_DETAIL, "" );
-		String id = (String)pg.getPathId( request );
-		
+		//String id = (String)pg.getPathId( request );
+		String id = request.getPathInfo().substring( 1 );
 		Vehicule v = null;
 		AffectationConducteur aff = null;
 		Mission m = null;

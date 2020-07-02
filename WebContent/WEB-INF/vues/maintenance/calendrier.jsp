@@ -14,21 +14,15 @@ function goTo()
 }
 </script>
 <form name="frm" method="post">
-<div></div>
-<div align="right">
-	<a class="btn btn-light rounded-circle" style='display: inline-block;height:40px; width:40px;'
-	   href='<c:url value="/maintenance/add/"/>'>
-	  <img width="50px" height="50px" style='position: relative; top: -10px; left: -17px;' 
-	  src="<c:url value='/public/img/icon/add_green_nobackground.png'/>" />
-	</a>
-</div>
+
 <div>
 <table class="table" width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
       	
-        <td width="6%">Year</td>
+        <td class="text-color paragraph" width="6%">
+        <span style='position:relative; top:6px;left:0px;'>Année</span></td>
         <td width="10%">
 		<select class="form-control" name="iYear" onchange="goTo()">
         
@@ -38,8 +32,9 @@ function goTo()
       		</c:forEach>
         </select>
         </td>
-        <td width="64%" align="center"><h3><c:out value="${mois}" /> <c:out value="${cal.iYear}" /></h3></td>
-        <td width="6%">Month</td>
+        <td width="64%" align="center"><h3  class="text-color"><c:out value="${mois}" /> <c:out value="${cal.iYear}" /></h3></td>
+        <td class="text-color paragraph" width="6%">
+         <span style='position:relative; top:6px;left:0px;'>Mois</span></td>
         <td width="14%">
 		<select class="form-control" name="iMonth" onchange="goTo()">
     

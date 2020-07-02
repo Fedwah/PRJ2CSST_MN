@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="container-fluid">
-	
+<form class="p-4 needs-validation " method="post" action="<c:out value=""/>">	
 
 		<!-- ${ erreurs } <!-- pour tester -->
 
@@ -29,9 +29,8 @@
 						<div class="input-group mb-3">
 							<select id="marque" class="form-control" name="niveau" >
 								<c:forEach items="${niveaux}" var="n">
-									<option value = "${n}" >								
-  										<div >${n.label }</div>
-  										<div>${n.desc}</div>											
+									<option value = "${n}" title="${n.desc}" >								
+  										${n.label }										
 									 </option>
 								</c:forEach>
 							</select>
@@ -50,8 +49,16 @@
 						</div>
 						<div class="mt-2">
 						<label >Pieces de rechanges</label> 
+						<input id="cptLi" name="cpt" value="0" type="hidden" />
 						<ol id="olP">
-
+						<li>
+						<select class="form-control" required="required" name="${name}">
+						<c:forEach items="${piece}" var="p">
+						<option
+						value="${p.refrence}">${p.pieceName}</option>
+						</c:forEach>
+						</select>
+						</li>
 						</ol>
 						</div>
 						<div class=" mt-1 col-md-16" >
@@ -59,17 +66,18 @@
 						</div>
 						</div>
 					</div>
-	<form class="p-4 needs-validation " method="post" action="<c:out value=""/>">
+	
 		<button type="submit" class="btn btn-primary" name="save">Valider</button>
-		<a type="reset" class="btn btn-danger" href='<c:url value="/calendar"/>'>Annuler</a>
+		<a type="reset" class="btn btn-danger" href='<c:url value="/Vehicules/${Vehicule.matricule_interne}"/>'>Annuler</a>
 	</form>
 </div>
 <script>
-$(document).ready(function(){
- 
+	document.querySelector("#btn2").addEventListener("click",function(event) {
+	$("#cptLi").val(parseInt($("#cptLi").val()) + 1);
+	var nom = $("#cptLi").val();
 
-  $("#btn2").click(function(){
-    $("#olP").append("<div class='mt-1 col-md-16'><li><c:set var='i' value='${i + 1}'></c:set><select id='marque' class='form-control' name='${i}''><c:forEach items='${piece}' var='p'><option value = '${p.id}'> ${p.pieceName}</option></c:forEach></select></li></div>");
-  });
-});
+	var element = "<li id='liM'><select class='form-control' required='required'name="+nom+"><c:forEach items='${marques}' var='marq'>optgroup label='${marq.titre}'><c:forEach items='${marq.modeles}' var='m'><option ${piece.modal.titre==m.titre?'selected':""}value='${m.id}'>${m.titre}</option></c:forEach></optgroup></c:forEach></select></li>";
+	$("#olP").append(element);
+	event.preventDefault();
+	}, false);
 </script>

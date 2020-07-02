@@ -43,7 +43,7 @@
 						</div>
 						<div class="col-md-6">
 							<h5 class="d-inline">Etat :</h5>
-							${vehicule.etat.titre}
+							${vehicule.etat.label}
 
 						</div>
 						<div class="col-md-6">
