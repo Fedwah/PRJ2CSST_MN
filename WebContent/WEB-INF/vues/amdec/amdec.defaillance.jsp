@@ -41,23 +41,7 @@
 				</table>
 
 			</div>
-			<c:if test="${sessionScope.exception}">
-				<script>
-					$(document)
-							.ready(
-									function() {
-										swal({
-											title : "Cette défaillance est liée à d'autre élément",
-											text : "vous ne pouvez pas la supprimer",
-											icon : "warning",
-											dangerMode : true,
-										})
-									});
-				</script>
-				<%
-				    session.removeAttribute( "exception" );
-				%>
-			</c:if>
+		
 		</div>
 	</div>
 </div>

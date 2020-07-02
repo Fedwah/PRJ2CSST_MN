@@ -1,22 +1,15 @@
 package beans.session.vehicules;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 
 import beans.entities.regions.unites.Unite;
 import beans.entities.vehicules.CategorieVehicule;
-import beans.entities.vehicules.EtatVehicule;
 import beans.entities.vehicules.EtatsVehicule;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.BeanFactory;
 import beans.session.general.BeanManager;
-import beans.session.vehicules.categorie.CategorieVehiculeFactory;
-import beans.session.vehicules.etats.EtatVehiculeFactory;
-import beans.session.vehicules.marques.MarqueFactory;
-import beans.session.vehicules.marques.modeles.ModeleFactory;
 
 public class VehiculeFactory extends BeanFactory<Vehicule> {
 

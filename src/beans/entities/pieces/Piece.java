@@ -42,6 +42,13 @@ public class Piece implements Serializable {
 
     
 
+    public Piece( String refrence ) {
+        super();
+        this.refrence = refrence;
+    }
+
+
+
     public Piece(String refrence, String pieceName, List<Modele> modal) {
 		super();
 		this.refrence = refrence;

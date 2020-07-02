@@ -31,7 +31,7 @@
 				<tr>
 					<td scope="row">${d.vehicule.matricule}</td>
 					<td >${d.date}</td>
-					<td>${d.instruction.piece.reference}</td>
+					<td>${d.instruction.piece.refrence}</td>
 					<td>${d.instruction.defaillance.defaillance}</td>
 					<td>${d.instruction.cause.cause}</td>
 					<td>${d.instruction.effet.effet}</td>

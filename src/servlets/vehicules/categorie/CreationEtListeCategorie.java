@@ -10,12 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.vehicules.CategorieVehicule;
-import beans.entities.vehicules.EtatVehicule;
 import beans.session.general.page.PageGenerator;
 import beans.session.vehicules.categorie.CategorieVehiculeFactory;
 import beans.session.vehicules.categorie.CategorieVehiculeManager;
-import beans.session.vehicules.etats.EtatVehiculeFactory;
-import beans.session.vehicules.etats.EtatVehiculeManager;
+
 
 /**
  * Servlet implementation class CreationEtListeEtat
