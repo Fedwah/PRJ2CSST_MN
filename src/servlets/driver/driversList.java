@@ -2,6 +2,7 @@ package servlets.driver;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
@@ -10,9 +11,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.entities.driver.Driver;
 import beans.entities.pieces.Piece;
+import beans.entities.utilisateurs.Utilisateur;
 import beans.entities.vehicules.AffectationConducteur;
 import beans.entities.vehicules.Vehicule;
 import beans.session.drivers.DriverFactory;
@@ -36,6 +39,7 @@ public class driversList extends HttpServlet {
 	private RegionManager regManager;
 	@EJB
 	private AffectationConducteurManager affM;
+	private Utilisateur user = null;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -50,9 +54,14 @@ public class driversList extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator(driverVue , "Liste des conducteurs" );
-		request.setAttribute( "drivers", dm.lister());
-		request.setAttribute("region", regManager.lister());
-		request.setAttribute( "fields", Driver.class.getDeclaredFields());
+		HttpSession session = request.getSession();
+		user = (Utilisateur) session.getAttribute("sessionUtilisateur");
+		if(user.getCodeun()!=null)
+		{
+			request.setAttribute( "drivers", dm.listerASC(user.getCodeun()));			
+		}
+
+
 		request.setAttribute( "vehicule", pg.getPathId( request ));
 		pg.generate( getServletContext(), request, response );
 	}
@@ -64,47 +73,54 @@ public class driversList extends HttpServlet {
 		String filter = request.getParameter("reg");
 		PageGenerator pg = new PageGenerator(driverVue , "Liste des conducteurs");
 		Map<String,Object> fields = new HashMap();
-		if(request.getParameter("filter")!= null)
+		String order = request.getParameter("date");
+		if(user.getCodeun()!= null)
 		{
-			System.out.println("cas de filtrer");
-			if(!filter.contentEquals("Tous les regions"))
-			{
-			fields.put("unite.region.codeReg", filter);	
-			System.out.println(filter);
-			request.setAttribute( "drivers", dm.lister(fields));
-			request.setAttribute( "region", regManager.lister());
-			request.setAttribute( "selectedR", filter);
-			request.setAttribute( "fields", Piece.class.getDeclaredFields());
-			}
-			else
-			{
-			request.setAttribute( "drivers", dm.lister());
-			
-			}
-		
-			
-		}
-		else if (request.getParameter("search")!= null)
+		if (request.getParameter("search")!= null)
 		{
 			System.out.println("cas de recherche");
 			String search = request.getParameter("word");
 			String by = request.getParameter("type");
+			List<Driver> drivers = null;
+			DriverFactory df = new DriverFactory(Driver.class);
 			fields.put(by, search);	
 			if(by.equals("recruitDate"))
 			{
-				DriverFactory df = new DriverFactory(Driver.class);
+	
 				df.addFiltre(by, search);
-				request.setAttribute( "drivers", dm.lister(df.getFiltres()));				
+				drivers = dm.lister(df.getFiltres());
+				request.setAttribute( "drivers", df.filterUN(drivers, user.getCodeun()));				
 			}
 			else 
 			{
 				System.out.println("type est "+ by);
-				request.setAttribute( "drivers", dm.searchby(fields));
+				drivers = dm.searchby(fields);
+				request.setAttribute( "drivers", df.filterUN(drivers, user.getCodeun()));
 			}
 			
 			request.setAttribute("by", by);
 			request.setAttribute("wordf", search);
-		}else if (request.getParameter( "affecter" )!=null){
+		}
+	
+		else if(order!= null)
+		{
+			System.out.println("order is " + order);
+			if(order.equals("ASC"))
+			{
+				request.setAttribute( "drivers", dm.listerASC(user.getCodeun()));	
+			}
+			else if(order.equals("DESC"))
+			{
+
+				request.setAttribute( "drivers", dm.listerDESC(user.getCodeun()));
+				
+					
+			}
+			request.setAttribute("order", order);
+			
+		}
+		}
+		else if (request.getParameter( "affecter" )!=null){
 		    //AJouter par @Syphax pour faire l'affectation
 		    AffectationConducteurFactory affF = new AffectationConducteurFactory();
 		    String id = (String) pg.getPathId( request );
@@ -121,7 +137,8 @@ public class driversList extends HttpServlet {
 		    pg.redirect( getServletContext(), request, response );
 		    
 		}
-		request.setAttribute( "region", regManager.lister());
+		
+	
 		pg.generate( getServletContext(), request, response );
 		}
 	}

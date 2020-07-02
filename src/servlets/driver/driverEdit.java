@@ -12,9 +12,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.entities.driver.Driver;
 import beans.entities.pieces.Piece;
+import beans.entities.regions.unites.Unite;
+import beans.entities.utilisateurs.Utilisateur;
 import beans.session.drivers.DriverFactory;
 import beans.session.drivers.DriverManager;
 import beans.session.general.page.PageGenerator;
@@ -106,7 +109,11 @@ public class driverEdit extends HttpServlet {
 		else // cas d'addition
 		{
 			System.out.println("ajouter un nouveau conducteur");
-			dr = (Driver) df.create(request,um);
+			HttpSession session = request.getSession();
+			Utilisateur user = (Utilisateur) session.getAttribute("sessionUtilisateur");
+			if(user != null) System.out.println("user found");
+			Unite un = new Unite(user.getCodeun());
+			dr = (Driver) df.create(request,un);
 			if(df.validate(dr))
 			{
 				// insertion dans la bdd

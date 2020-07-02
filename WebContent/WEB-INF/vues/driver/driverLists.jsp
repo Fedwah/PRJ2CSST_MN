@@ -36,15 +36,9 @@ function goTo()
 		</button>
 		</div>
 		<div class="col-md-6" align="right">
-		<select class="form-control col-md-4" style='display: inline-block;' name="date">
-				<option>Date croissante</option>
-				<option>Date décroissante</option>
-		</select>
-		<select class="form-control col-md-4" style='display: inline-block;' name="reg" onchange="goTo()">
-				<option>Tous les regions</option>
-				<c:forEach items="${region}" var="r">
-					<option ${selectedR==r.codeReg?"selected":""}> ${r.codeReg}</option>
-				</c:forEach>
+		<select class="form-control col-md-5" style='display: inline-block;' name="date" onchange="goTo()">
+				<option ${order=="ASC"?"selected":""} value="ASC">Date croissante</option>
+				<option ${order=="DESC"?"selected":""} value="DESC">Date décroissante</option>
 		</select>
 <!--  		<button type="submit" class="form-control col-md-2 btn-outline-success" style='display: inline-block;' name="filter" >filtrer</button> -->
 		<a class="btn btn-light rounded-circle" style='display: inline-block;height:40px; width:40px;'
