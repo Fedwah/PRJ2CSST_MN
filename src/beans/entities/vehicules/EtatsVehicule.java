@@ -2,7 +2,7 @@ package beans.entities.vehicules;
 
 public enum EtatsVehicule {
     
-    Libre("Libre"),EN_FONCTION("En mission"),EN_PANNE("En panne"),EN_MAINTENACE("En maintenance"),Abandoner("Abandonner");
+    LIBRE("Libre"),EN_FONCTION("En mission"),EN_PANNE("En panne"),EN_MAINTENACE("En maintenance"),Abandoner("Abandonner");
     public final String label;
    
     

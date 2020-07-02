@@ -22,7 +22,7 @@
 
 	<c:import url="vues/header/header.jsp"></c:import>
 	<div class="row no-gutters">
-		<div class="col-md-2">
+		<div class="position-fixed" style="left: 0;width: 15%">
 			<c:choose>
 				<c:when
 					test="${sessionScope.sessionUtilisateur.type.equals('Regional') ||sessionScope.sessionUtilisateur.type.equals('Central') }">
@@ -55,7 +55,7 @@
 
 		</div>
 
-		<div class="col-md">
+		<div class="flex-fill" style="margin-left: 15%">
 
 			<c:if test="${path!=null && !empty path}">
 				<nav aria-label="breadcrumb" class="m-1 bg-light">

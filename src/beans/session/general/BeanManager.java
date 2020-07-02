@@ -193,7 +193,7 @@ public abstract class BeanManager<T> {
 
     }
 
-    private Query QuerryBuilder( Map<String, Object> values, boolean and, String orderBy ) {
+    private Query QuerryBuilder(Map<String, Object> values, boolean and, String orderBy ) {
 
         EntityFields<T> fields = new EntityFields<T>();
         String where = "";
@@ -397,8 +397,9 @@ public abstract class BeanManager<T> {
     }
 
     public Integer count() {
+        
         return ((Number)getEntityManger().
-                createQuery( "SELECT COUNT(b) from " + beanClass.getName() + " b")
+                createQuery( "SELECT COUNT(b) from " + beanClass.getName() + " b ")
                 .getSingleResult()).intValue();
     }
 }
