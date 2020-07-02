@@ -1,5 +1,8 @@
 package beans.session.drivers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -39,6 +42,23 @@ public class DriverManager extends BeanManager<Driver>{
 		List<Driver> drs = qr.getResultList();
 		return drs;
 	}
+	
+	public List<Driver> searchByDate(String date,String codeUN)
+	{
+		Query qr = this.em.createQuery("select b from Driver b where b.unite.codeUN = :un and b.recruitDate = :date");
+		qr.setParameter("un", codeUN);
+		Date date1 = null;
+		try {
+			date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		qr.setParameter("date", date1);
+		List<Driver> drs = qr.getResultList();
+		return drs;
+	}
+	
 	
 
 }

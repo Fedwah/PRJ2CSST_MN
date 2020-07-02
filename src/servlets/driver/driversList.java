@@ -87,8 +87,8 @@ public class driversList extends HttpServlet {
 			if(by.equals("recruitDate"))
 			{
 	
-				df.addFiltre(by, search);
-				drivers = dm.lister(df.getFiltres());
+			
+				drivers = dm.searchByDate(search, user.getCodeun());
 				request.setAttribute( "drivers", df.filterUN(drivers, user.getCodeun()));				
 			}
 			else 
