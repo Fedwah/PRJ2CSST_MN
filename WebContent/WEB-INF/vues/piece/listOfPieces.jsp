@@ -41,7 +41,7 @@
 				</select>
 				<a class="btn btn-light rounded-circle"
 					style='display: inline-block; height: 40px; width: 40px;position:relative; top:-3px; left:0px'
-					href='<c:url value="/pieces/edit/"/>'> <img width="50px"
+					href='<c:url value="/pieces/add"/>'> <img width="50px"
 					height="50px" style='position: relative; top: -10px; left: -17px;'
 					src="<c:url value='/public/img/icon/add_green_nobackground.png'/>" />
 				</a>

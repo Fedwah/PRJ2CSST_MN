@@ -35,25 +35,30 @@
 						</c:forEach>
 						<div class="mt-2" id="modalsList">
 							<div class="row">
-								<label class="col-11">Modele</label>
+								<label class="col-9">Modele</label>
+								<button align="right" type="submit" class="btn btn-outline-success" style='width:160px;'name="init">Réinitialiser la liste</button>
 							</div>
-							<input id="cptLi" name="cpt" value="1" type="hidden" />
+							<input id="cptLi" name="cpt" value="${tai}" type="hidden" />
 							<c:set var="i" value="0"></c:set>
 							<div class='mt-1 col-md-16' id="newModele">
 								<ol id="olP">
+									
+									<c:forEach var="i" begin='1' end="${tai}">
 									<li id='liM'>
-									<select id='1' class='form-control' required='required' name='1'>
+									<select id='${i}' class='form-control' required='required' name='${i}'>
 											<c:forEach items='${marques}' var='marq'>
 												<optgroup label='${marq.titre}'>
 													<c:forEach items='${marq.modeles}' var='m'>
-														<option 
-															value='${m.id}'>${m.titre}</option>
+														<option value='${m.id}'>${m.titre}</option>
 													</c:forEach>
 												</optgroup>
 											</c:forEach>
 									</select>
 									</li>
+									</c:forEach>
+									
 								</ol>
+							
 							</div>
 						</div>
 						<div class=" mt-1 col-md-16">
@@ -64,11 +69,7 @@
 				</div>
 			</div>
 		</div>
-
-
-		<button type="submit" class="btn btn-primary" id="send">Valider</button>
-		
-		<a tyepe="reset" class="btn btn-outline-success" href='<c:url value="/pieces/edit/"/>'>Réinitialiser</a>
+		<button type="submit" class="btn btn-primary" name="send">Valider</button>		
 		<a type="reset" class="btn btn-danger" href='<c:url value="/pieces"/>'>Annuler</a>
 	</form>
 </div>
@@ -77,7 +78,7 @@
 	$("#cptLi").val(parseInt($("#cptLi").val()) + 1);
 	var nom = $("#cptLi").val();
 
-	var element = "<li id='liM'><select class='form-control' required='required'name="+nom+"><c:forEach items='${marques}' var='marq'>optgroup label='${marq.titre}'><c:forEach items='${marq.modeles}' var='m'><option ${piece.modal.titre==m.titre?'selected':""}value='${m.id}'>${m.titre}</option></c:forEach></optgroup></c:forEach></select></li>";
+	var element = "<li id='liM'><select class='form-control' required='required'name="+nom+"><c:forEach items='${marques}' var='marq'>optgroup label='${marq.titre}'><c:forEach items='${marq.modeles}' var='m'><option value='${m.id}'>${m.titre}</option></c:forEach></optgroup></c:forEach></select></li>";
 	$("#olP").append(element);
 	event.preventDefault();
 	}, false);

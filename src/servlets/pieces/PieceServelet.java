@@ -28,7 +28,7 @@ import beans.session.vehicules.marques.modeles.ModeleManager;
 /**
  * Servlet implementation class pieceServelet
  */
-@WebServlet("/pieces/edit/*")
+@WebServlet("/pieces/add")
 public class PieceServelet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
@@ -40,7 +40,7 @@ public class PieceServelet extends HttpServlet {
 	private static final String FORM = "/WEB-INF/vues/piece/addPiece.jsp"; 
 	private static final String REDIRECT = "/pieces"; 
 	private boolean edit = false;
-	private Piece p = null;
+	private Piece oldp = null;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -56,6 +56,20 @@ public class PieceServelet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PageGenerator pg = new PageGenerator( FORM, "Piece");
+		String id = "";
+		if ( request.getPathInfo() != null ) {
+            id = request.getPathInfo().substring( 1 );          
+        }
+		if(id!="")
+		{
+			oldp = em.trouver(id);
+			if(oldp!=null)
+			{
+				edit=true;
+				request.setAttribute("piece", oldp);
+				request.setAttribute("disabled_id",true);
+			}
+		}
 		request.setAttribute( "marques", mManager.lister() );
         request.setAttribute( "modeles", modManager.lister() );	 
 		pg.generate( getServletContext(), request, response );

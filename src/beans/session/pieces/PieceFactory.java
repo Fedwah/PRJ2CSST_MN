@@ -56,11 +56,11 @@ public class PieceFactory extends BeanFactory<Piece> {
 	@Override
 	public void validateChilds(Piece bean , BeanManager<Piece> beanM) {
 		List<Modele> modals = bean.getModals();
-		for(Modele mod : modals)
+		for(int j=0; j<modals.size()-1;j++)
 		{
-			int cpt = 0 ;
-			int idMod = mod.getId();
-			for(int i = 0; i<modals.size();i++)
+			int cpt = 1 ;
+			int idMod = modals.get(j).getId();
+			for(int i = j+1; i<modals.size();i++)
 			{
 				if(modals.get(i).getId() == idMod) cpt ++;
 			}
@@ -71,6 +71,8 @@ public class PieceFactory extends BeanFactory<Piece> {
 	// mise � jour dans la base de donn�es
 	@Override
 	public void updateChange(Piece newB, Piece old) {
+		old.setPieceName(newB.getPieceName());
+		old.setModals(newB.getModals());
 	
 	}
 
