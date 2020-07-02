@@ -239,11 +239,9 @@ public abstract class BeanManager<T> {
         values.putAll( getUserRoleFiltre() );
 
         fields.generateFields( this.beanClass );
-        System.out.println( "fields : " + fields.fields().toString() );
-        join = joinBuilder( fields, values );
-
+        System.out.println( "fields : " + fields.fields().toString() );;
         where = whereBuilderSearch( fields, values, and );
-
+        System.out.println("where est " + where);
         q = "SELECT b FROM " + beanClass.getName() + " b" +
                 ( join != "" ? " JOIN " + join : "" ) +
                 ( where != "" ? " WHERE " + where : "" ) +

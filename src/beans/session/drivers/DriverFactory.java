@@ -2,6 +2,8 @@ package beans.session.drivers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,7 +38,7 @@ public class DriverFactory extends BeanFactory<Driver> {
 		dr.setPhoto(this.readImage(request,"photo"));
 		return dr;
 	}
-	public Driver create(HttpServletRequest request, UniteManager um) {
+	public Driver create(HttpServletRequest request, Unite un) {
 		Driver dr = new Driver();
 		dr.setFirstN(request.getParameter("prenom"));
 		dr.setLastN(request.getParameter("nom"));
@@ -47,7 +49,6 @@ public class DriverFactory extends BeanFactory<Driver> {
 			e.printStackTrace();
 		}
 		dr.setPhoto(this.readImage(request,"photo"));
-		Unite un = um.trouver(request.getParameter("un"));
 		System.out.println("un est " +un);
 		dr.setUnite(un);
 		return dr;
@@ -69,6 +70,17 @@ public class DriverFactory extends BeanFactory<Driver> {
 			old.setPhoto(newB.getPhoto());
 		}
 			
+	}
+	
+	public List<Driver> filterUN(List<Driver> drivers, String codeUN)
+	{
+		List<Driver> filter = new ArrayList();
+		for(Driver dr : drivers)
+		{
+			if(dr.getUnite().getCodeUN().equals(codeUN))
+				filter.add(dr);
+		}
+		return filter;
 	}
 
 }
