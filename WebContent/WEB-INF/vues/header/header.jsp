@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags/user" prefix="user"%>
 
-<nav class="d-flex justify-content-between "
+<nav class="d-flex justify-content-between  sticky-top"
 	style='background-color: #3E703D;'>
 	<a style='color: white; display: inline-block;' href="#"> <img
 		style='display: inline-block;'

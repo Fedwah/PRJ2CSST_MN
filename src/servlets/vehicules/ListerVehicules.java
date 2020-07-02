@@ -1,38 +1,15 @@
 package servlets.vehicules;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import javax.ejb.EJB;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
-import org.jboss.resteasy.util.InputStreamToByteArray;
-
-import beans.entities.pieces.Piece;
-import beans.entities.vehicules.EtatVehicule;
-import beans.entities.vehicules.Marque;
-import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
-import beans.session.general.BeanValidator;
 import beans.session.general.page.PageGenerator;
 import beans.session.vehicules.VehiculeFactory;
 import beans.session.vehicules.VehiculesManager;
