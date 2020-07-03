@@ -29,18 +29,18 @@ import beans.session.vehicules.affectation.AffectationConducteurManager;
 /**
  * Servlet implementation class driversList
  */
-@WebServlet({"/drivers","/Vehicules/Affectation/*"})
+@WebServlet( { "/drivers", "/Vehicules/Affectation/*" } )
 public class driversList extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static final String driverVue = "/WEB-INF/vues/driver/driverLists.jsp";
-	@EJB
-	private DriverManager dm;
-	@EJB
-	private RegionManager regManager;
-	@EJB
-	private AffectationConducteurManager affM;
-	private Utilisateur user = null;
-       
+    private static final long            serialVersionUID = 1L;
+    private static final String          driverVue        = "/WEB-INF/vues/driver/driverLists.jsp";
+    @EJB
+    private DriverManager                dm;
+    @EJB
+    private RegionManager                regManager;
+    @EJB
+    private AffectationConducteurManager affM;
+    private Utilisateur                  user             = null;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -49,98 +49,86 @@ public class driversList extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PageGenerator pg = new PageGenerator(driverVue , "Liste des conducteurs" );
-		HttpSession session = request.getSession();
-		user = (Utilisateur) session.getAttribute("sessionUtilisateur");
-		if(user.getCodeun()!=null)
-		{
-			request.setAttribute( "drivers", dm.listerASC(user.getCodeun()));			
-		}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doGet( HttpServletRequest request, HttpServletResponse response )
+            throws ServletException, IOException {
+        PageGenerator pg = new PageGenerator( driverVue, "Liste des conducteurs" );
+        HttpSession session = request.getSession();
+        user = (Utilisateur) session.getAttribute( "sessionUtilisateur" );
+        if ( user.getCodeun() != null ) {
+            request.setAttribute( "drivers", dm.listerASC( user.getCodeun() ) );
+        }
 
+        request.setAttribute( "vehicule", pg.getPathId( request ) );
+        pg.generate( getServletContext(), request, response );
+    }
 
-		request.setAttribute( "vehicule", pg.getPathId( request ));
-		pg.generate( getServletContext(), request, response );
-	}
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doPost( HttpServletRequest request, HttpServletResponse response )
+            throws ServletException, IOException {
+        String filter = request.getParameter( "reg" );
+        PageGenerator pg = new PageGenerator( driverVue, "Liste des conducteurs" );
+        Map<String, Object> fields = new HashMap();
+        String order = request.getParameter( "date" );
+        if ( user.getCodeun() != null ) {
+            if ( request.getParameter( "search" ) != null ) {
+                System.out.println( "cas de recherche" );
+                String search = request.getParameter( "word" );
+                String by = request.getParameter( "type" );
+                List<Driver> drivers = null;
+                DriverFactory df = new DriverFactory( Driver.class );
+                fields.put( by, search );
+                
+                if ( by.equals( "recruitDate" ) ) {
+                    drivers = dm.searchByDate( search, user.getCodeun() );
+                    request.setAttribute( "drivers", df.filterUN( drivers, user.getCodeun() ) );
+                } else {
+                    System.out.println( "type est " + by );
+                    drivers = dm.searchby( fields );
+                    request.setAttribute( "drivers", df.filterUN( drivers, user.getCodeun() ) );
+                }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String filter = request.getParameter("reg");
-		PageGenerator pg = new PageGenerator(driverVue , "Liste des conducteurs");
-		Map<String,Object> fields = new HashMap();
-		String order = request.getParameter("date");
-		if(user.getCodeun()!= null)
-		{
-		if (request.getParameter("search")!= null)
-		{
-			System.out.println("cas de recherche");
-			String search = request.getParameter("word");
-			String by = request.getParameter("type");
-			List<Driver> drivers = null;
-			DriverFactory df = new DriverFactory(Driver.class);
-			fields.put(by, search);	
-			if(by.equals("recruitDate"))
-			{
-	
-			
-				drivers = dm.searchByDate(search, user.getCodeun());
-				request.setAttribute( "drivers", df.filterUN(drivers, user.getCodeun()));				
-			}
-			else 
-			{
-				System.out.println("type est "+ by);
-				drivers = dm.searchby(fields);
-				request.setAttribute( "drivers", df.filterUN(drivers, user.getCodeun()));
-			}
-			
-			request.setAttribute("by", by);
-			request.setAttribute("wordf", search);
-		}
-	
-		else if(order!= null)
-		{
-			System.out.println("order is " + order);
-			if(order.equals("ASC"))
-			{
-				request.setAttribute( "drivers", dm.listerASC(user.getCodeun()));	
-			}
-			else if(order.equals("DESC"))
-			{
+                request.setAttribute( "by", by );
+                request.setAttribute( "wordf", search );
+            }
 
-				request.setAttribute( "drivers", dm.listerDESC(user.getCodeun()));
-				
-					
-			}
-			request.setAttribute("order", order);
-			
-		}
-		}
-		else if (request.getParameter( "affecter" )!=null){
-		    //AJouter par @Syphax pour faire l'affectation
-		    AffectationConducteurFactory affF = new AffectationConducteurFactory();
-		    String id = (String) pg.getPathId( request );
-		    AffectationConducteur oldAff = null;
-		    
-		    
-		    affF.addFiltre( "car", "matricule_interne", id );
-		    oldAff=affM.ObtenirDernier(affF.getFiltres());
-		    
-		    affF.affecter( request, affM, oldAff );
-		    
-		    
-		    pg.setRedirectURL( AffectationConducteurFactory.DEFAULT_REDIRECT+id );
-		    pg.redirect( getServletContext(), request, response );
-		    
-		}
-		
-	
-		pg.generate( getServletContext(), request, response );
-		}
-	}
+            else if ( order != null ) {
+                System.out.println( "order is " + order );
+                if ( order.equals( "ASC" ) ) {
+                    request.setAttribute( "drivers", dm.listerASC( user.getCodeun() ) );
+                } else if ( order.equals( "DESC" ) ) {
 
+                    request.setAttribute( "drivers", dm.listerDESC( user.getCodeun() ) );
 
+                }
+                request.setAttribute( "order", order );
+
+            }
+            
+            if ( request.getParameter( "affecter" ) != null ) {
+                // AJouter par @Syphax pour faire l'affectation
+                AffectationConducteurFactory affF = new AffectationConducteurFactory();
+                String id = (String) pg.getPathId( request );
+                AffectationConducteur oldAff = null;
+
+                affF.addFiltre( "car", "matricule_interne", id );
+                oldAff = affM.ObtenirDernier( affF.getFiltres() );
+
+                affF.affecter( request, affM, oldAff );
+
+                System.out.println( "Affectation reussie" );
+                pg.setRedirectURL( AffectationConducteurFactory.DEFAULT_REDIRECT + id );
+                pg.redirectBackSuccess( getServletContext(), request, response, "Affectation du conducteur", "Reussie" );
+
+            }
+        } 
+
+        pg.generate( getServletContext(), request, response );
+    }
+}

@@ -59,12 +59,15 @@
 	</div>
 	<div class="row my-3">
 		
-		<div class="col-md-8 d-flex align-items-center justify-content-start">
+		<div class="col-md-8 d-flex align-items-center">
 			<h3 class="">Conducteur :</h3>
 			<c:choose>
 				<c:when test="${affectation!=null}">
+						<div>
+							<img:img size="40px" value="${affectation.driver.photo.titre}" class_="border border-primary rounded-circle mx-1" />
+						</div>
 		
-					 <img:img size="50px" value="${affectation.driver.photo.titre}" class_="border border-primary rounded-circle mx-2" />
+					 
 		
 					 <l:link label='${affectation.driver.lastN} ${affectation.driver.firstN}' value="Vehicules/Affectations/${affectation.id}" />
 		
@@ -141,7 +144,7 @@
 					<c:choose>
 						<c:when test="${cal.getEtat(maintenance).equals('en cours')}">
 						<a href='<c:url value="/maintenance/edit/${maintenance.idMaintenance}"/>' 
-						name="end" class="btn" style='background-color: #3E703D;color:white;' >
+						 class="btn" style='background-color: #3E703D;color:white;' >
 						terminer</a>
 						</c:when>
 						<c:when test="${cal.getEtat(maintenance).equals('terminé')}">
@@ -158,12 +161,12 @@
 					</div>
 					</div>
 					<div class="row">						
-						<div class="col-md-4" with="30%">
+						<div class="col-md-4" >
 							<h5 class="d-inline">Etat :</h5>
 							${cal.getEtat(maintenance)}
 
 						</div>
-						<div class="col-md-4" with="30%">
+						<div class="col-md-4" >
 							<c:choose>
 								<c:when test="${cal.getEtat(maintenance).equals('terminé')}">
 								<h5 class="d-inline">Date de fin :</h5>
@@ -174,11 +177,11 @@
 							
 						</div>
 						<div class="col-md-4"></div>
-						<div class="col-md-4" with="40%">
+						<div class="col-md-4">
 							<h5 class="d-inline">Niveau : </h5>
 							${maintenance.niv.niveau }
 						</div>
-						<div class="col-md-12" with="40%">
+						<div class="col-md-12" >
 							<h5 class="d-inline">Pieces de rechange estimé : </h5>
 							${maintenance.nbP }
 						</div>
