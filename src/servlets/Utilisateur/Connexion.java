@@ -88,9 +88,13 @@ public class Connexion extends HttpServlet {
 		                int id =utilisateur.getId();
 		                String role =utilisateur.getRole();
 		                String type =utilisateur.getType();
+		                String codereg =utilisateur.getCodereg();
+		                String codeun=utilisateur.getCodeun();
 		                session.setAttribute( "role", role );
 		                session.setAttribute( "type", type );
 		                session.setAttribute("id", id );
+		                session.setAttribute("codereg", codereg );
+		                session.setAttribute("codeun", codeun );
 		                PageGenerator pg1 = new PageGenerator( "/pieces" );
 		                pg1.redirect( getServletContext(), request, response );
 		                

@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.entities.utilisateurs.Utilisateur;
 import beans.session.Utilisateur.MethodeUtilisateur;
@@ -47,20 +48,31 @@ public class ConsulterTousUtilisateurs extends HttpServlet {
     
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		HttpSession session = request.getSession();
+		 String type =  (String) session.getAttribute("type");
+		 String role= (String) session.getAttribute("role");
+		 String codereg= (String) session.getAttribute("codereg");
 		String search = request.getParameter( CHAMP_S );
+		if (type.contentEquals("Operationnel") && role.contentEquals("Admin")) {
+			PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/ListerUsersAdminOP.jsp", "Liste des utilisateurs") ;
+	        List<beans.entities.utilisateurs.Utilisateur> Users =User.recupererTOUTUtilisateur_Unite(codereg);
+			request.setAttribute("Users", Users);
+			pg.generate( getServletContext(), request, response );
+			
+		}
+		else {
 		if (search  != null) {
 			PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/ChercherUsers.jsp","Rechercher les utilisateurs");
-	 
 			pg.generate( getServletContext(), request, response );
         }
 		else {
 			
 			PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/ListerUsers.jsp", "Liste des utilisateurs") ;
-		 
 	        List<beans.entities.utilisateurs.Utilisateur> Users =User.recupererTOUTUtilisateur();
 			request.setAttribute("Users", Users);
 			pg.generate( getServletContext(), request, response );
+		}
+		
 		}
 		
 

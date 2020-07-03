@@ -5,10 +5,11 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.OptimisticLockException;
+
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import beans.entities.regions.Region;
 import beans.entities.utilisateurs.Utilisateur;
 import beans.session.general.BeanManager;
 
@@ -37,7 +38,8 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
 	    private static final String JPQL_FILTRE_TYPE= "SELECT u FROM Utilisateur u WHERE u.type =:type ";
 	    private static final String JPQL_FILTRE_ROLE= "SELECT u FROM Utilisateur u WHERE u.role =:role ";
 	    public static final String PARAM_TYPE    ="type";
- 
+	    public static final String JPQL_unite    ="SELECT u FROM Utilisateur u WHERE u.codereg =:codereg and u.type=:type and u.role=:role ";
+	    public static final String JPQL_region = "SELECT u.region from Unite u where u.codeUN=:codeun";
 	    
     public MethodeUtilisateur() {
        super(Utilisateur.class);
@@ -176,8 +178,16 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
         	}
        
 
-    
+    //Recup�rer les utilisateurs de son unit� 
+    public List<Utilisateur> recupererTOUTUtilisateur_Unite(String codereg)
+    {
+    	return em.createQuery(JPQL_unite).setParameter("codereg", codereg).setParameter("type", "Operationnel").setParameter("role", "Utilisateur").getResultList();
+    }
 
+    public Region trouverRegion (String codeun)
+    {
+    	return (Region) em.createQuery(JPQL_region).setParameter("codeun", codeun).getSingleResult();
+    }
 	@Override
 	public EntityManager getEntityManger() {
 		

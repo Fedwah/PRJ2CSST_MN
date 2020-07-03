@@ -12,6 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import beans.entities.regions.Region;
 import beans.entities.utilisateurs.Utilisateur;
  
 import beans.session.Utilisateur.MethodeUtilisateur;
@@ -39,94 +42,129 @@ public class createUser extends HttpServlet {
 	    public static final String ATT_ROLE = "role";
 	    public static final String ATT_RESULTAT = "resultat";
 	    public static final String CHAMP_POSTE ="poste";
-	    private ArrayList<String> type1 = new ArrayList<String>();
-	    private ArrayList<String> role1 = new ArrayList<String>();
+	    private ArrayList<String> type2 = new ArrayList<String>();
+	    private ArrayList<String> role2 = new ArrayList<String>();
 	    private ArrayList<String> reg = new ArrayList<String>();
 	    private ArrayList<String> un = new ArrayList<String>();
-	    
-	  
-
-	   
-	    
-	   
+	    private Region region = new Region ();
+	     
 
     public createUser() {
         super();
-        type1.add("Operationnel");
-        type1.add("Regional");
-        type1.add("Central");
-        role1.add("Admin");
-        role1.add("Utilisateur");
+        type2.add("Operationnel");
+        type2.add("Regional");
+        type2.add("Central");
+        role2.add("Admin");
+        role2.add("Utilisateur");
         
        
     }
 
    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String type =  (String) session.getAttribute("type");
+		String role= (String) session.getAttribute("role");
+		String codereg= (String) session.getAttribute("codereg");
+	 
+		if (type.contentEquals("Operationnel") && role.contentEquals("Admin")) {
+			reg=(ArrayList<String>) User.recupererCodereg();
+	        un=(ArrayList<String>) User.recupererCodeun();
+		    PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/createUserAdminOp.jsp", "Créer un utilisateur");
+		    pg.generate( getServletContext(), request, response );
+		}
+		else {
 		reg=(ArrayList<String>) User.recupererCodereg();
         un=(ArrayList<String>) User.recupererCodeun();
-	    PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/createUser.jsp", "Crï¿½er un utilisateur");
+	    PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/createUser.jsp", "Créer un utilisateur");
 	    request.setAttribute( "un", un );
 	    request.setAttribute( "reg", reg );
-	    request.setAttribute( ATT_TYPE, type1 );
-	    request.setAttribute( ATT_ROLE, role1 );
-	    pg.generate( getServletContext(), request, response );
+	    request.setAttribute( ATT_TYPE, type2 );
+	    request.setAttribute( ATT_ROLE, role2 );
+	    pg.generate( getServletContext(), request, response );}
 	}
 
 	 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		    reg=(ArrayList<String>) User.recupererCodereg();
-            un=(ArrayList<String>) User.recupererCodeun();
-		    String resultat;  
-		    Map<String, String> erreurs = new HashMap<String, String>();
-	        String nomUtilisateur = request.getParameter( CHAMP_USER );
-	        String motDePasse = request.getParameter( CHAMP_PASS );
-	        String confirmation = request.getParameter( CHAMP_CONF );
-	        String nom = request.getParameter( CHAMP_NOM );
-	        String prenom = request.getParameter( CHAMP_PRENOM );
-	        String type = request.getParameter(CHAMP_TYPE);
-	        String role = request.getParameter( CHAMP_ROLE );
-	        String codereg = request.getParameter( CHAMP_REG );
-	        String codeun = request.getParameter( CHAMP_UN );
-	        String poste = request.getParameter( CHAMP_POSTE );
-	        
-	     
-	       
-	   
-	      try {
-	            validationMotsDePasse( motDePasse, confirmation );
-	        } catch ( Exception e ) {
-	            erreurs.put( CHAMP_PASS, e.getMessage() );
-	        }
-
-	        
+		HttpSession session = request.getSession();
+		String type =  (String) session.getAttribute("type");
+		String role= (String) session.getAttribute("role");
+		String codereg= (String) session.getAttribute("codereg");
+		String codeun= (String) session.getAttribute("codeun");
+		reg=(ArrayList<String>) User.recupererCodereg();
+        un=(ArrayList<String>) User.recupererCodeun();
+	    String resultat;  
+	    Map<String, String> erreurs = new HashMap<String, String>();
+        String nomUtilisateur = request.getParameter( CHAMP_USER );
+        String motDePasse = request.getParameter( CHAMP_PASS );
+        String confirmation = request.getParameter( CHAMP_CONF );
+        String nom = request.getParameter( CHAMP_NOM );
+        String prenom = request.getParameter( CHAMP_PRENOM );
+        String type1 = request.getParameter(CHAMP_TYPE);
+        String role1 = request.getParameter( CHAMP_ROLE );
+        String codereg1 = request.getParameter( CHAMP_REG );
+        String codeun1 = request.getParameter( CHAMP_UN );
+        String poste = request.getParameter( CHAMP_POSTE );
+        try {
+            validationMotsDePasse( motDePasse, confirmation );
+        } catch ( Exception e ) {
+            erreurs.put( CHAMP_PASS, e.getMessage() );
+        }
+        
+		if (type.contentEquals("Operationnel") && role.contentEquals("Admin")) {
+			 if ( erreurs.isEmpty() ) {
+		        	PageGenerator pg1 = new PageGenerator("/WEB-INF/vues/Utilisateur/createUserAdminOp.jsp", "", "/Utilisateurs");
+		            resultat = "Succés de l'inscription.";
+		            type1="Operationnel";
+		            role1="Utilisateur";
+		            codereg1=codereg;
+		            codeun1=codeun;
+		            Utilisateur utilisateur = new Utilisateur(nomUtilisateur, motDePasse, nom, prenom, type1, role1, codereg1,codeun1, poste);
+			        User.creer(utilisateur) ;
+			        request.setAttribute( ATT_ERREURS, erreurs );
+			        request.setAttribute( ATT_RESULTAT, resultat );
+			        pg1.generate( getServletContext(), request, response);}
+			        else {
+			        	PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/createUserAdminOp.jsp","Crï¿½er un utilisateur");
+			            resultat = "Echec de l'inscription.";
+			            request.setAttribute( ATT_ERREURS, erreurs );
+				        request.setAttribute( ATT_RESULTAT, resultat ); 
+			            pg.generate( getServletContext(), request, response ); 
+			        }
+			        
+		}
+		else {
+		
 	        if ( erreurs.isEmpty() ) {
 	        	PageGenerator pg1 = new PageGenerator("/WEB-INF/vues/Utilisateur/createUser.jsp", "", "/Utilisateurs");
-	            resultat = "Succï¿½s de l'inscription.";
-	            if (type.contentEquals("Central"))
+	            resultat = "Succés de l'inscription.";
+	            if (type1.contentEquals("Central"))
 	            {
 	            	poste=null;
-	            	codereg=null;
-	            	codeun=null;
-	            	role="Utilisateur";
+	            	codereg1=null;
+	            	codeun1=null;
+	            	role1="Utilisateur";
 	            			
 	            }
-	            if (type.contentEquals("Regional"))
+	            if (type1.contentEquals("Regional"))
 	            {
 	            	poste=null;
-	            	codeun=null;
-	            	role="Utilisateur";
+	            	codeun1=null;
+	            	role1="Utilisateur";
 	            }
-	            if (type.contentEquals("Operationnel") && role.contentEquals("Admin"))
+	            if (type1.contentEquals("Operationnel"))
 	            {
+	            	role1="Admin";
+	            	region=User.trouverRegion(codeun1);
+	            	codereg1=region.getCodeReg();
 	            	poste=null;
 	            }
-	            Utilisateur utilisateur = new Utilisateur(nomUtilisateur, motDePasse, nom, prenom, type, role, codereg,codeun, poste);
+	            Utilisateur utilisateur = new Utilisateur(nomUtilisateur, motDePasse, nom, prenom, type1, role1, codereg1,codeun1, poste);
 		        User.creer(utilisateur) ;
 		        request.setAttribute( ATT_ERREURS, erreurs );
 		        request.setAttribute( ATT_RESULTAT, resultat );
-		        request.setAttribute( ATT_TYPE, type1 );
-		  	    request.setAttribute( ATT_ROLE, role1 );
+		        request.setAttribute( ATT_TYPE, type2 );
+		  	    request.setAttribute( ATT_ROLE, role2 );
 		  	    request.setAttribute( "reg", reg );
 		  	    request.setAttribute( "un", un );
 		        pg1.generate( getServletContext(), request, response);
@@ -135,15 +173,15 @@ public class createUser extends HttpServlet {
 
 	        } else {
 	        	PageGenerator pg = new PageGenerator("/WEB-INF/vues/Utilisateur/createUser.jsp","Crï¿½er un utilisateur");
-	            resultat = "ï¿½chec de l'inscription.";
+	            resultat = "Echec de l'inscription.";
 	            request.setAttribute( ATT_ERREURS, erreurs );
 		        request.setAttribute( ATT_RESULTAT, resultat );
-		        request.setAttribute( ATT_TYPE, type1 );
-		  	    request.setAttribute( ATT_ROLE, role1 );
+		        request.setAttribute( ATT_TYPE, type2 );
+		  	    request.setAttribute( ATT_ROLE, role2 );
 		  	    request.setAttribute( "reg", reg );
 		  	    request.setAttribute( "un", un );
 	            pg.generate( getServletContext(), request, response ); 
-	        }     
+	        }     }
 	}
 
 	/**

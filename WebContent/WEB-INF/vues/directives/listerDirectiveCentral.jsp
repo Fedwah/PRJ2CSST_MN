@@ -14,8 +14,6 @@
 		</nav>	
 	              </div>
 	            
-	            
-	      
 	
 	<table class="table">
 		<thead>
@@ -23,21 +21,28 @@
 			    
 				<th scope="col">Objet de la diretive </th>
 				<th scope="col">Contenu de la directive</th>
+				<th scope="col">Envoyé à la région</th>
+			 
 			</tr>
 		</thead>
 		<tbody>
+		
 			<c:forEach items="${directives}" var="directives">
 				<tr > 
 				   
 					<td>${directives.objet}</td>
 					<td>${directives.message}</td>
-					  
+					<td>${directives.reciever_code}</td>
 				</tr>
-			</c:forEach>
+				</c:forEach>
+		 
 		</tbody>
 	</table>
+	
+	 
+	 
+ 	
+</div>
  
-</div>
-</div>
 
  

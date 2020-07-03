@@ -1,6 +1,11 @@
 package servlets.Utilisateur;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 
 import javax.ejb.EJB;
 import javax.servlet.Filter;
@@ -18,11 +23,12 @@ import beans.entities.utilisateurs.Utilisateur;
 import beans.session.Utilisateur.MethodeUtilisateur;
 import beans.session.general.page.PageGenerator;
 
-/**
- * Servlet Filter implementation class LoginFilter1
- */
+ 
 @WebFilter("/*")
 public class LoginFilter1 implements Filter {
+	 
+	 
+	
  
     @EJB
     private MethodeUtilisateur mU;
@@ -33,7 +39,7 @@ public class LoginFilter1 implements Filter {
 
  
 	public void destroy() {
-		// TODO Auto-generated method stub
+	 
 	}
 
 	 
@@ -42,12 +48,14 @@ public class LoginFilter1 implements Filter {
 	        HttpServletResponse response = (HttpServletResponse) res;
 	        HttpSession session = request.getSession(false);
 	        String loginURI = request.getContextPath() + "/Connexion";
+	        final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(
+	    	        Arrays.asList( loginURI )));
 	        
 	        boolean loggedIn = session != null && session.getAttribute("sessionUtilisateur") != null;
 	        boolean loginRequest = request.getRequestURI().equals(loginURI);
 
 	        if (loggedIn || loginRequest) {
-	           /*Ajouter par @Syphax */
+	           
 	            PageGenerator pg = new PageGenerator();
 	            pg.getUtilisateur( request ); // Permet d'initialiser l'utilisateur dans PageGenerator
 	            chain.doFilter(request, response);

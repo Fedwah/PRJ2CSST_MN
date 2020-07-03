@@ -3,29 +3,29 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
  <%@taglib prefix="btn" tagdir="/WEB-INF/tags/btn"%>
 
-<div class="container-fluid p-3">
+<div class="container-fluid ">
 	<div class="">
-	    <h3 class="display-4" style='color: #3E703D;font-size:40px;font-style:gras;'>Liste des utilisateurs</h3>
-		<!--  <h1 class="display-4 text-success">Liste des utilisateurs</h1>-->
+	    <h3 class="display" style='color: #3E703D;font-size:40px;font-style:gras;'>Liste des utilisateurs</h3>
+		 
 		<nav class="nav justify-content-end mb-2">
 			<a class="btn btn-outline-success"
 			 href='<c:url value="/createUser"/>'>Ajouter un utilisateur</a>
 			 	   
 		</nav>	
 		          <div class="form-row">
-		  	     <div style="float:left; width:350px; height:auto;">
+		  	     
+		  	     <img height="40px" width="40px" style='position: relative; top: -6px; left: -11px;' src='<c:url value="/public/img/icon/search_green_nobackground.png"/>' />
+			     
+			     <div style="float:left; width:550px; height:auto;">
 			     <form class="" method ="post" action="Utilisateurs">
-			    
-				
-					<input type="text" class="form-control" id="search" name="search"
-					placeholder="Rechercher par nom"  value="<c:out value="${param.search}"/>">
-				
-			  
+				  <input type="text" class="form-control" id="search" name="search" placeholder="Entrez le nom et cliquez sur Entrée"  value="<c:out value="${param.search}"/>">
 		        </form>  
 	            </div>
-	             
+	            
+	             <br/>
+	             <br/>
+	              
 		 	     	    <form class="" method ="post" action="Utilisateurs">   
-	           	      
 		 	       <div style="float:left; width:200px; height:auto;">		
                    <select id="filtreVal" class="form-control" required="required"name="filtreVal" onchange="show()" >
                  

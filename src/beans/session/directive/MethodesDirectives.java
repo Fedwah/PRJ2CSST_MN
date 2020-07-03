@@ -18,7 +18,7 @@ import beans.entities.utilisateurs.Utilisateur;
 public class MethodesDirectives {
 	 @PersistenceContext(unitName="MN_unit")
 	 private EntityManager em;
-	 private static final String JPQL_SELECT_op ="FROM Utilisateur u where u.type=:type and u.role=:role";
+	 private static final String JPQL_SELECT_op ="FROM Utilisateur u where u.type=:type and u.role=:role and u.codereg=:codereg";
 	 private static final String JPQL_REG = "SELECT u FROM Utilisateur u where u.type=:type";
 	 public static final String PARAM_ROLE   = "role"; 
 	 public static final String PARAM_TYPE    ="type";
@@ -26,7 +26,8 @@ public class MethodesDirectives {
 	 public static final String PARAM_rec= "reciever";
 	 private static final String JPQL_CENTRAL ="SELECT d FROM directive d where d.sender=:sender";
 	 private static final String JPQL_operationnel ="SELECT d FROM directive d where d.reciever=:reciever";
-	 private static final String JPQL_users = "select u from Utilisateur u where u.id=:reciever";
+	 private static final String JPQL_users = "select u.codereg from Utilisateur u where u.id=:reciever";
+	 private static final String JPQL_usersop = "select u.codeun from Utilisateur u where u.id=:reciever";
 	 
     public MethodesDirectives() {
         
@@ -42,9 +43,9 @@ public class MethodesDirectives {
  	   
 		return em.createQuery(JPQL_REG).setParameter(PARAM_TYPE ,"Regional").getResultList();
 	}
-    public List<Utilisateur> ListerUsersOperationnel() {
+    public List<Utilisateur> ListerUsersOperationnel(String codereg) {
   	 
-		return  em.createQuery(JPQL_SELECT_op).setParameter(PARAM_TYPE , "Operationnel").setParameter( PARAM_ROLE, "Admin").getResultList();
+		return  em.createQuery(JPQL_SELECT_op).setParameter(PARAM_TYPE , "Operationnel").setParameter( PARAM_ROLE, "Admin").setParameter("codereg", codereg).getResultList();
 	}
     
     public List<directive> ListerdirectiveEnvoye(int sender) {
@@ -70,10 +71,10 @@ public class MethodesDirectives {
     		return result; 
     	}
 	}
-    public List<Utilisateur> ListerUsers(int reciever){
-    	List<Utilisateur> result= new ArrayList<Utilisateur>();
-    	result=null;
-    	result = em.createQuery(JPQL_users).setParameter(PARAM_rec, reciever).getResultList();
+    public String TrouverUser(int reciever){
+    	 
+    	String result=null;
+    	result =  (String) em.createQuery(JPQL_users).setParameter(PARAM_rec, reciever).getSingleResult();
     	if (result !=null )
 		return result ;
     	else {
@@ -81,5 +82,14 @@ public class MethodesDirectives {
     		return result; 
     	}
     }
-    
+    public String TrouverUserop (int reciever) {
+    	String result=null;
+    	result =  (String) em.createQuery(JPQL_usersop).setParameter(PARAM_rec, reciever).getSingleResult();
+    	if (result !=null )
+		return result ;
+    	else {
+    		result =null;
+    		return result; 
+    	}
+    }
 }

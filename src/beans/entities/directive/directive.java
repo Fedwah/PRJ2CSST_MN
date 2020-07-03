@@ -21,6 +21,8 @@ private int sender;
 private String objet;
 private String message;
 private int reciever;
+private String  reciever_code;
+ 
 
 
 
@@ -30,6 +32,15 @@ public directive() {
 	super();
 	 
 }
+
+public String getReciever_code() {
+	return reciever_code;
+}
+
+public void setReciever_code(String reciever_code) {
+	this.reciever_code = reciever_code;
+}
+
 public String getId() {
 	return id;
 }
@@ -52,26 +63,29 @@ public void setMessage(String message) {
 }
  
  
- 
-public int getReciever() {
-	return reciever;
-}
-public void setReciever(int reciever) {
-	this.reciever = reciever;
-}
 public String getObjet() {
 	return objet;
 }
 public void setObjet(String objet) {
 	this.objet = objet;
 }
-public directive(int sender, String objet, String message, int reciever) {
+public int getReciever() {
+	return reciever;
+}
+public void setReciever(int reciever) {
+	this.reciever = reciever;
+}
+
+public directive(int sender, String objet, String message, int reciever, String reciever_code) {
 	super();
 	this.sender = sender;
 	this.objet = objet;
 	this.message = message;
 	this.reciever = reciever;
+	this.reciever_code = reciever_code;
 }
+ 
+ 
  
  
  

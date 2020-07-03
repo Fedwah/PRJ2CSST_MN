@@ -26,9 +26,8 @@ public class listerDirective extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	List<directive> directives= new ArrayList<directive>();
 	List<directive> directives1= new ArrayList<directive>();
-	List<Utilisateur> utilisateurs = new ArrayList<Utilisateur>(); 
-	
-	 
+	List<Utilisateur> utilisateurs= new ArrayList<Utilisateur>();
+	Utilisateur utilisateur = new Utilisateur(); 
 	 
 	 @EJB
 	 private MethodesDirectives drctv;  
@@ -38,7 +37,6 @@ public class listerDirective extends HttpServlet {
         
     }
 
-	 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 HttpSession session = request.getSession();
 		 String type =  (String) session.getAttribute("type");
@@ -49,6 +47,8 @@ public class listerDirective extends HttpServlet {
 			 PageGenerator pg2 = new PageGenerator("/WEB-INF/vues/directives/listerDirectiveCentral.jsp", "Lister les directives");
 			 directives =drctv.ListerdirectiveEnvoye(sender);
 			 request.setAttribute("directives", directives); 
+			
+					 
 			 pg2.generate( getServletContext(), request, response );
 		 }
 		if (type.contentEquals("Operationnel") && role.contentEquals("Admin"))

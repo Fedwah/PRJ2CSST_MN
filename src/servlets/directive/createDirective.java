@@ -36,43 +36,71 @@ public class createDirective extends HttpServlet {
 
  
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		 HttpSession session = request.getSession();
+		 String type =  (String) session.getAttribute("type");
+		 String role= (String) session.getAttribute("role");
+		 String codereg= (String) session.getAttribute("codereg");
+		 int sender = (int) session.getAttribute("id"); 
+		 if (type.contentEquals("Central"))
+		 {
 	 PageGenerator pg = new PageGenerator("/WEB-INF/vues/directives/createDirective.jsp", "Créer une directive");
-	 usersop =drctv.ListerUsersOperationnel();
 	 usersreg=drctv.ListerUsersRegional();
 	 request.setAttribute("usersreg", usersreg);
-	 request.setAttribute("usersop", usersop);
 	 pg.generate( getServletContext(), request, response );
 	 
 	 }
+		 if (type.contentEquals("Regional"))
+		 {
+			 PageGenerator pg = new PageGenerator("/WEB-INF/vues/directives/createDirectiveReg.jsp","Créer une directive");
+			 usersop =drctv.ListerUsersOperationnel(codereg);
+			 request.setAttribute("usersop", usersop);
+			 pg.generate( getServletContext(), request, response );
+		 }
+		 
+	}
 
 	 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PageGenerator pg = new PageGenerator("/WEB-INF/vues/directives/createDirective.jsp", "Créer une directive");
-		 usersop =drctv.ListerUsersOperationnel();
-		 usersreg=drctv.ListerUsersRegional();
-		 request.setAttribute("usersop", usersop);
-		 request.setAttribute("usersreg", usersreg);
-		 String objet = request.getParameter("objet");
-		 String message = request.getParameter("message");
-		 int dist=0;
-		/* int distop= Integer.parseInt(request.getParameter("distop"));*/
-		 int distreg= Integer.parseInt(request.getParameter("distreg"));
-		 if (distreg != 0 )
+	 
+		HttpSession session = request.getSession();
+		String codereg= (String) session.getAttribute("codereg"); 
+		String type =  (String) session.getAttribute("type");
+		if (type.contentEquals("Central"))
 		 {
-			 dist=distreg ;
-		 }
-		 /*else {
-		    dist = distop;
-		 }
-		/* HttpSession session = request.getSession();
-		 int origin = Integer.parseInt((String) session.getAttribute("sessionScope.sessionUtilisateur.id"));*/
+	   PageGenerator pg = new PageGenerator("/WEB-INF/vues/directives/createDirective.jsp", "Créer une directive");
+	     usersreg=drctv.ListerUsersRegional();
+	     request.setAttribute("usersreg", usersreg);
+	     String objet = request.getParameter("objet");
+		 String message = request.getParameter("message");
+		 int dist= Integer.parseInt(request.getParameter("distreg"));
+		 String codereg1= drctv.TrouverUser(dist);
 		 int origin=Integer.parseInt(request.getParameter("origin"));
-		 directive directv = new directive (origin,objet,message,dist);
+		 directive directv = new directive (origin,objet,message,dist,codereg1);
 		 drctv.creer(directv);
 		 String resultat = "la directive est envoyee !";
 		 request.setAttribute( "resultat", resultat );
-	
-		 pg.generate( getServletContext(), request, response );
+	  pg.generate( getServletContext(), request, response );
+	 
+	 }
+	   if (type.contentEquals("Regional"))
+		 {
+			 PageGenerator pg = new PageGenerator("/WEB-INF/vues/directives/createDirectiveReg.jsp","Créer une directive");
+			 usersop =drctv.ListerUsersOperationnel(codereg);
+			 request.setAttribute("usersop", usersop);
+			 String objet = request.getParameter("objet");
+			 String message = request.getParameter("message");
+			 int dist= Integer.parseInt(request.getParameter("distreg"));
+			 int origin=Integer.parseInt(request.getParameter("origin"));
+			 String codereg1= drctv.TrouverUserop(dist);
+			 directive directv = new directive (origin,objet,message,dist,codereg1);
+			 drctv.creer(directv);
+			 String resultat = "la directive est envoyee !";
+			 request.setAttribute( "resultat", resultat );
+			 pg.generate( getServletContext(), request, response );
+		 }
+		 
+		
+		 
 		 
 	}
 

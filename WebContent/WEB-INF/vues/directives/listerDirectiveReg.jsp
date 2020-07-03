@@ -7,19 +7,21 @@
 	<div class="">
 	    <h3 class="display-4" style='color: #3E703D;font-size:40px;font-style:gras;'>Liste des directives </h3>
 		<!--  <h1 class="display-4 text-success">Liste des utilisateurs</h1>-->
+		<div style="float:right; width:250px; height:auto;">
 		<a class="btn btn-outline-success"
 			 href='<c:url value="/createDirective"/>'>Ajouter une directive</a>
+			 </div>
 		<nav class="nav justify-content-end mb-2">
 			 
 			 	   
 		</nav>	
 	              </div>
-	            
-	        <div class="input-group mb-3">			
+	             <div style="float:left; width:350px; height:auto;">
+	        		
                 <select id="type" class="form-control" required="required"name="type" onchange="show()" >
-                    <option value=" "> </option> 
-					<option value="directives recues">directives recues</option> 
-					<option value="directives envoyees">directives envoyees</option> 
+                    <option value=" Choisir le type de directives">Choisir le type de directives à afficher </option> 
+					<option value="directives recues">directives reçues</option> 
+					<option value="directives envoyees">directives envoyées</option> 
 			   </select>
 			  
 			   </div>	     
@@ -28,7 +30,7 @@
 	<table class="table" id = 1>
 		<thead>
 			<tr style='color: #3E703D;' >
-			   
+			    <th scope="col">Numéro de la directive</th>
 				<th scope="col">Objet de la directive</th>
 				<th scope="col">Contenu de la directive </th>
 			</tr>
@@ -36,28 +38,32 @@
 		<tbody>
 			<c:forEach items="${directives1}" var="directives1">
 				<tr > 
-				     
+				    <td>${directives1.id}</td>
 					<td>${directives1.objet}</td>
-					<td>${directives1.message}</td>	 	 
+					<td>${directives1.message}</td>	 	
+					
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-	 ${utilisateurs.nom} 
+  
 	<table class="table" id =2>
 		<thead>
 			<tr style='color: #3E703D;' >
-			    <th scope="col" hidden = TRUE>Id</th>
+			   
+			     
 				<th scope="col">Objet de la diretive </th>
 				<th scope="col">Contenu de la directive</th>
+				<th scope="col">Envoyé à l'unité</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${directives}" var="directives">
 				<tr > 
-				     
+				 
 					<td>${directives.objet}</td>
 					<td>${directives.message}</td>
+					<td>${directives.reciever_code}</td> 
 					  
 				</tr>
 			</c:forEach>

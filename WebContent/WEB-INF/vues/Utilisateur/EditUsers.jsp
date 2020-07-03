@@ -40,7 +40,8 @@
                	  <button type="submit" class="btn btn-primary">Valider</button>
                	  </div>
                	  <div style="float:right; width:650px; height:auto;">
-               	   <a type="reset" class="btn btn-outline-danger" href='<c:url value="/EditUser/${id1}"/>'>Rééssayer</a> 
+               	    <!--<a type="reset" class="btn btn-outline-danger" href='<c:url value="/EditUser/${id}"/>'>Rééssayer</a> -->
+               	   <a type="reset" class="btn btn-outline-danger" href='<c:url value="/Utilisateurs"/>'>Annuler</a> 
                	  </div>
                   </c:when>
                   <c:otherwise>
@@ -50,7 +51,8 @@
                	  <button type="submit" class="btn btn-primary">Valider</button>
                	  </div>
                	  <div style="float:right; width:650px; height:auto;">
-               	   <a type="reset" class="btn btn-outline-danger" href='<c:url value="/EditUser/${id1}"/>'>Rééssayer</a> 
+               	  <!--  <a type="reset" class="btn btn-outline-danger" href='<c:url value="/EditUser/${id}"/>'>Rééssayer</a>  -->
+               	   <a type="reset" class="btn btn-outline-danger" href='<c:url value="/Utilisateurs"/>'>Annuler</a> 
                	  </div>
                   </c:otherwise>
                	 </c:choose> 

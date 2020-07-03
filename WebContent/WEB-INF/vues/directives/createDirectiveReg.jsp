@@ -1,4 +1,4 @@
-  <%@ page language="java" contentType="text/html; charset=UTF-8"
+   <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib prefix="form" tagdir="/WEB-INF/tags/form"%>
@@ -24,19 +24,19 @@
                 <input type="text"  class='form-control' id="objet" name="objet" value="<c:out value="${param.objet}"/>" size="20" maxlength="60" required />
                 <br />
                 
-		 	
-		 	    <label id="distl1">Destinataire regional </label> 
+                  <label id="distl">Destinataire opérationnel </label> 
 			   <div class="input-group mb-3"  >			
-                <select id="distreg" class="form-control"  name="distreg"   >
-                 <c:forEach items="${usersreg}" var="usersreg">
-                <optgroup label= "${usersreg.codereg}">
-                  <option value="${usersreg.id}"  > ${usersreg.nom} ${usersreg.prenom}</option>
+                 <select id="distreg" class="form-control"  name="distreg"   >
+                 <c:forEach items="${usersop}" var="usersop">
+                <optgroup label= "${usersop.codeun}">
+                  <option value="${usersop.id}"> ${usersop.nom} ${usersop.prenom}</option>
                   </optgroup>
-			   
+			    <c:out value="${param.distreg}" />
 		        </c:forEach>
 			   </select>
 		 	</div>	
 		 	
+		 	 	
 		 	
 		 	 <label for="messagel">Message de la directive </label>
              <input type="text"  class='form-control' id="message" name="message" value="<c:out value="${param.message}"/>" size="20" maxlength="160" required />
@@ -53,8 +53,6 @@
         </form>
         
         
- 
-
  
 
 
