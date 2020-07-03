@@ -34,7 +34,8 @@ public class VehiculeFactory extends BeanFactory<Vehicule> {
 
     public VehiculeFactory( Class<Vehicule> beanClass ) {
         super( beanClass );
-        // TODO Auto-generated constructor stub
+       
+       
     }
 
     @Override

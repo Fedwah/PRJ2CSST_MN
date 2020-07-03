@@ -78,7 +78,7 @@ public class EditVehicules extends HttpServlet {
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
      
-        PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_FORM,"Vehicule");
+        PageGenerator pg = new PageGenerator(VehiculeFactory.VUE_FORM,"Vehicule");
         String id = (String) pg.getPathId( request );
         Vehicule v = null;
         Boolean trouver = false;
@@ -122,8 +122,7 @@ public class EditVehicules extends HttpServlet {
 
             throws ServletException, IOException {
       
-        PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_FORM,"",
-                VehiculeFactory.DEFAULT_REDIRECT_URL );
+        PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_FORM,"");
 
         String id = (String)pg.getPathId( request );
         
@@ -159,13 +158,15 @@ public class EditVehicules extends HttpServlet {
                     if ( vehiculeF.uniqueSave(vehM, new_v, new_v.getMatricule_interne(),
                             VehiculeFactory.PARAM_MATRICULE_INTERNE ) ) {
                         System.out.println( "Vehicule crée" );
-                        pg.redirect( getServletContext(), request, response );
+                        pg.redirectBackSuccess( getServletContext(), request, response,"Creation vehicule", "Réussie" );
+                        request.setAttribute( ATT_DISABLE_ID,false );
                     }
                 } else { 
                     // Insertion
                     System.out.println( "old_v unit : "+old_v.getUnite().getCodeUN() );
                     System.out.println( "new_v unit : "+new_v.getUnite().getCodeUN() );
                     vehM.mettreAJour( id, vehiculeF, new_v );
+                    request.setAttribute( ATT_DISABLE_ID,new_v!=null );
                 }
             
         }else {
@@ -183,7 +184,7 @@ public class EditVehicules extends HttpServlet {
         request.setAttribute( ATT_CATEGORIES_VEHICULE, categM.lister() );
         request.setAttribute( ATT_ETATS, Arrays.asList(EtatsVehicule.values()) );
         request.setAttribute( ATT_ERREURS, vehiculeF.getErreurs() );
-        request.setAttribute( ATT_DISABLE_ID,new_v!=null );
+        
         pg.generate( getServletContext(), request, response );
 
     }

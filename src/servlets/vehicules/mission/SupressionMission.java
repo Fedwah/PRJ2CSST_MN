@@ -57,14 +57,14 @@ public class SupressionMission extends HttpServlet {
                 vehF.mettreAjourKM( m.getVehicule(), m.getDistance_parcourue(), 0.0, vM );
                 pg.redirectBackSuccess( getServletContext(), request, response,
                         "Suppression de " + pg.getPathId( request ), "Reussie" );
+            }else{
+                pg.redirectBackErreur( getServletContext(), request, response,
+                        "Suppression de " + pg.getPathId( request ), "Imposible" );
             }
 
         }
 
-        pg.redirectBackErreur( getServletContext(), request, response,
-                "Ce Vehicule  est utlisé",
-                "Vous ne pouvez pas la supprimer" );
-
+     
     }
 
 }

@@ -34,6 +34,7 @@ import beans.session.general.excel.Excel;
 import beans.session.general.fields.EntityFields;
 import beans.session.general.fields.FieldDefinition;
 import beans.session.general.fillter.Filter;
+import beans.session.general.page.PageGenerator;
 
 public abstract class BeanFactory<T> {
 
@@ -45,12 +46,21 @@ public abstract class BeanFactory<T> {
     private Class<T>                       beanClass;
 
     public BeanFactory( Class<T> beanClass ) {
-
+        
         this.entityFields = new EntityFields<T>();
         this.filteres = new Filter<T>();
         
         this.beanClass = beanClass;
         this.getEntityFields().generateFields( beanClass );
+        
+        try {
+            String codeun = PageGenerator.getUtilisateur().getCodeun() ;
+            if(codeun!=null && !codeun.isEmpty()) {
+                this.notFilter( "unite");
+            }
+        } catch ( Exception e ) {
+           
+        }
     }
 
     public BeanFactory() {

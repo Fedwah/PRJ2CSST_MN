@@ -43,10 +43,10 @@ public class SupprimerModele extends HttpServlet {
         
         if ( modM.trouverSupprimer( pg.getPathId( request ) ) ) {
 
-            pg.redirectBackSuccess( getServletContext(), request, response,
+            pg.redirectCurrentSuccess( getServletContext(), request, response,
                     "Suppression de "+pg.getPathId( request ),"Reussie");
         } else {
-            pg.redirectBackErreur( getServletContext(), request, response,
+            pg.redirectCurrentError( getServletContext(), request, response,
                     "Ce modele est liée à certains véhicules",
                     "Vous ne pouvez pas la supprimer" );
         }

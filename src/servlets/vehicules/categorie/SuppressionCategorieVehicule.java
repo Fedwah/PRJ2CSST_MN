@@ -44,10 +44,11 @@ public class SuppressionCategorieVehicule extends HttpServlet {
 	    
 	
             if(categM.trouverSupprimer( pg.getPathId( request ))) {
-                
-                pg.redirect( getServletContext(), request, response );
+              
+                pg.redirectCurrentSuccess( getServletContext(), request, response,
+                        "Suppresion de la categorie","reussie");
             }else {
-                pg.redirectBackErreur( getServletContext(), request, response,
+                pg.redirectCurrentError( getServletContext(), request, response,
                         "Cette catégorie est liée à certains véhicules" ,
                         "Vous ne pouvez pas la supprimer");
             }

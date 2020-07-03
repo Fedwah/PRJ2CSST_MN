@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.session.general.page.PageGenerator;
+import beans.session.general.page.PageState;
 import beans.session.vehicules.VehiculesManager;
 
 /**
@@ -37,17 +38,17 @@ public class SupressionVehicules extends HttpServlet {
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
         // TODO Auto-generated method stub
-        PageGenerator pg = new PageGenerator( "/Vehicules" );
+        PageGenerator pg = new PageGenerator();
         
         if (vm.trouverSupprimer( pg.getPathId( request ) ) ) {
 
-            pg.redirectBackSuccess( getServletContext(), request, response,
-                    "Suppression de "+pg.getPathId( request ),
+            pg.redirectCurrentSuccess( getServletContext(), request, response,
+                   "Suppression de "+pg.getPathId( request ),
                     "Reussie");
         } else {
-            pg.redirectBackErreur( getServletContext(), request, response,
+            pg.redirectCurrentError( getServletContext(), request, response,
                     "Ce Vehicule  est utlisé",
-                    "Vous ne pouvez pas la supprimer" );
+                    "Vous ne pouvez pas la supprimer");
         }
     }
 

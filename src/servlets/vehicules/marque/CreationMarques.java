@@ -63,7 +63,7 @@ public class CreationMarques extends HttpServlet {
         
         if(mf.validate( m )){
             mf.uniqueSave( db, m, m.getTitre(),MarqueFactory.PARAM_TITRE);
-            pg.redirect(getServletContext(), request, response );
+            pg.redirectBackSuccess(getServletContext(), request, response,"Creation Marque ","Réussie" );
             
         }else{
             request.setAttribute(ATT_MARQUE, m );

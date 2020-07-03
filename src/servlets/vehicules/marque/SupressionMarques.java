@@ -40,12 +40,12 @@ public class SupressionMarques extends HttpServlet {
 
         if ( m.trouverSupprimer( pg.getPathId( request ) ) ) {
 
-            pg.redirectBackSuccess( getServletContext(), request, response,
+            pg.redirectCurrentSuccess( getServletContext(), request, response,
                     "Suppression de " + pg.getPathId( request ),
                     "Réussie" );
 
         } else {
-            pg.redirectBackErreur( getServletContext(), request, response,
+            pg.redirectCurrentError( getServletContext(), request, response,
                     "Suppression de " + pg.getPathId( request ),
                     "Le Marque ne peut pas etre supprimer car elle est utlisé." );
         }

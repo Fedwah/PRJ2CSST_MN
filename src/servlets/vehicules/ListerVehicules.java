@@ -55,12 +55,11 @@ public class ListerVehicules extends HttpServlet {
         VehiculeFactory vf = new VehiculeFactory( Vehicule.class );
 
         
-        
         request.setAttribute( ATT_VEHICULES, vm.lister() );
         request.setAttribute( ATT_FIELDS, vf.getEntityFields().labels() );
         request.setAttribute( ATT_FILTRES, vf.getNamesToFilter() );
         request.setAttribute( ATT_FILTRE_MARQUES, marM.lister() );
-        pg.generate( getServletContext(), request, response ,true);
+        pg.generate( getServletContext(), request, response);
     }
 
     @Override
@@ -95,7 +94,7 @@ public class ListerVehicules extends HttpServlet {
         request.setAttribute( ATT_FILTRE_MARQUES, marM.lister() );
         
         
-        pg.generate( getServletContext(), request, response, true);
+        pg.generate( getServletContext(), request, response);
 
     }
 

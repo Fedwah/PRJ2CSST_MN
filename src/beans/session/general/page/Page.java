@@ -16,7 +16,7 @@ public class Page {
     @Override
     public boolean equals( Object obj ) {
         // TODO Auto-generated method stub
-        return this.path.equals( ( (Page) obj ).path );
+        return this.link.equals( ( (Page) obj ).link);
     }
 
     public String getPath() {

@@ -28,8 +28,12 @@ function goTo()
 				<option value="lastN"  ${by=='lastN'?"selected":""}  >Nom</option>
 				<option value="firstN"  ${by=='firstN'?"selected":""}  >Prenom</option>
 				<option value="recruitDate"  ${by=='recruitDate'?"selected":""}  >Date de recrutement</option>
-				<option value="unite.codeUN"  ${by=='unite.codeUN'?"selected":""}  >Unité</option>
+				<c:if test="${ empty sessionScope.sessionUtilisateur.codeun}">
+					<option value="unite.codeUN"  ${by=='unite.codeUN'?"selected":""}  >Unité</option>
+				</c:if>
+				
 		</select>
+		
 		<button type="submit" class="btn btn-light rounded-circle" name="search"
 		style='display: inline-block;height:40px; width:40px;position: relative; top: -3px; left: 0px;'>
 			<img height="40px" width="40px" style='position: relative; top: -6px; left: -11px;' src='<c:url value="/public/img/icon/search_green_nobackground.png"/>' />

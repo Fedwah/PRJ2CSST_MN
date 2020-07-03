@@ -143,7 +143,7 @@ public class EditMission extends HttpServlet {
                  vehF.mettreAjourKM(aff.getCar(),oldM.getDistance_parcourue(),newM.getDistance_parcourue(),vehM);
                  miM.mettreAJour( oldM.getId(), mF, newM );
              }
-             pg.redirect( getServletContext(), request, response );
+             pg.redirectBackSuccess(getServletContext(), request, response,"Creation mission ","Réussie" );
          }else {
              request.setAttribute("mission", newM);
              request.setAttribute( "erreurs", mF.getErreurs() );
