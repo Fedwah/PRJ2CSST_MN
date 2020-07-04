@@ -78,50 +78,25 @@ public class maintenanceAdd extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator(FORM, TITLE,REDIRECT);
-		MaintenanceFactory mf = new MaintenanceFactory(Maintenance.class);
+		MaintenanceFactory mf = new MaintenanceFactory();
 		Maintenance newM = mf.create(request);
-		newM.setV(vehM.trouver(newM.getV().getMatricule_interne()));
-		if(request.getParameter("save")!= null)
-		{
+		if(mf.validateInsertion(newM, mm)) {
+			System.out.println("insertion valide");
+			mm.ajouter(newM);
+			pg.redirect(getServletContext(), request, response);
 			
-			if(mf.validateInsertion(newM, mm))
-			{
-					System.out.println("maintenace valide");
-					mm.ajouter(newM);
-					pg.redirect(getServletContext(), request, response);				
-			}
-			else
-			{
-				System.out.println(" maintenance non valide");
-				System.out.println(mf.getErreurs());
-				request.setAttribute( "erreurs", mf.getErreurs() );
-				if(newM.getV() != null)
-				{
-					request.setAttribute("Vehicule", newM.getV());
-					request.setAttribute("maintenance", newM);
-					//request.setAttribute("niveaux",nManager.lister());
-					Map<String,Object> fields = new HashMap();
-					fields.put("modal.id",newM.getV().getModele().getId());	
-					request.setAttribute("piece", pm.lister(fields));
-				}
-				
-				pg.generate( getServletContext(), request, response );
-				
-			}
 		}
-		else if(request.getParameter("addPiece")!= null)
+		else
 		{
-			// ajout des pieces de rechnages 
-			System.out.println(" ajout de piece de rechange");
+			System.out.println("champs incorrects");
+			System.out.println("les erreurs: "+ mf.getErreurs());
+			request.setAttribute("erreurs", mf.getErreurs());
 			request.setAttribute("Vehicule", newM.getV());
-			request.setAttribute("maintenance", newM);
-			//request.setAttribute("niveaux",nManager.lister());
-			Map<String,Object> fields = new HashMap();
-			fields.put("modal.id",newM.getV().getModele().getId());	
-			request.setAttribute("piece", pm.lister(fields));
+			request.setAttribute("niveaux",Niveau.values());
+			request.setAttribute("instruction", inM.lister());
 			pg.generate( getServletContext(), request, response );
-
-		}	
+		}
+	
 		
 	}
 

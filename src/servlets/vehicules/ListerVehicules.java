@@ -78,8 +78,10 @@ public class ListerVehicules extends HttpServlet {
             if ( vf.getEntityFields().fields().get( field ).isBasicClass ) {
                 vf.addFiltre( field, search );
 
-            } else {
+            } else if(!field.equals("unite")){
                 vf.addFiltre( field, "titre", search );
+            } else {
+                vf.addFiltre( field, "codeUN", search );
             }
 
         }

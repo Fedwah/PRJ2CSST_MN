@@ -1,5 +1,6 @@
 package beans.session.general;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -13,6 +14,7 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.transaction.RollbackException;
 
+import beans.entities.regions.Region;
 import beans.entities.regions.unites.Unite;
 import beans.entities.utilisateurs.Utilisateur;
 import beans.session.general.fields.EntityFields;
@@ -130,7 +132,7 @@ public abstract class BeanManager<T> {
 
     }
 
-    public T trouver( Class classToFind, Object idOfClass ) {
+    public Object trouver( Class classToFind, Object idOfClass ) {
         try {
             return (T) this.getEntityManger().find( classToFind, idOfClass );
         } catch ( EntityNotFoundException e ) {
@@ -209,8 +211,9 @@ public abstract class BeanManager<T> {
         System.out.println( "join est " + join );
         where = whereBuilder( fields, values, and );
         System.out.println( "where est " + where );
+        
         q = "SELECT b FROM " + beanClass.getName() + " b" +
-                ( join != "" ? " JOIN " + join : "" ) +
+                ( join != "" ? join : "" ) +
                 ( where != "" ? " WHERE " + where : "" ) +
                 ( orderBy != "" ? " ORDER BY b." + orderBy : "" );
 
@@ -223,7 +226,7 @@ public abstract class BeanManager<T> {
         for ( Map.Entry<String, Object> mapentry : values.entrySet() ) {
             // System.out.println( "Bounded :"+fields.getValidName((
             // mapentry.getKey()))+" "+ mapentry.getValue());
-            query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ), 
+            query.setParameter( (String) mapentry.getKey().replace( '.', '_' ), 
                     fields.cast(mapentry.getKey(),mapentry.getValue()) );
         }
 
@@ -239,11 +242,13 @@ public abstract class BeanManager<T> {
         values.putAll( getUserRoleFiltre() );
 
         fields.generateFields( this.beanClass );
-        System.out.println( "fields : " + fields.fields().toString() );;
+        //System.out.println( "fields : " + fields.fields().toString() );;
         where = whereBuilderSearch( fields, values, and );
-        System.out.println("where est " + where);
+       
+        join = joinBuilder( fields, values );
+        
         q = "SELECT b FROM " + beanClass.getName() + " b" +
-                ( join != "" ? " JOIN " + join : "" ) +
+                ( join != "" ? join : "" ) +
                 ( where != "" ? " WHERE " + where : "" ) +
                 ( orderBy != "" ? " ORDER BY b." + orderBy : "" );
 
@@ -255,11 +260,12 @@ public abstract class BeanManager<T> {
             if(fields.fields().
                     get( fields.getValidName( 
                             ( mapentry.getKey() ) )).class_.equals( "java.lang.String" )) {
-                query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ),
+                
+                query.setParameter( mapentry.getKey().replace( '.', '_' ),
                         "%" + mapentry.getValue() + "%" );
                 System.out.println( "set param String" );
             }else {
-                query.setParameter( (String) fields.getValidName( ( mapentry.getKey() ) ),
+                query.setParameter( mapentry.getKey().replace( '.', '_' ),
                        fields.cast(mapentry.getKey(),mapentry.getValue()));
             }
             
@@ -270,18 +276,23 @@ public abstract class BeanManager<T> {
 
     private String joinBuilder( EntityFields<T> fields, Map<String, Object> values ) {
         String j = "";
+        String add = "";
         Iterator<Map.Entry<String, Object>> it = values.entrySet().iterator();
         Map<String, FieldDefinition> map = fields.fields();
 
+        List<String> added = new ArrayList<String>();
         while ( it.hasNext() ) {
             Map.Entry<String, Object> f = it.next();
-
+            
             if ( !map.get( fields.getValidName( f.getKey() ) ).isBasicClass ) {
-                j = j + "b." + f.getKey().substring( 0, f.getKey().indexOf( '.' ) ) + " "
-                        + fields.getValidName( f.getKey() );
-                if ( it.hasNext() ) {
-                    j = j + " JOIN ";
+                add = f.getKey().substring( 0, f.getKey().indexOf( '.' ) );
+                if(!added.contains( add )) {
+                    added.add( add );
+                    j = j + " JOIN b." + add + " "
+                            + fields.getValidName( f.getKey() );
+                       
                 }
+             
             }
 
         }
@@ -301,7 +312,7 @@ public abstract class BeanManager<T> {
             if ( map.get( fields.getValidName( f.getKey() ) ).isBasicClass ) {
                 qr = qr + " b." + f.getKey() + " = :" + f.getKey();
             } else {
-                qr = qr + f.getKey() + " = :" + fields.getValidName( f.getKey() );
+                qr = qr + f.getKey() + " = :" +  f.getKey().replace( '.', '_' );
             }
 
             if ( iterator.hasNext() ) {
@@ -312,6 +323,7 @@ public abstract class BeanManager<T> {
         return qr;
     }
 
+    
     private String whereBuilderSearch( EntityFields<T> fields, Map<String, Object> values, boolean and ) {
         String qr = "";
 
@@ -323,14 +335,14 @@ public abstract class BeanManager<T> {
 
             if ( map.get( fields.getValidName( f.getKey() ) ).isBasicClass ) {
                 if(map.get( fields.getValidName( f.getKey() ) ).class_.contains( "java.lang.String" )) {
-                    qr = qr + " b." + f.getKey() + " like :" + f.getKey();
+                    qr = qr + " b." + f.getKey() + " like :" + f.getKey().replace( '.', '_' );
                 }else {
                     // le  like marche que sur les String
-                    qr = qr + " b." + f.getKey() + " = :" + f.getKey();
+                    qr = qr + " b." + f.getKey() + " = :" + f.getKey().replace( '.', '_' );
                 }
                 
             } else {
-                qr = qr + f.getKey() + " like :" + fields.getValidName( f.getKey() );
+                qr = qr + f.getKey() + " like :" +  f.getKey().replace( '.', '_' ) ;
             }
 
             if ( iterator.hasNext() ) {
@@ -375,16 +387,32 @@ public abstract class BeanManager<T> {
         try {
             Utilisateur u = PageGenerator.getUtilisateur();
             if ( u != null ) {
-
+                
                 f = this.fields.getFieldByClass( Unite.class );
-
+                
                 if ( f != null ) {
                     System.out.println( "call get method : " + f.name );
-                    value = u.getCodeun();
+                    
                     idName = this.fields.getChildIdName( f.name );
-                    if ( value != null )
+                    value = u.getCodeun();
+                    if ( value != null && !((String)value).isEmpty() ) {
                         filtre.put( f.name + "." + idName, value );
+                    }else {
+                        value = this.trouver( Region.class, u.getCodereg() );
+                        if(value!=null) {
+                            filtre.put( f.name + "." + "region", value );
+                        }
+                        
+                    }
+                    
+                        
                 }
+                
+             
+             
+               
+
+                
 
             }
         } catch ( Exception e ) {

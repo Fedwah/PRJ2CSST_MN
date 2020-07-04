@@ -47,7 +47,7 @@ public class Dailymaintenance extends HttpServlet {
         String date = request.getPathInfo().substring( 1 );// id of element
         if(!date.isEmpty())
         {
-            MaintenanceFactory mainF = new MaintenanceFactory(Maintenance.class);
+            MaintenanceFactory mainF = new MaintenanceFactory();
             CalendarFactory cf = new CalendarFactory();
             request.setAttribute( "cal", cf);
     		mainF.addFiltre("startDate", date);

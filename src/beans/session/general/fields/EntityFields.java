@@ -273,6 +273,7 @@ public class EntityFields<T> {
          String[] names = name.split( "\\." );
          Class<?> c = null;
          System.out.println( "names are "+ names );
+         
          if(names.length==1) {
              c = this.getClass( names[0] );
          }else if (names.length ==2) {
@@ -288,7 +289,7 @@ public class EntityFields<T> {
          System.out.println( "Cast "+value+" of "+value.getClass()+" to "+
                  c);
          
-        if ( ( c != null && !c.equals( String.class ) ) || c == null ) {
+        if ( (( c != null && !c.equals( String.class ) ) ||(c == null))  && (value instanceof String)) {
             try {
                 String num = ( (String) value ).replace( '.', ',' );
 

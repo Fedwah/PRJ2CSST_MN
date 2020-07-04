@@ -1,5 +1,6 @@
 package servlets.Utilisateur;
 
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 
 import javax.ejb.EJB;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -48,6 +50,7 @@ public class LoginFilter1 implements Filter {
 	        HttpServletResponse response = (HttpServletResponse) res;
 	        HttpSession session = request.getSession(false);
 	        String loginURI = request.getContextPath() + "/Connexion";
+	        
 	        final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(
 	    	        Arrays.asList( loginURI )));
 	        

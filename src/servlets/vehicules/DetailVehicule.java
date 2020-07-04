@@ -75,7 +75,7 @@ public class DetailVehicule extends HttpServlet {
 		
 		AffectationConducteurFactory affF = new AffectationConducteurFactory();
 		MissionFactory mF = new MissionFactory();
-		MaintenanceFactory mainF = new MaintenanceFactory(Maintenance.class);
+		MaintenanceFactory mainF = new MaintenanceFactory();
 		
 		if(id!=null) {
 		    pg.setPageTitle( "Detail du vehicule "+id );

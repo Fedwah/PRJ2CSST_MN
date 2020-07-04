@@ -3,12 +3,11 @@ package beans.entities.pieces;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,7 +15,6 @@ import javax.validation.constraints.Size;
 import org.json.JSONPropertyIgnore;
 
 import beans.entities.maintenance.Maintenance;
-import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 
 @Entity
