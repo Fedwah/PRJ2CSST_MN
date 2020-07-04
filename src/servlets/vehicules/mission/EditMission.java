@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.vehicules.AffectationConducteur;
+import beans.entities.vehicules.EtatsVehicule;
 import beans.entities.vehicules.Mission;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.page.PageGenerator;
@@ -136,14 +137,19 @@ public class EditMission extends HttpServlet {
                 
                  if(mF.uniqueSave( miM, newM, newM.getId(), MissionFactory.PARAM_ID )) {
                      System.out.println( "Mission crée" );
-                     
+                     if(aff.getCar().getEtat()==EtatsVehicule.LIBRE) {
+                         vehM.mettreAjourEtat( aff.getCar(), EtatsVehicule.EN_FONCTION);
+                     }
+                     pg.redirectBackSuccess(getServletContext(), request, response,"Creation mission ","Réussie" );
                  }
              }else {
                  oldM=miM.trouver( mF.castInt( ids[1] ) );
-                 vehF.mettreAjourKM(aff.getCar(),oldM.getDistance_parcourue(),newM.getDistance_parcourue(),vehM);
+                 vehM.mettreAjourKM(aff.getCar(),oldM.getDistance_parcourue(),newM.getDistance_parcourue());
+                 vehM.mettreAjourEtat( aff.getCar(), EtatsVehicule.LIBRE );
                  miM.mettreAJour( oldM.getId(), mF, newM );
+                 pg.redirectBackSuccess(getServletContext(), request, response,"Modication mission ","Réussie" );
              }
-             pg.redirectBackSuccess(getServletContext(), request, response,"Creation mission ","Réussie" );
+            
          }else {
              request.setAttribute("mission", newM);
              request.setAttribute( "erreurs", mF.getErreurs() );

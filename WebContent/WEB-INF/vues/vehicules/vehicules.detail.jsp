@@ -120,8 +120,12 @@
 						text="Libre , Démarer un mission" outline="${false }"
 						small="${true}" />
 				</c:when>
+				<c:when test="${affectation==null }">
+					<btn:btn type="danger" value="" text="Pas d'affectation"
+						disable="${true}" small="${true}" />
+				</c:when>
 				<c:otherwise>
-					<btn:btn type="danger" value="" text="Pas d'affectation ou Vehicule non diponible"
+					<btn:btn type="danger" value="" text="Vehicule non diponible"
 						disable="${true}" small="${true}" />
 					<span></span>
 				</c:otherwise>
@@ -310,13 +314,6 @@
 								<td>
 
 									<div class="row">
-
-										<form:hidden name="affecter" label="Réaffecter"
-											btn_type="btn-primary"
-											action="/Vehicules/Affectation/${vehicule.matricule_interne}"
-											values="${aff.driver.IDdriver},${aff.car.matricule_interne}"
-											values_names="driver,vehicule" />
-
 
 										<div class="col">
 											<btn:remove value="/Vehicules/Affectations/remove/${aff.id}"></btn:remove>

@@ -20,6 +20,7 @@ import javax.validation.constraints.Size;
 
 import beans.entities.general.Image;
 import beans.entities.regions.unites.Unite;
+import beans.entities.vehicules.AffectationConducteur;
 
 @Entity
 public class Driver implements Serializable{
@@ -35,8 +36,8 @@ public class Driver implements Serializable{
 	@NotEmpty
 	@Size(min=3,max=25)
 	private String lastN;
+	
 	// date de recrutement
-	@PastOrPresent
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date recruitDate ;
@@ -49,6 +50,9 @@ public class Driver implements Serializable{
     @JoinColumn(nullable = true)
     private Image photo;
 	
+    @OneToOne
+    @JoinColumn(nullable = true)
+    private AffectationConducteur affectation;
 	// constructor without ID
 	public Driver(String firstN, String lastN, Date recruitDate, Image photo) {
 		super();
@@ -56,6 +60,7 @@ public class Driver implements Serializable{
 		this.lastN = lastN;
 		this.recruitDate = recruitDate;
 		this.photo = photo;
+		this.affectation=null;
 	}
 	// Default constructor
 	public Driver() {
@@ -99,6 +104,13 @@ public class Driver implements Serializable{
 	public void setUnite(Unite unite) {
 		this.unite = unite;
 	}
+    public AffectationConducteur getAffectation() {
+        return affectation;
+    }
+    public void setAffectation( AffectationConducteur affectation ) {
+        this.affectation = affectation;
+    }
 	
 
+	
 }

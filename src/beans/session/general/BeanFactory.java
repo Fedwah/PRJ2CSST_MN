@@ -390,7 +390,12 @@ public abstract class BeanFactory<T> {
     public int castInt( String string ) {
         if ( string != null ) {
             if ( !string.isEmpty() ) {
-                return Integer.decode( string );
+                try {
+                    return Integer.decode( string );
+                }catch(Exception e){
+                    return -1;
+                }
+               
             }
         }
         return 0;

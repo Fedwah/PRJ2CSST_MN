@@ -58,7 +58,7 @@ public class Vehicule implements Serializable {
     private Date date_achat;  
    
    
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     @JoinColumn(nullable = true)
     private Image photo;
     

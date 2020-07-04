@@ -61,8 +61,8 @@ function goTo()
 				<th scope="col">Prenom</th>
 				<th scope="col">Date de recrutement</th>
 				<th scope="col">Unité</th>
-				<th></th>
-				<th></th>
+				<th scope="col">Affectation</th>
+				<th scope="col">Operations</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -88,7 +88,7 @@ function goTo()
 					<td>${dr.firstN}</td>
 					<td>${dr.recruitDate}</td>
 					<td>${dr.unite.codeUN}</td>
-					<td></td>
+					<td>${dr.affectation.car.matricule}</td>
 					
 					<td align="right">
 						<c:choose>

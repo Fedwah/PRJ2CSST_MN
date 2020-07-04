@@ -70,7 +70,6 @@ public class VehiculeFactory extends BeanFactory<Vehicule> {
     public void updateChange( Vehicule newB, Vehicule old ) {
 
         if ( !newB.getDate_achat().equals(old.getDate_achat())) {
-
             old.setDate_achat(newB.getDate_achat() );
         }
 
@@ -80,9 +79,10 @@ public class VehiculeFactory extends BeanFactory<Vehicule> {
         old.setCategorie( newB.getCategorie() );
         old.setMatricule_externe( newB.getMatricule_externe() );
         old.setUnite( newB.getUnite() );
-        if ( newB.getPhoto() != null ) {
-            old.setPhoto( newB.getPhoto() );
-        }
+        
+       
+        old.setPhoto( newB.getPhoto() );
+        System.out.println( "photo set to "+old.getPhoto() );
         old.setKm( newB.getKm() );
 
     }
@@ -97,44 +97,5 @@ public class VehiculeFactory extends BeanFactory<Vehicule> {
 
     }
 
-    public void mettreAjourKM(Vehicule old ,Double distance_parcourue_old, Double distance_parcourue_new, VehiculesManager vehM ) {
-        double newKm = old.getKm()+distance_parcourue_new-distance_parcourue_old;
-        Vehicule new_v = new Vehicule( old.getMatricule_interne(),
-                old.getMatricule_externe(), 
-                old.getModele(), 
-                old.getMarque(), 
-                old.getEtat(), 
-                old.getDate_achat(), 
-                old.getPhoto(), 
-                old.getCategorie(), 
-                old.getUnite(),
-                new Double((newKm>=0?newKm:0.0)));
-        
-        System.out.println( "Mise a jour de KM de "+old.getKm() +" à "+new_v.getKm());
-       
-      
-        if(validate( new_v )) {
-           System.out.println( "mise a jour valide" );
-            vehM.mettreAJour( old.getMatricule_interne(),this, new_v );
-        }else {
-            System.out.println( this.getErreurs() );
-        }
-        
-    }
-    
-    public void mettreAjourEtat(Vehicule old ,EtatsVehicule newEtat,VehiculesManager vehM ) {
-        Vehicule new_v = new Vehicule( old.getMatricule_interne(),
-                old.getMatricule_externe(), 
-                old.getModele(), 
-                old.getMarque(), 
-                newEtat, 
-                old.getDate_achat(), 
-                old.getPhoto(), 
-                old.getCategorie(), 
-                old.getUnite(),
-                old.getKm());
-        
-        vehM.mettreAJour( old.getMatricule_interne(),this, new_v );
-        
-    }
+   
 }
