@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hslf.record.Sound;
+
 import beans.entities.driver.Driver;
 import beans.entities.pieces.Piece;
 import beans.entities.utilisateurs.Utilisateur;
@@ -144,15 +146,16 @@ public class driversList extends HttpServlet {
                 
                 if((newAff=affF.affecter( request, affM, oldAff ))!=null) {
                     dm.mettreAjourAffectation(newAff.getDriver().getIDdriver(), newAff );
+                    System.out.println( "Affectation reussie" );
                     pg.redirectBackSuccess( getServletContext(), request, response, "Affectation du conducteur",
                             "Reussie" );
                 }else {
-                    
+                    System.out.println( "Affecation terminer" );
                     pg.redirectCurrentSuccess( getServletContext(), request, response, "Fin d'affectation du conducteur",
                             "Reussie" );
                 }
-                System.out.println( "Affectation reussie" );
-                pg.setRedirectURL( AffectationConducteurFactory.DEFAULT_REDIRECT + id );
+              
+                
               
 
             }

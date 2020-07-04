@@ -174,7 +174,7 @@ public class EntityFields<T> {
             return Class.forName( class_ );
         } catch ( ClassNotFoundException e ) {
             // TODO Auto-generated catch block
-            System.out.println( "Can't get class of :" + class_ );
+            //System.out.println( "Can't get class of :" + class_ );
         }
         return null;
     }
@@ -286,8 +286,7 @@ public class EntityFields<T> {
              System.err.println( "not suported the depth of 3 or more in cast" );
          }
          
-         System.out.println( "Cast "+value+" of "+value.getClass()+" to "+
-                 c);
+         //System.out.println( "Cast "+value+" of "+value.getClass()+" to "+dc);
          
         if ( (( c != null && !c.equals( String.class ) ) ||(c == null))  && (value instanceof String)) {
             try {
@@ -296,7 +295,7 @@ public class EntityFields<T> {
                 return NumberFormat.getInstance( Locale.FRANCE ).parse( num );
             } catch ( ParseException e ) {
 
-                System.out.println( "Not Number or double" );
+                //System.out.println( "Not Number or double" );
 
             }
 

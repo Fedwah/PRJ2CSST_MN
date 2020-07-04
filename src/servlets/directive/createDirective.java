@@ -16,8 +16,8 @@ import beans.entities.directive.directive;
 import beans.entities.utilisateurs.Utilisateur;
 import beans.session.Utilisateur.MethodeUtilisateur;
 import beans.session.directive.MethodesDirectives;
-import beans.session.general.page.Page;
 import beans.session.general.page.PageGenerator;
+import beans.session.general.page.pather.Page;
 
  
 @WebServlet("/createDirective")
@@ -43,7 +43,7 @@ public class createDirective extends HttpServlet {
 		 int sender = (int) session.getAttribute("id"); 
 		 if (type.contentEquals("Central"))
 		 {
-	 PageGenerator pg = new PageGenerator("/WEB-INF/vues/directives/createDirective.jsp", "Créer une directive");
+	 PageGenerator pg = new PageGenerator("/WEB-INF/vues/directives/createDirective.jsp", "Crï¿½er une directive");
 	 usersreg=drctv.ListerUsersRegional();
 	 request.setAttribute("usersreg", usersreg);
 	 pg.generate( getServletContext(), request, response );
@@ -51,7 +51,7 @@ public class createDirective extends HttpServlet {
 	 }
 		 if (type.contentEquals("Regional"))
 		 {
-			 PageGenerator pg = new PageGenerator("/WEB-INF/vues/directives/createDirectiveReg.jsp","Créer une directive");
+			 PageGenerator pg = new PageGenerator("/WEB-INF/vues/directives/createDirectiveReg.jsp","Crï¿½er une directive");
 			 usersop =drctv.ListerUsersOperationnel(codereg);
 			 request.setAttribute("usersop", usersop);
 			 pg.generate( getServletContext(), request, response );
@@ -67,7 +67,7 @@ public class createDirective extends HttpServlet {
 		String type =  (String) session.getAttribute("type");
 		if (type.contentEquals("Central"))
 		 {
-	   PageGenerator pg = new PageGenerator("/WEB-INF/vues/directives/createDirective.jsp", "Créer une directive");
+	   PageGenerator pg = new PageGenerator("/WEB-INF/vues/directives/createDirective.jsp", "Crï¿½er une directive");
 	     usersreg=drctv.ListerUsersRegional();
 	     request.setAttribute("usersreg", usersreg);
 	     String objet = request.getParameter("objet");
@@ -84,7 +84,7 @@ public class createDirective extends HttpServlet {
 	 }
 	   if (type.contentEquals("Regional"))
 		 {
-			 PageGenerator pg = new PageGenerator("/WEB-INF/vues/directives/createDirectiveReg.jsp","Créer une directive");
+			 PageGenerator pg = new PageGenerator("/WEB-INF/vues/directives/createDirectiveReg.jsp","Crï¿½er une directive");
 			 usersop =drctv.ListerUsersOperationnel(codereg);
 			 request.setAttribute("usersop", usersop);
 			 String objet = request.getParameter("objet");

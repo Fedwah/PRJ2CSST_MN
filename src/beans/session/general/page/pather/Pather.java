@@ -1,10 +1,12 @@
-package beans.session.general.page;
+package beans.session.general.page.pather;
 
 import java.util.List;
 import java.util.Stack;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import beans.session.general.page.SessionManager;
 
 public class Pather {
 
@@ -13,6 +15,7 @@ public class Pather {
     private Page                currentPage;
     private Boolean             tooLong;
     private String              root;
+    
     private static final String ATT_PATH     = "path";
 
     private static final String DEFAUTL_ROOT = "/";
@@ -44,14 +47,20 @@ public class Pather {
         pages.add( p );
         return p;
     }
-
+    
+    public Page forward( Page p ) {
+       
+        pages.add( p );
+        return p;
+    }
     public Page goBack() {
         return pages.pop();
     }
 
     public Page getPage( String name, String link ) {
         Page p = null;
-        if ( this.pages.contains( new Page( name, link ) ) ) {
+        
+        if (this.pages.contains( new Page( name, link ) ) ) {
 
             do {
                 p = goBack();
@@ -60,7 +69,10 @@ public class Pather {
 
             this.pages.add( p );
 
+        }else {
+            System.out.println( "get page not found" );
         }
+        
         return p;
     }
 
@@ -78,6 +90,13 @@ public class Pather {
        
     }
 
+    public void upadateLastPage( Page page ) {
+        if ( !this.pages.isEmpty() )
+            this.pages.pop();
+        this.pages.push( page );
+    }
+
+    
     public List<Page> getPages() {
         this.tooLong = this.pages.size() >= NB_LINK_SHOW;
         if ( this.tooLong ) {
@@ -85,6 +104,7 @@ public class Pather {
         } else
             return this.pages.subList( 0, pages.size() );
     }
+    
 
     public static Pather getPather( HttpServletRequest request, String root ) {
         SessionManager s = new SessionManager();
@@ -114,10 +134,5 @@ public class Pather {
         return currentPage;
     }
 
-    public void upadateLastPage( Page page ) {
-        if ( !this.pages.isEmpty() )
-            this.pages.pop();
-        this.pages.push( page );
-    }
-
+  
 }

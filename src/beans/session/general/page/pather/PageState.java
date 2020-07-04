@@ -1,4 +1,4 @@
-package beans.session.general.page;
+package beans.session.general.page.pather;
 
 public class PageState {
 

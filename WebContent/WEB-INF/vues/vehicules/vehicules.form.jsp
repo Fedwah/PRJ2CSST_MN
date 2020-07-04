@@ -15,7 +15,7 @@
 			<div class="col-md-9">
 
 				<div class="form-row">
-
+					
 					<form:input erreurs_="${erreurs['matricule_interne']}"
 						label="Matricule interne" name="${names.matricule_interne}"
 						col="col-md-6" type="text" value="${vehicule.matricule_interne}"
