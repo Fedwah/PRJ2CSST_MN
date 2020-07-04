@@ -181,11 +181,14 @@ public class EntityFields<T> {
 
     public String getChildIdName( String childName ) {
         Class<?> class_ = this.getClass( childName );
-        for ( Field f : class_.getDeclaredFields() ) {
-            if ( f.getAnnotation( Id.class ) != null ) {
-                return f.getName(); 
+        if(class_!=null) {
+            for ( Field f : class_.getDeclaredFields() ) {
+                if ( f.getAnnotation( Id.class ) != null ) {
+                    return f.getName(); 
+                }
             }
         }
+    
         return null;
     }
     
@@ -221,7 +224,6 @@ public class EntityFields<T> {
 
     public List<String> getListFields() {
         List<String> out = new ArrayList<String>();
-
         for ( FieldDefinition f : this.fields.values() ) {
             if ( f.class_.contains( "List" ) ) {
                 out.add( f.name );

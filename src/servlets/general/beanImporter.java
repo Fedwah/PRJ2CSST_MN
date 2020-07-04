@@ -70,7 +70,7 @@ public class beanImporter extends HttpServlet {
         classes.put( "Causes", CauseFactory.class );
         classes.put("Défaillances" , DefaillanceFactory.class);
         classes.put( "Effets",EffetFactory.class );
-        classes.put("Instrcution",InstructionFactory.class);
+        classes.put("Instruction",InstructionFactory.class);
         classes.put( "Maintenaces", MaintenanceFactory.class );
     }
 
@@ -87,11 +87,7 @@ public class beanImporter extends HttpServlet {
         
         pg.setPageTitle( "Importer/Exporter : " + id  );
 
-        
-
-        
-        
-        
+      
         request.setAttribute( "classes", classes );
         pg.generate( getServletContext(), request, response );
 
@@ -116,8 +112,7 @@ public class beanImporter extends HttpServlet {
            
             BeanFactory<?> beanF = BeanFactory.getClassFactory( s );
             
-          
-            
+            System.out.println( "Get factory of : "+beanF.getClassName() );
             if(request.getParameter( "modele" )!=null) {
                 List<String > ignore = beanF.getEntityFields().getListFields();
                 
@@ -125,9 +120,9 @@ public class beanImporter extends HttpServlet {
                     Workbook wk = beanF.obtenirModeleExcel(response, ignore.toArray( new String[ignore.size()] ) );
                     pg.writeWorkBook( wk,id, response );    
                 }else {
-                   List<?> beans  = generalM.lister( beanF.getClass() );
-                   
-                   Workbook wk = beanF.exportExcel(beans , ignore.toArray( new String[ignore.size()] )  );
+                   List<?> beans  = generalM.lister( beanF.getBeanClass() );
+                   System.out.println( "Obtenir les données avec  "+beans.size()+" lignes" );
+                   Workbook wk = beanF.exportExcel(beans);
                    pg.writeWorkBook( wk, beanF.getClassName(), response );
                 }
                 

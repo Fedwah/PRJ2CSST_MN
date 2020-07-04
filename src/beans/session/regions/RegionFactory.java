@@ -20,7 +20,7 @@ public class RegionFactory extends BeanFactory<Region> {
 	
 
 	public RegionFactory() {
-		super();
+		super(Region.class);
 		// TODO Auto-generated constructor stub
 	}
 

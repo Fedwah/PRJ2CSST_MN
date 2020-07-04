@@ -76,7 +76,7 @@ public abstract class BeanFactory<T> {
     }
 
     public abstract T create( HttpServletRequest request );
-
+    
     public T createValidateAjouter(HttpServletRequest request,T obj,BeanManager<T> beanM) {
         
         if(obj==null) {
@@ -416,25 +416,30 @@ public abstract class BeanFactory<T> {
 
     }
 
-    public Workbook exportExcel( List<?> beans, String[] fieldsToIgnore ) {
+    public Workbook exportExcel( List<?> beans  ) {
         Excel<T> e = new Excel<T>();
 
         List<Object> values = null;
         List<Object[]> beansVals = new ArrayList<Object[]>();
+        List<String> ignores = this.fieldIgnoreExportImport();
+        String[] fieldsToIgnore = new String[ignores.size()];
+        
+       ignores .toArray(fieldsToIgnore);
 
         for ( Object b : beans ) {
             values = new ArrayList<Object>();
             for ( FieldDefinition f : this.getEntityFields().fields().values() ) {
                 if ( Arrays.binarySearch( fieldsToIgnore, f.name ) < 0 ) {
-
+                    System.out.println( "Get child id value of "+f.name );
                     values.add( this.getChildIdValue( (T) b, f.name ) );
-
+                    
                 }
             }
+            System.out.println( "Transformed object "+ values);
             beansVals.add( values.toArray() );
 
         }
-
+       
         return e.exportExcel( this, fieldsToIgnore, beansVals );
 
     }
@@ -588,6 +593,10 @@ public abstract class BeanFactory<T> {
             } catch ( Exception e ) {
                 System.out.println( "Child getter invocation error" );
             }
+        }else if(childId == null && child!=null) {
+            if(child instanceof Enum<?>) {
+                child = ((Enum<?>)child).toString();
+            }
         }
 
         return child;
@@ -619,5 +628,20 @@ public abstract class BeanFactory<T> {
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
+    
+    public List<String> fieldIgnoreExportImport(){
+        List<String> out = new ArrayList<String>();
+        String[] s = null;
+        for ( FieldDefinition f : this.entityFields.fields().values() ) {
+            if ( f.class_.contains( "List" ) ) {
+                out.add( f.name );
+            }
+        }
+        System.out.println( "ignores in import/export : "+out );
+     
+        
+        return out;
+    }
+    
 
 }

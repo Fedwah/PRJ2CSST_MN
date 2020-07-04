@@ -132,9 +132,9 @@ public abstract class BeanManager<T> {
 
     }
 
-    public T trouver( Class classToFind, Object idOfClass ) {
+    public Object trouver( Class classToFind, Object idOfClass ) {
         try {
-            return (T) this.getEntityManger().find( classToFind, idOfClass );
+            return  this.getEntityManger().find( classToFind, idOfClass );
         } catch ( EntityNotFoundException e ) {
             System.out.println( "Erreur trouver :" + e.getMessage() );
             return null;

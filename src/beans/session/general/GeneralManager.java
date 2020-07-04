@@ -75,7 +75,7 @@ public class GeneralManager extends BeanManager<Object> {
     }
 
     public List<Object> lister( Class<?> name ) {
-        // TODO Auto-generated method stub
+        System.out.println( "Get all"+name.getName() );
         return em.createQuery( "select b from " + name.getName() + " b" ).getResultList();
     }
 

@@ -165,7 +165,8 @@ public class Excel<T> {
                 c.setCellValue( (Double) v );
             else if(v instanceof Integer)
                 c.setCellValue( ((Integer)v ).doubleValue());
-            else {
+            else if(v instanceof String){
+                
                 Date d = getDate( (String)v );
                 if(d!=null) {
                     //System.out.println( "Transformed to Date" +d);

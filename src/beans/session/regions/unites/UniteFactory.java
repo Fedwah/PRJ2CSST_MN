@@ -14,7 +14,7 @@ public class UniteFactory extends BeanFactory<Unite>{
 	
 
 	public UniteFactory() {
-		super();
+		super(Unite.class);
 		// TODO Auto-generated constructor stub
 	}
 

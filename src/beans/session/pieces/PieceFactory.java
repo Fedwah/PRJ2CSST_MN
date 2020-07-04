@@ -25,7 +25,7 @@ public class PieceFactory extends BeanFactory<Piece> {
 	}
 	
 	public PieceFactory() {
-	
+	    super(Piece.class);
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class PieceFactory extends BeanFactory<Piece> {
 			{
 				if(modals.get(i).getId() == idMod) cpt ++;
 			}
-			if(cpt>1) this.addErreurs("modals", "un modele est déjà inséré, vous ne pouvez pas l'inserer deux fois");
+			if(cpt>1) this.addErreurs("modals", "un modele est dï¿½jï¿½ insï¿½rï¿½, vous ne pouvez pas l'inserer deux fois");
 		}
 		
 	}
