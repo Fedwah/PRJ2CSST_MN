@@ -138,15 +138,16 @@ public class EditMission extends HttpServlet {
                  if(mF.uniqueSave( miM, newM, newM.getId(), MissionFactory.PARAM_ID )) {
                      System.out.println( "Mission crée" );
                      if(aff.getCar().getEtat()==EtatsVehicule.LIBRE) {
-                         vehF.mettreAjourEtat( aff.getCar(), EtatsVehicule.EN_FONCTION, vehM );
+                         vehM.mettreAjourEtat( aff.getCar(), EtatsVehicule.EN_FONCTION);
                      }
                      
                  }
              }else {
                  oldM=miM.trouver( mF.castInt( ids[1] ) );
-                 vehF.mettreAjourKM(aff.getCar(),oldM.getDistance_parcourue(),newM.getDistance_parcourue(),vehM);
+                 vehM.mettreAjourKM(aff.getCar(),oldM.getDistance_parcourue(),newM.getDistance_parcourue());
+                 vehM.mettreAjourEtat( aff.getCar(), EtatsVehicule.LIBRE );
                  miM.mettreAJour( oldM.getId(), mF, newM );
-                 vehF.mettreAjourEtat( aff.getCar(), EtatsVehicule.LIBRE, vehM );
+                 
              }
              pg.redirectBackSuccess(getServletContext(), request, response,"Creation mission ","Réussie" );
          }else {

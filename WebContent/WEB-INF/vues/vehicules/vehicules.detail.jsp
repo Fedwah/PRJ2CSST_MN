@@ -120,8 +120,12 @@
 						text="Libre , Démarer un mission" outline="${false }"
 						small="${true}" />
 				</c:when>
+				<c:when test="${affectation==null }">
+					<btn:btn type="danger" value="" text="Pas d'affectation"
+						disable="${true}" small="${true}" />
+				</c:when>
 				<c:otherwise>
-					<btn:btn type="danger" value="" text="Pas d'affectation ou Vehicule non diponible"
+					<btn:btn type="danger" value="" text="Vehicule non diponible"
 						disable="${true}" small="${true}" />
 					<span></span>
 				</c:otherwise>

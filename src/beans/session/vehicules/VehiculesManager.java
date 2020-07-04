@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import beans.entities.vehicules.EtatsVehicule;
 import beans.entities.vehicules.Marque;
 import beans.entities.vehicules.Modele;
 import beans.entities.vehicules.Vehicule;
@@ -30,21 +31,23 @@ public class VehiculesManager extends BeanManager<Vehicule> {
         return em;
     }
 
+    
     @Override
     public boolean mettreAJour( Object id, BeanFactory<Vehicule> beanF, Vehicule newBean ) {
         Vehicule v = trouver( id );
 
         if ( v != null ) {
 
-            newBean.setEtat( newBean.getEtat() );
+            
             newBean.setMarque( (Marque) ObtenirRefence( Marque.class, newBean.getMarque().getTitre() ) );
             newBean.setModele( (Modele) ObtenirRefence( Modele.class, newBean.getModele().getId() ) );
 
+         
             // Remettre l'ancienne photo , si pas de nouveau
             if ( newBean.getPhoto() == null ) {
+                System.out.println( "Vehicule image update" );
                 newBean.setPhoto( v.getPhoto() );
             }
-
             beanF.updateChange( newBean, v );
 
             return true;
@@ -64,5 +67,25 @@ public class VehiculesManager extends BeanManager<Vehicule> {
     }
 
   
+    public void mettreAjourKM(Vehicule old ,Double distance_parcourue_old, Double distance_parcourue_new) {
+        
+        double newKm = old.getKm()+distance_parcourue_new-distance_parcourue_old;
+        Vehicule v = trouver( old.getMatricule_interne() );
+       
+        System.out.println( "Mise a jour de KM de "+old.getKm() +" à "+newKm);
+        v.setKm( newKm );
+        
+      
+      
+    }
+    
+    public void mettreAjourEtat(Vehicule old ,EtatsVehicule newEtat) {
+        Vehicule new_v = trouver( old.getMatricule_interne() );
+        
+        System.out.println( "Mise a jour de l'etat de "+old.getEtat().label+" à "+new_v.getEtat().label );
+       
+       new_v.setEtat( newEtat );
+        
+    }
 
 }
