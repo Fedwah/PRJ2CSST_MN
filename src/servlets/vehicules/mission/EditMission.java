@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.entities.vehicules.AffectationConducteur;
+import beans.entities.vehicules.EtatsVehicule;
 import beans.entities.vehicules.Mission;
 import beans.entities.vehicules.Vehicule;
 import beans.session.general.page.PageGenerator;
@@ -136,12 +137,16 @@ public class EditMission extends HttpServlet {
                 
                  if(mF.uniqueSave( miM, newM, newM.getId(), MissionFactory.PARAM_ID )) {
                      System.out.println( "Mission crée" );
+                     if(aff.getCar().getEtat()==EtatsVehicule.LIBRE) {
+                         vehF.mettreAjourEtat( aff.getCar(), EtatsVehicule.EN_FONCTION, vehM );
+                     }
                      
                  }
              }else {
                  oldM=miM.trouver( mF.castInt( ids[1] ) );
                  vehF.mettreAjourKM(aff.getCar(),oldM.getDistance_parcourue(),newM.getDistance_parcourue(),vehM);
                  miM.mettreAJour( oldM.getId(), mF, newM );
+                 vehF.mettreAjourEtat( aff.getCar(), EtatsVehicule.LIBRE, vehM );
              }
              pg.redirectBackSuccess(getServletContext(), request, response,"Creation mission ","Réussie" );
          }else {

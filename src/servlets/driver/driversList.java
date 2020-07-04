@@ -17,12 +17,14 @@ import beans.entities.driver.Driver;
 import beans.entities.pieces.Piece;
 import beans.entities.utilisateurs.Utilisateur;
 import beans.entities.vehicules.AffectationConducteur;
+import beans.entities.vehicules.EtatsVehicule;
 import beans.entities.vehicules.Vehicule;
 import beans.session.drivers.DriverFactory;
 import beans.session.drivers.DriverManager;
 import beans.session.general.page.PageGenerator;
 import beans.session.regions.RegionManager;
 import beans.session.vehicules.VehiculeFactory;
+import beans.session.vehicules.VehiculesManager;
 import beans.session.vehicules.affectation.AffectationConducteurFactory;
 import beans.session.vehicules.affectation.AffectationConducteurManager;
 
@@ -39,6 +41,8 @@ public class driversList extends HttpServlet {
     private RegionManager                regManager;
     @EJB
     private AffectationConducteurManager affM;
+
+
     private Utilisateur                  user             = null;
 
     /**
@@ -84,7 +88,7 @@ public class driversList extends HttpServlet {
                 List<Driver> drivers = null;
                 DriverFactory df = new DriverFactory( Driver.class );
                 fields.put( by, search );
-                
+
                 if ( by.equals( "recruitDate" ) ) {
                     drivers = dm.searchByDate( search, user.getCodeun() );
                     request.setAttribute( "drivers", df.filterUN( drivers, user.getCodeun() ) );
@@ -110,24 +114,29 @@ public class driversList extends HttpServlet {
                 request.setAttribute( "order", order );
 
             }
-            
+
             if ( request.getParameter( "affecter" ) != null ) {
                 // AJouter par @Syphax pour faire l'affectation
                 AffectationConducteurFactory affF = new AffectationConducteurFactory();
+                VehiculeFactory vF = new VehiculeFactory();
                 String id = (String) pg.getPathId( request );
                 AffectationConducteur oldAff = null;
+                Vehicule oldV = null;
 
+               
                 affF.addFiltre( "car", "matricule_interne", id );
                 oldAff = affM.ObtenirDernier( affF.getFiltres() );
 
                 affF.affecter( request, affM, oldAff );
 
+
                 System.out.println( "Affectation reussie" );
                 pg.setRedirectURL( AffectationConducteurFactory.DEFAULT_REDIRECT + id );
-                pg.redirectBackSuccess( getServletContext(), request, response, "Affectation du conducteur", "Reussie" );
+                pg.redirectBackSuccess( getServletContext(), request, response, "Affectation du conducteur",
+                        "Reussie" );
 
             }
-        } 
+        }
 
         pg.generate( getServletContext(), request, response );
     }
