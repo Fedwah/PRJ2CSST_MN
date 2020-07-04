@@ -146,6 +146,19 @@ public abstract class BeanFactory<T> {
     }
 
     public abstract void validateChilds( T bean, BeanManager<T> beanM );
+    
+    public boolean enumClass(String fieldsname)
+    {
+    	try
+    	{
+    		return this.entityFields.getClass(fieldsname).isEnum();
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println("class " + fieldsname + " not found");
+    		return false;
+    	}
+    }
 
     public boolean checkChildsExists( T bean, BeanManager<T> beanM ) {
         Map<String, FieldDefinition> m = this.entityFields.fields();
@@ -157,9 +170,10 @@ public abstract class BeanFactory<T> {
             // System.out.println( "Check child existense "+f.getKey()+"(Persist
             // ? "+ beanM.hasCascadePersist( f.getKey() )+" )");
             childName = f.getValue().name;
+       
             if ( !this.getEntityFields().hasCascadePersist( f.getKey() ) && !f.getValue().isBasicClass
-                    && this.getChildIdValue( bean, childName ) != null ) {
-
+                    && this.getChildIdValue( bean, childName ) != null && ! this.enumClass(childName)) {
+            
                 child = beanM.trouver( this.entityFields.getClass( childName ),
                         this.getChildIdValue( bean, childName ) );
 

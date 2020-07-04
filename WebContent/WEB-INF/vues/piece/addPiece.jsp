@@ -68,7 +68,7 @@
 
 		<button type="submit" class="btn btn-primary" id="send">Valider</button>
 		
-		<a type="reset" class="btn btn-outline-success" href='<c:url value="/pieces/edit/"/>'>Réinitialiser</a>
+		<a type="reset" class="btn btn-outline-success" href='<c:url value="/pieces/add"/>'>Réinitialiser</a>
 		<a type="reset" class="btn btn-danger" href='<c:url value="/pieces"/>'>Annuler</a>
 	</form>
 </div>

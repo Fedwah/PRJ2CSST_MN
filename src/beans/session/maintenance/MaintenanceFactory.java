@@ -47,8 +47,10 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
         m.setUn(un);
     
         String indexNiv = request.getParameter( "niveau" );
+        System.out.println("index niveau est "+ indexNiv);
         Niveau n = Niveau.values()[Integer.parseInt(indexNiv)];
-        
+        System.out.println(" niveau est "+n);
+        m.setNiv(n);
         try {
             m.setStartDate( new SimpleDateFormat( "yyyy-MM-dd" ).parse( request.getParameter( "recruit" ) ) );
         } catch ( ParseException e ) {
