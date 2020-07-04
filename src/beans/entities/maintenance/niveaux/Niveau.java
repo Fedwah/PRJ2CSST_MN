@@ -1,5 +1,7 @@
 package beans.entities.maintenance.niveaux;
 
+
+
 public enum Niveau {
 	niv1("Niveau 1", "Actions simples nécessaires à l’exploitation et réalisées sur des éléments facilement accessibles en toute sécurité" + 
 			"à l’aide d’équipements de soutien intégrés au bien."),
@@ -19,6 +21,9 @@ public enum Niveau {
 		this.label = label;
 		this.desc = desc;
 	}
+	
+
+
 
 	public String getLabel() {
 		return label;
@@ -27,6 +32,14 @@ public enum Niveau {
 	public String getDesc() {
 		return desc;
 	}
+	
+	public Niveau getNiv(String label) {
+        for(Niveau n: Niveau.values()) {
+            if(n.getLabel().equals( label ))
+                return n;
+        }
+        return null;
+    }
 	
 	
 	

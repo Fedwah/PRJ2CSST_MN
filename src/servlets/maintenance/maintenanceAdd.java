@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import beans.entities.maintenance.Maintenance;
 import beans.entities.maintenance.niveaux.Niveau;
 import beans.entities.vehicules.Vehicule;
+import beans.session.amdec.instruction.InstructionManager;
 import beans.session.general.page.PageGenerator;
 import beans.session.maintenance.MaintenanceFactory;
 import beans.session.maintenance.MaintenanceManager;
@@ -27,7 +28,7 @@ import beans.session.vehicules.VehiculesManager;
 @WebServlet("/maintenance/add/*")
 public class maintenanceAdd extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String FORM = "/WEB-INF/vues/maintenance/maintenanceForm.jsp";
+	private static final String FORM = "/WEB-INF/vues/maintenance/maintenanceAdd.jsp";
 	private static final String REDIRECT = "/calendrier";
 	private static final String TITLE = "Maintenance";  
 
@@ -38,6 +39,8 @@ public class maintenanceAdd extends HttpServlet {
 	@EJB
 	private PieceManager pm;
 	private String id ="";
+	@EJB
+	private InstructionManager inM;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -66,7 +69,7 @@ public class maintenanceAdd extends HttpServlet {
 			}
 		}
 		request.setAttribute("niveaux",Niveau.values());
-		request.setAttribute("piece", pm.lister());
+		request.setAttribute("instruction", inM.lister());
 		pg.generate( getServletContext(), request, response );
 	}
 
@@ -77,50 +80,23 @@ public class maintenanceAdd extends HttpServlet {
 		PageGenerator pg = new PageGenerator(FORM, TITLE,REDIRECT);
 		MaintenanceFactory mf = new MaintenanceFactory();
 		Maintenance newM = mf.create(request);
-		newM.setV(vehM.trouver(newM.getV().getMatricule_interne()));
-		if(request.getParameter("save")!= null)
-		{
+		if(mf.validateInsertion(newM, mm)) {
+			System.out.println("insertion valide");
+			mm.ajouter(newM);
+			pg.redirect(getServletContext(), request, response);
 			
-			mf.createPieces(request, newM);
-			System.out.println("taille de la liste des pieces " + newM.getPieces().size());
-			if(mf.validateInsertion(newM, mm))
-			{
-					System.out.println("maintenace valide");
-					mm.ajouter(newM);
-					pg.redirect(getServletContext(), request, response);				
-			}
-			else
-			{
-				System.out.println(" maintenance non valide");
-				System.out.println(mf.getErreurs());
-				request.setAttribute( "erreurs", mf.getErreurs() );
-				if(newM.getV() != null)
-				{
-					request.setAttribute("Vehicule", newM.getV());
-					request.setAttribute("maintenance", newM);
-					//request.setAttribute("niveaux",nManager.lister());
-					Map<String,Object> fields = new HashMap();
-					fields.put("modal.id",newM.getV().getModele().getId());	
-					request.setAttribute("piece", pm.lister(fields));
-				}
-				
-				pg.generate( getServletContext(), request, response );
-				
-			}
 		}
-		else if(request.getParameter("addPiece")!= null)
+		else
 		{
-			// ajout des pieces de rechnages 
-			System.out.println(" ajout de piece de rechange");
+			System.out.println("champs incorrects");
+			System.out.println("les erreurs: "+ mf.getErreurs());
+			request.setAttribute("erreurs", mf.getErreurs());
 			request.setAttribute("Vehicule", newM.getV());
-			request.setAttribute("maintenance", newM);
-			//request.setAttribute("niveaux",nManager.lister());
-			Map<String,Object> fields = new HashMap();
-			fields.put("modal.id",newM.getV().getModele().getId());	
-			request.setAttribute("piece", pm.lister(fields));
+			request.setAttribute("niveaux",Niveau.values());
+			request.setAttribute("instruction", inM.lister());
 			pg.generate( getServletContext(), request, response );
-
-		}	
+		}
+	
 		
 	}
 
