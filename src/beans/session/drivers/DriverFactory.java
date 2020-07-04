@@ -21,7 +21,7 @@ public class DriverFactory extends BeanFactory<Driver> {
 	        super( beanClass );
 	    }
 	 public DriverFactory() {
-	       
+	       super(Driver.class);
 	    }
 	 
 	@Override

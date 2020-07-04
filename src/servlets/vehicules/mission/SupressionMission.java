@@ -47,14 +47,14 @@ public class SupressionMission extends HttpServlet {
         PageGenerator pg = new PageGenerator( "" );
         Integer id = (Integer) pg.getPathId( request );
 
-        VehiculeFactory vehF = new VehiculeFactory();
+       
         Mission m = mM.trouver( id );
 
         if ( m != null ) {
 
             pg.setRedirectURL( "/Vehicules/" + m.getAffectation().getCar().getMatricule_interne() );
             if ( mM.supprimer( m ) ) {
-                vehF.mettreAjourKM( m.getVehicule(), m.getDistance_parcourue(), 0.0, vM );
+                vM.mettreAjourKM( m.getVehicule(), m.getDistance_parcourue(), 0.0);
                 pg.redirectBackSuccess( getServletContext(), request, response,
                         "Suppression de " + pg.getPathId( request ), "Reussie" );
             }else{

@@ -140,16 +140,16 @@ public class EditMission extends HttpServlet {
                      if(aff.getCar().getEtat()==EtatsVehicule.LIBRE) {
                          vehM.mettreAjourEtat( aff.getCar(), EtatsVehicule.EN_FONCTION);
                      }
-                     
+                     pg.redirectBackSuccess(getServletContext(), request, response,"Creation mission ","Réussie" );
                  }
              }else {
                  oldM=miM.trouver( mF.castInt( ids[1] ) );
                  vehM.mettreAjourKM(aff.getCar(),oldM.getDistance_parcourue(),newM.getDistance_parcourue());
                  vehM.mettreAjourEtat( aff.getCar(), EtatsVehicule.LIBRE );
                  miM.mettreAJour( oldM.getId(), mF, newM );
-                 
+                 pg.redirectBackSuccess(getServletContext(), request, response,"Modication mission ","Réussie" );
              }
-             pg.redirectBackSuccess(getServletContext(), request, response,"Creation mission ","Réussie" );
+            
          }else {
              request.setAttribute("mission", newM);
              request.setAttribute( "erreurs", mF.getErreurs() );

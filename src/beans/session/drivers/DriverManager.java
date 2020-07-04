@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import beans.entities.driver.Driver;
-
+import beans.entities.vehicules.AffectationConducteur;
 import beans.session.general.BeanManager;
 
 
@@ -69,7 +69,17 @@ public class DriverManager extends BeanManager<Driver>{
 		return drs;
 	}
 	
-
+	public List<Driver> listerNonAffecter(String codeUN){
+	    Query qr = this.em.createQuery("select b from Driver b where b.unite.codeUN = :un and b.affectation is null");
+	    qr.setParameter("un", codeUN);
+	    
+	    List<Driver> drs = qr.getResultList();
+	    return drs;
+	}
+	public void mettreAjourAffectation(Object idDriver,AffectationConducteur newAff) {
+	    Driver d = trouver( idDriver );
+	    d.setAffectation( newAff );
+	}
 	
 
 }

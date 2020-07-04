@@ -315,13 +315,6 @@
 
 									<div class="row">
 
-										<form:hidden name="affecter" label="Réaffecter"
-											btn_type="btn-primary"
-											action="/Vehicules/Affectation/${vehicule.matricule_interne}"
-											values="${aff.driver.IDdriver},${aff.car.matricule_interne}"
-											values_names="driver,vehicule" />
-
-
 										<div class="col">
 											<btn:remove value="/Vehicules/Affectations/remove/${aff.id}"></btn:remove>
 										</div>
