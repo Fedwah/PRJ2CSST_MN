@@ -71,12 +71,6 @@ public class MaintenanceEdit extends HttpServlet {
 				request.setAttribute("disabled_matricule", true);
 				request.setAttribute("disabled_date", true);
 				//request.setAttribute("niveaux", nManager.lister());
-				if(m.getNbP()>0)
-				{
-					Map<String,Object> fields = new HashMap();
-					fields.put("modal.id",m.getV().getModele().getId());	
-					request.setAttribute("piece", pManager.lister(fields));
-				}
 				
 				pg.generate( getServletContext(), request, response );								
 			}
@@ -95,8 +89,6 @@ public class MaintenanceEdit extends HttpServlet {
 		if(request.getParameter("save")!= null)
 		{
 			
-			mf.createPieces(request, newM);
-			System.out.println("taille de la liste des pieces " + newM.getPieces().size());
 			System.out.println("date de debut " + newM.getStartDate());
 			System.out.println("date de fin " + newM.getEndDate());
 			if(mf.validateEdit(newM))
@@ -115,12 +107,7 @@ public class MaintenanceEdit extends HttpServlet {
 				request.setAttribute("disabled_date", true);
 				//request.setAttribute("niveaux",nManager.lister());
 				
-				if(newM.getNbP()>0)
-				{
-					Map<String,Object> fields = new HashMap();
-					fields.put("modal.id",m.getV().getModele().getId());	
-					request.setAttribute("piece", pManager.lister(fields));
-				}
+	
 				
 				
 				pg.generate( getServletContext(), request, response );

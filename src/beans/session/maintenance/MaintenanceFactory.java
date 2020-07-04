@@ -43,11 +43,6 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
         Vehicule v = new Vehicule( request.getParameter( "matricule" ) );
         m.setV( v );
         m.setUn( v.getUnite() );
-        try {
-            m.setNbP( Integer.parseInt( request.getParameter( "nbP" ) ) );
-        } catch ( Exception e ) {
-            m.setNbP( 0 );
-        }
 
        // Niveau n = new Niveau( Integer.parseInt( request.getParameter( "niveau" ) ) );
         //m.setNiv( n );
@@ -65,12 +60,6 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
 
         m.setV( bean.getV() ); // vehicule
         m.setUn(bean.getUn()); // unité
-        try {
-            m.setNbP( Integer.parseInt( request.getParameter( "nbP" ) ) ); // nombre de piece de rechange
-        } catch ( Exception e ) {
-            m.setNbP( 0 );
-        }
-
        // Niveau n = new Niveau( Integer.parseInt( request.getParameter( "niveau" ) ) );
        // m.setNiv( n ); // niveau de maintenance
         m.setStartDate(bean.getStartDate()); // date debut
@@ -87,20 +76,14 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
     	 if ( bean.getV() == null ) {
              this.addErreurs( "v", "Ce numero d'immatriculation n'appartient ï¿½ aucun vï¿½hicule" );
          }
-         if ( bean.getPieces() != null ) {
-             if ( bean.getNbP() != bean.getPieces().size() ) {
-                 this.addErreurs( "piece", "veuillez inserer les pieces de rechange" );
-             }
-         }
     }
 
 
     @Override
     public void updateChange( Maintenance newB, Maintenance old ) {
         old.setEndDate(newB.getEndDate());
-        old.setNbP(newB.getNbP());
         old.setNiv(newB.getNiv());
-        old.setPieces(newB.getPieces());
+
 
     }
 
@@ -152,22 +135,5 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
         return false;
     }
 
-    public void createPieces( HttpServletRequest request, Maintenance bean ) 
-    {
-        List<Piece> pieces = new ArrayList();
-        
-        for ( int i = 1; i <= bean.getNbP(); i++ ) 
-        {
-        	System.out.println("valeur de " + i + " est " + request.getParameter( Integer.toString( i )));
-        	if(request.getParameter( Integer.toString( i ) ) != null)
-        	{
-        		//Piece p = new Piece( request.getParameter( Integer.toString( i ) ) );
-                //pieces.add( p );
-        	}
-        }
-
-        //bean.setPieces( pieces );
-
-    }
 
 }

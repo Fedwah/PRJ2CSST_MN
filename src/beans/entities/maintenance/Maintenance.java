@@ -20,6 +20,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 
+import beans.entities.amdec.Instruction;
 import beans.entities.maintenance.niveaux.Niveau;
 import beans.entities.pieces.Piece;
 import beans.entities.regions.unites.Unite;
@@ -52,19 +53,9 @@ public class Maintenance implements Serializable{
 	@NotNull
 	@ManyToOne
 	private Vehicule v;
-	
-	//nombre de piece 
-	@NotNull
-	private int nbP;
-	
-	// Piece 
-	
-	
-	@ManyToMany(fetch = FetchType.EAGER)
-	private Set<Piece> pieces;
-	
-
-	
+	// instruction
+	@ManyToMany (fetch = FetchType.EAGER)
+	private List<Instruction> instructions;
 	// Niveau de maintenance
 	private Niveau niv;
 	
@@ -83,50 +74,31 @@ public class Maintenance implements Serializable{
 	public Maintenance() {
 
 	}
-
 	
 	
 
-	
-
-	public Maintenance(Date startDate, Vehicule v, Set<Piece> pieces, Niveau niv, Unite un) {
-		super();
-		this.startDate = startDate;
-		this.v = v;
-		this.pieces = pieces;
-		this.niv = niv;
-		this.un = un;
-	}
-
-
-
-
-
-
-	public Maintenance(int idMaintenance, Date startDate, Date endDate, Vehicule v, Set<Piece> pieces, Niveau niv,
-			Unite un) {
+	public Maintenance(int idMaintenance, Date startDate, Date endDate, Vehicule v, List<Instruction> instructions,
+			Niveau niv, Unite un) {
 		super();
 		this.idMaintenance = idMaintenance;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.v = v;
-		this.pieces = pieces;
+		this.instructions = instructions;
 		this.niv = niv;
 		this.un = un;
 	}
 
+	
 
-	public Maintenance(Date startDate, Vehicule v, int nbP, Niveau niv, Unite un) {
+	public Maintenance(Date startDate, Vehicule v, List<Instruction> instructions, Niveau niv, Unite un) {
 		super();
 		this.startDate = startDate;
 		this.v = v;
-		this.nbP = nbP;
+		this.instructions = instructions;
 		this.niv = niv;
 		this.un = un;
 	}
-
-
-
 
 
 
@@ -173,16 +145,6 @@ public class Maintenance implements Serializable{
 	}
 
 
-	public Set<Piece> getPieces() {
-		return pieces;
-	}
-
-
-	public void setPieces(Set<Piece> pieces) {
-		this.pieces = pieces;
-	}
-
-
 	public Niveau getNiv() {
 		return niv;
 	}
@@ -201,15 +163,21 @@ public class Maintenance implements Serializable{
 	public void setUn(Unite un) {
 		this.un = un;
 	}
+	
+	
 
-	public int getNbP() {
-		return nbP;
+	public List<Instruction> getInstructions() {
+		return instructions;
 	}
 
 
-	public void setNbP(int nbP) {
-		this.nbP = nbP;
+
+	public void setInstructions(List<Instruction> instructions) {
+		this.instructions = instructions;
 	}
+
+
+
 	public int getDay()
 	{
 		Calendar cal = Calendar.getInstance();
@@ -218,14 +186,7 @@ public class Maintenance implements Serializable{
 		return day;
 	}
 	
-	public boolean hasPieces()
-	{
-		if(this.pieces == null || this.pieces.size() == 0)
-		{
-			return false;
-		}
-		return true;
-	}
+
 	
 	
 		

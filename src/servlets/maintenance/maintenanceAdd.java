@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import beans.entities.maintenance.Maintenance;
 import beans.entities.maintenance.niveaux.Niveau;
 import beans.entities.vehicules.Vehicule;
+import beans.session.amdec.instruction.InstructionManager;
 import beans.session.general.page.PageGenerator;
 import beans.session.maintenance.MaintenanceFactory;
 import beans.session.maintenance.MaintenanceManager;
@@ -27,7 +28,7 @@ import beans.session.vehicules.VehiculesManager;
 @WebServlet("/maintenance/add/*")
 public class maintenanceAdd extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String FORM = "/WEB-INF/vues/maintenance/maintenanceForm.jsp";
+	private static final String FORM = "/WEB-INF/vues/maintenance/maintenanceAdd.jsp";
 	private static final String REDIRECT = "/calendrier";
 	private static final String TITLE = "Maintenance";  
 
@@ -38,6 +39,8 @@ public class maintenanceAdd extends HttpServlet {
 	@EJB
 	private PieceManager pm;
 	private String id ="";
+	@EJB
+	private InstructionManager inM;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -66,7 +69,7 @@ public class maintenanceAdd extends HttpServlet {
 			}
 		}
 		request.setAttribute("niveaux",Niveau.values());
-		request.setAttribute("piece", pm.lister());
+		request.setAttribute("instruction", inM.lister());
 		pg.generate( getServletContext(), request, response );
 	}
 
@@ -81,8 +84,6 @@ public class maintenanceAdd extends HttpServlet {
 		if(request.getParameter("save")!= null)
 		{
 			
-			mf.createPieces(request, newM);
-			System.out.println("taille de la liste des pieces " + newM.getPieces().size());
 			if(mf.validateInsertion(newM, mm))
 			{
 					System.out.println("maintenace valide");

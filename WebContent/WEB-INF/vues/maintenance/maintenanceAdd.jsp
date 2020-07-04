@@ -48,21 +48,23 @@
 							</c:forEach>
 						</div>
 						<div class="mt-2">
-						<label >Pieces de rechanges</label> 
+						<label >Instructions</label> 
 						<input id="cptLi" name="cpt" value="0" type="hidden" />
 						<ol id="olP">
 						<li>
-						<select class="form-control" required="required" name="${name}">
-						<c:forEach items="${piece}" var="p">
-						<option
-						value="${p.refrence}">${p.pieceName}</option>
-						</c:forEach>
+						<select id="browsers" class="form-control">
+  							<c:forEach items="${instruction}" var= "i">
+  							
+  							<option value="${i.id }">Defaillance : ${i.defaillance.defaillance}, 
+  							Cause:${i.cause.cause}, Effet: ${i.effet.effet}, Démarche: ${i.demarche_resolution} 
+  							</option>
+  							</c:forEach>
 						</select>
 						</li>
 						</ol>
 						</div>
 						<div class=" mt-1 col-md-16" >
-						<button class="btn btn-success" id="btn2" style='width:829px'>Ajouter une autre piece</button>
+						<button  class="btn btn-success" id="btn2" style='width:829px'>Ajouter une autre piece</button>
 						</div>
 						</div>
 					</div>
@@ -72,12 +74,12 @@
 	</form>
 </div>
 <script>
-	document.querySelector("#btn2").addEventListener("click",function(event) {
+	document.querySelector("#btn2").addEventListener("click",function(e) {
 	$("#cptLi").val(parseInt($("#cptLi").val()) + 1);
 	var nom = $("#cptLi").val();
 
-	var element = "<li id='liM'><select class='form-control' required='required'name="+nom+"><c:forEach items='${marques}' var='marq'>optgroup label='${marq.titre}'><c:forEach items='${marq.modeles}' var='m'><option ${piece.modal.titre==m.titre?'selected':""}value='${m.id}'>${m.titre}</option></c:forEach></optgroup></c:forEach></select></li>";
+	var element = "<li><select id='browsers' class='form-control' name="+nom+"><c:forEach items='${instruction}' var= 'i'><option value='${i.id }'>Defaillance : ${i.defaillance.defaillance}, Cause:${i.cause.cause}, Effet: ${i.effet.effet}, Démarche: ${i.demarche_resolution} </option></c:forEach></select></li>";
 	$("#olP").append(element);
-	event.preventDefault();
+	e.preventDefault();
 	}, false);
 </script>

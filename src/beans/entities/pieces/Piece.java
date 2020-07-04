@@ -34,9 +34,6 @@ public class Piece implements Serializable {
     @NotNull
     private List<Modele>   modals;
 
-    @ManyToMany( mappedBy = "pieces" )
-    private List<Maintenance> maintenances;
-
     public Piece() {
     }
 
@@ -54,16 +51,6 @@ public class Piece implements Serializable {
 		this.refrence = refrence;
 		this.pieceName = pieceName;
 		this.modals = modal;
-	}
-
-
-
-	public Piece(String refrence, String pieceName, List<Modele> modal, List<Maintenance> maintenances) {
-		super();
-		this.refrence = refrence;
-		this.pieceName = pieceName;
-		this.modals = modal;
-		this.maintenances = maintenances;
 	}
 
 // getters and setters 
@@ -102,13 +89,5 @@ public class Piece implements Serializable {
         this.pieceName = pieceName;
     }
 
-    @JSONPropertyIgnore
-    public List<Maintenance> getMaintenances() {
-        return maintenances;
-    }
-
-    public void setMaintenances( List<Maintenance> maintenances ) {
-        this.maintenances = maintenances;
-    }
 
 }
