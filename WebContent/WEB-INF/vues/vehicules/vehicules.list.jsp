@@ -37,7 +37,9 @@
 		</div>
 
 		<div class="col-md-1 ">
-			<btn:add value="/Vehicules/edit/"></btn:add>
+			<c:if test="${!empty sessionScope.sessionUtilisateur.codeun}">
+					<btn:add value="/Vehicules/edit/"></btn:add>
+			</c:if>
 		</div>
 
 	</div>
@@ -47,6 +49,9 @@
 				<th scope="col">Marque</th>
 				<th scope="col">Modele</th>
 				<th scope="col">Code</th>
+				<c:if test="${empty sessionScope.sessionUtilisateur.codeun}">
+					<th scope="col">Structure de ratachement</th>
+				</c:if>
 				<th scope="col">Date d'achat</th>
 				<th scope="col">Etat</th>
 				<th scope="col"></th>
@@ -61,13 +66,21 @@
 					<td>${vehicule.modele.titre}</td>
 					<td>${vehicule.matricule_interne}${empty vehicule.matricule_externe?"":"/"}
 						${vehicule.matricule_externe}</td>
+					<c:if test="${empty sessionScope.sessionUtilisateur.codeun}">
+						<td>${vehicule.unite.codeUN}</td>
+					</c:if>
 					<td>${vehicule.date_achat}</td>
 					<td>${vehicule.etat.label}</td>
-					<td align="right"><btn:btn type="primary"
+					<td align="right">
+						<btn:btn type="primary"
 							value="/Vehicules/${vehicule.matricule_interne}" text="Détail" />
-						<btn:edit value="/Vehicules/edit/${vehicule.matricule_interne}" />
-						<btn:remove
-							value="/Vehicules/remove/${vehicule.matricule_interne}" /></td>
+						<c:if test="${!empty sessionScope.sessionUtilisateur.codeun}">
+							<btn:edit value="/Vehicules/edit/${vehicule.matricule_interne}" />
+							<btn:remove
+								value="/Vehicules/remove/${vehicule.matricule_interne}" />
+						</c:if>
+					</td>
+						
 				</tr>
 			</c:forEach>
 		</tbody>

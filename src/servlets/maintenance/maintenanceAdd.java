@@ -75,7 +75,7 @@ public class maintenanceAdd extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator(FORM, TITLE,REDIRECT);
-		MaintenanceFactory mf = new MaintenanceFactory(Maintenance.class);
+		MaintenanceFactory mf = new MaintenanceFactory();
 		Maintenance newM = mf.create(request);
 		newM.setV(vehM.trouver(newM.getV().getMatricule_interne()));
 		if(request.getParameter("save")!= null)

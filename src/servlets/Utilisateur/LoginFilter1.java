@@ -50,6 +50,7 @@ public class LoginFilter1 implements Filter {
 	        HttpServletResponse response = (HttpServletResponse) res;
 	        HttpSession session = request.getSession(false);
 	        String loginURI = request.getContextPath() + "/Connexion";
+	        
 	        final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(
 	    	        Arrays.asList( loginURI )));
 	        

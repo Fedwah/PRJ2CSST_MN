@@ -28,13 +28,10 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
     private Map<String, String> indexPiece;
 
     public MaintenanceFactory() {
-
+        super(Maintenance.class);
     }
 
-    public MaintenanceFactory( Class<Maintenance> beanClass ) {
-        super( beanClass );
-
-    }
+   
 
     @Override
     public Maintenance create( HttpServletRequest request ) {
@@ -64,7 +61,7 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
         Maintenance m = new Maintenance();
 
         m.setV( bean.getV() ); // vehicule
-        m.setUn(bean.getUn()); // unité
+        m.setUn(bean.getUn()); // unitï¿½
         try {
             m.setNbP( Integer.parseInt( request.getParameter( "nbP" ) ) ); // nombre de piece de rechange
         } catch ( Exception e ) {
@@ -113,7 +110,7 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
             if ( currentM.size() > 0 ) {
                 // System.out.println("liste des maintenaces de ce vehicule est
                 // non null " + currentM.size());
-                this.addErreurs( "v", "Ce vehicule a déjà une maintenance non terminé" );
+                this.addErreurs( "v", "Ce vehicule a dï¿½jï¿½ une maintenance non terminï¿½" );
                valide = valide && false;
             }
 
@@ -121,7 +118,7 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
         if(bean.getStartDate().compareTo(new Date())< 0)
         {
         	valide = valide && false;
-        	this.addErreurs( "startDate", "Vous ne pouvez pas créer des maintenaces passées" );
+        	this.addErreurs( "startDate", "Vous ne pouvez pas crï¿½er des maintenaces passï¿½es" );
         }
         return valide;
     }
@@ -132,7 +129,7 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
             System.out.println( "end date valide" );
             return true;
         } else {
-            this.addErreurs( "endDate", "date de fin est inferieure à la date début" );
+            this.addErreurs( "endDate", "date de fin est inferieure ï¿½ la date dï¿½but" );
             return false;
         }
 

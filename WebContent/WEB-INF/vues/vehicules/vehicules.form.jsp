@@ -1,3 +1,4 @@
+<%@page import="beans.entities.vehicules.EtatsVehicule"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -29,7 +30,7 @@
 
 				</div>
 
-				<form:input name="${names.unite}" type="texte"
+				<form:input name="${names.unite}" type="hidden"
 					value="${empty vehicule.unite ? unite :vehicule.unite.codeUN}"
 					isDisabled="${true }" />
 
@@ -37,18 +38,18 @@
 				<div class="form-row">
 					<form:select fieldID="titre" fieldToTest="titre"
 						items="${categories}" label="Categorie de vehicule"
-						name="categorie" col="col-md-4"
+						name="categorie" col="col-md-12"
 						selectedValue="${vehicule.categorie.titre}" fieldToPrint="titre"
 						addLink="/Vehicules/Categories"></form:select>
 
 					<form:select name="${names.marque}" fieldToTest="titre"
-						col="col-md-4" fieldToPrint="titre"
+						col="col-md-6" fieldToPrint="titre"
 						selectedValue="${vehicule.marque.titre}" items="${marques}"
 						addLink="/Marques/add" label="Marque" fieldID="titre"></form:select>
 
 
 
-					<form:filter-select name="${names.modele}" col="col-md-4"
+					<form:filter-select name="${names.modele}" col="col-md-6"
 						childfieldToPrint="titre" fieldChild="modeles"
 						selectedValue="${vehicule.modele.id}" items="${marques}"
 						childfieldID="id" addLink="/Marques/Modeles" label="Modele"
@@ -61,16 +62,25 @@
 				<div class="form-row">
 
 					<form:date name="${names.date_achat}"
-						value="${vehicule.date_achat}" col="col-md-4"
+						value="${vehicule.date_achat}" col="col-md-6"
 						erreurs_="${erreurs[names.date_achat]}" label="Date d'achat">
 					</form:date>
-
-					<form:radio name="${names.etat}" fieldToTest="label" col="col-md-4"
-						fieldToPrint="label" selectedValue="${vehicule.etat.label}"
-						items="${etats}" label="Etat"
-						fieldID="label" erreurs_="${erreurs[names.etat]}">
-					</form:radio>
 					
+					<c:choose>
+
+						<c:when test="${vehicule.etat==null}">
+							<form:input name="${names.etat}" type="hidden" value="<%= EtatsVehicule.LIBRE.label %>"/>
+						</c:when>
+						<c:otherwise>
+							<form:radio name="${names.etat}" fieldToTest="label"
+								col="col-md-4" fieldToPrint="label"
+								selectedValue="${vehicule.etat.label}" items="${etats}"
+								label="Etat" fieldID="label" erreurs_="${erreurs[names.etat]}">
+							</form:radio>
+						</c:otherwise>
+					</c:choose>
+
+
 				</div>
 			</div>
 			<!-- Probleme lors de la creation perte de l'image en cas d'erreur -->
@@ -81,7 +91,8 @@
 
 
 		<button type="submit" class="btn btn-primary">Valider</button>
-		<btn:btn type="danger" value="/Vehicules" text="Annuler" outline="${false}" />
+		<btn:btn type="danger" value="/Vehicules" text="Annuler"
+			outline="${false}" />
 
 	</form>
 </div>
@@ -89,7 +100,6 @@
 	function readURL(input) {
 		if (input.files && input.files[0]) {
 			var reader = new FileReader();
-			
 
 			reader.onload = function(e) {
 				$('#preview').attr('src', e.target.result);
@@ -99,7 +109,6 @@
 		}
 	}
 
-	
 	//pour la preview de l'image
 	$("#photo").change(function() {
 		readURL(this);
@@ -111,7 +120,6 @@
 		$("#marque").change()
 	})*/
 
-	
 	$("#marque").change(function() {
 		var marque = this.value
 		$("#modele").val(" ")
