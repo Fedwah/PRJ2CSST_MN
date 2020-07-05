@@ -61,21 +61,25 @@ public class EntityFields<T> {
         Map<String, Class<?>> out = new LinkedHashMap<String, Class<?>>();
         String class_ = "";
 
-        try {
+       
             for ( Map.Entry<String, FieldDefinition> f : this.fields.entrySet() ) {
                 class_ = f.getValue().class_;
-
-                out.put( f.getKey(), Class.forName( class_ ) );
+                try {
+                    out.put( f.getKey(), Class.forName( class_ ) );
+                } catch ( ClassNotFoundException e ) {
+                    // TODO Auto-generated catch block
+                    if(class_.contains( "List" ))
+                        out.put( f.getKey(), List.class );
+                    else 
+                        out.put( f.getKey(), List.class );
+                    System.out.println( "EntityFields | class "+class_+" not found" );
+                    
+                }
             }
 
             return out;
 
-        } catch ( ClassNotFoundException e ) {
-            // TODO Auto-generated catch block
-
-            System.out.println( "EntityFields | class not found" );
-            return out;
-        }
+       
     }
 
     public void generateFields( Class<T> beanClass ) {
@@ -274,7 +278,7 @@ public class EntityFields<T> {
          
          String[] names = name.split( "\\." );
          Class<?> c = null;
-         System.out.println( "names are "+ names );
+        
          
          if(names.length==1) {
              c = this.getClass( names[0] );

@@ -151,9 +151,10 @@ public class MethodeUtilisateur extends BeanManager<Utilisateur> {
         requete.setParameter( PARAM_USER, nomUtilisateur );
         requete.setParameter( PARAM_PASS, motdepasse );
         try {
-            utilisateur = (Utilisateur) requete.getSingleResult();
+            utilisateur = (Utilisateur) requete.getResultList().get( 0 );
 
-        } catch ( javax.persistence.NoResultException e ) {
+        } catch ( Exception e ) {
+            System.out.println( "utilisateur not found" );
         }
         if ( utilisateur == null ) {
             return null;

@@ -27,7 +27,7 @@ public class Driver implements Serializable{
 	// ID
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int IDdriver;
+	private Integer IDdriver;
 	// prenom
 	@NotEmpty
 	@Size(min=3,max=25)
@@ -53,16 +53,42 @@ public class Driver implements Serializable{
     @OneToOne
     @JoinColumn(nullable = true)
     private AffectationConducteur affectation;
-	// constructor without ID
-	public Driver(String firstN, String lastN, Date recruitDate, Image photo) {
-		super();
-		this.firstN = firstN;
-		this.lastN = lastN;
-		this.recruitDate = recruitDate;
-		this.photo = photo;
-		this.affectation=null;
-	}
-	// Default constructor
+    
+    
+    
+	public Driver( Integer iDdriver ) {
+        super();
+        IDdriver = iDdriver;
+    }
+
+    // constructor without ID
+	
+	
+	
+	public Driver( String firstN, String lastN, Date recruitDate, Unite unite, Image photo,
+            AffectationConducteur affectation ) {
+        super();
+        this.firstN = firstN;
+        this.lastN = lastN;
+        this.recruitDate = recruitDate;
+        this.unite = unite;
+        this.photo = photo;
+        this.affectation = affectation;
+    }
+	
+	
+	public Driver( String firstN, String lastN, Date recruitDate, Unite unite, Image photo ) {
+        super();
+        this.firstN = firstN;
+        this.lastN = lastN;
+        this.recruitDate = recruitDate;
+        this.unite = unite;
+        this.photo = photo;
+    }
+
+
+
+    // Default constructor
 	public Driver() {
 		
 	}

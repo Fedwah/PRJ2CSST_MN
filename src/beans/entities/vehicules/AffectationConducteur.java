@@ -30,7 +30,7 @@ public class AffectationConducteur implements Serializable {
     // id
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id ;
+	private Integer id ;
 	
 	// start driving this car
 
@@ -61,8 +61,17 @@ public class AffectationConducteur implements Serializable {
 	// Default constructor
 	public AffectationConducteur() {
 	}
+	
+	
 
-	//constructor without id, endDate
+	public AffectationConducteur( Integer id ) {
+        super();
+        this.id = id;
+    }
+
+
+
+    //constructor without id, endDate
 	public AffectationConducteur(Date startDate, Driver driver, Vehicule car) {
 		super();
 		this.startDate = startDate;

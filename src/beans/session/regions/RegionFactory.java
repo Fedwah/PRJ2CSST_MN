@@ -82,5 +82,12 @@ public class RegionFactory extends BeanFactory<Region> {
         return searchedUN;
     	
     }
+	
+	@Override
+	public List<String> fieldIgnoreExport() {
+	    List<String> l = super.fieldIgnoreExport();
+	    l.add( "unites" );
+	    return l;
+	}
 
 }

@@ -14,11 +14,12 @@ import javax.validation.constraints.Size;
 
 import org.json.JSONPropertyIgnore;
 
-import beans.entities.maintenance.Maintenance;
+
 import beans.entities.vehicules.Modele;
 
 @Entity
 public class Piece implements Serializable {
+    
     @Id
     @NotEmpty
     @Size( min = 1, max = 20 )

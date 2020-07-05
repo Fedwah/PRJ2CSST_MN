@@ -82,5 +82,14 @@ public class DriverFactory extends BeanFactory<Driver> {
 		}
 		return filter;
 	}
+	
+	
+	@Override
+	public List<String> fieldIgnoreExport() {
+	    List<String> l = super.fieldIgnoreExport();
+	    l.add( "IDdriver" );
+	    l.add( "affectation" );
+	    return l;
+	}
 
 }
