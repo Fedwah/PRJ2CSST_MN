@@ -37,7 +37,7 @@ public class Image implements Serializable {
     
     public Image( String titre, byte[] bin ) {
         super();
-        this.titre = titre;
+        setTitre( titre );
         this.bin = bin;
     }
 

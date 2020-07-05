@@ -67,4 +67,11 @@ public class MarqueFactory extends BeanFactory<Marque> {
         return false;
     	
     }
+    
+    @Override
+    public List<String> fieldIgnoreExport() {
+        List<String> l = super.fieldIgnoreExport();
+        l.add( "modeles" );
+        return l;
+    }
 }

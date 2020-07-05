@@ -1,6 +1,7 @@
 package beans.session.vehicules.marques.modeles;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
@@ -52,6 +53,13 @@ public class ModeleFactory extends BeanFactory<Modele> {
 		
         Modele modele = em.trouver(this.getFiltres());
         return modele;
+    }
+    
+    @Override
+    public List<String> fieldIgnoreExport() {
+        List<String> l =super.fieldIgnoreExport();
+        l.add( "id" );
+        return l;
     }
    
 }

@@ -13,8 +13,15 @@ public class CategorieVehiculeFactory extends BeanFactory<CategorieVehicule> {
     public static final String VUE_LIST_FORM        = "/WEB-INF/vues/vehicules/categories/vehicules.categories.jsp";
     public static final String DEFAULT_REDIRECT_URL = "/Vehicules/Categories";
 
-    @Override
+    
+    
+    
+    public CategorieVehiculeFactory() {
+        super(CategorieVehicule.class);
+        // TODO Auto-generated constructor stub
+    }
 
+    @Override
     public CategorieVehicule create( HttpServletRequest request ) {
         // TODO Auto-generated method stub
         CategorieVehicule categ = new CategorieVehicule();

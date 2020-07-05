@@ -23,16 +23,17 @@ import org.json.JSONObject;
 import org.wildfly.common.iteration.IntIterator;
 
 import beans.entities.utilisateurs.Utilisateur;
+import beans.session.general.page.pather.Page;
+import beans.session.general.page.pather.PageState;
+import beans.session.general.page.pather.Pather;
 import servlets.Utilisateur.Connexion;
 
 public class PageGenerator {
 
-   
-
-    private static final String SESSION_REQUEST   = "request";
-    private static final String ATT_VUE           = "vue";
-    private static final String ATT_TITLE         = "title";
-    private static final String PAGE_WRAPPER      = "/WEB-INF/index.jsp";
+    private static final String SESSION_REQUEST = "request";
+    private static final String ATT_VUE         = "vue";
+    private static final String ATT_TITLE       = "title";
+    private static final String PAGE_WRAPPER    = "/WEB-INF/index.jsp";
 
     private String              pageWrapperJSP;
     private String              vueJSP;
@@ -95,16 +96,15 @@ public class PageGenerator {
     }
 
     private RequestDispatcher getRequestDispatcher( ServletContext contexte, HttpServletRequest request,
-            HttpServletResponse response ,PageState ps) {
+            HttpServletResponse response, PageState ps ) {
 
-        
-        Page page = this.pather( request );;
+        Page page = this.pather( request );
 
-        if(ps!=null) {
+        if ( ps != null ) {
             page.setPageState( ps );
             Pather.getPather( request ).upadateLastPage( page );
         }
-        
+
         request.setAttribute( ATT_TITLE, this.pageTitle );
         request.setAttribute( ATT_VUE, this.vueJSP );
         return contexte.getRequestDispatcher( this.pageWrapperJSP );
@@ -121,26 +121,25 @@ public class PageGenerator {
         if ( root ) {
             this.clearPath( request );
         }
-        this.getRequestDispatcher( contexte, request, response,PageState.none()).forward( request, response );
+        this.getRequestDispatcher( contexte, request, response, PageState.none() ).forward( request, response );
     }
 
-    
     public void generate( ServletContext contexte, HttpServletRequest request, HttpServletResponse response,
-            PageState ps) throws ServletException, IOException {
-        
-      
-       this.getRequestDispatcher( contexte, request, response, ps );
+            PageState ps ) throws ServletException, IOException {
+
+        this.getRequestDispatcher( contexte, request, response, ps );
     }
-    
+
     public void generateSuccess( ServletContext contexte, HttpServletRequest request, HttpServletResponse response,
-            String title,String message) throws ServletException, IOException {
+            String title, String message ) throws ServletException, IOException {
         this.generate( contexte, request, response, PageState.succes( title, message ) );
     }
-    
+
     public void generateError( ServletContext contexte, HttpServletRequest request, HttpServletResponse response,
-            String title,String message) throws ServletException, IOException {
+            String title, String message ) throws ServletException, IOException {
         this.generate( contexte, request, response, PageState.error( title, message ) );
     }
+
     public void generateJSON( HttpServletResponse response, List<JSONObject> objects ) {
         JSONArray arr = new JSONArray( objects );
         System.out.println( "Generate JSON : " + arr );
@@ -175,6 +174,9 @@ public class PageGenerator {
 
     }
 
+    
+    
+    
     public void redirect( ServletContext contexte, HttpServletRequest request, HttpServletResponse response )
             throws IOException {
         if ( redirectURL != null ) {
@@ -182,87 +184,97 @@ public class PageGenerator {
         }
     }
     
-    public void redirect( ServletContext contexte, HttpServletRequest request, HttpServletResponse response ,PageState ps)
-            throws IOException {
+    private void redirect( ServletContext contexte, HttpServletRequest request, HttpServletResponse response, Page page,
+            PageState ps ) throws IOException {
         
-        Page page = Pather.getPather( request ).getPage( "",redirectURL);
+        System.out.println( "Redirect to "+page.getPath()+" = "+page.getLink() );
         
-        if(page!=null) {
+        if ( ps != null ) {
             page.setPageState( ps );
-            Pather.getPather( request ).upadateLastPage( page );
-        }
-        if ( redirectURL != null ) {
-            response.sendRedirect( contexte.getContextPath() + redirectURL );
-        }
-    }
-
-    public void redirectBack( ServletContext contexte, HttpServletRequest request, HttpServletResponse response ) throws IOException {
-        this.redirectBack( contexte, request, response ,null);
-    }
-    public void redirectBack( ServletContext contexte, HttpServletRequest request, HttpServletResponse response ,PageState ps)
-            throws IOException {
-        
-        
-        Page page = Pather.getPather( request ).goBack();
-        if(page!=null) {
-            page = Pather.getPather( request ).goBack();
-        }
-        
-        if(ps!=null) {
-            
-            page.setPageState( ps );
-            Pather.getPather( request ).upadateLastPage( page );
+            Pather.getPather( request ).forward( page );
         }
         
         response.sendRedirect( contexte.getContextPath() + page.getLink() );
     }
-    
-    public void redirectBackSuccess(ServletContext contexte, HttpServletRequest request, HttpServletResponse response,
-    String title,String message ) throws ServletException, IOException {
+
+   
+    public void redirectBack( ServletContext contexte, HttpServletRequest request, HttpServletResponse response )
+            throws IOException {
+        this.redirectBack( contexte, request, response, null );
+    }
+
+    public void redirectBack( ServletContext contexte, HttpServletRequest request, HttpServletResponse response,
+            PageState ps )
+            throws IOException {
+
+        Page page = Pather.getPather( request ).goBack(); //current
+        System.out.println( "Current page :"+page.getPath()+" = "+page.getLink() );
+        if ( page != null ) {
+            page = Pather.getPather( request ).goBack(); //back
+            System.out.println( "Back page :"+page.getPath()+" = "+page.getLink() );
+        }
+
+        this.redirect( contexte, request, response, page,ps );
+    }
+
+    public void redirectCurrent( ServletContext contexte, HttpServletRequest request, HttpServletResponse response,
+            PageState ps )
+            throws IOException {
+
+        Page page = Pather.getPather( request ).goBack();
        
-        this.redirectBack( contexte, request, response, PageState.succes( title, message ) );
-    
+        this.redirect( contexte, request, response,page,ps);
+
     }
+
+    
+    public void redirectBackSuccess( ServletContext contexte, HttpServletRequest request, HttpServletResponse response,
+            String title, String message ) throws ServletException, IOException {
+
+        this.redirectBack( contexte, request, response, PageState.succes( title, message ) );
+
+    }
+
     public void redirectBackErreur( ServletContext contexte, HttpServletRequest request, HttpServletResponse response,
-            String title,String message ) throws ServletException, IOException {
+            String title, String message ) throws ServletException, IOException {
 
-       this.redirectBack( contexte, request, response ,PageState.error( title, message ));
-        
-    }
-
-    public void redirectCurrentSuccess(ServletContext contexte, HttpServletRequest request, HttpServletResponse response,
-            String title,String message ) throws IOException {
-        this.pather( request );
-        this.redirectBack( contexte, request, response, PageState.succes( title, message ) );
-    }
-    
-    public void redirectCurrentError(ServletContext contexte, HttpServletRequest request, HttpServletResponse response,
-            String title,String message ) throws IOException {
-        this.pather( request );
         this.redirectBack( contexte, request, response, PageState.error( title, message ) );
+
     }
-    
+
+    public void redirectCurrentSuccess( ServletContext contexte, HttpServletRequest request,
+            HttpServletResponse response,
+            String title, String message ) throws IOException {
+        
+        
+       
+        this.redirectCurrent( contexte, request, response, PageState.succes( title, message ) );
+    }
+
+    public void redirectCurrentError( ServletContext contexte, HttpServletRequest request, HttpServletResponse response,
+            String title, String message ) throws IOException {
+      
+        this.redirectCurrent( contexte, request, response, PageState.error( title, message ) );
+    }
+
     
     public Object getPathId( HttpServletRequest request ) {
         String id = "";
         if ( request.getPathInfo() != null ) {
             id = request.getPathInfo().substring( 1 );
             id = cleanText( id );
-            
+
             try {
                 Integer i = Integer.valueOf( id );
                 return i;
-            }catch (Exception e) {
+            } catch ( Exception e ) {
                 return id;
             }
         }
-        
+
         return null;
-     
+
     }
-    
-    
-    
 
     public String[] getPathIds( HttpServletRequest request ) {
         String[] out = null;
@@ -363,7 +375,7 @@ public class PageGenerator {
 
             throw new Exception( "Page user not initialized , with pg.getUtilisateur" );
         }
-        System.out.println( "getUtilisateur appelé" );
+        //System.out.println( "getUtilisateur appelé" );
         return pageUser;
     }
 

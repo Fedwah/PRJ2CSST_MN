@@ -61,21 +61,25 @@ public class EntityFields<T> {
         Map<String, Class<?>> out = new LinkedHashMap<String, Class<?>>();
         String class_ = "";
 
-        try {
+       
             for ( Map.Entry<String, FieldDefinition> f : this.fields.entrySet() ) {
                 class_ = f.getValue().class_;
-
-                out.put( f.getKey(), Class.forName( class_ ) );
+                try {
+                    out.put( f.getKey(), Class.forName( class_ ) );
+                } catch ( ClassNotFoundException e ) {
+                    // TODO Auto-generated catch block
+                    if(class_.contains( "List" ))
+                        out.put( f.getKey(), List.class );
+                    else 
+                        out.put( f.getKey(), List.class );
+                    System.out.println( "EntityFields | class "+class_+" not found" );
+                    
+                }
             }
 
             return out;
 
-        } catch ( ClassNotFoundException e ) {
-            // TODO Auto-generated catch block
-
-            System.out.println( "EntityFields | class not found" );
-            return out;
-        }
+       
     }
 
     public void generateFields( Class<T> beanClass ) {
@@ -174,18 +178,21 @@ public class EntityFields<T> {
             return Class.forName( class_ );
         } catch ( ClassNotFoundException e ) {
             // TODO Auto-generated catch block
-            System.out.println( "Can't get class of :" + class_ );
+            //System.out.println( "Can't get class of :" + class_ );
         }
         return null;
     }
 
     public String getChildIdName( String childName ) {
         Class<?> class_ = this.getClass( childName );
-        for ( Field f : class_.getDeclaredFields() ) {
-            if ( f.getAnnotation( Id.class ) != null ) {
-                return f.getName(); 
+        if(class_!=null) {
+            for ( Field f : class_.getDeclaredFields() ) {
+                if ( f.getAnnotation( Id.class ) != null ) {
+                    return f.getName(); 
+                }
             }
         }
+    
         return null;
     }
     
@@ -221,7 +228,6 @@ public class EntityFields<T> {
 
     public List<String> getListFields() {
         List<String> out = new ArrayList<String>();
-
         for ( FieldDefinition f : this.fields.values() ) {
             if ( f.class_.contains( "List" ) ) {
                 out.add( f.name );
@@ -272,7 +278,7 @@ public class EntityFields<T> {
          
          String[] names = name.split( "\\." );
          Class<?> c = null;
-         System.out.println( "names are "+ names );
+        
          
          if(names.length==1) {
              c = this.getClass( names[0] );
@@ -286,8 +292,7 @@ public class EntityFields<T> {
              System.err.println( "not suported the depth of 3 or more in cast" );
          }
          
-         System.out.println( "Cast "+value+" of "+value.getClass()+" to "+
-                 c);
+         //System.out.println( "Cast "+value+" of "+value.getClass()+" to "+dc);
          
         if ( (( c != null && !c.equals( String.class ) ) ||(c == null))  && (value instanceof String)) {
             try {
@@ -296,7 +301,7 @@ public class EntityFields<T> {
                 return NumberFormat.getInstance( Locale.FRANCE ).parse( num );
             } catch ( ParseException e ) {
 
-                System.out.println( "Not Number or double" );
+                //System.out.println( "Not Number or double" );
 
             }
 

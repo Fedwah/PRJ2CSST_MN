@@ -31,7 +31,6 @@ public class Marque implements Serializable {
    
 
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE,mappedBy = "marque")
-   
     private List<Modele> modeles;
    
     public Marque() {
@@ -43,6 +42,15 @@ public class Marque implements Serializable {
         this.titre = titre;
         this.modeles = new ArrayList<Modele>();
     }
+    
+    
+    
+    public Marque( String titre, Image image ) {
+        super();
+        this.titre = titre;
+        this.image = image;
+    }
+
     
     public String getTitre() {
         return titre;

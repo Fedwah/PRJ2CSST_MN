@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
 	<h1 class="page-title">${title}</h1>
-	<form method="post" action="" class="p-5" enctype="multipart/form-data">
+	<form method="post" action="" class="p-1" enctype="multipart/form-data">
 		<div class="m-2">
 			<form:select name="class" fieldToTest="key" col="" fieldToPrint="key"
 				selectedValue="" fieldID="value" map="${classes}"
@@ -20,9 +20,11 @@
 			<button type="submit" class="btn btn-primary col" name="importer">Valider
 				l'importation</button>
 			<c:if test="${erreurs.isEmpty()}">
-				<div>Insretion réussite</div>
+				<div class="alert alert-success p-4 m-1" role="alert">
+					Insretion réussite</div>
+
 			</c:if>
-			
+
 			<c:if test="${!empty message}">
 				<div class="alert alert-danger p-4 m-1" role="alert">
 					${message}</div>
@@ -34,7 +36,7 @@
 						<tr class="text-color">
 
 							<th scope="col">Lignes</th>
-							<th scope="col" colspan="${names.size()}" class="text-center">Erreurs</th>
+							<th scope="col" colspan="${names.size()}" class="text-center">Remarque</th>
 
 						</tr>
 						<tr>

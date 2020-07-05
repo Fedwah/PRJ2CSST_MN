@@ -70,4 +70,14 @@ public class Modele implements Serializable {
     public Integer getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        if(this.id!=null) {
+            return id.toString();
+        }else {
+            return titre;
+        }
+       
+    }
 }

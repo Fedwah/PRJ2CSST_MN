@@ -21,6 +21,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import beans.entities.amdec.Instruction;
 import beans.entities.regions.unites.Unite;
+import beans.entities.vehicules.CategorieVehicule;
+import beans.session.Utilisateur.UtilisateurFactory;
 import beans.session.amdec.cause.CauseFactory;
 import beans.session.amdec.defaillance.DefaillanceFactory;
 import beans.session.amdec.effet.EffetFactory;
@@ -34,6 +36,7 @@ import beans.session.pieces.PieceFactory;
 import beans.session.regions.RegionFactory;
 import beans.session.regions.unites.UniteFactory;
 import beans.session.vehicules.VehiculeFactory;
+import beans.session.vehicules.categorie.CategorieVehiculeFactory;
 import beans.session.vehicules.marques.MarqueFactory;
 import beans.session.vehicules.marques.modeles.ModeleFactory;
 import servlets.regions.regionsLists;
@@ -63,15 +66,12 @@ public class beanImporter extends HttpServlet {
         classes.put( "Vehicules", VehiculeFactory.class );
         classes.put( "Marques", MarqueFactory.class );
         classes.put( "Modeles", ModeleFactory.class );
+        classes.put( "Categories vehicule", CategorieVehiculeFactory.class );
         classes.put( "Pieces", PieceFactory.class );
         classes.put( "Regions", RegionFactory.class );
         classes.put( "Untiés", UniteFactory.class  );
         classes.put("Conducteurs",DriverFactory.class);
-        classes.put( "Causes", CauseFactory.class );
-        classes.put("Défaillances" , DefaillanceFactory.class);
-        classes.put( "Effets",EffetFactory.class );
-        classes.put("Instrcution",InstructionFactory.class);
-        classes.put( "Maintenaces", MaintenanceFactory.class );
+        classes.put( "Utilisateurs", UtilisateurFactory.class );
     }
 
     /**
@@ -87,11 +87,7 @@ public class beanImporter extends HttpServlet {
         
         pg.setPageTitle( "Importer/Exporter : " + id  );
 
-        
-
-        
-        
-        
+      
         request.setAttribute( "classes", classes );
         pg.generate( getServletContext(), request, response );
 
@@ -116,8 +112,7 @@ public class beanImporter extends HttpServlet {
            
             BeanFactory<?> beanF = BeanFactory.getClassFactory( s );
             
-          
-            
+            System.out.println( "Get factory of : "+beanF.getClassName() );
             if(request.getParameter( "modele" )!=null) {
                 List<String > ignore = beanF.getEntityFields().getListFields();
                 
@@ -125,9 +120,9 @@ public class beanImporter extends HttpServlet {
                     Workbook wk = beanF.obtenirModeleExcel(response, ignore.toArray( new String[ignore.size()] ) );
                     pg.writeWorkBook( wk,id, response );    
                 }else {
-                   List<?> beans  = generalM.lister( beanF.getClass() );
-                   
-                   Workbook wk = beanF.exportExcel(beans , ignore.toArray( new String[ignore.size()] )  );
+                   List<?> beans  = generalM.lister( beanF.getBeanClass() );
+                   System.out.println( "Obtenir les données avec  "+beans.size()+" lignes" );
+                   Workbook wk = beanF.exportExcel(beans);
                    pg.writeWorkBook( wk, beanF.getClassName(), response );
                 }
                 
@@ -142,7 +137,7 @@ public class beanImporter extends HttpServlet {
                 if(!name.isEmpty()) {
                    
                     List<?> beans  = beanF.importExcel((BufferedInputStream) request.getPart( "file" ).getInputStream());
-                    
+                    //System.out.println("Insertion de : "+beans);
                     errs = beanF.insertAll(  beans, generalM );
                     
                 }else {

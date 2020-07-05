@@ -1,6 +1,8 @@
 package beans.session.regions.unites;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import beans.entities.regions.Region;
@@ -14,7 +16,7 @@ public class UniteFactory extends BeanFactory<Unite>{
 	
 
 	public UniteFactory() {
-		super();
+		super(Unite.class);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -47,4 +49,10 @@ public class UniteFactory extends BeanFactory<Unite>{
 	}
 
 
+	@Override
+	public List<String> fieldIgnoreExport() {
+	    List<String> l = super.fieldIgnoreExport();
+	    l.add( "drs" );
+	    return l;
+	}
 }
