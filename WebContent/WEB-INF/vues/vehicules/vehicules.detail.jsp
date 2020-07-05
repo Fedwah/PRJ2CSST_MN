@@ -107,7 +107,7 @@
 		</div>
 		<div class="col d-flex align-items-center">
 			<h3 class="d-inline align-middle">Mission :</h3>
-			
+
 			<c:choose>
 				<c:when test="${mission!=null}">
 					<btn:btn type="danger"
@@ -156,15 +156,14 @@
 				<c:forEach items="${main}" var="maintenance">
 					<div class="card mt-3">
 						<div class="row no-gutters flex-nowrap">
-							<div class="cold-md-8 ">
-								<div class="card-body ">
+								<div class="card-body m-0 ">
 
 									<div class="row">
-										<div class="col-md-6">
+										<div class="col-md-10">
 											<h3 class="card-title text-color">
 												${maintenance.startDate}</h3>
 										</div>
-										<div class="col-md-6 " align="right">
+										<div class="col-md-2 " align="right">
 											<c:choose>
 												<c:when
 													test="${cal.getEtat(maintenance).equals('en cours')}">
@@ -209,36 +208,35 @@
 										<div class="col-md-4"></div>
 										<div class="col-md-4">
 											<h5 class="d-inline">Niveau :</h5>
-											${maintenance.niv.niveau }
+											${maintenance.niv.label }
 										</div>
-										<div class="col-md-12">
-											<h5 class="d-inline">Pieces de rechange estimé :</h5>
-											${maintenance.nbP }
-										</div>
-
 										<table class="table">
 											<thead>
 												<tr style='color: #3E703D;'>
-													<th scope="col">Code</th>
-													<th scope="col">Reference</th>
-													<th scope="col">Nom</th>
+													<th scope="col">#</th>
+													<th scope="col">Piece</th>
+													<th scope="col">Defaillance</th>
+													<th scope="col">Cause</th>
+													<th scope="col">Effet</th>
+													<th scope="col">Demarche</th>
 												</tr>
 											</thead>
 											<tbody>
 
-												<c:forEach items="${maintenance.pieces}" var="piece">
+												<c:forEach items="${maintenance.instructions}" var="inst">
 													<tr>
-														<td>${piece.id}</td>
-														<td>${piece.reference}</td>
-														<td>${piece.pieceName}</td>
+														<td>${inst.id}</td>
+														<td>${inst.piece.refrence}</td>
+														<td>${inst.defaillance.defaillance}</td>
+														<td>${inst.cause.cause}</td>
+														<td>${inst.effet.effet}</td>
+														<td>${inst.demarche_resolution}</td>
 													</tr>
 												</c:forEach>
 											</tbody>
 										</table>
-
 									</div>
 								</div>
-							</div>
 						</div>
 					</div>
 
