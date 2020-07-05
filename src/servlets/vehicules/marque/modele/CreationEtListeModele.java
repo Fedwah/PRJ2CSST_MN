@@ -83,13 +83,13 @@ public class CreationEtListeModele extends HttpServlet {
 	    ModeleFactory modF = new ModeleFactory();
 	    Marque marque =null;
 	    Modele modele = modF.create( request );
-	    String id ="";
+	    String id = null;
 	    
       
         
         
 	    pg = new PageGenerator( ModeleFactory.VUE_LIST_FORM, TITRE_VUE+id);
-        id = (String) pg.getPathId( request );
+        id = pg.getPathId( request ).toString();
         pg.setPageTitle( TITRE_VUE+id );
         
     
