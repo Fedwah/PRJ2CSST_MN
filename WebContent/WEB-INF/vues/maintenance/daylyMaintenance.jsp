@@ -31,13 +31,10 @@
 						name="end" class="btn" style='background-color: #3E703D;color:white;' >
 						terminer</a>
 						</c:when>
-						<c:when test="${cal.getEtat(maintenance).equals('terminé')}">
+						<c:otherwise>
 						<a class="btn btn-outline-primary" href='<c:url value="/maintenance/edit/${maintenance.idMaintenance}"/>'>
 						<img width="20px" height="20px" src="<c:url value='/public/img/icon/edit_green.png'/>" />
-						</a>
-						</c:when>
-						<c:otherwise>
-						
+						</a>						
 						</c:otherwise>
 					</c:choose>	
 					

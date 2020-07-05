@@ -38,7 +38,7 @@ public class MaintenanceDelete extends HttpServlet {
         String id = request.getPathInfo().substring( 1 );// id of element
         if ( mainM.trouverSupprimer( Integer.parseInt(id) ) ) // chercher l'element et le supprimer
         {
-        	pg.redirectBack(null, request, response);
+        	pg.redirectBack(getServletContext(), request, response);
         } 
 	}
 

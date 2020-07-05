@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -12,9 +14,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.entities.driver.Driver;
 import beans.entities.maintenance.Maintenance;
+import beans.entities.utilisateurs.Utilisateur;
 import beans.session.drivers.DriverFactory;
 import beans.session.general.page.PageGenerator;
 import beans.session.maintenance.CalendarFactory;
@@ -48,10 +52,15 @@ public class Dailymaintenance extends HttpServlet {
         if(!date.isEmpty())
         {
             MaintenanceFactory mainF = new MaintenanceFactory();
+            Map<String,Object> fields = new HashMap();
             CalendarFactory cf = new CalendarFactory();
+            HttpSession session = request.getSession();
+            Utilisateur user = (Utilisateur) session.getAttribute( "sessionUtilisateur" );
             request.setAttribute( "cal", cf);
     		mainF.addFiltre("startDate", date);
-    		request.setAttribute( "main", mainM.lister(mainF.getFiltres()));
+    		fields = mainF.getFiltres();
+    		fields.put("un.codeUN", user.getCodeun());
+    		request.setAttribute( "main", mainM.lister(fields));
             pg.generate( getServletContext(), request, response );
         }
         

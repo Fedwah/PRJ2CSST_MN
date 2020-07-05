@@ -98,7 +98,7 @@ public class MaintenanceEdit extends HttpServlet {
 	{
 		PageGenerator pg = new PageGenerator(FORM, TITLE,REDIRECT);
 		mManager.mettreAJour(oldM.getIdMaintenance(), mainF, newMain);
-		pg.redirect(getServletContext(), request, response);
+		pg.redirectBack(null, request, response);
 	}
 	private void unvalidDoPost(HttpServletRequest request, HttpServletResponse response,MaintenanceFactory mainF,Maintenance newMain) throws ServletException, IOException
 	{
