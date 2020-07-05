@@ -100,9 +100,12 @@ public class Excel<T> {
             while ( rowIt.hasNext() ) {
                 row = new LinkedHashMap<String, Object>( header );
                 r = rowIt.next();
+                System.out.println( "readed "+imgs.size()+" images" );
                 if(!imgs.isEmpty()) {
+                   
                     readColumns( row, r, imgs.get( indexImg ));
                 }else {
+                    
                     readColumns( row, r, null);
                 }
                
@@ -278,10 +281,12 @@ public class Excel<T> {
         Object[] header = values.keySet().toArray();
 
         int lastColumn = row.getLastCellNum();
-
+        
         for ( int col = 0; col < lastColumn; col++ ) {
             Cell cell = row.getCell( col, MissingCellPolicy.RETURN_BLANK_AS_NULL );
             if ( cell == null ) {
+                System.out.println( "cell "+col+"is empty" );
+                
                 if ( !((String)header[col]).contains( "(Image)" ) ) {
                     values.put( (String) header[col], null );
                 } else {
@@ -291,6 +296,7 @@ public class Excel<T> {
                 }
 
             } else {
+                System.out.println( "Cell "+col+"is not empty :"+cell.getCellType() );
                 switch ( cell.getCellType() ) {
                 case NUMERIC:
                     if ( DateUtil.isCellDateFormatted( cell ) ) {
@@ -317,10 +323,10 @@ public class Excel<T> {
                     String s = cell.getStringCellValue();
                     String[] list = s.split( "," );
                     
-                   
+                   System.out.println( "readed a string cell :"+s );
                     if(list.length==1) {
                         if(s.isEmpty()) {
-                            System.out.println( "Set image par defaut" );
+                           
                             values.put((String) header[col], null);
                         }else {
                             values.put( (String) header[col], cleanText( s ) );
@@ -338,6 +344,12 @@ public class Excel<T> {
                     break;
                 }
             }
+        }
+        
+        if(header.length>lastColumn) {
+            System.out.println( "insert Image" );
+            values.put((String)header[lastColumn],img );
+            this.indexImg++;
         }
     }
 

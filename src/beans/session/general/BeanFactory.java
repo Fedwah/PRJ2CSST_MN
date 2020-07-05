@@ -648,7 +648,7 @@ public abstract class BeanFactory<T> {
                 return m.invoke( bean, (Object[]) null );
         } catch ( Exception e ) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+           System.out.println( "getIdValue not found" );
         }
 
         return null;
