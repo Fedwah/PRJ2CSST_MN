@@ -8,6 +8,8 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -57,6 +59,7 @@ public class Maintenance implements Serializable{
 	@ManyToMany (fetch = FetchType.EAGER)
 	private List<Instruction> instructions;
 	// Niveau de maintenance
+	
 	private Niveau niv;
 	
 	@NotNull

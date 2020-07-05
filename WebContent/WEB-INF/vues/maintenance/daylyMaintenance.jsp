@@ -84,28 +84,34 @@
 						<div class="col-md-4"></div>
 						<div class="col-md-4" with="40%">
 							<h5 class="d-inline">Niveau : </h5>
-							${maintenance.niv.niveau }
+							${maintenance.niv.label }
 						</div>
 						<div class="col-md-12" with="40%">
-							<h5 class="d-inline">Pieces de rechange estimé : </h5>
-							${maintenance.nbP }
+							<h5 class="d-inline">Instructions : </h5>
+						
 						</div>
 								
 								<table class="table">
 								<thead>
 								<tr style='color: #3E703D;' >
-								<th scope="col">Code</th>
-								<th scope="col">Reference</th>
-								<th scope="col">Nom</th>
+								<th scope="col">#</th>
+								<th scope="col">Piece</th>
+								<th scope="col">Defaillance</th>
+								<th scope="col">Cause</th>
+								<th scope="col">Effet</th>
+								<th scope="col">Demarche</th>
 								</tr>
 								</thead>
 								<tbody>
 								  
-								<c:forEach items="${maintenance.pieces}" var="piece">
+								<c:forEach items="${maintenance.instructions}" var="inst">
 								<tr>
-				    			<td>${piece.id}</td>
-				    			<td>${piece.reference}</td>
-								<td>${piece.pieceName}</td>
+				    			<td>${inst.id}</td>
+				    			<td>${inst.piece.refrence}</td>
+								<td>${inst.defaillance.defaillance}</td>
+								<td>${inst.cause.cause}</td>
+								<td>${inst.effet.effet}</td>
+								<td>${inst.demarche_resolution}</td>
 								</tr>
 								</c:forEach> 
 								</tbody>

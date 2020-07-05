@@ -100,12 +100,14 @@ public class DetailVehicule extends HttpServlet {
 		            aff = (aff.getEndDate()!=null?null:aff);    
 		            Collections.reverse( affections );
 		            
-		            // trouver l'historique des maintenances 
-		            mainF.addFiltre( "v","matricule_interne",id);
-		            maintenances = mainM.lister( mainF.getFiltres() );
+		            
 		            
 		       }
-		        
+		       
+		     // trouver l'historique des maintenances 
+	            mainF.addFiltre( "v","matricule_interne",id);
+	            maintenances = mainM.lister( mainF.getFiltres() );
+	            System.out.println("taille de la liste des maintenaces est " + maintenances.size());
 		        
 		    }
 		}
