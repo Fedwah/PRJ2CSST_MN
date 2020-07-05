@@ -77,17 +77,31 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
 
 
 
-	public Maintenance create( HttpServletRequest request, Maintenance bean ) {
+	public Maintenance create( HttpServletRequest request, Maintenance bean, String etat ) {
         Maintenance m = new Maintenance();
-
-       // Niveau n = new Niveau( Integer.parseInt( request.getParameter( "niveau" ) ) );
-       // m.setNiv( n ); // niveau de maintenance
-        m.setStartDate(bean.getStartDate()); // date debut
+        m.setIdMaintenance(bean.getIdMaintenance());
+        m.setV(bean.getV());
+        m.setUn(bean.getUn());
+        String indexNiv = request.getParameter( "niveau" );
+        System.out.println("index niveau est "+ indexNiv);
+        Niveau n = Niveau.values()[Integer.parseInt(indexNiv)];
+        m.setNiv(n);
+        
         try {
-            m.setEndDate( new SimpleDateFormat( "yyyy-MM-dd" ).parse( request.getParameter( "dateFin" ) ) ); // date de fin 
+            m.setStartDate( new SimpleDateFormat( "yyyy-MM-dd" ).parse( request.getParameter( "debut" ) ) ); // date debut
         } catch ( ParseException e ) {
             e.printStackTrace();
         }
+        if(etat != "à venir")
+        {
+        	try {
+                m.setEndDate( new SimpleDateFormat( "yyyy-MM-dd" ).parse( request.getParameter( "datefin" ) ) ); // date de fin 
+            } catch ( ParseException e ) {
+                e.printStackTrace();
+            }
+        }
+        m.setInstructions(createInstructionsList(request));
+        
         return m;
     }
 
@@ -106,8 +120,8 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
     public void updateChange( Maintenance newB, Maintenance old ) {
         old.setEndDate(newB.getEndDate());
         old.setNiv(newB.getNiv());
-
-
+        old.setStartDate(newB.getStartDate());
+        old.setInstructions(newB.getInstructions());
     }
 
     public boolean validateStartDate( MaintenanceManager em, Maintenance bean ) {
@@ -139,7 +153,7 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
             System.out.println( "end date valide" );
             return true;
         } else {
-            this.addErreurs( "endDate", "date de fin est inferieure ï¿½ la date dï¿½but" );
+            this.addErreurs( "endDate", "date de fin est inferieure à la date de debut" );
             return false;
         }
 
@@ -153,8 +167,8 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
         return false;
     }
     
-    public boolean validateEdit( Maintenance bean ) {
-        if ( this.validate( bean ) && this.validateEndDate( bean ) ) {
+    public boolean validateEdit( Maintenance bean, MaintenanceManager em ) {
+        if ( this.validate( bean, em ) && this.validateEndDate( bean ) ) {
             return true;
         }
         return false;

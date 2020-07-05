@@ -1,13 +1,7 @@
 package servlets.maintenance;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -15,15 +9,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.DateFormatter;
 
 import beans.entities.maintenance.Maintenance;
-import beans.entities.vehicules.Vehicule;
+import beans.entities.maintenance.niveaux.Niveau;
 import beans.session.general.page.PageGenerator;
+import beans.session.maintenance.CalendarFactory;
 import beans.session.maintenance.MaintenanceFactory;
 import beans.session.maintenance.MaintenanceManager;
-
-import beans.session.pieces.PieceManager;
 
 /**
  * Servlet implementation class MaintenanceEdit
@@ -36,10 +28,7 @@ public class MaintenanceEdit extends HttpServlet {
 	private static final String TITLE = "Maintenance";
 	@EJB
 	private MaintenanceManager mManager;
-
-	@EJB
-	private PieceManager pManager;
-	private Maintenance m = null;
+	private Maintenance oldM = null;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -60,17 +49,19 @@ public class MaintenanceEdit extends HttpServlet {
 		if(! id.equals(""))		
 		{
 			
-			m = mManager.trouver(Integer.parseInt(id));
+			oldM = mManager.trouver(Integer.parseInt(id));
 			
-			if(m != null)
+			if(oldM != null)
 			{
 								
 				LocalDate date = LocalDate.now();
 				request.setAttribute("endDate", date);
-				request.setAttribute("maintenance", m);
+				CalendarFactory cf = new CalendarFactory();
+				request.setAttribute("cal", cf);
+				
+				request.setAttribute("main", oldM);
 				request.setAttribute("disabled_matricule", true);
-				request.setAttribute("disabled_date", true);
-				//request.setAttribute("niveaux", nManager.lister());
+				request.setAttribute("niveaux", Niveau.values());
 				
 				pg.generate( getServletContext(), request, response );								
 			}
@@ -83,51 +74,43 @@ public class MaintenanceEdit extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PageGenerator pg = new PageGenerator(FORM, TITLE,REDIRECT);
+		
 		MaintenanceFactory mf = new MaintenanceFactory();
-		Maintenance newM = mf.create(request,m);
-		if(request.getParameter("save")!= null)
+		CalendarFactory cf =new CalendarFactory() ;
+        String etat = cf.getEtat(oldM);
+		Maintenance newM = mf.create(request,oldM,etat);
+		if(! etat.equals("à venir"))
 		{
-			
-			System.out.println("date de debut " + newM.getStartDate());
-			System.out.println("date de fin " + newM.getEndDate());
-			if(mf.validateEdit(newM))
-			{
-					System.out.println("maintenace valide");
-					mManager.mettreAJour(m.getIdMaintenance(), mf, newM);
-					pg.redirect(getServletContext(), request, response);				
-			}
-			else
-			{
-				System.out.println(" maintenance non valide");
-				System.out.println(mf.getErreurs());
-				request.setAttribute( "erreurs", mf.getErreurs() );
-				request.setAttribute("maintenance", newM);
-				request.setAttribute("disabled_matricule", true);
-				request.setAttribute("disabled_date", true);
-				//request.setAttribute("niveaux",nManager.lister());
-				
-	
-				
-				
-				pg.generate( getServletContext(), request, response );
-				
-			}
-		}
-		else if(request.getParameter("addPiece")!= null)
-		{
-			// ajout des pieces de rechnages 
-			System.out.println(" ajout de piece de rechange");
-			request.setAttribute("maintenance", newM);
-			request.setAttribute("disabled_matricule", true);
-			request.setAttribute("disabled_date", true);
-			//request.setAttribute("niveaux",nManager.lister());
-			Map<String,Object> fields = new HashMap();
-			fields.put("modal.id",newM.getV().getModele().getId());	
-			request.setAttribute("piece", pManager.lister(fields));
-			pg.generate( getServletContext(), request, response );
+			if(mf.validateEdit(newM,mManager)) validateDoPost(request, response, mf, newM);
+			else unvalidDoPost(request, response, mf, newM);
 
 		}
+		else 
+		{
+			if(mf.validate(newM,mManager)) validateDoPost(request, response, mf, newM);
+			else unvalidDoPost(request, response, mf, newM);
+
+		}
+		
+	}
+	
+	private void validateDoPost(HttpServletRequest request, HttpServletResponse response, MaintenanceFactory mainF, Maintenance newMain) throws IOException
+	{
+		PageGenerator pg = new PageGenerator(FORM, TITLE,REDIRECT);
+		mManager.mettreAJour(oldM.getIdMaintenance(), mainF, newMain);
+		pg.redirect(getServletContext(), request, response);
+	}
+	private void unvalidDoPost(HttpServletRequest request, HttpServletResponse response,MaintenanceFactory mainF,Maintenance newMain) throws ServletException, IOException
+	{
+		PageGenerator pg = new PageGenerator( FORM, TITLE);
+		request.setAttribute( "erreurs", mainF.getErreurs() );
+		request.setAttribute("maintenance", newMain);
+		CalendarFactory cf = new CalendarFactory();
+		request.setAttribute("cal", cf);	
+		request.setAttribute("main", newMain);
+		request.setAttribute("disabled_matricule", true);
+		request.setAttribute("niveaux", Niveau.values());		
+		pg.generate( getServletContext(), request, response );
 	}
 
 }
