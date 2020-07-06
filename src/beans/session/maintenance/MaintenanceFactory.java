@@ -113,6 +113,14 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
     				Instruction in = (Instruction) beanM.trouver(Instruction.class, i.getId());
     				if(in == null) this.addErreurs("instructions", "Code instruction n'existe pas");
     			}
+    			for(int i = 0 ; i<insts.size()-1;i++)
+    			{
+    				for(int j =i+1;j<insts.size();j++ )
+    				{
+    					if(insts.get(i).getId() == insts.get(j).getId()) 
+    						this.addErreurs("instructions", "Vous ne pouvez pas inserer la meme instruction deux fois");
+    				}
+    			}
     }
 
 
@@ -141,7 +149,7 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
         if(bean.getStartDate().compareTo(new Date())< 0)
         {
         	valide = valide && false;
-        	this.addErreurs( "startDate", "Vous ne pouvez pas crï¿½er des maintenaces passï¿½es" );
+        	this.addErreurs( "startDate", "Vous ne pouvez pas creer des maintenaces passées" );
         }
         System.out.println("cette date est valide " + valide);
         return valide;

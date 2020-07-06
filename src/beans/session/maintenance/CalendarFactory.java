@@ -1,6 +1,8 @@
 package beans.session.maintenance;
 
+import java.text.DateFormat;
 import java.text.DateFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,8 +14,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import beans.entities.amdec.Detection;
 import beans.entities.maintenance.Maintenance;
+import beans.entities.utilisateurs.Utilisateur;
 
 public class CalendarFactory {
 	private int iYear;
@@ -26,6 +31,7 @@ public class CalendarFactory {
 	private int days;
 	private int weekStartDay ;
 	private int iTotalweeks;
+	private static final int LIMITMAINTENANCE = 5;
 	
 	
 	
@@ -275,6 +281,30 @@ public class CalendarFactory {
 	{ 
 		String date = Integer.toString(this.iYear)  + "-" + Integer.toString(this.iMonth +1) + "-" + Integer.toString(day);
 		return date;
+	}
+	public boolean occupiedDay(Detection det, MaintenanceManager mainManager,Date date)
+	{
+		
+         MaintenanceFactory mainF = new MaintenanceFactory(); 
+         mainF.addFiltre("startDate", date);
+         Map<String,Object> fields = mainF.getFiltres();
+ 		 fields.put("un.codeUN", det.getVehicule().getUnite().getCodeUN());
+ 		 List<Maintenance> dayMains = mainManager.lister(fields);
+ 		 if(dayMains.size()>= LIMITMAINTENANCE) return true;
+ 		 else return false;
+		
+	}
+	public Date getNextDayOf(Date date ) throws ParseException
+	{
+		String pattern = "yyyy-MM-dd";
+		DateFormat df = new SimpleDateFormat(pattern);
+		String dateString = df.format(date);
+		this.ca = Calendar.getInstance();
+		ca.setTime(df.parse(dateString));
+		ca.add(Calendar.DATE, 1); 
+		/*dateString = df.format(ca.getTime());  
+		System.out.println("date est  " + dateString);*/
+		return(this.ca.getTime());
 	}
 
 }

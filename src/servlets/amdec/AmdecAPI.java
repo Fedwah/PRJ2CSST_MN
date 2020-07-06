@@ -1,8 +1,10 @@
 package servlets.amdec;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -20,6 +22,8 @@ import beans.entities.amdec.Defaillance;
 import beans.entities.amdec.Detection;
 import beans.entities.amdec.Effet;
 import beans.entities.amdec.Instruction;
+import beans.entities.maintenance.Maintenance;
+import beans.entities.maintenance.niveaux.Niveau;
 import beans.entities.vehicules.Vehicule;
 import beans.session.amdec.cause.CauseFactory;
 import beans.session.amdec.cause.CausesManager;
@@ -32,6 +36,8 @@ import beans.session.amdec.effet.EffetManager;
 import beans.session.amdec.instruction.InstructionFactory;
 import beans.session.amdec.instruction.InstructionManager;
 import beans.session.general.page.PageGenerator;
+import beans.session.maintenance.CalendarFactory;
+import beans.session.maintenance.MaintenanceManager;
 import beans.session.vehicules.VehiculesManager;
 
 /**
@@ -56,6 +62,9 @@ public class AmdecAPI extends HttpServlet {
     
     @EJB
     private DetectionManager detM;
+    
+    @EJB
+    private MaintenanceManager mainM; 
     
     private static final String MSG_ERR = "Operation non existente ,  "
             + "essayé avec :  api/amdec/causes , api/amdec/effets, api/amdec/defaillances ou api/amdec/intructions pour les lister "
@@ -158,9 +167,30 @@ public class AmdecAPI extends HttpServlet {
                       
                         if(i!=null) {
                             detection= new Detection(i,v); 
-
-                          
-                            detM.ajouter( detection );
+                            if(detM.ajouter( detection ))
+                            {
+                            	CalendarFactory cf =new CalendarFactory();
+                            	Date d1 = new Date() ; 
+                            	// il faut d'abord verifier s il n ya pas une maintenance future avant d'inserer 
+                            	// il faut faire un projection sur les niveaux
+                            	// insertion
+                            	while(cf.occupiedDay(detection, mainM, d1))
+                            	{
+                            		try {
+										d1 = cf.getNextDayOf(d1);
+									} catch (ParseException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+                            	}
+                            	List<Instruction> ins = new ArrayList();
+                            	ins.add(detection.getInstruction());
+                            	Maintenance m = new Maintenance(d1,detection.getVehicule(),ins,Niveau.niv1,
+                            			detection.getVehicule().getUnite());
+                            	mainM.ajouter(m);
+                            	
+                            }
+                            
                         }else {
                             success  = false;
                             message  = "Instruction "+ iF.getFiltres() + "inexistente ";
