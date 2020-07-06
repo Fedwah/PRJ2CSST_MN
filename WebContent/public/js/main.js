@@ -166,6 +166,8 @@ function horizontalBar(id,title,labels,values,datasetlabels){
 	return chart('horizontalBar',id,data,options)
 }
 
+
+
 function bar(id,title,labels,values,datasetlabels){
 	
 	var COLORS = getColors(values.length)
@@ -211,15 +213,12 @@ function bar(id,title,labels,values,datasetlabels){
 	            }
 	        },
 	        scales: {
-	            xAxes: [{
+	            yAxes: [{
 	                ticks: {
-	                    beginAtZero: true,
-	                    steps: 10,
-	                    stepValue: 6,
-	                    
-	                    }
+	                    beginAtZero: true
 	                }
-	            ]}
+	            }]
+	        }
 	        
 	        
 	    }

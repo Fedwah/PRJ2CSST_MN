@@ -42,18 +42,58 @@ public class AccueilRegional extends HttpServlet {
      */
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
-        PageGenerator pg = new PageGenerator( "/WEB-INF/vues/accueils/accueil.operationnel.jsp",
+        PageGenerator pg = new PageGenerator( "/WEB-INF/vues/accueils/accueils.regional.jsp",
                 "Accueil Operationnel" );
 
         request.setAttribute( "count_vehicule", gM.countVehiculeReg() );
-        request.setAttribute( "count_vehicule_libre", gM.purcentageVehiculeReg( EtatsVehicule.LIBRE ) );
-        /*request.setAttribute( "count_conducteur_libre", gM.purcentageDriver() );
-        request.setAttribute( "etats_vehicule", getLabelsValues( gM.etatVehicules(), EtatsVehicule.labels() ) );
-        request.setAttribute( "km_modeles", getLabelsValues( gM.kmModele(), null ) );
-        request.setAttribute( "km", gM.kmModele() );*/
+        request.setAttribute( "count_vehicule_libre", gM.purcentageVehiculeReg( EtatsVehicule.EN_PANNE ) );
+        request.setAttribute( "count_maintenance", gM.NbMaintenanceReg(  ));
+        request.setAttribute( "moy_modeles", getLabelsValues( gM.moyAgeModeles(), null ) );
+        request.setAttribute( "moy_unites", getLabelsValues( gM.moyAgeUnites(), null ) );
+        request.setAttribute( "etats_vehicule", getLabelsValues( gM.etatVehiculesReg(), EtatsVehicule.labels() ) );
+        request.setAttribute( "etas_unites", getListLabelsValues( gM.etatsUnites(), EtatsVehicule.labels() ) );
+        request.setAttribute( "nb_pannes", getLabelsValues( gM.nbPanneModeleReg(), null ));
+        request.setAttribute( "nb_pannes_unites", getLabelsValues( gM.nbPanneUniteReg(), null ));
+        /*request.setAttribute( "km", gM.kmModele() );*/
         pg.generate( getServletContext(), request, response );
     }
     
+    private Map<String,Map<String,List<Object>>>getListLabelsValues( List<?> table, String[] enumLabels ) {
+        
+        Map<String,Map<String,List<Object>>> out = new HashMap<String, Map<String,List<Object>>>();
+        Map<String,List<Object>> data = new HashMap<String, List<Object>>();;
+        List<Object> labels = new ArrayList<Object>();
+       
+        
+       
+        for ( Object[] o : (List<Object[]>)table ) {
+            
+     
+            if(!data.containsKey( o[0] )) {
+                data.put((String)o[0],new ArrayList<Object>());
+            }
+            
+            data.get( o[0] ).add( o[2]);
+            
+            if(enumLabels!=null) {
+                if(!labels.contains( enumLabels[(int) o[1]] ) )
+                    labels.add((enumLabels[(int) o[1]] ));
+            }else if (!labels.contains(  (String)o[1]))
+                labels.add( (String)o[1] );
+           
+           
+           System.out.println( "labels "+labels );
+        }
+        
+        out.put("dataset",data);
+        data = new HashMap<String, List<Object>>();
+        data.put( "labels",  labels);
+        out.put( "labels", data);
+        
+        
+        return out;
+    }
+
     private Map<String,List<Object>> getLabelsValues(List<?> table,String[] enumLabels){
         Map<String,List<Object>> out = new HashMap<String, List<Object>>();
         List<Object> labels = new ArrayList<Object>();

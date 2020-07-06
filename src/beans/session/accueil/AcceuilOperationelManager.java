@@ -55,6 +55,9 @@ public class AcceuilOperationelManager extends GeneralManager {
             "where m.v_matricule_interne =v.matricule_interne and v.unite_codeun = :codeun \r\n" + 
             "group by v.modele_id) t1 join modele mo on t1.modId = mo.id";
     
+    private static final String SQL_NB_MAINTENANCE = "select count(*) from maintenance m \r\n"
+            + 
+            " where m.enddate is null and m.un_codeun = :codeun ";
     
     public AcceuilOperationelManager() {
         // TODO Auto-generated constructor stub
@@ -146,6 +149,19 @@ public class AcceuilOperationelManager extends GeneralManager {
             
             return new ArrayList<Object>();
         }
+    }
+    
+    public Integer NbMaintenanceUN( ) {
+        Query q = this.getEntityManger().createNativeQuery( SQL_NB_MAINTENANCE );
+        try {
+            q.setParameter( "codeun", PageGenerator.getUtilisateur().getCodeun() );
+           
+            return ( (BigInteger) q.getSingleResult() ).intValue();
+        } catch ( Exception e ) {
+            e.printStackTrace();
+            return -1;
+        }
+
     }
 
 }

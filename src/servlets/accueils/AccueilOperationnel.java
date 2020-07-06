@@ -44,7 +44,7 @@ public class AccueilOperationnel extends HttpServlet {
 		
 		request.setAttribute( "count_vehicule", gM.countVehiculeUn() );
 		request.setAttribute( "count_vehicule_libre", gM.purcentageVehiculeUN(EtatsVehicule.LIBRE));
-		request.setAttribute( "count_conducteur", gM.countDriverUN());
+		request.setAttribute( "count_maintenance", gM.NbMaintenanceUN());
 		request.setAttribute( "count_conducteur_libre", gM.purcentageDriverUN());
 		request.setAttribute( "etats_vehicule", getLabelsValues(gM.etatVehiculesUN(),EtatsVehicule.labels()));
 		request.setAttribute( "km_modeles", getLabelsValues(gM.kmModeleUN(),null));
