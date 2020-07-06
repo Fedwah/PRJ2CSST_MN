@@ -135,13 +135,13 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
     public boolean validateStartDate( MaintenanceManager em, Maintenance bean ) {
         Map<String, Object> fields = new HashMap();
         boolean valide = true;
-        List<Maintenance> currentM = em.findCurrentMaintenace( bean );
+        List<Maintenance> currentM = em.findCurrentMaintenance( bean );
         if ( currentM != null ) {
             System.out.println( "liste des maintenaces de ce vehicule est non null " + currentM.size() );
             if ( currentM.size() > 0 ) {
                 // System.out.println("liste des maintenaces de ce vehicule est
                 // non null " + currentM.size());
-                this.addErreurs( "v", "Ce vehicule a dï¿½jï¿½ une maintenance non terminï¿½" );
+                this.addErreurs( "v", "Ce vehicule a deja une maintenance non terminée" );
                valide = valide && false;
             }
 
@@ -193,16 +193,15 @@ public class MaintenanceFactory extends BeanFactory<Maintenance> {
     	return false;
     }
     
-   /*public boolean validateInstructions(Maintenance bean , InstructionManager im)
+   public boolean hasInstruction(Maintenance bean , Instruction in)
     {
     	List<Instruction> inst = bean.getInstructions();
-    	boolean validate = 
     	for(Instruction i : inst)
     	{
-    		Instruction instruction = im.trouver(i.getId());
-    		if(instruction != null) this.addErreurs("instructions", "Code d'instruction n'existe pas");
+    		if(in.getId() == i.getId()) return true;
     	}
-    }*/
+    	return false;
+    }
 
 
 }
