@@ -203,7 +203,7 @@ public class CalendarFactory {
 		{
 			if(m.getDay() > this.iTDay)
 			{
-				return "à venir";
+				return "ï¿½ venir";
 			}
 			
 			else
@@ -213,7 +213,7 @@ public class CalendarFactory {
 		}
 		else
 		{
-			return "terminé";
+			return "terminï¿½";
 		}
 	}
 	
@@ -286,7 +286,7 @@ public class CalendarFactory {
 	{
 		
          MaintenanceFactory mainF = new MaintenanceFactory(); 
-         mainF.addFiltre("startDate", date);
+         mainF.addFiltre("startDate", date.toString());//mettre toString
          Map<String,Object> fields = mainF.getFiltres();
  		 fields.put("un.codeUN", det.getVehicule().getUnite().getCodeUN());
  		 List<Maintenance> dayMains = mainManager.lister(fields);

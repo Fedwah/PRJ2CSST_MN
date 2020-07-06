@@ -6,7 +6,7 @@
 
 <div class="overflow-hidden mt-1 border-right border-light">
 <ul class="nav flex-column pl-1">
-	<m:link label="Tableau"  value="#" img="/public/img/menu/analyse_white.png" 
+	<m:link label="Tableau"  value="/Regional/Accueil" img="/public/img/menu/analyse_white.png" 
 	size="28px" top="0px" left="20px" topI="0px" leftI="10px"
 	/>
 	<m:link label="Directives" value="/listerDirective" img="/public/img/menu/directive.png" 

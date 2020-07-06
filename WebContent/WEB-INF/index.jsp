@@ -12,9 +12,17 @@
 <script src="<c:url value="/public/js/jquery-3.5.1.min.js"/>"></script>
 <script src="<c:url value="/public/js/sweetalert.min.js"/>"></script>
 <script src="<c:url value="/public/bootstrap/js/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/public/js/main.js"/>"></script>
 <script src="<c:url value="/public/js/Chart.bundle.min.js"/>"></script>
+<script src="<c:url value="/public/js/chartjs-plugin-datalabels.js"/>"></script>
+<script src="<c:url value="/public/js/d3-color.v1.min.js"/>"></script>
+<script src="<c:url value="/public/js/d3-interpolate.v1.min.js"/>"></script>
+<script src="<c:url value="/public/js/d3-scale-chromatic.v1.min.js"/>"></script>
+
+
 <link href="<c:url value='/public/style/main.css'/>" rel="stylesheet"
 	type="text/css">
+	
 <link href="<c:url value='/public/style/Chart.min.css'/>" rel="stylesheet"
 	type="text/css">
 </head>
@@ -33,6 +41,7 @@
 					test="${sessionScope.sessionUtilisateur.type.equals('root')}">
 					<c:import url="vues/menu/menuAdmin.jsp"></c:import>
 				</c:when>
+
 
 				<c:when
 					test="${sessionScope.sessionUtilisateur.type.equals('Operationnel')}">

@@ -26,4 +26,15 @@ public enum EtatsVehicule {
         }
         return null;
     }
+    
+    public static String[] labels() {
+        EtatsVehicule[] v = EtatsVehicule.values();
+        String[] s = new String[v.length];
+        int i = 0;
+        for ( EtatsVehicule e : v ) {
+            s[i] = e.label;
+            i++;
+        }
+        return s;
+    }
 }

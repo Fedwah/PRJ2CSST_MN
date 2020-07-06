@@ -10,7 +10,10 @@
 <ul class="nav flex-column pl-1">
 
 
-
+	<m:link label="Tableau"  value="/Operationnel/Accueil" img="/public/img/menu/analyse_white.png" 
+	size="28px" top="0px" left="20px" topI="0px" leftI="10px"
+	/>
+	
 	<m:link label="Utilisateurs" value="/Utilisateurs" img="/public/img/menu/profile_nobackground.png" 
 	size="38px" top="0px" left="10px" topI="0px" leftI="5px"
 	/>

@@ -39,7 +39,7 @@
 								<btn:btn type="secondary"
 									value="/Marques/Modeles/${marque.titre}"
 									text="Voir
-										ces modeles">
+										ses modeles">
 								</btn:btn>
 								<btn:remove value="/Marques/remove/${marque.titre}"></btn:remove>
 
