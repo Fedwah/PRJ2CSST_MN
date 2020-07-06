@@ -5,7 +5,9 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -24,6 +26,8 @@ import beans.entities.amdec.Effet;
 import beans.entities.amdec.Instruction;
 import beans.entities.maintenance.Maintenance;
 import beans.entities.maintenance.niveaux.Niveau;
+import beans.entities.vehicules.EtatsVehicule;
+import beans.entities.vehicules.Mission;
 import beans.entities.vehicules.Vehicule;
 import beans.session.amdec.cause.CauseFactory;
 import beans.session.amdec.cause.CausesManager;
@@ -37,8 +41,11 @@ import beans.session.amdec.instruction.InstructionFactory;
 import beans.session.amdec.instruction.InstructionManager;
 import beans.session.general.page.PageGenerator;
 import beans.session.maintenance.CalendarFactory;
+import beans.session.maintenance.MaintenanceFactory;
 import beans.session.maintenance.MaintenanceManager;
 import beans.session.vehicules.VehiculesManager;
+import beans.session.vehicules.missions.MissionFactory;
+import beans.session.vehicules.missions.MissionManager;
 
 /**
  * Servlet implementation class DetectionAPI
@@ -65,6 +72,9 @@ public class AmdecAPI extends HttpServlet {
     
     @EJB
     private MaintenanceManager mainM; 
+    
+    @EJB
+    private MissionManager missM;
     
     private static final String MSG_ERR = "Operation non existente ,  "
             + "essayÃ© avec :  api/amdec/causes , api/amdec/effets, api/amdec/defaillances ou api/amdec/intructions pour les lister "
@@ -167,27 +177,68 @@ public class AmdecAPI extends HttpServlet {
                       
                         if(i!=null) {
                             detection= new Detection(i,v); 
+                            // ajout d'une maintenace automatique
                             if(detM.ajouter( detection ))
                             {
                             	CalendarFactory cf =new CalendarFactory();
-                            	Date d1 = new Date() ; 
-                            	// il faut d'abord verifier s il n ya pas une maintenance future avant d'inserer 
-                            	// il faut faire un projection sur les niveaux
-                            	// insertion
-                            	while(cf.occupiedDay(detection, mainM, d1))
+                            	Date d1 = new Date() ;
+                            	MaintenanceFactory mainF = new MaintenanceFactory();
+                            	List<Maintenance> mains = mainM.findCurrentMaintenance((detection.getVehicule()));
+                            	// si maintenace déjà programmé
+                            	if(mains.size()>0)
                             	{
-                            		try {
-										d1 = cf.getNextDayOf(d1);
-									} catch (ParseException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									}
+                            		this.addInstToMaintenace(mainF, mains, detection);
                             	}
-                            	List<Instruction> ins = new ArrayList();
-                            	ins.add(detection.getInstruction());
-                            	Maintenance m = new Maintenance(d1,detection.getVehicule(),ins,Niveau.niv1,
-                            			detection.getVehicule().getUnite());
-                            	mainM.ajouter(m);
+                            	// sinon ajouter une nouvelle maintenance
+                            	else 
+                            	{
+                            		if(detection.getVehicule().getEtat() == EtatsVehicule.LIBRE)
+                                	{
+                                			// sinon inserer la maintenance
+                                			try {
+        										d1 = cf.getNextDayOf(d1);
+        									} catch (ParseException e1) {
+        										// TODO Auto-generated catch block
+        										e1.printStackTrace();
+        									}
+                                			this.addMaintenance(cf, detection, d1);
+
+                                		
+                                	}
+                                	else if(detection.getVehicule().getEtat() == EtatsVehicule.EN_FONCTION)
+                                	{
+                                	
+                                		Map<String,Object> fields = new HashMap();
+                                		fields.put("vehicule.matricule_interne",detection.getVehicule().getMatricule_interne());
+                                		Mission mission  = missM.trouver(fields);
+                                		List<Instruction> ins = new ArrayList();
+                                    	ins.add(detection.getInstruction());
+                                    	if(mission.getDateFin() != null)
+                                    	{
+                                    		try 
+                                    		{
+    											d1 = cf.getNextDayOf(mission.getDateFin());
+    										} catch (ParseException e1) {
+    											// TODO Auto-generated catch block
+    											e1.printStackTrace();
+    										}
+                                    		this.addMaintenance(cf, detection, d1);
+                                    	}
+                                    	else
+                                    	{
+                                    		try {
+												d1 = cf.getNextWeekOf(d1);
+											} catch (ParseException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+											}
+                                    		this.addMaintenance(cf, detection, d1);
+                                    	}
+                                    	
+                                		
+                                	}
+                            	}
+                            	
                             	
                             }
                             
@@ -226,6 +277,35 @@ public class AmdecAPI extends HttpServlet {
             pg.generateJSON( response, false,message); 
         }
 
+    }
+    
+    public void addMaintenance(CalendarFactory cf, Detection detection, Date d1)
+    {
+		while(cf.occupiedDay(detection, mainM, cf.converDateToString(d1)))
+    	{
+    		try {
+				d1 = cf.getNextDayOf(d1);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    	}
+		System.out.println("date apres occupied day est " + d1);
+    	List<Instruction> ins = new ArrayList();
+    	ins.add(detection.getInstruction());
+    	Maintenance m = new Maintenance(d1,detection.getVehicule(),ins,Niveau.niv1,
+    			detection.getVehicule().getUnite());
+    	if(mainM.ajouter(m)) System.out.println("maintenance ajouté avec succés");
+    	
+    }
+    public void addInstToMaintenace(MaintenanceFactory mainF, List<Maintenance> mains, Detection detection)
+    {
+    	if(!mainF.hasInstruction(mains.get(0), detection.getInstruction()))
+		{
+			Maintenance newM = mains.get(0);
+			newM.getInstructions().add(detection.getInstruction());
+			mainM.mettreAJour(newM.getIdMaintenance(), mainF, newM);
+		}
     }
 
     

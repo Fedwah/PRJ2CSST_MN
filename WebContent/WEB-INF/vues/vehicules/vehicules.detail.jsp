@@ -117,7 +117,7 @@
 				<c:when test="${affectation!=null && vehicule.etat.ordinal() == 0}">
 					<btn:btn type="primary"
 						value="/Vehicules/Missions/${affectation.id}/"
-						text="Libre , Démarer un mission" outline="${false }"
+						text="Libre , Démarer une mission" outline="${false }"
 						small="${true}" />
 				</c:when>
 				<c:when test="${affectation==null }">

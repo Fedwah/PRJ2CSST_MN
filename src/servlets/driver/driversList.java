@@ -62,7 +62,9 @@ public class driversList extends HttpServlet {
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
         PageGenerator pg = new PageGenerator( driverVue, "Liste des conducteurs" );
+
         String idVehicule = pg.getPathId( request ).toString();
+
       
         HttpSession session = request.getSession();
         user = (Utilisateur) session.getAttribute( "sessionUtilisateur" );
@@ -132,7 +134,7 @@ public class driversList extends HttpServlet {
                 // AJouter par @Syphax pour faire l'affectation
                 AffectationConducteurFactory affF = new AffectationConducteurFactory();
                 VehiculeFactory vF = new VehiculeFactory();
-                String id = (String) pg.getPathId( request );
+                String id = (String) pg.getPathId( request ).toString();
                 AffectationConducteur oldAff = null;
                 AffectationConducteur newAff = null;
                 Vehicule oldV = null;

@@ -17,8 +17,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.entities.maintenance.Maintenance;
+import beans.entities.utilisateurs.Utilisateur;
 import beans.session.general.page.PageGenerator;
 import beans.session.maintenance.CalendarFactory;
 import beans.session.maintenance.MaintenanceManager;
@@ -47,8 +49,10 @@ public class calendrier extends HttpServlet {
 		CalendarFactory calendrier = new CalendarFactory(request);
 		request.setAttribute("cal", calendrier);
 		request.setAttribute("months", calendrier.ListOfMonths());
-	    request.setAttribute("mois", calendrier.getMonthName(calendrier.getiMonth()));    
-	    List<Maintenance> showList = em.monthlyMaintenance(calendrier.getiMonth() + 1 , calendrier.getiYear());
+	    request.setAttribute("mois", calendrier.getMonthName(calendrier.getiMonth()));  
+	    HttpSession session = request.getSession();
+        Utilisateur user = (Utilisateur) session.getAttribute( "sessionUtilisateur" );
+	    List<Maintenance> showList = em.monthlyMaintenance(calendrier.getiMonth() + 1 , calendrier.getiYear(),user);
 	    List<Maintenance> threatedList = calendrier.treatList(showList);
 	    request.setAttribute("main", threatedList);
 	   

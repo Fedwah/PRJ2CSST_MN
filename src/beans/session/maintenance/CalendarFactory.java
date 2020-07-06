@@ -282,7 +282,7 @@ public class CalendarFactory {
 		String date = Integer.toString(this.iYear)  + "-" + Integer.toString(this.iMonth +1) + "-" + Integer.toString(day);
 		return date;
 	}
-	public boolean occupiedDay(Detection det, MaintenanceManager mainManager,Date date)
+	public boolean occupiedDay(Detection det, MaintenanceManager mainManager,String date)
 	{
 		
          MaintenanceFactory mainF = new MaintenanceFactory(); 
@@ -305,6 +305,26 @@ public class CalendarFactory {
 		/*dateString = df.format(ca.getTime());  
 		System.out.println("date est  " + dateString);*/
 		return(this.ca.getTime());
+	}
+	public Date getNextWeekOf(Date date ) throws ParseException
+	{
+		String pattern = "yyyy-MM-dd";
+		DateFormat df = new SimpleDateFormat(pattern);
+		String dateString = df.format(date);
+		this.ca = Calendar.getInstance();
+		ca.setTime(df.parse(dateString));
+		ca.add(Calendar.DATE, 7); 
+		/*dateString = df.format(ca.getTime());  
+		System.out.println("date est  " + dateString);*/
+		return(this.ca.getTime());
+	}
+	
+	public String converDateToString(Date d)
+	{
+		String pattern = "yyyy-MM-dd";
+		DateFormat df = new SimpleDateFormat(pattern);
+		String dayAsString = df.format(d);
+		return dayAsString;
 	}
 
 }
