@@ -1,5 +1,7 @@
 package beans.session.amdec.defaillance;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,5 +24,7 @@ public class DefaillanceManager extends BeanManager<Defaillance>{
 		// TODO Auto-generated method stub
 		return em;
 	}
+	
+	
 
 }

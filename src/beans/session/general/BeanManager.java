@@ -145,7 +145,7 @@ public abstract class BeanManager<T> {
         try {
             return (T) this.QuerryBuilder( fields, true, "" ).getSingleResult();
         } catch ( Exception e ) {
-            e.printStackTrace();
+            System.out.println( "non trouver"+fields );
             return null;
         }
     }
