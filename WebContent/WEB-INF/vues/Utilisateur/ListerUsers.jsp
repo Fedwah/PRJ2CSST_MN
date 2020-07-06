@@ -8,8 +8,12 @@
 	    <h3 class="display" style='color: #3E703D;font-size:40px;font-style:gras;'>Liste des utilisateurs</h3>
 		 
 		<nav class="nav justify-content-end mb-2">
-			<a class="btn btn-outline-success"
-			 href='<c:url value="/createUser"/>'>Ajouter un utilisateur</a>
+			 <a class="btn btn-light rounded-circle"
+					style='display: inline-block; height: 40px; width: 40px;position:relative; top:-3px; left:0px'
+					href='<c:url value="/createUser"/>'> <img width="50px"
+					height="50px" style='position: relative; top: -10px; left: -17px;'
+					src="<c:url value='/public/img/icon/add_green_nobackground.png'/>" />
+				</a>
 			 	   
 		</nav>	
 		          <div class="form-row">

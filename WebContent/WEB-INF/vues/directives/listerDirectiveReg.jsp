@@ -8,8 +8,13 @@
 	    <h3 class="display-4" style='color: #3E703D;font-size:40px;font-style:gras;'>Liste des directives </h3>
 		<!--  <h1 class="display-4 text-success">Liste des utilisateurs</h1>-->
 		<div style="float:right; width:250px; height:auto;">
-		<a class="btn btn-outline-success"
-			 href='<c:url value="/createDirective"/>'>Ajouter une directive</a>
+		<a class="btn btn-light rounded-circle"
+					style='display: inline-block; height: 40px; width: 40px;position:relative; top:-3px; left:0px'
+					href='<c:url value="/createDirective"/>'> <img width="50px"
+					height="50px" style='position: relative; top: -10px; left: -17px;'
+					src="<c:url value='/public/img/icon/add_green_nobackground.png'/>" />
+				</a>
+		 
 			 </div>
 		<nav class="nav justify-content-end mb-2">
 			 
@@ -19,7 +24,7 @@
 	             <div style="float:left; width:350px; height:auto;">
 	        		
                 <select id="type" class="form-control" required="required"name="type" onchange="show()" >
-                    <option value=" Choisir le type de directives">Choisir le type de directives à afficher </option> 
+                    <option value=" ">Choisir le type de directives à afficher </option> 
 					<option value="directives recues">directives reçues</option> 
 					<option value="directives envoyees">directives envoyées</option> 
 			   </select>
@@ -27,7 +32,7 @@
 			   </div>	     
 	      
 	
-	<table class="table" id = 1>
+	<table class="table" id = 11>
 		<thead>
 			<tr style='color: #3E703D;' >
 			    <th scope="col">Numéro de la directive</th>
@@ -78,16 +83,15 @@
  
  select.onchange=function()
  {   
-     
-
+	 
+     if ( $("#type").val() === "directives envoyees")
+     {    $("#11").hide ()
+    	  $("#2").show ()
+     } 
      if ( $("#type").val() === "directives recues")
      {    $("#2").hide ()
-    	 $("#1").show ()
+    	  $("#11").show ()
      }
-     if ( $("#type").val() === "directives envoyees")
-     {    $("#1").hide ()
-    	 $("#2").show ()
-     } 
      
      }
  </script>
