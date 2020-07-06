@@ -46,7 +46,8 @@ public class DeletePiece extends HttpServlet {
         } 
         else //echec de suppression
         {
-            response.getWriter().append( "Erreur: La suppresion de la piece nï¿½"+id+" a echouÃ©" );
+            pg.redirectCurrentError(getServletContext(), request, response, "Liste des pieces", 
+            		"Cette piece est lié à d'autre élément vous ne pouvez pas la supprimer");
         }
         
 	}

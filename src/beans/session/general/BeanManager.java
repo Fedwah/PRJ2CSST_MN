@@ -80,10 +80,12 @@ public abstract class BeanManager<T> {
         T bean;
         if ( id != null ) {
             if ( ( bean = this.trouver( id ) ) != null ) {
+          
 
                 return this.supprimer( bean );
 
             }
+            else System.out.println("element non trouvé ");
         }
 
         return false;
