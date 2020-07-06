@@ -49,3 +49,17 @@ Ici mettre le css de toute l'application
 	font-size: 16px;
 }
 
+.round-btn {
+	width:28%;
+	
+}
+.en-cours{
+	background-color:#DFBA23;
+}
+.notDoneYet{
+	background-color:#BA3C2F;
+}
+.coming{
+	background-color:#E2913F;
+}
+

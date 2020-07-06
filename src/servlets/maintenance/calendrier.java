@@ -53,8 +53,8 @@ public class calendrier extends HttpServlet {
 	    HttpSession session = request.getSession();
         Utilisateur user = (Utilisateur) session.getAttribute( "sessionUtilisateur" );
 	    List<Maintenance> showList = em.monthlyMaintenance(calendrier.getiMonth() + 1 , calendrier.getiYear(),user);
-	    List<Maintenance> threatedList = calendrier.treatList(showList);
-	    request.setAttribute("main", threatedList);
+	    //List<Maintenance> threatedList = calendrier.treatList(showList);
+	    request.setAttribute("main", showList);
 	   
 		pg.generate( getServletContext(), request, response );
 	}

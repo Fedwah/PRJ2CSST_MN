@@ -70,7 +70,7 @@
 						</div>
 						<div class="col-md-4" with="30%">
 							<c:choose>
-								<c:when test="${cal.getEtat(maintenance).equals('terminé')}">
+								<c:when test="${cal.getEtat(maintenance).equals('terminée')}">
 								<h5 class="d-inline">Date de fin :</h5>
 								${maintenance.endDate}
 								
