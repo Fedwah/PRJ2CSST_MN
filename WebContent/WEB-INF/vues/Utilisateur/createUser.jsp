@@ -45,7 +45,7 @@
                <label for="type">Type de l'utilisateur <span class=></span></label>
 			   <div class="input-group mb-3">			
                 <select id="type" class="form-control" required="required"name="type" onchange="show()" >
-                    
+                    <option value="">Veuillez choisir le type</option> 
 					<option value="Operationnel">Operationnel</option> 
 					<option value="Regional">Regional</option> 
 					<option value="Central">Central</option> 
