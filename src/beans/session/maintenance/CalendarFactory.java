@@ -208,16 +208,16 @@ public class CalendarFactory {
 		if(m.getEndDate() != null)
 		{
 
-			if(m.getEndDate().compareTo(this.today)<0) return "termin�e";
+			if(m.getEndDate().compareTo(this.today)<0) return "terminée";
 		}
 
 
 		if(m.getStartDate().compareTo(this.today)>0)
-			return "� venir";
+			return "à venir";
 		else if(m.getStartDate().compareTo(this.today)<0 && m.getV().getEtat() == EtatsVehicule.EN_MAINTENACE)
 			return "en cours";
 		else if(m.getStartDate().compareTo(this.today)<0 && m.getV().getEtat() != EtatsVehicule.EN_MAINTENACE)
-			return "pas encore r�parr�";
+			return "pas encore réparré";
 		else return"en cours";
 		
 
