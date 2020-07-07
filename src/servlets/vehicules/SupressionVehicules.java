@@ -47,8 +47,8 @@ public class SupressionVehicules extends HttpServlet {
                     "Reussie");
         } else {
             pg.redirectCurrentError( getServletContext(), request, response,
-                    "Ce Vehicule  est utlis√È",
-                    "Vous ne pouvez pas la supprimer");
+                    "Ce Vehicule  est utilisÈ",
+                    "Vous ne pouvez pas le supprimer");
         }
     }
 

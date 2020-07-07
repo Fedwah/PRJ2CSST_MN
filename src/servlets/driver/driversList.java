@@ -62,9 +62,14 @@ public class driversList extends HttpServlet {
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
         PageGenerator pg = new PageGenerator( driverVue, "Liste des conducteurs" );
-
-        String idVehicule = pg.getPathId( request ).toString();
-
+        String idVehicule = "";
+       // String idVehicule = pg.getPathId( request ).toString();
+        if(request.getPathInfo() != null)
+        {
+        	idVehicule= request.getPathInfo().substring( 1 );
+        }
+        
+        
       
         HttpSession session = request.getSession();
         user = (Utilisateur) session.getAttribute( "sessionUtilisateur" );
