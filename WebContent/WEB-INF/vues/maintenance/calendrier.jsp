@@ -116,7 +116,7 @@
 															</a>
 														</c:when>
 														<c:when
-															test="${exist && cal.getEtat(maintenance).equals('pas encore réparré')}">
+															test="${exist && cal.getEtat(maintenance).equals('pas encore reparré')}">
 															<a type="button" class="btn notDoneYet rounded-circle round-btn" style='color:white;'
 																href='<c:url value="/maintenance/day/${cal.dateFromVlues(cnt-cal.weekStartDay+1) }"/>'>
 																<span>${cnt-cal.weekStartDay+1}</span>
@@ -168,7 +168,7 @@
 		<span class="btn notDoneYet ml-5" > </span> <span>Date maintenance arrivée mais pas encore partie pour la réparation</span> 	
 		</div>		
 		<div class="col-6">
-		<span class="btn coming" > </span> Maintenace à venir 
+		<span class="btn coming" > </span> Maintenance à venir 
 		</div>
 		
 		

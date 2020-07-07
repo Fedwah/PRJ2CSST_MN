@@ -39,15 +39,15 @@ public class SupressionVehicules extends HttpServlet {
             throws ServletException, IOException {
         // TODO Auto-generated method stub
         PageGenerator pg = new PageGenerator();
-        
-        if (vm.trouverSupprimer( pg.getPathId( request ) ) ) {
+        String id = request.getPathInfo().substring( 1 );
+        if (vm.trouverSupprimer(id ) ) {
 
             pg.redirectCurrentSuccess( getServletContext(), request, response,
                    "Suppression de "+pg.getPathId( request ),
                     "Reussie");
         } else {
             pg.redirectCurrentError( getServletContext(), request, response,
-                    "Ce Vehicule  est utlis√©",
+                    "Ce Vehicule  est utlis√È",
                     "Vous ne pouvez pas la supprimer");
         }
     }
