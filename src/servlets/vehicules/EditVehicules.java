@@ -79,12 +79,12 @@ public class EditVehicules extends HttpServlet {
             throws ServletException, IOException {
      
         PageGenerator pg = new PageGenerator(VehiculeFactory.VUE_FORM,"Vehicule");
-        String id = (String) pg.getPathId( request );
+        String id = (String) pg.getPathId( request ).toString();
         Vehicule v = null;
         Boolean trouver = false;
         VehiculeFactory vehiculeF = new VehiculeFactory(Vehicule.class);
         
-        id = (String)pg.getPathId( request );
+        id = (String)pg.getPathId( request ).toString();
 
         Utilisateur u = pg.getUtilisateur( request );
         
@@ -124,7 +124,7 @@ public class EditVehicules extends HttpServlet {
       
         PageGenerator pg = new PageGenerator( VehiculeFactory.VUE_FORM,"");
 
-        String id = (String)pg.getPathId( request );
+        String id = (String)pg.getPathId( request ).toString();
         
         VehiculeFactory vehiculeF = new VehiculeFactory(Vehicule.class);
         

@@ -35,21 +35,21 @@
 						</c:forEach>
 						<div class="mt-2" id="modalsList">
 							<div class="row">
-								<label class="col-9">Modele</label>
-								<button align="right" type="submit" class="btn btn-outline-success" style='width:160px;'name="init">Réinitialiser la liste</button>
+								<label class="col-11">Modele</label>
+								<button id="removeli" class="btn btn-outline-success" style='width:35px;position:relative; top:0px;left:19px;'>-</button>
 							</div>
-							<input id="cptLi" name="cpt" value="${tai}" type="hidden" />
+							<input id="cptLi" name="cpt" value="${piece.modals.size()}" type="hidden" />
 							<c:set var="i" value="0"></c:set>
 							<div class='mt-1 col-md-16' id="newModele">
 								<ol id="olP">
 									
-									<c:forEach var="i" begin='1' end="${tai}">
+									<c:forEach var="i" begin='1' end="${piece.modals.size()}">
 									<li id='liM'>
 									<select id='${i}' class='form-control' required='required' name='${i}'>
 											<c:forEach items='${marques}' var='marq'>
 												<optgroup label='${marq.titre}'>
 													<c:forEach items='${marq.modeles}' var='m'>
-														<option value='${m.id}'>${m.titre}</option>
+														<option  ${m.id==piece.modals.get(i-1).id?"selected":""} value='${m.id}'>${m.titre}</option>
 													</c:forEach>
 												</optgroup>
 											</c:forEach>
@@ -74,6 +74,16 @@
 	</form>
 </div>
 <script>
+//remove li 
+document.querySelector("#removeli").addEventListener("click",function(e) {
+if(parseInt($("#cptLi").val())>1)
+{
+	$('#olP li:last-child').remove();
+	$("#cptLi").val(parseInt($("#cptLi").val()) - 1);		
+}
+
+e.preventDefault();
+}, false);
 	document.querySelector("#btn2").addEventListener("click",function(event) {
 	$("#cptLi").val(parseInt($("#cptLi").val()) + 1);
 	var nom = $("#cptLi").val();

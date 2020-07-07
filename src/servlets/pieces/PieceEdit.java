@@ -97,9 +97,6 @@ public class PieceEdit extends HttpServlet {
 				request.setAttribute("piece", oldp);
 				 
 				request.setAttribute("disabled_id",true);
-				if(doget)
-				request.setAttribute("tai", oldp.getModals().size());
-				else request.setAttribute("tai", 1);
 					
 			}
 		}

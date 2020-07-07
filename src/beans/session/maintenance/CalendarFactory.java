@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import beans.entities.amdec.Detection;
 import beans.entities.maintenance.Maintenance;
 import beans.entities.utilisateurs.Utilisateur;
+import beans.entities.vehicules.EtatsVehicule;
 
 public class CalendarFactory {
 	private int iYear;
@@ -31,6 +32,7 @@ public class CalendarFactory {
 	private int days;
 	private int weekStartDay ;
 	private int iTotalweeks;
+	private Date today ;
 	private static final int LIMITMAINTENANCE = 5;
 	
 	
@@ -54,6 +56,8 @@ public class CalendarFactory {
 		 this.cal = new GregorianCalendar (iYear, iMonth, days); 
 		 this.iTotalweeks=cal.get(Calendar.WEEK_OF_MONTH);
 		 System.out.println("itday est " + this.iTDay);
+		 this.today = ca.getTime();
+		 System.out.println("date aujourd hui " + this.today);
 		
 		}
 	
@@ -63,6 +67,8 @@ public class CalendarFactory {
 		this.iTDay=ca.get(Calendar.DATE);
 		this.iTYear=ca.get(Calendar.YEAR);
 		this.iTMonth=ca.get(Calendar.MONTH);
+		this.today = ca.getTime();
+		System.out.println("date aujourd hui est " + this.today);
 	}
 	
 	//getters and setters
@@ -199,22 +205,22 @@ public class CalendarFactory {
 	
 	public String getEtat(Maintenance m)
 	{
-		if(m.getEndDate() == null)
+		if(m.getEndDate() != null)
 		{
-			if(m.getDay() > this.iTDay)
-			{
-				return "� venir";
-			}
-			
-			else
-			{
-				return "en cours";
-			}
+
+			if(m.getEndDate().compareTo(this.today)<0) return "termin�e";
 		}
-		else
-		{
-			return "termin�";
-		}
+
+
+		if(m.getStartDate().compareTo(this.today)>0)
+			return "� venir";
+		else if(m.getStartDate().compareTo(this.today)<0 && m.getV().getEtat() == EtatsVehicule.EN_MAINTENACE)
+			return "en cours";
+		else if(m.getStartDate().compareTo(this.today)<0 && m.getV().getEtat() != EtatsVehicule.EN_MAINTENACE)
+			return "pas encore r�parr�";
+		else return"en cours";
+		
+
 	}
 	
 	public ArrayList<Integer> getIndexById(ArrayList<Integer> idMain,List<Maintenance> monthList)

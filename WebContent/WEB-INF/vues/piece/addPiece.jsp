@@ -36,6 +36,7 @@
 						<div class="mt-2" id="modalsList">
 							<div class="row">
 								<label class="col-11">Modele</label>
+								<button id="removeli" class="btn btn-outline-success" style='width:35px;position:relative; top:0px;left:27px;'>-</button>
 							</div>
 							<input id="cptLi" name="cpt" value="1" type="hidden" />
 							<c:set var="i" value="0"></c:set>
@@ -67,12 +68,20 @@
 
 
 		<button type="submit" class="btn btn-primary" id="send">Valider</button>
-		
-		<a type="reset" class="btn btn-outline-success" href='<c:url value="/pieces/add"/>'>Réinitialiser</a>
 		<a type="reset" class="btn btn-danger" href='<c:url value="/pieces"/>'>Annuler</a>
 	</form>
 </div>
 <script>
+//remove li 
+document.querySelector("#removeli").addEventListener("click",function(e) {
+if(parseInt($("#cptLi").val())>1)
+{
+	$('#olP li:last-child').remove();
+	$("#cptLi").val(parseInt($("#cptLi").val()) - 1);		
+}
+
+e.preventDefault();
+}, false);
 	document.querySelector("#btn2").addEventListener("click",function(event) {
 	$("#cptLi").val(parseInt($("#cptLi").val()) + 1);
 	var nom = $("#cptLi").val();
