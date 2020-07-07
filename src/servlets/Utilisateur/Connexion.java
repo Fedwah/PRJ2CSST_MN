@@ -14,41 +14,38 @@ import javax.servlet.http.HttpSession;
 
 import beans.entities.utilisateurs.Utilisateur;
 import beans.session.Utilisateur.MethodeUtilisateur;
- 
-import beans.session.general.page.PageGenerator;
- 
- 
 
- 
-@WebServlet("/Connexion")
+import beans.session.general.page.PageGenerator;
+
+@WebServlet( "/Connexion" )
 public class Connexion extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	 public static final String VUE1          = "/WEB-INF/connexion.jsp";
-	 public static final String VUE2          = "/WEB-INF/menuCnxn.jsp";
-	 public static final String CHAMP_USER  = "nomUtilisateur";
-	 public static final String CHAMP_PASS   = "motdepasse";  
-	 public static final String CHAMP_ERROR = "errorCnxn";
-	 public static final String ATT_ERREURS  = "erreurs";
-	 public static final String ATT_RESULTAT = "resultat";
-	 public static final String ATT_SESSION_USER = "sessionUtilisateur";
-	 Utilisateur utilisateur;
-	  @EJB
-	   private MethodeUtilisateur User;
-   
+    private static final long  serialVersionUID = 1L;
+    public static final String VUE1             = "/WEB-INF/connexion.jsp";
+    public static final String VUE2             = "/WEB-INF/menuCnxn.jsp";
+    public static final String CHAMP_USER       = "nomUtilisateur";
+    public static final String CHAMP_PASS       = "motdepasse";
+    public static final String CHAMP_ERROR      = "errorCnxn";
+    public static final String ATT_ERREURS      = "erreurs";
+    public static final String ATT_RESULTAT     = "resultat";
+    public static final String ATT_SESSION_USER = "sessionUtilisateur";
+    Utilisateur                utilisateur;
+    @EJB
+    private MethodeUtilisateur User;
+
     public Connexion() {
         super();
- 
+
     }
 
-	 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PageGenerator pg = new PageGenerator("/WEB-INF/indexLogin.jsp", "/WEB-INF/vues/Utilisateur/login.jsp","Se connecter", "/Connexion");
-	    pg.generate( getServletContext(), request, response);
+    protected void doGet( HttpServletRequest request, HttpServletResponse response )
+            throws ServletException, IOException {
+        PageGenerator pg = new PageGenerator( "/WEB-INF/indexLogin.jsp", "/WEB-INF/vues/Utilisateur/login.jsp",
+                "Se connecter", "/Connexion" );
+        pg.generate( getServletContext(), request, response );
 
-	}
+    }
 
-	 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 String resultat;  
 		 String nomUtilisateur = request.getParameter( CHAMP_USER );
 	     String motdepasse = request.getParameter( CHAMP_PASS );
@@ -95,7 +92,25 @@ public class Connexion extends HttpServlet {
 		                session.setAttribute("id", id );
 		                session.setAttribute("codereg", codereg );
 		                session.setAttribute("codeun", codeun );
-		                PageGenerator pg1 = new PageGenerator( "/pieces" );
+		                
+		                String redirect  = "";
+		                switch(type) {
+		                case "Central":
+		                    redirect = "/Central/Accueil";
+		                    break;
+		                case "Regional":
+		                    redirect = "/Regional/Accueil";
+                            break;
+		                case "Operationnel":
+		                    if(utilisateur.getPoste()==null ||utilisateur.getPoste().isEmpty())
+		                        redirect = "/Operationnel/Accueil";
+		                    else
+		                        redirect = "/calendrier";
+		                    break;
+		                default:
+		                    redirect = "/regions";
+		                }
+		                PageGenerator pg1 = new PageGenerator( redirect );
 		                pg1.redirect( getServletContext(), request, response );
 		                
 		             } 
@@ -122,18 +137,14 @@ public class Connexion extends HttpServlet {
 	      
 	}
 
-	
-	 
-	
-	
-	/**
-	 * Valide les mots de passe saisis.
-	 */
-	private void validationMotsDePasse( String motDePasse ) throws Exception{
-	    
-	        if (motDePasse.trim().length() < 5) {
-	          throw new Exception("Le mot de passe est court, merci de le saisir � nouveau.");
-	                                             }
-	    }
-	
+    /**
+     * Valide les mots de passe saisis.
+     */
+    private void validationMotsDePasse( String motDePasse ) throws Exception {
+
+        if ( motDePasse.trim().length() < 5 ) {
+            throw new Exception( "Le mot de passe est court, merci de le saisir � nouveau." );
+        }
+    }
+
 }

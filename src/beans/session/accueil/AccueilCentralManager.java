@@ -10,12 +10,13 @@ import javax.persistence.Query;
 
 import beans.entities.vehicules.EtatsVehicule;
 import beans.session.general.GeneralManager;
-import beans.session.general.page.PageGenerator;
+
 
 @Stateless
-public class AccueilRegionalManager extends GeneralManager{
-    private static final String SQL_COUNT_VEHICULE   = " SELECT count(*) from public.vehicule v"
-            + " join unite on  unite.codeUN = v.unite_codeun where unite.region_codereg = :codereg";
+public class AccueilCentralManager extends GeneralManager {
+
+    private static final String SQL_COUNT_VEHICULE   = " SELECT count(*) from public.vehicule v ";
+           
     
     private static final String SQL_PURCENTAGE_LIBRE = "SELECT  \r\n" + 
             "            case\r\n" + 
@@ -23,78 +24,73 @@ public class AccueilRegionalManager extends GeneralManager{
             "                 else 0 \r\n" + 
             "                   end pourcentage\r\n" + 
             "FROM \r\n" + 
-            "            (SELECT count(*) nb_libre from public.vehicule v join unite on  unite.codeUN = v.unite_codeun where unite.region_codereg = :codereg"
-            + " and v.etat = :etat) t1,\r\n" + 
+            "            (SELECT count(*) nb_libre from public.vehicule v "
+            + " where v.etat = :etat) t1,\r\n" + 
             "            \r\n" + 
-            "            (SELECT count(*) nb from public.vehicule v join unite on  unite.codeUN = v.unite_codeun where unite.region_codereg = :codereg ) t2;";
+            "            (SELECT count(*) nb from public.vehicule v ) t2;";
     
     private static final String SQL_ETATS_VEHICULES ="select v.etat,count (*) nb from vehicule v  "
-            + "join unite on unite.codeUN = v.unite_codeun"
-            + " where unite.region_codereg = :codereg "
             + "group by v.etat";
     
     private static final String SQL_MOY_AGE_MODELE = "select mo.titre, moy from\r\n" + 
             "\r\n" + 
             "(select t1.modele_id,round(avg(nb)\\:\\:numeric,2) moy  from \r\n" + 
             "(select *,extract(year from CURRENT_DATE) - extract(year from v.date_achat) as nb   \r\n" + 
-            "from vehicule v join unite u on u.codeun = v.unite_codeun \r\n" + 
-            " where  u.region_codereg = :codereg \r\n" + 
+            "from vehicule v  \r\n" + 
             ")t1\r\n" + 
             "group by t1.modele_id) t2  join modele mo on mo.id = t2.modele_id";
     
-    private static final String SQL_MOY_AGE_UNITE = "select *from\r\n" + 
+    private static final String SQL_MOY_AGE_UNITE = "select * from\r\n" + 
             "\r\n" + 
-            "(select t1.unite_codeun,round(avg(nb)\\:\\:numeric,2) moy  from \r\n" + 
+            "(select t1.region_codereg,round(avg(nb)\\:\\:numeric,2) moy  from \r\n" + 
             "(select *,extract(year from CURRENT_DATE) - extract(year from v.date_achat) as nb   \r\n" + 
             "from vehicule v join unite u on u.codeun = v.unite_codeun\r\n" + 
-            "where u.region_codereg = :codereg\r\n" + 
             ")t1\r\n" + 
-            "group by t1.unite_codeun) t2 ";
+            "group by t1.region_codereg) t2 ";
     
-    private static final String SQL_ETATS_UNITES = "select v.unite_codeun,v.etat, count(*) from vehicule v\r\n" + 
+    private static final String SQL_ETATS_UNITES = "select u.region_codereg,v.etat, count(*) from vehicule v\r\n" + 
             "join unite u on u.codeun = v.unite_codeun\r\n" + 
-            "where u.region_codereg = :codereg\r\n" + 
-            "group by v.unite_codeun,v.etat";
+            "group by u.region_codereg , v.etat";
     
     private static final String SQL_NB_PANNE_MODELE = "select mo.titre,t1.nb from\r\n" + 
             "(select  v.modele_id modId,count(*) nb \r\n" + 
             "from maintenance m , vehicule v \r\n" + 
             " join unite u on u.codeun = v.unite_codeun"
-            + " where m.v_matricule_interne = v.matricule_interne and u.region_codereg = :codereg \r\n" + 
+            + " where m.v_matricule_interne = v.matricule_interne  \r\n" + 
             "group by v.modele_id) t1 join modele mo on t1.modId = mo.id";
+    
     private static final String SQL_NB_PANNE_UNITE =  
-            "select  v.unite_codeun ,count(*) nb \r\n" + 
+            "select  u.region_codereg ,count(*) nb \r\n" + 
             "from maintenance m , vehicule v \r\n" + 
             " join unite u on u.codeun = v.unite_codeun"
-            + " where m.v_matricule_interne = v.matricule_interne and u.region_codereg = :codereg \r\n" + 
-            "group by v.unite_codeun ";
+            + " where m.v_matricule_interne = v.matricule_interne \r\n" + 
+            "group by  u.region_codereg ";
     
     private static final String SQL_NB_MAINTENANCE = "select count(*) from maintenance \r\n"
             + " join unite u on u.codeun = maintenance.un_codeun " + 
-            " where enddate is null and u.region_codereg = :codereg";
+            " where enddate is null ";
     
     private static final String SQL_BESOIN_PIECE ="select i.piece_refrence,count(*) from maintenance_instruction mi , maintenance ,instruction i , unite u \r\n"
             +
             "where i.id = mi.instructions_id and u.codeun = maintenance.un_codeun \r\n" + 
             "and maintenance.idmaintenance = mi.maintenance_idmaintenance\r\n" + 
             "and maintenance.enddate is null\r\n" + 
-            "and u.region_codereg = :codereg\r\n" + 
             "group by i.piece_refrence";
     
     private static final String SQL_NB_PIECE = "select count(*) from maintenance_instruction mi , maintenance  ,instruction i ,unite u \r\n"+
             "where i.id = mi.instructions_id  and u.codeun = maintenance.un_codeun \r\n" + 
             "and maintenance.idmaintenance = mi.maintenance_idmaintenance\r\n" + 
-            "and maintenance.enddate is null\r\n" + 
-            "and u.region_codereg = :codereg ";
+            "and maintenance.enddate is null\r\n" ;
     
-    public AccueilRegionalManager() {
+    
+    public AccueilCentralManager() {
         // TODO Auto-generated constructor stub
     }
-
-    public Integer countVehiculeReg() {
+    
+    public Integer countVehicule() {
         Query q = this.getEntityManger().createNativeQuery( SQL_COUNT_VEHICULE );
         try {
-            q.setParameter( "codereg", PageGenerator.getUtilisateur().getCodereg());
+           
             return ( (BigInteger) q.getSingleResult() ).intValue();
         } catch ( Exception e ) {
            
@@ -106,7 +102,7 @@ public class AccueilRegionalManager extends GeneralManager{
     public List<?> moyAgeModeles(  ) {
         Query q = this.getEntityManger().createNativeQuery( SQL_MOY_AGE_MODELE );
         try {
-            q.setParameter( "codereg", PageGenerator.getUtilisateur().getCodereg() );
+           
            
             return  q.getResultList();
         } catch ( Exception e ) {
@@ -116,10 +112,10 @@ public class AccueilRegionalManager extends GeneralManager{
 
     }
     
-    public List<?> etatVehiculesReg(){
+    public List<?> etatVehicules(){
         Query q = this.getEntityManger().createNativeQuery(SQL_ETATS_VEHICULES);
         try {
-            q.setParameter( "codereg", PageGenerator.getUtilisateur().getCodereg() );
+          
             return q.getResultList();
         }catch (Exception e) {
             
@@ -127,10 +123,10 @@ public class AccueilRegionalManager extends GeneralManager{
         }
         
     }
-    public List<?> moyAgeUnites(  ) {
+    public List<?> moyAgeRegions(  ) {
         Query q = this.getEntityManger().createNativeQuery( SQL_MOY_AGE_UNITE );
         try {
-            q.setParameter( "codereg", PageGenerator.getUtilisateur().getCodereg() );
+            
            
             return  q.getResultList();
         } catch ( Exception e ) {
@@ -140,10 +136,10 @@ public class AccueilRegionalManager extends GeneralManager{
 
     }
     
-    public List<?> etatsUnites(  ) {
+    public List<?> etatsRegions(  ) {
         Query q = this.getEntityManger().createNativeQuery( SQL_ETATS_UNITES );
         try {
-            q.setParameter( "codereg", PageGenerator.getUtilisateur().getCodereg() );
+            
            
             return  q.getResultList();
         } catch ( Exception e ) {
@@ -152,10 +148,10 @@ public class AccueilRegionalManager extends GeneralManager{
         }
 
     }
-    public Double purcentageVehiculeReg( EtatsVehicule etat ) {
+    public Double purcentageVehicule( EtatsVehicule etat ) {
         Query q = this.getEntityManger().createNativeQuery( SQL_PURCENTAGE_LIBRE );
         try {
-            q.setParameter( "codereg", PageGenerator.getUtilisateur().getCodereg() );
+            
             q.setParameter( "etat", etat.ordinal() );
             return ( (BigDecimal) q.getSingleResult() ).doubleValue();
         } catch ( Exception e ) {
@@ -165,10 +161,10 @@ public class AccueilRegionalManager extends GeneralManager{
 
     }
     
-    public Integer NbMaintenanceReg( ) {
+    public Integer NbMaintenance( ) {
         Query q = this.getEntityManger().createNativeQuery( SQL_NB_MAINTENANCE );
         try {
-            q.setParameter( "codereg", PageGenerator.getUtilisateur().getCodereg() );
+            
            
             return ( (BigInteger) q.getSingleResult() ).intValue();
         } catch ( Exception e ) {
@@ -178,10 +174,10 @@ public class AccueilRegionalManager extends GeneralManager{
 
     }
     
-    public Integer NbPieceReg( ) {
+    public Integer NbPiece( ) {
         Query q = this.getEntityManger().createNativeQuery( SQL_NB_PIECE );
         try {
-            q.setParameter( "codereg", PageGenerator.getUtilisateur().getCodereg() );
+            
            
             return ( (BigInteger) q.getSingleResult() ).intValue();
         } catch ( Exception e ) {
@@ -191,10 +187,10 @@ public class AccueilRegionalManager extends GeneralManager{
 
     }
     
-    public List<?> nbPanneModeleReg(){
+    public List<?> nbPanneModele(){
         Query q = this.getEntityManger().createNativeQuery(SQL_NB_PANNE_MODELE);
         try {
-            q.setParameter( "codereg", PageGenerator.getUtilisateur().getCodereg() );
+            
             return q.getResultList();
         }catch (Exception e) {
             
@@ -202,10 +198,10 @@ public class AccueilRegionalManager extends GeneralManager{
         }
     }
     
-    public List<?> nbPanneUniteReg(){
+    public List<?> nbPanne(){
         Query q = this.getEntityManger().createNativeQuery(SQL_NB_PANNE_UNITE);
         try {
-            q.setParameter( "codereg", PageGenerator.getUtilisateur().getCodereg() );
+            
             return q.getResultList();
         }catch (Exception e) {
             
@@ -213,14 +209,15 @@ public class AccueilRegionalManager extends GeneralManager{
         }
     }
     
-    public List<?> besoinPieceReg(){
+    public List<?> besoinPiece(){
         Query q = this.getEntityManger().createNativeQuery(SQL_BESOIN_PIECE);
         try {
-            q.setParameter( "codereg", PageGenerator.getUtilisateur().getCodereg() );
+          
             return q.getResultList();
         }catch (Exception e) {
             
             return new ArrayList<Object>();
         }
     }
+
 }

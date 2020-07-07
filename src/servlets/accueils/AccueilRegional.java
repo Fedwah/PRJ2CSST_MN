@@ -43,18 +43,19 @@ public class AccueilRegional extends HttpServlet {
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
         PageGenerator pg = new PageGenerator( "/WEB-INF/vues/accueils/accueils.regional.jsp",
-                "Accueil Operationnel" );
+                "Accueil Regional" );
 
         request.setAttribute( "count_vehicule", gM.countVehiculeReg() );
         request.setAttribute( "count_vehicule_libre", gM.purcentageVehiculeReg( EtatsVehicule.EN_PANNE ) );
         request.setAttribute( "count_maintenance", gM.NbMaintenanceReg(  ));
+        request.setAttribute( "count_piece", gM.NbPieceReg());
         request.setAttribute( "moy_modeles", getLabelsValues( gM.moyAgeModeles(), null ) );
         request.setAttribute( "moy_unites", getLabelsValues( gM.moyAgeUnites(), null ) );
         request.setAttribute( "etats_vehicule", getLabelsValues( gM.etatVehiculesReg(), EtatsVehicule.labels() ) );
         request.setAttribute( "etas_unites", getListLabelsValues( gM.etatsUnites(), EtatsVehicule.labels() ) );
         request.setAttribute( "nb_pannes", getLabelsValues( gM.nbPanneModeleReg(), null ));
         request.setAttribute( "nb_pannes_unites", getLabelsValues( gM.nbPanneUniteReg(), null ));
-        /*request.setAttribute( "km", gM.kmModele() );*/
+        request.setAttribute( "besoin_piece", getLabelsValues(gM.besoinPieceReg(),null));
         pg.generate( getServletContext(), request, response );
     }
     

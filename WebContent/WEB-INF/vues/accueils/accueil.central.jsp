@@ -14,7 +14,8 @@
 
 			</div>
 		</div>
-
+		
+	
 		<div class="col-md-3">
 			<div class="card text-white bg-color">
 				<div class="card-body">
@@ -52,7 +53,7 @@
 					aria-label="Hello ARIA World" role="img" height="250px"></canvas>
 			</div>
 			<div class="col-md-8">
-				<canvas class="card-body p-0" id="etats_unites"
+				<canvas class="card-body p-0" id="etas_regions"
 					aria-label="Hello ARIA World" role="img"></canvas>
 			</div>
 		</div>
@@ -74,7 +75,7 @@
 				aria-label="Hello ARIA World" role="img" height="250px"></canvas>
 		</div>
 		<div class="col-md card m-1">
-			<canvas class="card-body p-0" id="nb_pannes_unites"
+			<canvas class="card-body p-0" id="nb_pannes_regions"
 				aria-label="Hello ARIA World" role="img" height=""></canvas>
 		</div>
 
@@ -85,7 +86,7 @@
 				aria-label="Hello ARIA World" role="img" height="250px"></canvas>
 		</div>
 		<div class="col-md card m-1">
-			<canvas class="card-body p-0" id="moy_unites"
+			<canvas class="card-body p-0" id="moy_regions"
 				aria-label="Hello ARIA World" role="img" height="250px"></canvas>
 		</div>
 	</div>
@@ -106,13 +107,13 @@
 		
 	horizontalBar("moy_modeles","Moyenne d'age des vehicules par modele",labels,value,'Moyenne d\'age en ans')
 	
-	value = ${moy_unites.values}
+	value = ${moy_regions.values}
 	labels=[]
-	<c:forEach items="${moy_unites.labels}" var="l">
+	<c:forEach items="${moy_regions.labels}" var="l">
 		labels.push('${l}')
 	</c:forEach>
 		
-	horizontalBar("moy_unites","Moyenne d'age des vehicules par unité",labels,value,'Moyenne d\'age en ans')
+	horizontalBar("moy_regions","Moyenne d'age des vehicules par region",labels,value,'Moyenne d\'age en ans')
 	
 	value = ${etats_vehicule.values}
 	labels=[]
@@ -122,9 +123,9 @@
 		
 	pie("etats","Etats des vehicule dans la region",labels,value)
 	
-	var colors = getColors(${etas_unites.dataset.size()})
+	var colors = getColors(${etas_regions.dataset.size()})
 	var datasets = [
-	<c:forEach items="${etas_unites.dataset}" var="e" varStatus="s">
+	<c:forEach items="${etas_regions.dataset}" var="e" varStatus="s">
 			{
 			label:"${e.key}",
 			data : ${e.value} ,
@@ -135,7 +136,7 @@
 	]
 	
 	labels=[]
-	<c:forEach items="${etas_unites.labels.labels}" var="l">
+	<c:forEach items="${etas_regions.labels.labels}" var="l">
 		labels.push('${l}')
 	</c:forEach>
 	
@@ -148,7 +149,7 @@
 	var options =  {
 	    	title: {
 	             display: true,
-	             text: "Etats des vehicules par unité"
+	             text: "Etats des vehicules par regions"
 	         },
 	        responsive: true,
 	        legend: {
@@ -188,15 +189,15 @@
 	        
 	    }
 	
-	chart("horizontalBar","etats_unites",data,options)
+	chart("horizontalBar","etas_regions",data,options)
 	
-	value = ${nb_pannes_unites.values}
+	value = ${nb_pannes_regions.values}
 	labels=[]
-	<c:forEach items="${nb_pannes_unites.labels}" var="l">
+	<c:forEach items="${nb_pannes_regions.labels}" var="l">
 		labels.push('${l}')
 	</c:forEach>
 	
-	bar("nb_pannes_unites","Nombre de panne dans la region par unité",labels,value,"Nombre de panne")
+	bar("nb_pannes_regions","Nombre de panne dans la region par regions",labels,value,"Nombre de panne")
 	
 	value = ${nb_pannes.values}
 	labels=[]
@@ -204,7 +205,7 @@
 		labels.push('${l}')
 	</c:forEach>
 	
-	bar("nb_pannes","Nombre de panne dans la region par modele",labels,value,"Nombre de panne")
+	bar("nb_pannes","Nombre de panne par modele",labels,value,"Nombre de panne")
 	
 	value = ${besoin_piece.values}
 	

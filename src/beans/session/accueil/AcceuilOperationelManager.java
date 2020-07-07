@@ -59,6 +59,19 @@ public class AcceuilOperationelManager extends GeneralManager {
             + 
             " where m.enddate is null and m.un_codeun = :codeun ";
     
+    private static final String SQL_BESOIN_PIECE ="select i.piece_refrence,count(*) from maintenance_instruction mi , maintenance main ,instruction i\r\n" + 
+            "where i.id = mi.instructions_id \r\n" + 
+            "and main.idmaintenance = mi.maintenance_idmaintenance\r\n" + 
+            "and main.enddate is null\r\n" + 
+            "and main.un_codeun = :codeun\r\n" + 
+            "group by i.piece_refrence";
+    
+    private static final String SQL_NB_PIECE = "select count(*) from maintenance_instruction mi , maintenance main ,instruction i\r\n" + 
+            "where i.id = mi.instructions_id \r\n" + 
+            "and main.idmaintenance = mi.maintenance_idmaintenance\r\n" + 
+            "and main.enddate is null\r\n" + 
+            "and main.un_codeun = :codeun ";
+    
     public AcceuilOperationelManager() {
         // TODO Auto-generated constructor stub
     }
@@ -151,8 +164,32 @@ public class AcceuilOperationelManager extends GeneralManager {
         }
     }
     
+    public List<?> besoinPieceUN(){
+        Query q = this.getEntityManger().createNativeQuery(SQL_BESOIN_PIECE);
+        try {
+            q.setParameter( "codeun", PageGenerator.getUtilisateur().getCodeun() );
+            return q.getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<Object>();
+        }
+    }
+    
     public Integer NbMaintenanceUN( ) {
         Query q = this.getEntityManger().createNativeQuery( SQL_NB_MAINTENANCE );
+        try {
+            q.setParameter( "codeun", PageGenerator.getUtilisateur().getCodeun() );
+           
+            return ( (BigInteger) q.getSingleResult() ).intValue();
+        } catch ( Exception e ) {
+            e.printStackTrace();
+            return -1;
+        }
+
+    }
+    
+    public Integer NbPieceUN( ) {
+        Query q = this.getEntityManger().createNativeQuery( SQL_NB_PIECE );
         try {
             q.setParameter( "codeun", PageGenerator.getUtilisateur().getCodeun() );
            

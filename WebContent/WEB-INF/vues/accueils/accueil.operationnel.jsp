@@ -8,7 +8,7 @@
 		<div class="col-md-3">
 			<div class="card text-white bg-color">
 				<div class="card-body">
-					<h4 class="">non fait</h4>
+					<h4 class="">${count_piece}</h4>
 					<div>Besoin en PR</div>
 				</div>
 
@@ -43,15 +43,18 @@
 		</div>
 	</div>
 	
-	
+
 	<div class="row">
 		<div class="col-md-4 card m-1">
 			<canvas class="card-body p-0" id="etats"  aria-label="Hello ARIA World" role="img" height="300px"></canvas>
 		</div>
 		<div class="col-md card m-1">
-			<canvas class="card-body p-0" id="km"  aria-label="Hello ARIA World" role="img" height="300px"></canvas>
+			<canvas class="card-body p-0" id="besoin_piece"  aria-label="Hello ARIA World" role="img" height="300px"></canvas>
 		</div>
 		
+	</div>
+	<div class="row card">
+		<canvas class="card-body p-0" id="km"  aria-label="Hello ARIA World" role="img" height="250px"></canvas>
 	</div>
 	<div class="row card">
 		<canvas class="card-body p-0" id="pannes"  aria-label="Hello ARIA World" role="img" height="250px"></canvas>
@@ -80,6 +83,15 @@
 	</c:forEach>
 		
 	horizontalBar("km","Distance parcourue par modele",labels,value,'Distance en Km')
+	
+	value = ${besoin_piece.values}
+	
+	labels = [];
+	<c:forEach items="${besoin_piece.labels}" var="l">
+		labels.push('${l}')
+	</c:forEach>
+		
+	horizontalBar("besoin_piece","Les besoins en piece des maintenances en attente",labels,value,'Nombre de pieces')
 	
 	value = ${nb_pannes.values}
 	labels = [];
