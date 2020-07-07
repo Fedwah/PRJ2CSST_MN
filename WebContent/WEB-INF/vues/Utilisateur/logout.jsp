@@ -5,15 +5,21 @@
 <%@taglib prefix="l" tagdir="/WEB-INF/tags/link"%>
       
               
-                
-                
-             
-		        <label for="type">Etes-vous sures de vous déconnecter ? <span class=>*</span></label>
-               	 
-               	<a type="reset" class="btn btn-danger" style='color:  #FFFFFF;' href='<c:url value="/Deconnexion"/>'>Oui</a>
-                <a type="reset" class="btn btn-danger" style='color:  #FFFFFF;'  onclick="history.go(-1)" > Non</a>
+                <form name="frm" method="post">
+                <script>
+				swal({
+			  	title: "Etes you sure de vous déconnecter ?",
+			  	icon: "warning",
+			  	buttons: ["Non","Oui"],
+			  	dangerMode: true,
+				}).then((value) => {
+					 if(value == true) document.frm.submit();
+					 else window.history.go(-1);
+					  })
+					  
+				</script>
          
-             
+             	</form>
          
      
   
