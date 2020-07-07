@@ -24,9 +24,7 @@ public class Deconnexion extends HttpServlet {
 	 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator("/WEB-INF/indexLogin.jsp", "/WEB-INF/vues/Utilisateur/logout.jsp", "", "/Connexion");
-		 HttpSession session = request.getSession();
-	     session.invalidate();
-	     request.setAttribute("connected", false);
+		 
       	 pg.generate( getServletContext(), request, response);
 
       
@@ -37,7 +35,10 @@ public class Deconnexion extends HttpServlet {
 	 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageGenerator pg = new PageGenerator("/WEB-INF/indexLogin.jsp", "/WEB-INF/vues/Utilisateur/login.jsp","Se connecter", "/Connexion");
-
+		System.out.println("this is post");
+		HttpSession session = request.getSession();
+	     session.invalidate();
+	     request.setAttribute("connected", false);
 	   	pg.generate( getServletContext(), request, response);
 	}
 

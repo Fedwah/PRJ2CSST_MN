@@ -93,7 +93,9 @@
 					});
 				</script>
 			</c:if>
+			
 		</div>
+
 	</div>
 
 
